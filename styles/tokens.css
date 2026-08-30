@@ -1,0 +1,106 @@
+/*
+  Design tokens — MCA Finances Territoires
+  Une couleur = une signification. Pas de couleur décorative.
+  Vérifier les couleurs de marque à la pipette sur la source (valeurs actuelles estimées visuellement).
+*/
+
+:root {
+  /* Couleurs — marque */
+  --purple-900: #2B1640; /* titres, fonds sombres, footer */
+  --purple-700: #4A2568; /* accent principal : boutons, actif, montants clés */
+  --purple-600: #5B2D80; /* dégradé / survol */
+  --purple-500: #7A3F9E; /* accent secondaire, liseré dispositif */
+  --purple-100: #F3F0F7; /* surbrillance de ligne, fond badge échéance */
+  --purple-050: #EFEBF5; /* fond statut "En cours" */
+
+  /* Couleurs — neutres */
+  --ink: #22222A;        /* texte principal */
+  --ink-soft: #4A4550;   /* texte secondaire */
+  --muted: #6B6470;      /* légendes */
+  --muted-2: #9A93A2;    /* méta, placeholders */
+  --border: #E6E2EC;     /* bordures des cartes */
+  --border-soft: #F0EDF3;/* séparateurs internes */
+  --track: #EAE6EF;      /* fond de barre de progression */
+  --canvas: #F7F6F9;     /* fond de page */
+  --white: #FFFFFF;      /* cartes */
+
+  /* Couleurs — statuts (strictement sémantiques) */
+  --success: #1E7A5A;
+  --success-bg: #E8F4EF;   /* versée, confirmé */
+  --warning: #B26A00;
+  --warning-bg: #FDF3E3;   /* pénalité, retard */
+  --critical: #B3261E;
+  --critical-bg: #FCEEEC;  /* erreurs critiques uniquement */
+  --neutral: #6B6470;
+  --neutral-bg: #F0EDF3;   /* abandonné, dem. à déposer */
+
+  /* Typographie — Inter partout, y compris les chiffres. Pas de monospace. */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --h1-site-size: 34px;
+  --h1-site-line: 1.12;
+  --h1-site-weight: 500;
+  --h1-site-tracking: -0.7px;
+
+  --h2-section-size: 21px; /* 20–23 */
+  --h2-section-weight: 500;
+  --h2-section-tracking: -0.3px;
+
+  --card-title-size: 15px;
+  --card-title-weight: 500;
+
+  --row-title-size: 13.5px;
+  --row-title-weight: 600;
+
+  --body-size: 13.5px; /* 13–14 */
+  --body-weight: 400;
+  --body-line: 1.5;
+
+  --caption-size: 11px; /* 10.5–11.5 */
+  --caption-weight: 400;
+  --caption-color: var(--muted);
+
+  --meta-size: 9.5px; /* 9–10 */
+  --meta-weight: 400;
+  --meta-color: var(--muted-2);
+  --meta-tracking: 0.5px; /* 0.3–0.8 */
+
+  --sum-weight: 600;
+  --sum-key-color: var(--purple-700); /* "Perçu" */
+  --sum-normal-color: var(--ink);
+
+  /* Rayons */
+  --radius-card: 9px;   /* 8–10 */
+  --radius-button: 8px;
+  --radius-chip: 4px;
+  --radius-pill: 999px;
+  --radius-badge: 3px;
+
+  /* Espacements — grille 4px */
+  --space-card-inner: 24px;
+  --space-card-gap: 9px;     /* 8–10 */
+  --row-height: 58px;
+  --page-padding-app: 40px;
+  --page-padding-site: 120px;
+
+  /* Liseré d'accent — 3px, pleine hauteur de la carte */
+  --stripe-width: 3px;
+  --stripe-priority: var(--purple-700);
+  --stripe-dispositif: var(--purple-500);
+
+  /* Boutons */
+  --btn-height-app: 34px;
+  --btn-height-site: 46px;
+
+  /* Puces de statut */
+  --chip-height: 18px;
+  --chip-padding: 8px;
+
+  /* Barre de progression */
+  --progress-height: 5px;
+  --progress-radius: 2.5px;
+
+  /* Bouton "···" en bout de ligne */
+  --row-action-width: 34px;
+  --row-action-height: 26px;
+}

@@ -1,0 +1,307 @@
+/*
+  Composants — MCA Finances Territoires
+  Un type d'entité = un seul langage visuel (tous les montants pareil, tous les statuts pareil).
+  La hiérarchie vient de la taille et de la graisse, pas de la couleur.
+*/
+
+@import url('tokens.css');
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-sans);
+  color: var(--ink);
+  background: var(--canvas);
+}
+
+/* --- Typographie --- */
+
+.h1-site {
+  font-size: var(--h1-site-size);
+  line-height: var(--h1-site-line);
+  font-weight: var(--h1-site-weight);
+  letter-spacing: var(--h1-site-tracking);
+  color: var(--purple-900);
+}
+
+.h2-section {
+  font-size: var(--h2-section-size);
+  font-weight: var(--h2-section-weight);
+  letter-spacing: var(--h2-section-tracking);
+  color: var(--purple-900);
+}
+
+.card-title { font-size: var(--card-title-size); font-weight: var(--card-title-weight); }
+.row-title { font-size: var(--row-title-size); font-weight: var(--row-title-weight); }
+
+.body-text {
+  font-size: var(--body-size);
+  font-weight: var(--body-weight);
+  line-height: var(--body-line);
+}
+
+.caption { font-size: var(--caption-size); font-weight: var(--caption-weight); color: var(--caption-color); }
+
+.meta {
+  font-size: var(--meta-size);
+  font-weight: var(--meta-weight);
+  color: var(--meta-color);
+  letter-spacing: var(--meta-tracking);
+  text-transform: uppercase;
+}
+
+.sum { font-weight: var(--sum-weight); color: var(--sum-normal-color); }
+.sum--key { font-weight: var(--sum-weight); color: var(--sum-key-color); }
+
+/* --- Boutons --- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: var(--radius-button);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 13px; /* 11.5–14 */
+  padding: 0 16px;
+  height: var(--btn-height-app);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color .15s ease;
+}
+.btn--site { height: var(--btn-height-site); font-size: 14px; }
+
+.btn-primary { background: var(--purple-700); color: var(--white); }
+.btn-primary:hover { background: var(--purple-600); }
+
+.btn-secondary { background: var(--white); color: var(--ink-soft); border-color: var(--border); }
+.btn-secondary:hover { border-color: var(--muted-2); }
+
+/* --- Pilule filtre --- */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 14px;
+  border-radius: var(--radius-pill);
+  font-size: 12.5px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.pill[aria-pressed="true"] {
+  background: var(--purple-700);
+  color: var(--white);
+  border-color: var(--purple-700);
+}
+
+/* --- Puce de statut --- */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: var(--chip-height);
+  padding: 0 var(--chip-padding);
+  border-radius: var(--radius-chip);
+  font-size: 9.5px; /* 9.5–10 */
+  font-weight: 500;
+  white-space: nowrap;
+}
+.chip--en-cours { background: var(--purple-050); color: var(--purple-700); }
+.chip--versee   { background: var(--success-bg); color: var(--success); }
+.chip--penalite { background: var(--warning-bg); color: var(--warning); }
+.chip--critique { background: var(--critical-bg); color: var(--critical); }
+.chip--abandonne{ background: var(--neutral-bg); color: var(--neutral); }
+
+/* --- Champ de recherche --- */
+
+.search-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: var(--btn-height-app);
+  padding: 0 12px;
+  border-radius: var(--radius-button);
+  background: var(--white);
+  border: 1px solid var(--border);
+  color: var(--ink);
+}
+.search-field input {
+  border: 0;
+  outline: 0;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  background: transparent;
+  color: var(--ink);
+  width: 100%;
+}
+.search-field input::placeholder { color: var(--muted-2); }
+.search-field svg { flex: none; color: var(--muted-2); }
+
+/* --- Barre de progression --- */
+
+.progress {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.progress-track {
+  width: 120px;
+  height: var(--progress-height);
+  border-radius: var(--progress-radius);
+  background: var(--track);
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--purple-700);
+  border-radius: var(--progress-radius);
+}
+.progress-value { font-size: 12px; font-weight: 600; color: var(--ink); }
+
+/* --- Métrique KPI --- */
+
+.kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-card);
+  background: var(--white);
+}
+.kpi-label {
+  font-size: 9px;
+  font-weight: 400;
+  color: var(--muted-2);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.kpi-value { font-size: 13px; font-weight: 500; color: var(--ink); }
+.kpi--priority .kpi-value { font-size: 14px; font-weight: 600; color: var(--purple-700); }
+
+/* --- Ligne de projet (motif principal) --- */
+
+.project-row {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  height: var(--row-height);
+  padding: 0 16px 0 20px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+}
+.project-row--priority::before,
+.project-row--dispositif::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--stripe-width);
+  border-top-left-radius: var(--radius-card);
+  border-bottom-left-radius: var(--radius-card);
+}
+.project-row--priority::before { background: var(--stripe-priority); }
+.project-row--dispositif::before { background: var(--stripe-dispositif); }
+
+.project-row__line1 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--row-title-size);
+  font-weight: var(--row-title-weight);
+  color: var(--ink);
+}
+.project-row__line1 .meta { font-weight: 400; }
+
+.project-row__line2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.project-row__line2 .label { color: var(--muted); font-weight: 400; }
+
+.project-row__action {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--row-action-width);
+  height: var(--row-action-height);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--white);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.project-row--abandonne,
+.project-row--abandonne * {
+  color: var(--muted-2) !important;
+}
+.project-row--abandonne .progress-fill { background: var(--muted-2); }
+
+/* --- Plaque d'en-tête de section --- */
+
+.section-header-bar {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  background: var(--purple-700);
+  color: var(--white);
+  font-weight: 500;
+  font-size: 13px;
+  border-radius: var(--radius-card);
+}
+
+/* --- Bandeau d'avertissement --- */
+
+.warning-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px 12px 20px;
+  background: var(--warning-bg);
+  color: var(--warning);
+  font-weight: 500;
+  font-size: 13px;
+  border-radius: var(--radius-card);
+}
+.warning-banner::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--stripe-width);
+  background: var(--warning);
+  border-top-left-radius: var(--radius-card);
+  border-bottom-left-radius: var(--radius-card);
+}
+.warning-banner__icon { flex: none; }
+
+/* --- Badge échéance --- */
+
+.badge-echeance {
+  display: inline-flex;
+  align-items: center;
+  height: 16px;
+  padding: 0 6px;
+  border-radius: var(--radius-badge);
+  background: var(--purple-100);
+  color: var(--purple-700);
+  font-size: 9.5px;
+  font-weight: 500;
+}
