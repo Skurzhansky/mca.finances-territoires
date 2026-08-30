@@ -7,18 +7,49 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/site.css">
+<link rel="stylesheet" href="/styles/site.css">
 </head>
 <body>
 
 <header class="container site-header">
   <div class="brand"><span class="brand__dot"></span> FINANCES &amp; TERRITOIRES</div>
   <nav class="main-nav">
-    <a href="#expertises">Expertises et Solutions</a>
-    <a href="#reussites">Réussites</a>
-    <a href="#qui-sommes-nous">Qui sommes-nous ?</a>
+    <div class="nav-dropdown">
+      <button class="nav-dropdown__trigger" type="button">Expertises et Solutions</button>
+      <div class="nav-dropdown__panel">
+        <div class="nav-dropdown__col">
+          <h5>Expertises</h5>
+          <a href="/detections-des-opportunites/">Détection des opportunités</a>
+          <a href="/mobilisation-des-aides/">Mobilisation des aides</a>
+          <a href="/montage-des-dossiers/">Montage des dossiers</a>
+          <a href="/veille-personnalisee/">Veille personnalisée</a>
+          <a href="/gestion-des-aides/">Gestion des aides</a>
+          <a href="/fundraising/">Fundraising</a>
+          <a href="/fonds-de-dotation-mecenat-local/">Fonds de dotation &amp; mécénat local</a>
+          <a href="/recherche-de-fondations/">Recherche de fondations</a>
+          <a href="/nos-formations/">Nos formations</a>
+          <a href="/optimaides-subventions/">Optim Aides &amp; Subventions</a>
+        </div>
+        <div class="nav-dropdown__col">
+          <h5>Secteurs d'activité</h5>
+          <a href="/secteurs-dactivite/">Tous les secteurs</a>
+          <a href="/collectivite-epci/">Collectivité &amp; EPCI</a>
+          <a href="/sante-non-lucratif/">Santé non lucratif</a>
+          <a href="/social-medico-social/">Médico-social &amp; Social</a>
+          <a href="/logement-social/">Logement social</a>
+          <a href="/sdis-service-de-secours/">SDIS &amp; Secours</a>
+          <a href="/entreprise/">Entreprise</a>
+          <a href="/immobilier/">Immobilier</a>
+          <a href="/entreprises-publiques-locales-epl/">Entreprises publiques locales</a>
+          <a href="/acteurs-public-institutions/">Acteurs publics &amp; institutions</a>
+          <a href="/secteur-public/">Secteur public</a>
+        </div>
+      </div>
+    </div>
+    <a href="/les-reussites-de-nos-clients/">Réussites</a>
+    <a href="/finances-et-territoires/">Qui sommes-nous ?</a>
   </nav>
-  <a class="btn-nav-cta" href="#contact">Contactez-nous</a>
+  <a class="btn-nav-cta" href="/contact/">Contactez-nous</a>
 </header>
 
 <main class="container">
@@ -32,7 +63,7 @@
         <div class="hero-stat__value">1,2 Md€</div>
         <div class="hero-stat__label">mobilisés pour nos clients</div>
       </div>
-      <a class="btn btn--site btn-primary" href="#en-savoir-plus">En savoir plus →</a>
+      <a class="btn btn--site btn-primary" href="/finances-et-territoires/">En savoir plus →</a>
     </div>
     <div class="photo-grid">
       <div class="photo-tile photo-tile--portrait"></div>
@@ -121,7 +152,7 @@
         <h2 class="section-title">Guide</h2>
         <p class="section-subtitle">Comprendre, anticiper et agir face aux évolutions du financement</p>
       </div>
-      <a class="link-arrow" href="#guide">Voir le guide →</a>
+      <a class="link-arrow" href="/guide/">Voir le guide →</a>
     </div>
     <div class="cards-grid">
       <article class="feature-card feature-card--guide">
@@ -190,7 +221,7 @@
         <h3>Vous souhaitez mieux comprendre les aides possibles pour votre projet ?</h3>
         <p>Contactez-nous pour un échange personnalisé sur vos besoins en financement.</p>
       </div>
-      <a class="btn-cta-pill" href="#contact-form">Contactez-nous →</a>
+      <a class="btn-cta-pill" href="/contact/">Contactez-nous →</a>
     </div>
   </section>
 
@@ -218,31 +249,31 @@
     <div class="footer-col">
       <h4>Expertises</h4>
       <ul>
-        <li><a href="#">Détection</a></li>
-        <li><a href="#">Mobilisation</a></li>
-        <li><a href="#">Mécénat &amp; Fundraising</a></li>
-        <li><a href="#">Formations</a></li>
-        <li><a href="#">FinBoost</a></li>
+        <li><a href="/detections-des-opportunites/">Détection</a></li>
+        <li><a href="/mobilisation-des-aides/">Mobilisation</a></li>
+        <li><a href="/fonds-de-dotation-mecenat-local/">Mécénat &amp; Fundraising</a></li>
+        <li><a href="/nos-formations/">Formations</a></li>
+        <li><a href="/optimaides-subventions/">Optim Aides &amp; Subventions</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Secteurs</h4>
       <ul>
-        <li><a href="#">Collectivité &amp; EPCI</a></li>
-        <li><a href="#">Santé non lucratif</a></li>
-        <li><a href="#">Médico-Social &amp; Social</a></li>
-        <li><a href="#">Logement social</a></li>
-        <li><a href="#">SDIS &amp; Secours</a></li>
+        <li><a href="/collectivite-epci/">Collectivité &amp; EPCI</a></li>
+        <li><a href="/sante-non-lucratif/">Santé non lucratif</a></li>
+        <li><a href="/social-medico-social/">Médico-Social &amp; Social</a></li>
+        <li><a href="/logement-social/">Logement social</a></li>
+        <li><a href="/sdis-service-de-secours/">SDIS &amp; Secours</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>À propos</h4>
       <ul>
-        <li><a href="#">Finances &amp; Territoires</a></li>
-        <li><a href="#">Réussites clients</a></li>
-        <li><a href="#">Événements</a></li>
-        <li><a href="#">Guide pratique</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="/finances-et-territoires/">Finances &amp; Territoires</a></li>
+        <li><a href="/les-reussites-de-nos-clients/">Réussites clients</a></li>
+        <li><a href="/evenements/">Événements</a></li>
+        <li><a href="/guide/">Guide pratique</a></li>
+        <li><a href="/contact/">Contact</a></li>
       </ul>
     </div>
   </div>

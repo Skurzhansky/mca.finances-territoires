@@ -69,13 +69,75 @@ section.section--muted { background: var(--canvas); }
   align-items: center;
   gap: 36px;
 }
-.main-nav a {
+.main-nav > a {
   color: var(--ink-soft);
   text-decoration: none;
   font-size: 13.5px;
   font-weight: 500;
 }
-.main-nav a:hover { color: var(--purple-700); }
+.main-nav > a:hover { color: var(--purple-700); }
+
+.nav-dropdown { position: relative; }
+.nav-dropdown__trigger {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.nav-dropdown__trigger::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid var(--muted-2);
+  border-bottom: 1.5px solid var(--muted-2);
+  transform: rotate(45deg);
+  margin-top: -3px;
+}
+.nav-dropdown:hover .nav-dropdown__trigger,
+.nav-dropdown:focus-within .nav-dropdown__trigger { color: var(--purple-700); }
+
+.nav-dropdown__panel {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 20px;
+  padding: 20px;
+  gap: 28px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 12px 32px rgba(43,22,64,.12);
+  z-index: 20;
+}
+.nav-dropdown:hover .nav-dropdown__panel,
+.nav-dropdown:focus-within .nav-dropdown__panel { display: flex; }
+
+.nav-dropdown__col { min-width: 220px; }
+.nav-dropdown__col h5 {
+  margin: 0 0 10px;
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+.nav-dropdown__col a {
+  display: block;
+  padding: 6px 0;
+  font-size: 13px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.nav-dropdown__col a:hover { color: var(--purple-700); }
 
 .btn-nav-cta {
   height: 44px;
@@ -489,3 +551,56 @@ section.section--muted { background: var(--canvas); }
   color: rgba(255,255,255,.5);
   text-align: center;
 }
+
+/* --- Pages internes (squelette) --- */
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--muted-2);
+  padding: 24px 0 0;
+}
+.breadcrumb a { color: var(--muted-2); text-decoration: none; }
+.breadcrumb a:hover { color: var(--purple-700); }
+.breadcrumb span.current { color: var(--ink-soft); }
+
+.page-hero { padding: 16px 0 40px; }
+.page-hero h1 {
+  margin: 0;
+  font-size: var(--h1-site-size);
+  line-height: var(--h1-site-line);
+  font-weight: var(--h1-site-weight);
+  letter-spacing: var(--h1-site-tracking);
+  color: var(--purple-900);
+}
+
+.page-placeholder {
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-card);
+  background: var(--canvas);
+  padding: 48px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 64px;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-card-gap);
+  margin-bottom: 64px;
+}
+.related-card {
+  display: block;
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+}
+.related-card:hover { border-color: var(--purple-500); color: var(--purple-700); }
