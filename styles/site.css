@@ -222,37 +222,45 @@ section.section--muted { background: var(--canvas); }
 }
 .hero-card .btn-primary:hover { background: var(--purple-100); }
 
+/*
+  Grille asymétrique reprise à l'identique de la maquette :
+  une grande tuile (haut-gauche, sur 2 colonnes x 2 lignes),
+  deux tuiles étroites empilées en haut-droite,
+  puis deux tuiles inégales en bas.
+  minmax(0, ...) sur les pistes + min-width/height:0 sur les tuiles :
+  sans ça, une vraie photo (grande en pixels intrinsèques) fait
+  gonfler la piste de grille à son min-content et casse la mise en page
+  dès qu'on remplace le placeholder — c'est ce qui s'est produit.
+*/
 .photo-grid {
+  position: relative;
   display: grid;
-  grid-template-columns: 1.3fr 2fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 1.3fr);
+  grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2.2fr);
   gap: 10px;
 }
 .photo-tile {
-  border-radius: 12px;
+  min-width: 0;
+  min-height: 0;
   background: linear-gradient(160deg, var(--purple-500), var(--purple-700));
   position: relative;
-  min-height: 90px;
   overflow: hidden;
+  /* pas d'arrondi sur les tuiles photo : coins nets, comme dans la maquette */
 }
 .photo-tile img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.photo-tile--portrait { grid-row: 1 / 3; }
-.photo-tile--portrait .photo-tile__bg { position: absolute; inset: 0; }
 
-.photo-quad {
-  grid-row: 1 / 3;
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 10px;
-}
-.photo-quad__avatar {
+.photo-tile--big { grid-column: 1 / 3; grid-row: 1 / 3; }
+.photo-tile--tr1 { grid-column: 3; grid-row: 1; }
+.photo-tile--tr2 { grid-column: 3; grid-row: 2; }
+.photo-tile--bl  { grid-column: 1; grid-row: 3; }
+.photo-tile--br  { grid-column: 2 / 4; grid-row: 3; }
+
+.photo-grid__avatar {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  left: 46%;
+  top: 37%;
   transform: translate(-50%, -50%);
-  width: 56%;
+  width: 48%;
   height: auto;
   aspect-ratio: 1;
   border-radius: 50%;
