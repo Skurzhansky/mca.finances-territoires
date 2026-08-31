@@ -289,6 +289,31 @@ const PAGES = [
     ] },
 ];
 
+// Photo de couverture par page expertise/secteur (pool limité de 9 photos réelles, réutilisées par thème).
+const PAGE_IMAGE = {
+  'detections-des-opportunites': 'carte-calculatrice.jpg',
+  'mobilisation-des-aides': 'remise-billets.webp',
+  'montage-des-dossiers': 'handshake-contrat.webp',
+  'veille-personnalisee': 'graphique-bourse.webp',
+  'gestion-des-aides': 'coffre-fort.jpeg',
+  'fundraising': 'remise-billets.webp',
+  'fonds-de-dotation-mecenat-local': 'handshake-reunion.webp',
+  'recherche-de-fondations': 'banque-de-france.webp',
+  'nos-formations': 'handshake-reunion.webp',
+  'optimaides-subventions': 'banque-digitale.webp',
+  'secteurs-dactivite': 'paris-eiffel.jpg',
+  'collectivite-epci': 'banque-de-france.webp',
+  'sante-non-lucratif': 'handshake-reunion.webp',
+  'social-medico-social': 'handshake-contrat.webp',
+  'logement-social': 'paris-eiffel.jpg',
+  'sdis-service-de-secours': 'coffre-fort.jpeg',
+  'entreprise': 'carte-calculatrice.jpg',
+  'immobilier': 'paris-eiffel.jpg',
+  'entreprises-publiques-locales-epl': 'banque-de-france.webp',
+  'acteurs-public-institutions': 'banque-digitale.webp',
+  'secteur-public': 'banque-de-france.webp',
+};
+
 // --- Gabarits partagés ---
 
 // Structure de navigation reprise du site réel : menus en cascade
@@ -465,13 +490,20 @@ function relatedGrid(p, { excludeHub = false } = {}) {
 
 // --- Rendu par type de page ---
 
+function pageBanner(slug) {
+  const img = PAGE_IMAGE[slug];
+  if (!img) return '';
+  return `
+  <div class="page-banner"><img src="../images/${img}" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>`;
+}
+
 function renderExpertiseOrSecteur(p) {
   return `<main class="container">
   <div class="page-hero">
     <h1>${p.title}</h1>
     <p class="lead">${p.lead}</p>
     <a class="btn btn--site btn-primary" href="../contact/">Contactez-nous →</a>
-  </div>
+  </div>${pageBanner(p.slug)}
   ${featureList(p.features)}
 </main>
 ${relatedGrid(p, { excludeHub: true })}
