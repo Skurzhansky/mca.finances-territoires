@@ -254,6 +254,10 @@ section.section--muted { background: var(--canvas); }
 
 /* --- Hero --- */
 
+.hero-band {
+  background: linear-gradient(150deg, var(--purple-600), var(--purple-900));
+}
+
 .hero {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
