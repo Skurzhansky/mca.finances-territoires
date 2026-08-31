@@ -41,6 +41,10 @@ section.section--muted { background: var(--canvas); }
 
 .site-header {
   border-bottom: 1px solid var(--border-soft);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--white);
 }
 .site-header__inner {
   display: flex;
