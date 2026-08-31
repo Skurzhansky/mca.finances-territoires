@@ -15,8 +15,9 @@
   <div class="brand"><span class="brand__dot"></span> FINANCES &amp; TERRITOIRES</div>
   <nav class="main-nav">
     <div class="nav-dropdown">
-      <button class="nav-dropdown__trigger" type="button">Expertises et Solutions</button>
+      <button class="nav-dropdown__trigger" type="button" aria-expanded="false">Expertises et Solutions</button>
       <div class="nav-dropdown__panel">
+        <div class="nav-dropdown__panel-inner">
         <div class="nav-dropdown__col">
           <h5>Expertises</h5>
           <a href="detections-des-opportunites/">Détection des opportunités</a>
@@ -44,6 +45,7 @@
           <a href="acteurs-public-institutions/">Acteurs publics &amp; institutions</a>
           <a href="secteur-public/">Secteur public</a>
         </div>
+        </div>
       </div>
     </div>
     <a href="les-reussites-de-nos-clients/">Réussites</a>
@@ -52,8 +54,9 @@
   <a class="btn-nav-cta" href="contact/">Contactez-nous</a>
 </header>
 
-<main class="container">
+<main>
 
+  <div class="container">
   <section class="hero">
     <div class="hero-card">
       <span class="hero-card__mark"></span>
@@ -73,17 +76,21 @@
       <div class="photo-tile"><img src="https://picsum.photos/seed/territoires-team/400/300" alt="" loading="lazy"></div>
     </div>
   </section>
+  </div>
 
+  <div class="container">
   <section class="client-types section--tight">
-    <div class="client-type"><span class="client-type__icon"></span>Collectivité &amp; EPCI</div>
-    <div class="client-type"><span class="client-type__icon"></span>Santé non lucratif</div>
-    <div class="client-type"><span class="client-type__icon"></span>Médico-social</div>
-    <div class="client-type"><span class="client-type__icon"></span>Établ. Public Local</div>
-    <div class="client-type"><span class="client-type__icon"></span>Logement social</div>
-    <div class="client-type"><span class="client-type__icon"></span>SDIS</div>
-    <div class="client-type"><span class="client-type__icon"></span>Entreprise</div>
+    <div class="client-type"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5H3l9-5z"/><path d="M4 10h16"/><path d="M6 10v9M10 10v9M14 10v9M18 10v9"/><path d="M3 21h18"/></svg></span>Collectivité &amp; EPCI</div>
+    <div class="client-type"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span>Santé non lucratif</div>
+    <div class="client-type"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.35-9.33-8.94C1.4 8.94 2.9 5.5 6.2 5.02 8.4 4.7 10.6 5.9 12 7.8c1.4-1.9 3.6-3.1 5.8-2.78 3.3.48 4.8 3.92 3.53 7.04C19 16.65 12 21 12 21z"/></svg></span>Médico-social</div>
+    <div class="client-type"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/><path d="M4 21h16"/></svg></span>Établ. Public Local</div>
+    <div class="client-type"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-6h4v6"/></svg></span>Logement social</div>
+    <div class="client-type"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s-5 5.5-5 10a5 5 0 0 0 10 0c0-2-1-3.5-2-4.5.3 1.5-.5 2.5-1.5 2.5-1.2 0-1.8-1-1.5-2.5A7 7 0 0 1 12 3z"/></svg></span>SDIS</div>
+    <div class="client-type"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg></span>Entreprise</div>
   </section>
+  </div>
 
+  <div class="container">
   <section id="expertises">
     <h2 class="section-title">L'ingénierie financière pour mener à bien vos projets</h2>
     <div class="cards-grid">
@@ -119,9 +126,10 @@
       </article>
     </div>
   </section>
+  </div>
 
-  <section class="section--muted" style="border-radius:16px;" id="reussites">
-    <div class="testimonial-band" style="border-radius:16px;">
+  <section class="section--muted" id="reussites">
+    <div class="testimonial-band">
       <div class="container">
         <div class="testimonial-inner">
           <span class="testimonial-quote-mark">"</span>
@@ -136,6 +144,7 @@
     </div>
   </section>
 
+  <div class="container">
   <section>
     <h2 class="section-title">Baromètre des aides &amp; subventions</h2>
     <div class="stats-row">
@@ -145,8 +154,10 @@
     </div>
     <p class="stats-caption">Notre base référence plus de 18 600 dispositifs en métropole et DROM-COM, suivis par 20 experts.</p>
   </section>
+  </div>
 
   <section class="section--muted">
+    <div class="container">
     <div class="section-header-row">
       <div>
         <h2 class="section-title">Guide</h2>
@@ -183,38 +194,44 @@
         </div>
       </article>
     </div>
+    </div>
   </section>
 
+  <div class="container">
   <section id="qui-sommes-nous">
     <h2 class="section-title">Valeurs et engagements</h2>
     <div class="values-grid">
       <div class="value-item">
-        <span class="value-item__icon"></span>
+        <span class="value-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="16" cy="9" r="2.6"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/><path d="M14 20c.3-2.3 2-4 4.5-4"/></svg></span>
         <h3>Engagement humain</h3>
         <p>Un accompagnement sur mesure avec un consultant dédié, à l'écoute de vos besoins.</p>
       </div>
       <div class="value-item">
-        <span class="value-item__icon"></span>
+        <span class="value-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg></span>
         <h3>Impact et résultats</h3>
         <p>La concrétisation de vos projets dans une approche responsable et durable.</p>
       </div>
       <div class="value-item">
-        <span class="value-item__icon"></span>
+        <span class="value-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/><path d="M9 12.5l2 2 4-4.5"/></svg></span>
         <h3>Excellence et fiabilité</h3>
         <p>Une veille rigoureuse et une méthodologie éprouvée, au service de la qualité.</p>
       </div>
     </div>
   </section>
+  </div>
 
   <section class="section--muted">
+    <div class="container">
     <h2 class="section-title">Partenaires</h2>
     <div class="partners-row">
       <span class="partner-badge">Grant Thornton</span>
       <span class="partner-badge">Eco Finance Groupe</span>
       <span class="partner-badge">ANDSIS</span>
     </div>
+    </div>
   </section>
 
+  <div class="container">
   <section id="contact">
     <div class="cta-band">
       <div>
@@ -224,7 +241,9 @@
       <a class="btn-cta-pill" href="contact/">Contactez-nous →</a>
     </div>
   </section>
+  </div>
 
+  <div class="container">
   <section>
     <h2 class="section-title">FAQ</h2>
     <div class="faq-grid">
@@ -236,8 +255,10 @@
       <div class="faq-item">Qu'est-ce qu'un outil SaaS ?<span>›</span></div>
     </div>
   </section>
+  </div>
 
 </main>
+<script src="nav.js" defer></script>
 
 <footer class="site-footer">
   <div class="container footer-top">

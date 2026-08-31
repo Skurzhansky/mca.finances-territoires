@@ -101,7 +101,9 @@ section.section--muted { background: var(--canvas); }
   margin-top: -3px;
 }
 .nav-dropdown:hover .nav-dropdown__trigger,
-.nav-dropdown:focus-within .nav-dropdown__trigger { color: var(--purple-700); }
+.nav-dropdown:focus-within .nav-dropdown__trigger,
+.nav-dropdown.is-open .nav-dropdown__trigger { color: var(--purple-700); }
+.nav-dropdown.is-open .nav-dropdown__trigger::after { transform: rotate(225deg); margin-top: 3px; }
 
 .nav-dropdown__panel {
   display: none;
@@ -109,17 +111,31 @@ section.section--muted { background: var(--canvas); }
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  margin-top: 20px;
-  padding: 20px;
+  /* pas de marge : un vide entre le déclencheur et le panneau casse le survol */
+  padding-top: 20px;
+  z-index: 20;
+}
+.nav-dropdown__panel::before {
+  /* zone tampon invisible qui garde le survol actif pendant la traversée du padding-top */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+}
+.nav-dropdown__panel-inner {
+  display: flex;
   gap: 28px;
+  padding: 20px;
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
   box-shadow: 0 12px 32px rgba(43,22,64,.12);
-  z-index: 20;
 }
 .nav-dropdown:hover .nav-dropdown__panel,
-.nav-dropdown:focus-within .nav-dropdown__panel { display: flex; }
+.nav-dropdown:focus-within .nav-dropdown__panel,
+.nav-dropdown.is-open .nav-dropdown__panel { display: block; }
 
 .nav-dropdown__col { min-width: 220px; }
 .nav-dropdown__col h5 {
@@ -246,11 +262,17 @@ section.section--muted { background: var(--canvas); }
   text-align: center;
 }
 .client-type__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: 1.5px solid var(--muted-2);
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--ink-soft);
 }
+.client-type__icon svg { width: 16px; height: 16px; }
 
 /* --- Cartes fonctionnalités --- */
 
@@ -413,13 +435,18 @@ section.section--muted { background: var(--canvas); }
   .values-grid { grid-template-columns: 1fr; }
 }
 .value-item__icon {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 34px;
   height: 34px;
   margin: 0 auto 16px;
   border-radius: 50%;
-  border: 1.5px solid var(--muted-2);
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--ink-soft);
 }
+.value-item__icon svg { width: 18px; height: 18px; }
 .value-item h3 { margin: 0 0 8px; font-size: var(--card-title-size); font-weight: var(--card-title-weight); }
 .value-item p { margin: 0; font-size: 12.5px; color: var(--muted); line-height: var(--body-line); }
 

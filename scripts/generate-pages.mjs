@@ -293,8 +293,9 @@ const PAGES = [
 
 const NAV_DROPDOWN = `
     <div class="nav-dropdown">
-      <button class="nav-dropdown__trigger" type="button">Expertises et Solutions</button>
+      <button class="nav-dropdown__trigger" type="button" aria-expanded="false">Expertises et Solutions</button>
       <div class="nav-dropdown__panel">
+        <div class="nav-dropdown__panel-inner">
         <div class="nav-dropdown__col">
           <h5>Expertises</h5>
           <a href="../detections-des-opportunites/">Détection des opportunités</a>
@@ -321,6 +322,7 @@ const NAV_DROPDOWN = `
           <a href="../entreprises-publiques-locales-epl/">Entreprises publiques locales</a>
           <a href="../acteurs-public-institutions/">Acteurs publics &amp; institutions</a>
           <a href="../secteur-public/">Secteur public</a>
+        </div>
         </div>
       </div>
     </div>`;
@@ -618,6 +620,7 @@ ${render(p)}
 
 ${footer()}
 
+<script src="../nav.js" defer></script>
 </body>
 </html>
 `;
