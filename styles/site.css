@@ -260,7 +260,7 @@ section.section--muted { background: var(--canvas); }
   content: "";
   position: absolute;
   inset: 0;
-  background: url("images/hero-abstract.svg") center / cover no-repeat;
+  background: url("../images/hero-abstract.svg") center / cover no-repeat;
   mix-blend-mode: screen;
   pointer-events: none;
   z-index: 0;
