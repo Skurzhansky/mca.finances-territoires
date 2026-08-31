@@ -246,19 +246,28 @@ section.section--muted { background: var(--canvas); }
 }
 
 .hero-card {
-  background:
-    linear-gradient(150deg, var(--purple-600), var(--purple-900)),
-    url("images/hero-abstract.svg");
-  background-size: cover, cover;
-  background-position: center, center;
-  background-repeat: no-repeat, no-repeat;
-  background-blend-mode: normal, screen;
+  position: relative;
+  background: linear-gradient(150deg, var(--purple-600), var(--purple-900));
   border-radius: 16px;
   padding: 48px;
   color: var(--white);
   display: flex;
   flex-direction: column;
   gap: 20px;
+  overflow: hidden;
+}
+.hero-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("images/hero-abstract.svg") center / cover no-repeat;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-card > * {
+  position: relative;
+  z-index: 1;
 }
 .hero-card__mark {
   width: 32px;
