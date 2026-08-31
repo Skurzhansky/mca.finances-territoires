@@ -40,8 +40,29 @@
     });
   });
 
-  document.addEventListener('click', function () { closeAll(); closeSubmenus(); });
+  var siteHeader = document.querySelector('.site-header');
+  var navToggle = document.querySelector('.nav-toggle');
+  if (navToggle && siteHeader) {
+    navToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isOpen = siteHeader.classList.toggle('nav-open');
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+      if (!isOpen) { closeAll(); closeSubmenus(); }
+    });
+  }
+
+  document.addEventListener('click', function () {
+    closeAll();
+    closeSubmenus();
+    if (siteHeader) siteHeader.classList.remove('nav-open');
+    if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+  });
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') { closeAll(); closeSubmenus(); }
+    if (e.key === 'Escape') {
+      closeAll();
+      closeSubmenus();
+      if (siteHeader) siteHeader.classList.remove('nav-open');
+      if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+    }
   });
 })();

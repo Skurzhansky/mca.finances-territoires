@@ -388,8 +388,10 @@ function header() {
   return `<header class="site-header">
   <div class="container site-header__inner">
   <a class="brand brand--logo" href="../"><img src="../images/logo-bpce.jpg" alt="BPCE Finances &amp; Territoires"></a>
+  <button type="button" class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span><span></span></button>
   <nav class="main-nav">${navDropdown('Expertises et Solutions', EXPERTISES_MENU, '../')}
     <a href="../les-reussites-de-nos-clients/">Réussites</a>${navDropdown('Qui sommes-nous ?', QUI_SOMMES_NOUS_MENU, '../')}
+    <a class="btn-nav-cta btn-nav-cta--mobile" href="../contact/">Contactez-nous</a>
   </nav>
   <a class="btn-nav-cta" href="../contact/">Contactez-nous</a>
   </div>
@@ -506,7 +508,7 @@ function renderExpertiseOrSecteur(p) {
   </div>${pageBanner(p.slug)}
   ${featureList(p.features)}
 </main>
-${relatedGrid(p, { excludeHub: true })}
+${p.section === 'expertise' ? relatedGrid(p, { excludeHub: true }) : ''}
 ${ctaBand()}`;
 }
 
