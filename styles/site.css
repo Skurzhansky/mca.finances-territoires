@@ -449,7 +449,9 @@ section.section--muted { background: var(--canvas); }
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
   padding: var(--space-card-inner);
+  transition: background-color .15s ease;
 }
+.icon-card:hover { background: #FAF5FC; }
 .icon-card__badge {
   display: flex;
   align-items: center;
