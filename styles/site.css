@@ -955,5 +955,10 @@ section.section--muted { background: var(--canvas); }
   text-decoration: none;
   font-size: 13px;
   font-weight: 500;
+  transition: background .2s, border-color .2s, color .2s;
 }
-.related-card:hover { border-color: var(--purple-500); color: var(--purple-700); }
+.related-card:hover {
+  background: #FAF5FC;
+  border-color: var(--purple-500);
+  color: var(--purple-700);
+}
