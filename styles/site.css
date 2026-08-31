@@ -228,18 +228,25 @@ section.section--muted { background: var(--canvas); }
 }
 .photo-tile {
   border-radius: 12px;
-  background: var(--purple-100);
+  background: linear-gradient(160deg, var(--purple-500), var(--purple-700));
   position: relative;
   min-height: 90px;
   overflow: hidden;
 }
 .photo-tile img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.photo-tile--portrait { grid-row: 1 / 3; display: flex; align-items: center; justify-content: center; }
-.photo-tile--portrait img {
-  width: 72%;
-  height: 72%;
+.photo-tile--portrait { grid-row: 1 / 3; }
+.photo-tile--portrait .photo-tile__bg { position: absolute; inset: 0; }
+.photo-tile--portrait .photo-tile__avatar {
+  position: absolute;
+  left: 50%;
+  bottom: 16%;
+  width: 46%;
+  height: auto;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
   border-radius: 50%;
-  border: 3px solid rgba(255,255,255,.5);
+  border: 3px solid rgba(255,255,255,.65);
+  box-shadow: 0 8px 20px rgba(0,0,0,.25);
 }
 
 /* --- Types de clients --- */
