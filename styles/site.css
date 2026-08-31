@@ -86,6 +86,8 @@ section.section--muted { background: var(--canvas); }
   background: var(--purple-700);
   flex: none;
 }
+.brand--logo { text-decoration: none; }
+.brand--logo img { display: block; height: 40px; width: auto; }
 
 .main-nav {
   display: flex;

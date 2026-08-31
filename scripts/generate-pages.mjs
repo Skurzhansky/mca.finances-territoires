@@ -387,7 +387,7 @@ function navDropdown(triggerLabel, items, base) {
 function header() {
   return `<header class="site-header">
   <div class="container site-header__inner">
-  <div class="brand"><a href="../" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:10px;"><span class="brand__dot"></span> FINANCES &amp; TERRITOIRES</a></div>
+  <a class="brand brand--logo" href="../"><img src="../images/logo-bpce.jpg" alt="BPCE Finances &amp; Territoires"></a>
   <nav class="main-nav">${navDropdown('Expertises et Solutions', EXPERTISES_MENU, '../')}
     <a href="../les-reussites-de-nos-clients/">Réussites</a>${navDropdown('Qui sommes-nous ?', QUI_SOMMES_NOUS_MENU, '../')}
   </nav>
