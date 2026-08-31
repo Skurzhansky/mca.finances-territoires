@@ -197,7 +197,12 @@ section.section--muted { background: var(--canvas); }
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
   box-shadow: 0 12px 32px rgba(43,22,64,.12);
+  scrollbar-width: thin;
+  scrollbar-color: #6B2F75 transparent;
 }
+.nav-submenu::-webkit-scrollbar { width: 6px; }
+.nav-submenu::-webkit-scrollbar-track { background: transparent; }
+.nav-submenu::-webkit-scrollbar-thumb { background: #6B2F75; border-radius: 3px; }
 .nav-menu-item:hover > .nav-submenu,
 .nav-menu-item.is-open > .nav-submenu { display: block; }
 .nav-submenu a {
