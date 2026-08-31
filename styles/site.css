@@ -246,7 +246,13 @@ section.section--muted { background: var(--canvas); }
 }
 
 .hero-card {
-  background: linear-gradient(150deg, var(--purple-600), var(--purple-900));
+  background:
+    linear-gradient(150deg, var(--purple-600), var(--purple-900)),
+    url("images/hero-abstract.svg");
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  background-blend-mode: normal, screen;
   border-radius: 16px;
   padding: 48px;
   color: var(--white);
