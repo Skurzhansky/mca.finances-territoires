@@ -101,21 +101,21 @@ const PAGES = [
   { slug: 'secteurs-dactivite', title: "Secteurs d'activité", section: 'secteur', type: 'secteur', isHub: true,
     lead: "Une expertise territoriale et sectorielle : nous adaptons notre accompagnement aux enjeux propres à chaque type de structure.",
     features: [] },
-  { slug: 'collectivite-epci', title: 'Collectivité & EPCI', section: 'secteur', type: 'secteur',
+  { slug: 'collectivites-epci', title: 'Collectivité & EPCI', section: 'secteur', type: 'secteur',
     lead: "Communes, intercommunalités, départements, régions : nous sécurisons le financement de vos projets d'investissement et de transition.",
     features: [
       { title: 'Transition écologique', text: "Rénovation énergétique et projets d'aménagement durable." },
       { title: 'Équipements publics', text: "Aménagement urbain et équipements de proximité." },
       { title: 'Financements croisés', text: 'Europe, État, région : construction de plans de financement multi-partenaires.' },
     ] },
-  { slug: 'sante-non-lucratif', title: 'Santé non lucratif', section: 'secteur', type: 'secteur',
+  { slug: 'etablissements-de-sante-publics-non-lucratifs', title: 'Santé non lucratif', section: 'secteur', type: 'secteur',
     lead: "Établissements de santé à but non lucratif : nous vous aidons à financer vos projets d'investissement et de modernisation.",
     features: [
       { title: 'Modernisation', text: 'Équipements et infrastructures de soin.' },
       { title: 'Financements dédiés', text: "Agence régionale de santé (ARS) et fonds spécialisés." },
       { title: 'Mécénat santé', text: 'Fondations et mécènes sensibles aux enjeux de santé.' },
     ] },
-  { slug: 'social-medico-social', title: 'Médico-social & Social', section: 'secteur', type: 'secteur',
+  { slug: 'structures-medico-sociales', title: 'Médico-social & Social', section: 'secteur', type: 'secteur',
     lead: "EHPAD, établissements médico-sociaux, structures sociales : nous mobilisons les financements adaptés à vos projets.",
     features: [
       { title: 'Autonomie et grand âge', text: 'Dispositifs dédiés au vieillissement et au handicap.' },
@@ -302,9 +302,9 @@ const PAGE_IMAGE = {
   'nos-formations': 'agence-bancaire.jpg',
   'optimaides-subventions': 'banque-digitale.webp',
   'secteurs-dactivite': 'paris-eiffel.jpg',
-  'collectivite-epci': 'banque-de-france.webp',
-  'sante-non-lucratif': 'conseil-client.jpg',
-  'social-medico-social': 'handshake-reunion.webp',
+  'collectivites-epci': 'banque-de-france.webp',
+  'etablissements-de-sante-publics-non-lucratifs': 'conseil-client.jpg',
+  'structures-medico-sociales': 'handshake-reunion.webp',
   'logement-social': 'paris-eiffel.jpg',
   'sdis-service-de-secours': 'coffre-fort.jpeg',
   'entreprise': 'carte-calculatrice.jpg',
@@ -336,9 +336,9 @@ const EXPERTISES_MENU = [
 ];
 
 const SECTEURS_SUBMENU = [
-  { label: 'Collectivité & EPCI', href: 'collectivite-epci/' },
-  { label: 'Santé (non lucratif)', href: 'sante-non-lucratif/' },
-  { label: 'Médico-Social & Social', href: 'social-medico-social/' },
+  { label: 'Collectivité & EPCI', href: 'collectivites-epci/' },
+  { label: 'Santé (non lucratif)', href: 'etablissements-de-sante-publics-non-lucratifs/' },
+  { label: 'Médico-Social & Social', href: 'structures-medico-sociales/' },
   { label: 'Entreprise Publique Locale (EPL)', href: 'entreprises-publiques-locales-epl/' },
   { label: 'Logement social', href: 'logement-social/' },
   { label: 'SDIS & Service de secours', href: 'sdis-service-de-secours/' },
@@ -417,9 +417,9 @@ function footer() {
     <div class="footer-col">
       <h4>Secteurs</h4>
       <ul>
-        <li><a href="../collectivite-epci/">Collectivité &amp; EPCI</a></li>
-        <li><a href="../sante-non-lucratif/">Santé non lucratif</a></li>
-        <li><a href="../social-medico-social/">Médico-Social &amp; Social</a></li>
+        <li><a href="../collectivites-epci/">Collectivité &amp; EPCI</a></li>
+        <li><a href="../etablissements-de-sante-publics-non-lucratifs/">Santé non lucratif</a></li>
+        <li><a href="../structures-medico-sociales/">Médico-Social &amp; Social</a></li>
         <li><a href="../logement-social/">Logement social</a></li>
         <li><a href="../sdis-service-de-secours/">SDIS &amp; Secours</a></li>
       </ul>
