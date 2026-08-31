@@ -1,4 +1,4 @@
-// Dropdown "Expertises et Solutions" : ouverture au clic (fonctionne au tactile et au clavier),
+// Navigation en cascade : ouverture au clic (fonctionne au tactile et au clavier),
 // le survol en CSS reste un simple bonus desktop.
 (function () {
   function closeAll(except) {
@@ -8,6 +8,11 @@
         var t = d.querySelector('.nav-dropdown__trigger');
         if (t) t.setAttribute('aria-expanded', 'false');
       }
+    });
+  }
+  function closeSubmenus(except) {
+    document.querySelectorAll('.nav-menu-item.is-open').forEach(function (m) {
+      if (m !== except) m.classList.remove('is-open');
     });
   }
 
@@ -20,11 +25,23 @@
       closeAll(dropdown);
       dropdown.classList.toggle('is-open', !isOpen);
       trigger.setAttribute('aria-expanded', String(!isOpen));
+      if (isOpen) closeSubmenus();
     });
   });
 
-  document.addEventListener('click', function () { closeAll(); });
+  document.querySelectorAll('.nav-menu-item__arrow').forEach(function (arrow) {
+    arrow.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var item = arrow.closest('.nav-menu-item');
+      if (!item) return;
+      var isOpen = item.classList.contains('is-open');
+      closeSubmenus(item);
+      item.classList.toggle('is-open', !isOpen);
+    });
+  });
+
+  document.addEventListener('click', function () { closeAll(); closeSubmenus(); });
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeAll();
+    if (e.key === 'Escape') { closeAll(); closeSubmenus(); }
   });
 })();

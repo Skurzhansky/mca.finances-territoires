@@ -291,49 +291,80 @@ const PAGES = [
 
 // --- Gabarits partagés ---
 
-const NAV_DROPDOWN = `
+// Structure de navigation reprise du site réel : menus en cascade
+// (un item avec "children" ouvre un sous-menu flottant à droite au survol/clic).
+const EXPERTISES_MENU = [
+  { label: 'Détections des opportunités', href: 'detections-des-opportunites/', children: [
+    { label: 'Optim Aides & Subventions', href: 'optimaides-subventions/' },
+    { label: 'Veille personnalisée', href: 'veille-personnalisee/' },
+  ] },
+  { label: 'Mobilisation des aides', href: 'mobilisation-des-aides/', children: [
+    { label: 'Montage des dossiers', href: 'montage-des-dossiers/' },
+    { label: 'Gestion des aides', href: 'gestion-des-aides/' },
+  ] },
+  { label: 'Mécénat et Fundraising', children: [
+    { label: 'Fonds de dotation & Mécénat local', href: 'fonds-de-dotation-mecenat-local/' },
+    { label: 'Recherche de fondations', href: 'recherche-de-fondations/' },
+    { label: 'Fundraising', href: 'fundraising/' },
+  ] },
+  { label: 'Formations', href: 'nos-formations/' },
+];
+
+const SECTEURS_SUBMENU = [
+  { label: 'Collectivité & EPCI', href: 'collectivite-epci/' },
+  { label: 'Santé (non lucratif)', href: 'sante-non-lucratif/' },
+  { label: 'Médico-Social & Social', href: 'social-medico-social/' },
+  { label: 'Entreprise Publique Locale (EPL)', href: 'entreprises-publiques-locales-epl/' },
+  { label: 'Logement social', href: 'logement-social/' },
+  { label: 'SDIS & Service de secours', href: 'sdis-service-de-secours/' },
+  { label: 'Entreprise', href: 'entreprise/' },
+  { label: 'Immobilier', href: 'immobilier/' },
+  { label: 'Acteurs publics & institutions', href: 'acteurs-public-institutions/' },
+  { label: 'Secteur public', href: 'secteur-public/' },
+];
+
+const QUI_SOMMES_NOUS_MENU = [
+  { label: 'Finances & Territoires', href: 'finances-et-territoires/' },
+  { label: "Secteurs d'activité", href: 'secteurs-dactivite/', children: SECTEURS_SUBMENU },
+  { label: 'Événements', href: 'evenements/' },
+  { label: 'Guide', href: 'guide/' },
+];
+
+function navMenuItems(items, base) {
+  return items.map(item => {
+    if (item.children) {
+      const labelInner = item.href
+        ? `<a href="${base}${item.href}">${item.label}</a>`
+        : `<span class="nav-menu-item__text">${item.label}</span>`;
+      return `<div class="nav-menu-item">
+          <span class="nav-menu-item__label">${labelInner}<button type="button" class="nav-menu-item__arrow" aria-label="Afficher le sous-menu">›</button></span>
+          <div class="nav-submenu">
+            ${item.children.map(c => `<a href="${base}${c.href}">${c.label}</a>`).join('\n            ')}
+          </div>
+        </div>`;
+    }
+    return `<a href="${base}${item.href}" class="nav-menu-item__leaf">${item.label}</a>`;
+  }).join('\n        ');
+}
+
+function navDropdown(triggerLabel, items, base) {
+  return `
     <div class="nav-dropdown">
-      <button class="nav-dropdown__trigger" type="button" aria-expanded="false">Expertises et Solutions</button>
+      <button class="nav-dropdown__trigger" type="button" aria-expanded="false">${triggerLabel}</button>
       <div class="nav-dropdown__panel">
         <div class="nav-dropdown__panel-inner">
-        <div class="nav-dropdown__col">
-          <h5>Expertises</h5>
-          <a href="../detections-des-opportunites/">Détection des opportunités</a>
-          <a href="../mobilisation-des-aides/">Mobilisation des aides</a>
-          <a href="../montage-des-dossiers/">Montage des dossiers</a>
-          <a href="../veille-personnalisee/">Veille personnalisée</a>
-          <a href="../gestion-des-aides/">Gestion des aides</a>
-          <a href="../fundraising/">Fundraising</a>
-          <a href="../fonds-de-dotation-mecenat-local/">Fonds de dotation &amp; mécénat local</a>
-          <a href="../recherche-de-fondations/">Recherche de fondations</a>
-          <a href="../nos-formations/">Nos formations</a>
-          <a href="../optimaides-subventions/">Optim Aides &amp; Subventions</a>
-        </div>
-        <div class="nav-dropdown__col">
-          <h5>Secteurs d'activité</h5>
-          <a href="../secteurs-dactivite/">Tous les secteurs</a>
-          <a href="../collectivite-epci/">Collectivité &amp; EPCI</a>
-          <a href="../sante-non-lucratif/">Santé non lucratif</a>
-          <a href="../social-medico-social/">Médico-social &amp; Social</a>
-          <a href="../logement-social/">Logement social</a>
-          <a href="../sdis-service-de-secours/">SDIS &amp; Secours</a>
-          <a href="../entreprise/">Entreprise</a>
-          <a href="../immobilier/">Immobilier</a>
-          <a href="../entreprises-publiques-locales-epl/">Entreprises publiques locales</a>
-          <a href="../acteurs-public-institutions/">Acteurs publics &amp; institutions</a>
-          <a href="../secteur-public/">Secteur public</a>
-        </div>
+        ${navMenuItems(items, base)}
         </div>
       </div>
     </div>`;
+}
 
 function header() {
   return `<header class="site-header">
   <div class="container site-header__inner">
   <div class="brand"><a href="../" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:10px;"><span class="brand__dot"></span> FINANCES &amp; TERRITOIRES</a></div>
-  <nav class="main-nav">${NAV_DROPDOWN}
-    <a href="../les-reussites-de-nos-clients/">Réussites</a>
-    <a href="../finances-et-territoires/">Qui sommes-nous ?</a>
+  <nav class="main-nav">${navDropdown('Expertises et Solutions', EXPERTISES_MENU, '../')}
+    <a href="../les-reussites-de-nos-clients/">Réussites</a>${navDropdown('Qui sommes-nous ?', QUI_SOMMES_NOUS_MENU, '../')}
   </nav>
   <a class="btn-nav-cta" href="../contact/">Contactez-nous</a>
   </div>
@@ -560,14 +591,15 @@ ${ctaBand()}`;
 
     case 'guide': {
       const articles = PAGES.filter(x => x.section === 'guide');
+      const photos = ['paris-eiffel.jpg', 'handshake-contrat.webp', 'banque-de-france.webp', 'handshake-reunion.webp'];
       return `<main class="container">
   <div class="page-hero">
     <h1>Guide</h1>
     <p class="lead">Comprendre, anticiper et agir face aux évolutions du financement.</p>
   </div>
   <div class="cards-grid" style="grid-template-columns:repeat(3,1fr); margin-bottom:64px;">
-    ${articles.map(a => `<article class="feature-card feature-card--guide">
-      <div class="feature-card__banner"><span class="feature-card__tag">Guide</span></div>
+    ${articles.map((a, i) => `<article class="feature-card feature-card--guide">
+      <div class="feature-card__banner"><img src="../images/${photos[i % photos.length]}" alt="" loading="lazy" onerror="this.remove()"></div>
       <div class="feature-card__body">
         <h3><a href="../${a.slug}/" style="color:inherit;text-decoration:none;">${a.title}</a></h3>
         <p>${a.intro}</p>

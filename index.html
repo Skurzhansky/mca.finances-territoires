@@ -19,38 +19,58 @@
       <button class="nav-dropdown__trigger" type="button" aria-expanded="false">Expertises et Solutions</button>
       <div class="nav-dropdown__panel">
         <div class="nav-dropdown__panel-inner">
-        <div class="nav-dropdown__col">
-          <h5>Expertises</h5>
-          <a href="detections-des-opportunites/">Détection des opportunités</a>
-          <a href="mobilisation-des-aides/">Mobilisation des aides</a>
-          <a href="montage-des-dossiers/">Montage des dossiers</a>
-          <a href="veille-personnalisee/">Veille personnalisée</a>
-          <a href="gestion-des-aides/">Gestion des aides</a>
-          <a href="fundraising/">Fundraising</a>
-          <a href="fonds-de-dotation-mecenat-local/">Fonds de dotation &amp; mécénat local</a>
-          <a href="recherche-de-fondations/">Recherche de fondations</a>
-          <a href="nos-formations/">Nos formations</a>
-          <a href="optimaides-subventions/">Optim Aides &amp; Subventions</a>
+        <div class="nav-menu-item">
+          <span class="nav-menu-item__label"><a href="detections-des-opportunites/">Détections des opportunités</a><button type="button" class="nav-menu-item__arrow" aria-label="Afficher le sous-menu">›</button></span>
+          <div class="nav-submenu">
+            <a href="optimaides-subventions/">Optim Aides &amp; Subventions</a>
+            <a href="veille-personnalisee/">Veille personnalisée</a>
+          </div>
         </div>
-        <div class="nav-dropdown__col">
-          <h5>Secteurs d'activité</h5>
-          <a href="secteurs-dactivite/">Tous les secteurs</a>
-          <a href="collectivite-epci/">Collectivité &amp; EPCI</a>
-          <a href="sante-non-lucratif/">Santé non lucratif</a>
-          <a href="social-medico-social/">Médico-social &amp; Social</a>
-          <a href="logement-social/">Logement social</a>
-          <a href="sdis-service-de-secours/">SDIS &amp; Secours</a>
-          <a href="entreprise/">Entreprise</a>
-          <a href="immobilier/">Immobilier</a>
-          <a href="entreprises-publiques-locales-epl/">Entreprises publiques locales</a>
-          <a href="acteurs-public-institutions/">Acteurs publics &amp; institutions</a>
-          <a href="secteur-public/">Secteur public</a>
+        <div class="nav-menu-item">
+          <span class="nav-menu-item__label"><a href="mobilisation-des-aides/">Mobilisation des aides</a><button type="button" class="nav-menu-item__arrow" aria-label="Afficher le sous-menu">›</button></span>
+          <div class="nav-submenu">
+            <a href="montage-des-dossiers/">Montage des dossiers</a>
+            <a href="gestion-des-aides/">Gestion des aides</a>
+          </div>
         </div>
+        <div class="nav-menu-item">
+          <span class="nav-menu-item__label"><span class="nav-menu-item__text">Mécénat et Fundraising</span><button type="button" class="nav-menu-item__arrow" aria-label="Afficher le sous-menu">›</button></span>
+          <div class="nav-submenu">
+            <a href="fonds-de-dotation-mecenat-local/">Fonds de dotation &amp; Mécénat local</a>
+            <a href="recherche-de-fondations/">Recherche de fondations</a>
+            <a href="fundraising/">Fundraising</a>
+          </div>
+        </div>
+        <a href="nos-formations/" class="nav-menu-item__leaf">Formations</a>
         </div>
       </div>
     </div>
     <a href="les-reussites-de-nos-clients/">Réussites</a>
-    <a href="finances-et-territoires/">Qui sommes-nous ?</a>
+    <div class="nav-dropdown">
+      <button class="nav-dropdown__trigger" type="button" aria-expanded="false">Qui sommes-nous ?</button>
+      <div class="nav-dropdown__panel">
+        <div class="nav-dropdown__panel-inner">
+        <a href="finances-et-territoires/" class="nav-menu-item__leaf">Finances &amp; Territoires</a>
+        <div class="nav-menu-item">
+          <span class="nav-menu-item__label"><a href="secteurs-dactivite/">Secteurs d'activité</a><button type="button" class="nav-menu-item__arrow" aria-label="Afficher le sous-menu">›</button></span>
+          <div class="nav-submenu">
+            <a href="collectivite-epci/">Collectivité &amp; EPCI</a>
+            <a href="sante-non-lucratif/">Santé (non lucratif)</a>
+            <a href="social-medico-social/">Médico-Social &amp; Social</a>
+            <a href="entreprises-publiques-locales-epl/">Entreprise Publique Locale (EPL)</a>
+            <a href="logement-social/">Logement social</a>
+            <a href="sdis-service-de-secours/">SDIS &amp; Service de secours</a>
+            <a href="entreprise/">Entreprise</a>
+            <a href="immobilier/">Immobilier</a>
+            <a href="acteurs-public-institutions/">Acteurs publics &amp; institutions</a>
+            <a href="secteur-public/">Secteur public</a>
+          </div>
+        </div>
+        <a href="evenements/" class="nav-menu-item__leaf">Événements</a>
+        <a href="guide/" class="nav-menu-item__leaf">Guide</a>
+        </div>
+      </div>
+    </div>
   </nav>
   <a class="btn-nav-cta" href="contact/">Contactez-nous</a>
   </div>
@@ -97,37 +117,25 @@
 
   <div class="container">
   <section id="expertises">
-    <h2 class="section-title">L'ingénierie financière pour mener à bien vos projets</h2>
+    <div class="section-intro">
+      <h2 class="section-title">L'ingénierie financière pour mener à bien vos projets</h2>
+      <p class="section-intro__text">BPCE Finances &amp; Territoires vous accompagne dans <strong>l'identification</strong> et la <strong>mobilisation</strong> sécurisée des financements nécessaires à la réussite de vos projets, en alliant expertise, stratégie et efficacité opérationnelle. Dans un contexte où les <strong>financements publics et privés non-bancaires</strong> évoluent rapidement, il est essentiel de pouvoir compter sur un partenaire :</p>
+    </div>
     <div class="cards-grid">
-      <article class="feature-card">
-        <div class="feature-card__banner">
-          <img src="images/banque-de-france.webp" alt="" loading="lazy" onerror="this.remove()">
-          <span class="feature-card__tag">Expertise</span>
-        </div>
-        <div class="feature-card__body">
-          <h3>Expertise territoriale</h3>
-          <p>Des consultants alliant expertise territoriale et sectorielle, forts de centaines de dossiers montés.</p>
-        </div>
+      <article class="icon-card">
+        <span class="icon-card__badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg></span>
+        <h3>Expertise</h3>
+        <p>Des consultants alliant expertise territoriale et sectorielle, rompus à l'exercice de recherche de financement qui capitalisent sur des centaines de dossiers de demande montés.</p>
       </article>
-      <article class="feature-card">
-        <div class="feature-card__banner">
-          <img src="images/handshake-contrat.webp" alt="" loading="lazy" onerror="this.remove()">
-          <span class="feature-card__tag">Adaptation</span>
-        </div>
-        <div class="feature-card__body">
-          <h3>Approche sur mesure</h3>
-          <p>Une méthode adaptée à vos besoins et à vos enjeux spécifiques, du cadrage au dépôt du dossier.</p>
-        </div>
+      <article class="icon-card">
+        <span class="icon-card__badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.97 7.97 0 0 0 0-2l2-1.5-2-3.4-2.4 1a8 8 0 0 0-1.7-1L15 3h-4l-.3 2.4a8 8 0 0 0-1.7 1l-2.4-1-2 3.4L6.6 11a7.97 7.97 0 0 0 0 2l-2 1.5 2 3.4 2.4-1a8 8 0 0 0 1.7 1L9 21h4l.3-2.4a8 8 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6z"/></svg></span>
+        <h3>Adaptation</h3>
+        <p>Une approche sur mesure, adaptée à vos besoins et enjeux.</p>
       </article>
-      <article class="feature-card">
-        <div class="feature-card__banner">
-          <img src="images/handshake-reunion.webp" alt="" loading="lazy" onerror="this.remove()">
-          <span class="feature-card__tag">Sécurisation</span>
-        </div>
-        <div class="feature-card__body">
-          <h3>20 ans d'expertise</h3>
-          <p>De la veille au suivi des financements obtenus, pour réduire les risques de paiement.</p>
-        </div>
+      <article class="icon-card">
+        <span class="icon-card__badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/><path d="M9 12.5l2 2 4-4.5"/></svg></span>
+        <h3>Sécurisation</h3>
+        <p>20 ans d'expertise dans la mobilisation de financements pour des projets à vocation publique, privée et associative. Un accompagnement complet, de la veille au suivi des financements obtenus.</p>
       </article>
     </div>
   </section>
@@ -173,7 +181,7 @@
     <div class="cards-grid">
       <article class="feature-card feature-card--guide">
         <div class="feature-card__banner">
-          <span class="feature-card__tag">Guides</span>
+          <img src="images/paris-eiffel.jpg" alt="" loading="lazy" onerror="this.remove()">
         </div>
         <div class="feature-card__body">
           <h3>Quel mode de financement pour quel type de projet public ?</h3>
@@ -182,7 +190,7 @@
       </article>
       <article class="feature-card feature-card--guide">
         <div class="feature-card__banner">
-          <span class="feature-card__tag">Guides</span>
+          <img src="images/handshake-contrat.webp" alt="" loading="lazy" onerror="this.remove()">
         </div>
         <div class="feature-card__body">
           <h3>Les différences entre mécénat, sponsoring et crowdfunding</h3>
@@ -191,7 +199,7 @@
       </article>
       <article class="feature-card feature-card--guide">
         <div class="feature-card__banner">
-          <span class="feature-card__tag">Guides</span>
+          <img src="images/banque-de-france.webp" alt="" loading="lazy" onerror="this.remove()">
         </div>
         <div class="feature-card__body">
           <h3>Comprendre les financements non bancaires pour les EPL et collectivités</h3>
