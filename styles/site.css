@@ -803,7 +803,6 @@ section.section--muted { background: var(--canvas); }
 
 .cta-band {
   background: var(--purple-900);
-  border-radius: 16px;
   padding: 36px 40px;
   display: flex;
   align-items: center;
