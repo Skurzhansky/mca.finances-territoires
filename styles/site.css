@@ -262,7 +262,7 @@ section.section--muted { background: var(--canvas); }
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: 24px;
-  padding: 40px 0 56px;
+  padding: 40px 0;
 }
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; }
@@ -271,7 +271,6 @@ section.section--muted { background: var(--canvas); }
 .hero-card {
   position: relative;
   background: linear-gradient(150deg, var(--purple-600), var(--purple-900));
-  border-radius: 16px;
   padding: 48px;
   color: var(--white);
   display: flex;
