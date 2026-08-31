@@ -291,27 +291,27 @@ const PAGES = [
 
 // Photo de couverture par page expertise/secteur (pool limité de 9 photos réelles, réutilisées par thème).
 const PAGE_IMAGE = {
-  'detections-des-opportunites': 'carte-calculatrice.jpg',
+  'detections-des-opportunites': 'graphique-bourse.webp',
   'mobilisation-des-aides': 'remise-billets.webp',
-  'montage-des-dossiers': 'handshake-contrat.webp',
-  'veille-personnalisee': 'graphique-bourse.webp',
+  'montage-des-dossiers': 'conseil-client.jpg',
+  'veille-personnalisee': 'banque-digitale-2.webp',
   'gestion-des-aides': 'coffre-fort.jpeg',
-  'fundraising': 'remise-billets.webp',
+  'fundraising': 'handshake-contrat.webp',
   'fonds-de-dotation-mecenat-local': 'handshake-reunion.webp',
-  'recherche-de-fondations': 'banque-de-france.webp',
-  'nos-formations': 'handshake-reunion.webp',
+  'recherche-de-fondations': 'reserve-or.jpg',
+  'nos-formations': 'agence-bancaire.jpg',
   'optimaides-subventions': 'banque-digitale.webp',
   'secteurs-dactivite': 'paris-eiffel.jpg',
   'collectivite-epci': 'banque-de-france.webp',
-  'sante-non-lucratif': 'handshake-reunion.webp',
-  'social-medico-social': 'handshake-contrat.webp',
+  'sante-non-lucratif': 'conseil-client.jpg',
+  'social-medico-social': 'handshake-reunion.webp',
   'logement-social': 'paris-eiffel.jpg',
   'sdis-service-de-secours': 'coffre-fort.jpeg',
   'entreprise': 'carte-calculatrice.jpg',
-  'immobilier': 'paris-eiffel.jpg',
+  'immobilier': 'agence-bancaire.jpg',
   'entreprises-publiques-locales-epl': 'banque-de-france.webp',
   'acteurs-public-institutions': 'banque-digitale.webp',
-  'secteur-public': 'banque-de-france.webp',
+  'secteur-public': 'reserve-or.jpg',
 };
 
 // --- Gabarits partagés ---

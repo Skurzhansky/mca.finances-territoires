@@ -317,7 +317,7 @@ section.section--muted { background: var(--canvas); }
   height: auto;
   aspect-ratio: 1;
   border-radius: 50%;
-  border: 3px solid rgba(255,255,255,.7);
+  border: 10px solid rgba(255,255,255,.9);
   box-shadow: 0 10px 26px rgba(0,0,0,.3);
   z-index: 2;
   object-fit: cover;
@@ -340,7 +340,7 @@ section.section--muted { background: var(--canvas); }
   align-items: center;
   gap: 10px;
   font-size: 11.5px;
-  color: var(--ink-soft);
+  color: #7A327E;
   text-align: center;
 }
 .client-type__icon {
