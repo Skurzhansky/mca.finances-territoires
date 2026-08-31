@@ -633,20 +633,15 @@ section.section--muted { background: var(--canvas); }
 .partners-row {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  align-items: center;
+  gap: 48px;
   flex-wrap: wrap;
 }
-.partner-badge {
-  height: 46px;
-  padding: 0 28px;
-  display: inline-flex;
-  align-items: center;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-button);
-  background: var(--white);
-  font-size: 12.5px;
-  font-weight: 500;
-  color: var(--ink-soft);
+.partner-logo {
+  height: 50px;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
 }
 
 /* --- CTA --- */
