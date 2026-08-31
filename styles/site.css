@@ -522,7 +522,7 @@ section.section--muted { background: var(--canvas); }
   color: var(--ink);
 }
 .testimonial-footnote {
-  margin-top: -46px;
+  margin-top: 14px;
   padding-left: 82px;
   font-size: 11px;
   color: rgba(255,255,255,.7);
