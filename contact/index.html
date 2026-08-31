@@ -57,22 +57,36 @@
 <main class="container">
   <div class="page-hero">
     <h1>Contact</h1>
+    <p class="lead">Un projet à financer ? Parlons-en. Décrivez-nous votre besoin, un consultant vous recontacte pour un premier échange.</p>
   </div>
 
-  <div class="page-placeholder">
-    Contenu de la page « Contact » à intégrer.
-  </div>
-</main>
-
-  <div class="container">
-    <h2 class="section-title" style="text-align:left;">null</h2>
-    <div class="related-grid">
-      <a class="related-card" href="/finances-et-territoires/">Qui sommes-nous ?</a>
-      <a class="related-card" href="/les-reussites-de-nos-clients/">Les réussites de nos clients</a>
-      <a class="related-card" href="/guide/">Guide</a>
-      <a class="related-card" href="/evenements/">Événements</a>
+  <div class="contact-layout">
+    <form class="contact-form" onsubmit="return false;">
+      <div class="form-field">
+        <label for="name">Nom et prénom</label>
+        <input id="name" type="text" name="name" placeholder="Jean Dupont">
+      </div>
+      <div class="form-field">
+        <label for="org">Structure</label>
+        <input id="org" type="text" name="org" placeholder="Commune, association, entreprise…">
+      </div>
+      <div class="form-field">
+        <label for="email">E-mail</label>
+        <input id="email" type="email" name="email" placeholder="vous@exemple.fr">
+      </div>
+      <div class="form-field">
+        <label for="message">Votre message</label>
+        <textarea id="message" name="message" placeholder="Décrivez votre projet et vos besoins en financement…"></textarea>
+      </div>
+      <button class="btn btn--site btn-primary" type="submit" style="align-self:flex-start;">Envoyer →</button>
+    </form>
+    <div class="contact-info">
+      <h3>Finances &amp; Territoires</h3>
+      <p>Filiale du Groupe BPCE, nous accompagnons les collectivités, associations et entreprises dans la sécurisation de leurs financements depuis 20 ans.</p>
+      <p>Retrouvez également nos solutions dans le menu « Expertises et Solutions », ou explorez le <a href="/guide/" style="color:#fff;">Guide</a> pour en savoir plus sur les dispositifs de financement.</p>
     </div>
   </div>
+</main>
 
 <footer class="site-footer">
   <div class="container footer-top">
