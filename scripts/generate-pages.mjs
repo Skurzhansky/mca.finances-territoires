@@ -560,9 +560,15 @@ function renderCustom(p) {
 ${ctaBand()}`;
 
     case 'les-reussites-de-nos-clients':
-      return `<main class="container">
-  <div class="page-hero">
+      return `<div class="hero-photo-banner">
+  <img src="../images/handshake-reunion.webp" alt="" loading="lazy" onerror="this.parentElement.remove()">
+  <div class="hero-photo-banner__content container">
     <h1>Les réussites de nos clients</h1>
+    <a class="btn btn--site btn-primary" href="../les-reussites-de-nos-clients/">En savoir plus →</a>
+  </div>
+</div>
+<main class="container">
+  <div class="page-hero">
     <p class="lead">Collectivités, associations et entreprises que nous accompagnons dans la sécurisation de leurs financements.</p>
   </div>
 

@@ -811,6 +811,43 @@ section.section--muted { background: var(--canvas); }
 }
 .page-hero .btn { margin-top: 20px; }
 
+.hero-photo-banner {
+  position: relative;
+  height: 420px;
+  overflow: hidden;
+}
+.hero-photo-banner img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero-photo-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(43,22,64,.82), rgba(43,22,64,.1) 65%);
+}
+.hero-photo-banner__content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-bottom: 48px;
+}
+.hero-photo-banner h1 {
+  margin: 0 0 20px;
+  color: var(--white);
+  font-size: 32px;
+  line-height: var(--h1-site-line);
+  font-weight: var(--h1-site-weight);
+  letter-spacing: var(--h1-site-tracking);
+}
+
 .article-meta {
   display: inline-flex;
   align-items: center;
