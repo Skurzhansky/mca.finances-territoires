@@ -335,22 +335,8 @@ const EXPERTISES_MENU = [
   { label: 'Formations', href: 'nos-formations/' },
 ];
 
-const SECTEURS_SUBMENU = [
-  { label: 'Collectivité & EPCI', href: 'collectivites-epci/' },
-  { label: 'Santé (non lucratif)', href: 'etablissements-de-sante-publics-non-lucratifs/' },
-  { label: 'Médico-Social & Social', href: 'structures-medico-sociales/' },
-  { label: 'Entreprise Publique Locale (EPL)', href: 'entreprises-publiques-locales-epl/' },
-  { label: 'Logement social', href: 'logement-social/' },
-  { label: 'SDIS & Service de secours', href: 'sdis-service-de-secours/' },
-  { label: 'Entreprise', href: 'entreprise/' },
-  { label: 'Immobilier', href: 'immobilier/' },
-  { label: 'Acteurs publics & institutions', href: 'acteurs-public-institutions/' },
-  { label: 'Secteur public', href: 'secteur-public/' },
-];
-
 const QUI_SOMMES_NOUS_MENU = [
   { label: 'Finances & Territoires', href: 'finances-et-territoires/' },
-  { label: "Secteurs d'activité", href: 'secteurs-dactivite/', children: SECTEURS_SUBMENU },
   { label: 'Événements', href: 'evenements/' },
   { label: 'Guide', href: 'guide/' },
 ];

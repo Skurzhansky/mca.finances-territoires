@@ -251,6 +251,7 @@ section.section--muted { background: var(--canvas); }
   align-items: center;
 }
 .btn-nav-cta:hover { background: var(--purple-700); }
+.btn-nav-cta--mobile { display: none; }
 
 .nav-toggle {
   display: none;
@@ -300,9 +301,6 @@ section.section--muted { background: var(--canvas); }
   .site-header.nav-open .main-nav > a {
     padding: 14px 24px;
     border-bottom: 1px solid var(--track);
-  }
-  .btn-nav-cta--mobile {
-    display: none;
   }
   .site-header.nav-open .main-nav > a.btn-nav-cta--mobile {
     display: inline-flex;
