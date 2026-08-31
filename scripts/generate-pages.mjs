@@ -328,13 +328,15 @@ const NAV_DROPDOWN = `
     </div>`;
 
 function header() {
-  return `<header class="container site-header">
+  return `<header class="site-header">
+  <div class="container site-header__inner">
   <div class="brand"><a href="../" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:10px;"><span class="brand__dot"></span> FINANCES &amp; TERRITOIRES</a></div>
   <nav class="main-nav">${NAV_DROPDOWN}
     <a href="../les-reussites-de-nos-clients/">Réussites</a>
     <a href="../finances-et-territoires/">Qui sommes-nous ?</a>
   </nav>
   <a class="btn-nav-cta" href="../contact/">Contactez-nous</a>
+  </div>
 </header>`;
 }
 
