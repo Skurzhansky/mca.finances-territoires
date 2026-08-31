@@ -30,6 +30,10 @@ section.section--muted { background: var(--canvas); }
   color: var(--purple-900);
   margin: 0 0 8px;
 }
+.section-title + .partners-row,
+.section-title + .faq-grid {
+  margin-top: 24px;
+}
 .section-subtitle {
   text-align: center;
   font-size: var(--body-size);
