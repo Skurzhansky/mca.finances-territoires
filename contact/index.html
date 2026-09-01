@@ -72,10 +72,10 @@
   </div>
 
   <div class="contact-layout">
-    <form class="contact-form" onsubmit="return false;">
+    <form class="contact-form" id="contact-form">
       <div class="form-field">
         <label for="name">Nom et prénom</label>
-        <input id="name" type="text" name="name" placeholder="Jean Dupont">
+        <input id="name" type="text" name="name" placeholder="Jean Dupont" required>
       </div>
       <div class="form-field">
         <label for="org">Structure</label>
@@ -83,14 +83,34 @@
       </div>
       <div class="form-field">
         <label for="email">E-mail</label>
-        <input id="email" type="email" name="email" placeholder="vous@exemple.fr">
+        <input id="email" type="email" name="email" placeholder="vous@exemple.fr" required>
       </div>
       <div class="form-field">
         <label for="message">Votre message</label>
-        <textarea id="message" name="message" placeholder="Décrivez votre projet et vos besoins en financement…"></textarea>
+        <textarea id="message" name="message" placeholder="Décrivez votre projet et vos besoins en financement…" required></textarea>
       </div>
       <button class="btn btn--site btn-primary" type="submit" style="align-self:flex-start;">Envoyer →</button>
     </form>
+    <script>
+      document.getElementById('contact-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = document.getElementById('name').value;
+        var org = document.getElementById('org').value;
+        var email = document.getElementById('email').value;
+        var message = document.getElementById('message').value;
+        var subject = 'Demande de contact — ' + name;
+        var body = 'Nom et prénom : ' + name + '
+' +
+          'Structure : ' + org + '
+' +
+          'E-mail : ' + email + '
+
+' +
+          message;
+        window.location.href = 'mailto:A-REMPLACER@exemple.fr?subject=' +
+          encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      });
+    </script>
     <div class="contact-info">
       <h3>Finances &amp; Territoires</h3>
       <p>Filiale du Groupe BPCE, nous accompagnons les collectivités, associations et entreprises dans la sécurisation de leurs financements depuis 20 ans.</p>
