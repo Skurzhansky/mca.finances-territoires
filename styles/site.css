@@ -965,6 +965,10 @@ section.section--muted { background: var(--canvas); }
 .page-hero .btn-primary { background: var(--white); color: var(--purple-700); }
 .page-hero .btn-primary:hover { background: var(--purple-100); }
 .page-hero .article-meta { background: rgba(255,255,255,.15); color: var(--white); }
+/* Filet de sécurité : tout ce qui suit directement la bande violette respire,
+   quel que soit le composant (grille, formulaire, stats…), sans avoir à
+   corriger chaque gabarit un par un. */
+.container > .page-hero + * { margin-top: 40px; }
 
 .hero-photo-banner {
   position: relative;
@@ -1123,6 +1127,7 @@ section.section--muted { background: var(--canvas); }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
+  margin-top: 40px;
   margin-bottom: 64px;
 }
 @media (max-width: 900px) {
@@ -1156,7 +1161,7 @@ section.section--muted { background: var(--canvas); }
   height: 280px;
   border-radius: var(--radius-card);
   overflow: hidden;
-  margin: 8px 0 40px;
+  margin: 40px 0;
 }
 .page-banner img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
