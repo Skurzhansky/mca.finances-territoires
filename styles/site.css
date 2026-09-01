@@ -366,8 +366,8 @@ section.section--muted { background: var(--canvas); }
 .hero {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
-  gap: 24px;
-  padding: 40px 0 10px;
+  gap: 10px;
+  padding: 10px 0;
 }
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; }
