@@ -99,13 +99,9 @@
         var email = document.getElementById('email').value;
         var message = document.getElementById('message').value;
         var subject = 'Demande de contact — ' + name;
-        var body = 'Nom et prénom : ' + name + '
-' +
-          'Structure : ' + org + '
-' +
-          'E-mail : ' + email + '
-
-' +
+        var body = 'Nom et prénom : ' + name + '\n' +
+          'Structure : ' + org + '\n' +
+          'E-mail : ' + email + '\n\n' +
           message;
         window.location.href = 'mailto:A-REMPLACER@exemple.fr?subject=' +
           encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
