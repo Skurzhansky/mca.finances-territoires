@@ -916,6 +916,14 @@ section.section--muted { background: var(--canvas); }
 .breadcrumb span.current { color: var(--ink-soft); }
 
 .page-hero { padding: 16px 0 40px; }
+.page-hero__eyebrow {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  color: var(--purple-500);
+  margin-bottom: 10px;
+}
 .page-hero h1 {
   margin: 0;
   font-size: var(--h1-site-size);
@@ -998,6 +1006,45 @@ section.section--muted { background: var(--canvas); }
   letter-spacing: -0.2px;
   color: var(--purple-900);
   margin: 32px 0 12px;
+}
+
+.content-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.content-list li {
+  position: relative;
+  padding-left: 22px;
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  color: var(--ink-soft);
+}
+.content-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--purple-500);
+}
+.content-block { margin-bottom: 24px; }
+.content-block h3 {
+  font-size: var(--card-title-size);
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 6px;
+}
+.content-block p {
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  color: var(--ink-soft);
+  margin: 0;
 }
 
 .feature-list {

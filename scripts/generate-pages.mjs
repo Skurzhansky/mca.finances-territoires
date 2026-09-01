@@ -136,13 +136,7 @@ const PAGES = [
       { title: 'Sécurité civile', text: 'Fonds dédiés à la sécurité civile.' },
       { title: 'Montage de dossiers', text: 'Auprès des financeurs publics compétents.' },
     ] },
-  { slug: 'entreprise', title: 'Entreprise', section: 'secteur', type: 'secteur',
-    lead: "PME, ETI, entreprises : nous sécurisons le financement non bancaire de vos projets de développement.",
-    features: [
-      { title: 'Investissement & innovation', text: "Aides à l'investissement et à l'innovation." },
-      { title: 'Transition énergétique', text: 'Subventions dédiées à la transition énergétique.' },
-      { title: 'Diversification', text: 'Réduction de la dépendance à un seul financeur.' },
-    ] },
+  { slug: 'entreprise', title: 'Entreprise', section: 'secteur', type: 'custom' },
   { slug: 'immobilier', title: 'Immobilier', section: 'secteur', type: 'secteur',
     lead: "Promoteurs et opérateurs immobiliers : nous identifions les aides mobilisables sur vos opérations.",
     features: [
@@ -514,6 +508,59 @@ ${ctaBand()}`;
 
 function renderCustom(p) {
   switch (p.slug) {
+    case 'entreprise':
+      return `<main class="container">
+  <div class="page-hero">
+    <span class="page-hero__eyebrow">Engagées pour un territoire durable</span>
+    <h1>Activez des leviers de financement et de partenariat pour vos projets à impact</h1>
+    <p class="lead">Qu'il s'agisse de PME, d'ETI ou de grandes entreprises, de plus en plus d'acteurs économiques s'engagent sur leur territoire : transition écologique, innovation sociale, revitalisation des centres-bourgs, mécénat ou développement de projets collaboratifs. Ces initiatives peuvent bénéficier de financements publics, de soutiens privés, ou s'inscrire dans des partenariats stratégiques avec les collectivités.</p>
+    <a class="btn btn--site btn-primary" href="../contact/">Contactez-nous →</a>
+  </div>${pageBanner(p.slug)}
+
+  <div class="article-body" style="max-width:none;">
+    <h2>Vos enjeux</h2>
+    <ul class="content-list">
+      <li>Identifier les aides et dispositifs mobilisables pour vos projets à visée sociale ou environnementale</li>
+      <li>Structurer des collaborations efficaces avec le secteur public</li>
+      <li>Valoriser votre impact RSE et territorial auprès de vos parties prenantes</li>
+    </ul>
+
+    <h2>Ce que nous vous proposons</h2>
+    <div class="content-block">
+      <h3>Identification des dispositifs publics et privés adaptés</h3>
+      <p>Nous analysons vos projets pour repérer les aides disponibles : subventions à l'innovation ou à la transition énergétique, dispositifs territoriaux, soutien à l'investissement, mécénat, fonds européens…</p>
+    </div>
+    <div class="content-block">
+      <h3>Structuration de projets en co-développement avec le public</h3>
+      <p>Nous vous accompagnons dans la construction de projets conjoints avec les collectivités (bailleurs sociaux, EPL, établissements de santé…), en intégrant les enjeux réglementaires, financiers et opérationnels.</p>
+    </div>
+    <div class="content-block">
+      <h3>Déploiement de démarches RSE territorialisées</h3>
+      <p>Nous vous aidons à traduire vos engagements RSE en projets concrets et visibles, à identifier les bons leviers de financement, et à communiquer efficacement votre impact auprès de vos partenaires institutionnels, clients ou investisseurs.</p>
+    </div>
+    <div class="content-block">
+      <h3>Mobilisation du mécénat et des clubs d'entreprises</h3>
+      <p>Nous accompagnons les entreprises désireuses de s'impliquer localement dans des initiatives d'intérêt général : constitution de clubs de mécènes, mécénat de compétence ou en nature, partenariats avec des structures non lucratives locales.</p>
+    </div>
+
+    <h2>Ce que vous y gagnez</h2>
+    <ul class="content-list">
+      <li>Une stratégie claire pour accéder à des aides souvent méconnues</li>
+      <li>Des projets structurés en cohérence avec vos valeurs et votre stratégie RSE</li>
+      <li>Une reconnaissance accrue auprès des acteurs publics et de vos partenaires économiques</li>
+    </ul>
+  </div>
+</main>
+<section>
+  <div class="cta-band">
+    <div>
+      <h3>Vous développez un projet stratégique à fort impact territorial ?</h3>
+      <p>Contactez-nous pour concevoir une solution de financement alignée sur vos ambitions économiques et sociales.</p>
+    </div>
+    <a class="btn-cta-pill" href="../contact/">Contactez-nous →</a>
+  </div>
+</section>`;
+
     case 'finances-et-territoires':
       return `<main class="container">
   <div class="page-hero">
