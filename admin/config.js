@@ -14,9 +14,7 @@ export const config = {
     userPoolId: 'eu-west-3_uBzlHSKjV',
     clientId: '75u6h3iaov9ldcaehvpv0m0pji',
     identityPoolId: 'eu-west-3:50faab90-97ce-44d8-90d6-c69245f59161',
-    // TODO : domaine Cognito Hosted UI (ex. "finances-territoires-admin.auth.eu-west-3.amazoncognito.com").
-    // À activer dans App client → Hosted UI / Connexion gérée, puis renseigner ici.
-    domain: 'A-REMPLACER.auth.eu-west-3.amazoncognito.com',
+    domain: 'eu-west-3ubzlhskjv.auth.eu-west-3.amazoncognito.com',
   },
 
   // URL de redirection après connexion/déconnexion — doit être ajoutée dans
