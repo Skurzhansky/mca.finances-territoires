@@ -1,0 +1,21 @@
+body { background: var(--canvas); }
+
+.admin-login,
+.admin-shell {
+  max-width: 640px;
+  margin: 80px auto;
+  padding: 0 24px;
+}
+
+.admin-login h1 { color: var(--purple-900); margin-bottom: 8px; }
+.admin-login p { color: var(--ink-soft); margin-bottom: 24px; }
+
+.admin-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--ink-soft);
+}
