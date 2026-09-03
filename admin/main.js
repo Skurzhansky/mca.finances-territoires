@@ -1,4 +1,4 @@
-import { UserManager } from 'https://cdn.jsdelivr.net/npm/oidc-client-ts@3/dist/browser/oidc-client-ts.min.js';
+import { UserManager } from 'https://cdn.jsdelivr.net/npm/oidc-client-ts@3/+esm';
 import { config } from './config.js';
 
 const settings = {
