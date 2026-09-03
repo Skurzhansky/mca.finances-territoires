@@ -39,28 +39,9 @@ function renderLoggedOut() {
 }
 
 async function renderLoggedIn(user) {
-  const app = document.getElementById('app');
-  app.innerHTML = `
-    <div class="admin-shell">
-      <header class="admin-topbar">
-        <span>Connecté : ${user.profile?.email || ''}</span>
-        <button id="signOut" class="btn">Se déconnecter</button>
-      </header>
-      <p id="s3-status">Vérification de l'accès S3…</p>
-    </div>`;
-  document.getElementById('signOut').addEventListener('click', () => signOutRedirect());
-
-  const status = document.getElementById('s3-status');
-  try {
-    const { S3Client, ListObjectsV2Command } = await import('https://cdn.jsdelivr.net/npm/@aws-sdk/client-s3@3/+esm');
-    const credentials = await getCredentials(user.id_token);
-    const s3 = new S3Client({ region: config.region, credentials });
-    await s3.send(new ListObjectsV2Command({ Bucket: config.bucket, MaxKeys: 1 }));
-    status.textContent = 'Accès S3 confirmé — la publication sera bientôt disponible ici.';
-  } catch (err) {
-    status.textContent = `Erreur d'accès S3 : ${err.message}`;
-    console.error(err);
-  }
+  const credentials = await getCredentials(user.id_token);
+  const { mountAdmin } = await import('./app.js');
+  await mountAdmin(document.getElementById('app'), { user, credentials, signOut: signOutRedirect });
 }
 
 async function main() {

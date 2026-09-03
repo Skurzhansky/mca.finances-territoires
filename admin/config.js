@@ -17,6 +17,12 @@ export const config = {
     domain: 'eu-west-3ubzlhskjv.auth.eu-west-3.amazoncognito.com',
   },
 
+  // Utilisé pour vider le cache après publication. Si le rôle authentifié
+  // Cognito n'a pas la permission cloudfront:CreateInvalidation, la
+  // publication réussit quand même — seule l'invalidation est ignorée
+  // (le cache se videra alors selon son TTL par défaut).
+  cloudfrontDistributionId: 'EDQA0371OWLLG',
+
   // URL de redirection après connexion/déconnexion — doit être ajoutée dans
   // App client → Allowed callback URLs / Allowed sign-out URLs.
   redirectUri: 'https://site.id.finances-territoires.fr/admin/',
