@@ -18,158 +18,22 @@ export const SECTIONS = {
   guide:     { label: 'Guide', hub: '../guide/' },
 };
 
-// --- Pages statiques (principales, expertises, secteurs) ---
-// Les articles Guide et les Événements sont gérés séparément (voir buildPages)
-// car ce sont les deux contenus édités depuis l'admin.
+// --- Pages statiques protégées (non éditables depuis l'admin) ---
+// Les articles Guide, Expertises, Secteurs et Événements sont gérés
+// séparément (voir buildPages), éditables depuis l'admin. 'entreprise' et
+// 'secteurs-dactivite' ont un rendu sur mesure (voir renderCustom) et
+// restent ici plutôt que dans data/secteurs.json.
 
 export const BASE_PAGES = [
-  // === Pages principales (rendu sur mesure, voir renderCustom) ===
   { slug: 'finances-et-territoires', title: 'Qui sommes-nous ?', section: 'main', type: 'custom' },
   { slug: 'les-reussites-de-nos-clients', title: 'Les réussites de nos clients', section: 'main', type: 'custom' },
   { slug: 'contact', title: 'Contact', section: 'main', type: 'custom' },
   { slug: 'guide', title: 'Guide', section: 'main', type: 'custom' },
   { slug: 'evenements', title: 'Événements', section: 'main', type: 'custom' },
-
-  // === Expertises et solutions ===
-  { slug: 'detections-des-opportunites', title: 'Détection des opportunités', section: 'expertise', type: 'expertise',
-    lead: "Nous identifions, en amont de vos projets, les dispositifs de financement — publics et privés — auxquels vous êtes éligible, pour ne laisser aucune opportunité de côté.",
-    features: [
-      { title: 'Veille active', text: 'Suivi de plus de 18 600 dispositifs (aides, subventions, appels à projets) en métropole et DROM-COM.' },
-      { title: "Analyse d'éligibilité", text: 'Croisement avec votre projet, votre secteur et votre territoire pour ne cibler que le pertinent.' },
-      { title: 'Alertes ciblées', text: "Notification dès l'ouverture d'un dispositif correspondant à votre structure." },
-    ] },
-  { slug: 'mobilisation-des-aides', title: 'Mobilisation des aides', section: 'expertise', type: 'expertise',
-    lead: "Une fois les dispositifs identifiés, nous vous accompagnons pour les mobiliser efficacement et sécuriser leur obtention.",
-    features: [
-      { title: 'Dépôt des dossiers', text: 'Constitution et dépôt des demandes dans le respect des exigences de chaque financeur.' },
-      { title: 'Coordination', text: 'Interface avec les financeurs : État, Europe, collectivités, fondations.' },
-      { title: 'Suivi jusqu’au versement', text: "Suivi administratif jusqu'au versement effectif des fonds." },
-    ] },
-  { slug: 'montage-des-dossiers', title: 'Montage des dossiers', section: 'expertise', type: 'expertise',
-    lead: "De la définition du plan de financement au dépôt final, nous prenons en charge le montage technique et administratif de vos dossiers.",
-    features: [
-      { title: 'Cadrage du projet', text: 'Construction du plan de financement adapté à votre projet.' },
-      { title: 'Rédaction des dossiers', text: 'Conformité avec les attentes de chaque financeur sollicité.' },
-      { title: 'Interface avec vos équipes', text: 'Coordination fluide à chaque étape du montage.' },
-    ] },
-  { slug: 'veille-personnalisee', title: 'Veille personnalisée', section: 'expertise', type: 'expertise',
-    lead: "Recevez uniquement les opportunités de financement qui correspondent réellement à vos projets et à votre secteur.",
-    features: [
-      { title: 'Profil sur mesure', text: 'Veille configurée selon vos priorités et votre territoire.' },
-      { title: 'Notifications ciblées', text: "Alerte dès la publication d'un appel à projets pertinent." },
-      { title: 'Veille réglementaire', text: 'Suivi des évolutions impactant vos financements.' },
-    ] },
-  { slug: 'gestion-des-aides', title: 'Gestion des aides', section: 'expertise', type: 'expertise',
-    lead: "Après l'obtention d'un financement, nous vous aidons à en piloter le suivi jusqu'au solde final, pour sécuriser son versement.",
-    features: [
-      { title: 'Suivi des échéances', text: 'Justificatifs et conditions de versement suivis pas à pas.' },
-      { title: 'Reporting financeurs', text: 'Gestion du reporting exigé par chaque dispositif.' },
-      { title: 'Réduction du risque', text: 'Moins de risque de reversement ou de perte de la subvention.' },
-    ] },
-  { slug: 'fundraising', title: 'Fundraising', section: 'expertise', type: 'expertise',
-    lead: "Nous vous aidons à diversifier vos sources de financement en mobilisant le mécénat et les partenariats privés.",
-    features: [
-      { title: 'Stratégie de collecte', text: 'Structuration adaptée à votre projet et à votre territoire.' },
-      { title: 'Approche des mécènes', text: 'Identification et sollicitation des entreprises partenaires.' },
-      { title: 'Mise en œuvre', text: 'Accompagnement de vos campagnes de collecte.' },
-    ] },
-  { slug: 'fonds-de-dotation-mecenat-local', title: 'Fonds de dotation & mécénat local', section: 'expertise', type: 'expertise',
-    lead: "Nous vous accompagnons dans la création ou la relance d'un fonds de dotation pour mobiliser durablement le mécénat local.",
-    features: [
-      { title: "Étude d'opportunité", text: 'Cadrage juridique et statutaire du fonds de dotation.' },
-      { title: 'Gouvernance', text: 'Mise en œuvre des statuts et de la gouvernance.' },
-      { title: 'Club de mécènes', text: 'Mobilisation des entreprises du territoire.' },
-    ] },
-  { slug: 'recherche-de-fondations', title: 'Recherche de fondations', section: 'expertise', type: 'expertise',
-    lead: "Nous identifions les fondations privées susceptibles de soutenir votre projet et vous accompagnons dans leur sollicitation.",
-    features: [
-      { title: 'Cartographie', text: 'Fondations alignées avec votre thématique et votre territoire.' },
-      { title: 'Dossiers dédiés', text: 'Rédaction adaptée à chaque fondation sollicitée.' },
-      { title: 'Relation durable', text: 'Mise en relation et suivi dans la durée.' },
-    ] },
-  { slug: 'nos-formations', title: 'Nos formations', section: 'expertise', type: 'expertise',
-    lead: "Nous formons vos équipes aux méthodes et outils du financement de projets, pour gagner en autonomie.",
-    features: [
-      { title: 'Modules pratiques', text: 'Recherche de financements, montage de dossiers, gestion des aides.' },
-      { title: 'Formats adaptés', text: 'Présentiel, distanciel ou sur mesure selon vos besoins.' },
-      { title: '20 ans de pratique', text: 'Intervenants issus du financement territorial.' },
-    ] },
-  { slug: 'optimaides-subventions', title: 'Optim Aides & Subventions', section: 'expertise', type: 'expertise',
-    lead: "Notre outil SaaS pour piloter en autonomie la détection et le suivi de vos aides et subventions.",
-    features: [
-      { title: 'Base de dispositifs', text: 'Plus de 18 600 dispositifs, mise à jour en continu.' },
-      { title: 'Tableau de bord', text: 'Suivi des dossiers en cours, versés et des échéances à venir.' },
-      { title: 'Alertes personnalisées', text: 'Selon votre secteur et votre territoire.' },
-    ] },
-
-  // === Secteurs d'activité ===
+  { slug: 'entreprise', title: 'Entreprise', section: 'secteur', type: 'custom' },
   { slug: 'secteurs-dactivite', title: "Secteurs d'activité", section: 'secteur', type: 'secteur', isHub: true,
     lead: "Une expertise territoriale et sectorielle : nous adaptons notre accompagnement aux enjeux propres à chaque type de structure.",
     features: [] },
-  { slug: 'collectivites-epci', title: 'Collectivité & EPCI', section: 'secteur', type: 'secteur',
-    lead: "Communes, intercommunalités, départements, régions : nous sécurisons le financement de vos projets d'investissement et de transition.",
-    features: [
-      { title: 'Transition écologique', text: "Rénovation énergétique et projets d'aménagement durable." },
-      { title: 'Équipements publics', text: "Aménagement urbain et équipements de proximité." },
-      { title: 'Financements croisés', text: 'Europe, État, région : construction de plans de financement multi-partenaires.' },
-    ] },
-  { slug: 'etablissements-de-sante-publics-non-lucratifs', title: 'Santé non lucratif', section: 'secteur', type: 'secteur',
-    lead: "Établissements de santé à but non lucratif : nous vous aidons à financer vos projets d'investissement et de modernisation.",
-    features: [
-      { title: 'Modernisation', text: 'Équipements et infrastructures de soin.' },
-      { title: 'Financements dédiés', text: "Agence régionale de santé (ARS) et fonds spécialisés." },
-      { title: 'Mécénat santé', text: 'Fondations et mécènes sensibles aux enjeux de santé.' },
-    ] },
-  { slug: 'structures-medico-sociales', title: 'Médico-social & Social', section: 'secteur', type: 'secteur',
-    lead: "EHPAD, établissements médico-sociaux, structures sociales : nous mobilisons les financements adaptés à vos projets.",
-    features: [
-      { title: 'Autonomie et grand âge', text: 'Dispositifs dédiés au vieillissement et au handicap.' },
-      { title: 'Mise aux normes', text: 'Rénovation et mise en conformité des établissements.' },
-      { title: 'Financeurs sociaux', text: 'Conseils départementaux et ARS.' },
-    ] },
-  { slug: 'logement-social', title: 'Logement social', section: 'secteur', type: 'secteur',
-    lead: "Bailleurs sociaux : nous vous accompagnons dans le financement de vos opérations de construction et de rénovation.",
-    features: [
-      { title: 'Rénovation énergétique', text: 'Financement de la rénovation du parc social.' },
-      { title: 'Action Logement', text: 'Éco-prêts et dispositifs dédiés au logement social.' },
-      { title: 'Plans multi-partenaires', text: 'Montage de plans de financement combinant plusieurs financeurs.' },
-    ] },
-  { slug: 'sdis-service-de-secours', title: 'SDIS & Service de secours', section: 'secteur', type: 'secteur',
-    lead: "Services départementaux d'incendie et de secours : nous identifions les financements adaptés à vos équipements et infrastructures.",
-    features: [
-      { title: 'Casernes et équipements', text: 'Financement des infrastructures opérationnelles.' },
-      { title: 'Sécurité civile', text: 'Fonds dédiés à la sécurité civile.' },
-      { title: 'Montage de dossiers', text: 'Auprès des financeurs publics compétents.' },
-    ] },
-  { slug: 'entreprise', title: 'Entreprise', section: 'secteur', type: 'custom' },
-  { slug: 'immobilier', title: 'Immobilier', section: 'secteur', type: 'secteur',
-    lead: "Promoteurs et opérateurs immobiliers : nous identifions les aides mobilisables sur vos opérations.",
-    features: [
-      { title: 'Rénovation énergétique', text: "Financement de la performance énergétique des bâtiments." },
-      { title: 'Aides à la construction', text: "Dispositifs d'aménagement et de construction." },
-      { title: 'Partenaires dédiés', text: 'Collectivités et ANAH.' },
-    ] },
-  { slug: 'entreprises-publiques-locales-epl', title: 'Entreprises publiques locales (EPL)', section: 'secteur', type: 'secteur',
-    lead: "SEM, SPL, SEMOP : nous accompagnons les entreprises publiques locales dans le financement de leurs projets d'intérêt général.",
-    features: [
-      { title: 'Financements adaptés', text: 'Dispositifs non bancaires adaptés au statut EPL.' },
-      { title: 'Partenaires publics et privés', text: 'Montage de dossiers auprès de financeurs mixtes.' },
-      { title: 'Plans pluriannuels', text: 'Sécurisation des plans de financement dans la durée.' },
-    ] },
-  { slug: 'acteurs-public-institutions', title: 'Acteurs publics & institutions', section: 'secteur', type: 'secteur',
-    lead: "Établissements publics et institutions : nous vous aidons à mobiliser les financements adaptés à vos missions.",
-    features: [
-      { title: 'Dispositifs dédiés', text: 'Identification des aides propres au secteur public.' },
-      { title: 'Montage et suivi', text: 'Accompagnement de bout en bout des dossiers.' },
-      { title: 'Veille réglementaire', text: "Suivi des appels à projets et de leurs évolutions." },
-    ] },
-  { slug: 'secteur-public', title: 'Secteur public', section: 'secteur', type: 'secteur',
-    lead: "Une expertise transverse au service de l'ensemble des acteurs du secteur public, de la collectivité à l'établissement public.",
-    features: [
-      { title: 'Vision transverse', text: 'Collectivités, EPCI et établissements publics.' },
-      { title: 'Ingénierie financière', text: 'Adaptée aux règles de la commande publique.' },
-      { title: '20 ans d’expérience', text: 'Une pratique éprouvée du financement territorial.' },
-    ] },
 ];
 
 // Photo de couverture par page expertise/secteur (pool limité de photos réelles, réutilisées par thème).
@@ -231,16 +95,16 @@ export function navMenuItems(items, base) {
   return items.map(item => {
     if (item.children) {
       const labelInner = item.href
-        ? `<a href="${base}${item.href}">${item.label}</a>`
-        : `<span class="nav-menu-item__text">${item.label}</span>`;
+        ? `<a href="${base}${item.href}">${escapeHtml(item.label)}</a>`
+        : `<span class="nav-menu-item__text">${escapeHtml(item.label)}</span>`;
       return `<div class="nav-menu-item">
           <span class="nav-menu-item__label">${labelInner}<button type="button" class="nav-menu-item__arrow" aria-label="Afficher le sous-menu">›</button></span>
           <div class="nav-submenu">
-            ${item.children.map(c => `<a href="${base}${c.href}">${c.label}</a>`).join('\n            ')}
+            ${item.children.map(c => `<a href="${base}${c.href}">${escapeHtml(c.label)}</a>`).join('\n            ')}
           </div>
         </div>`;
     }
-    return `<a href="${base}${item.href}" class="nav-menu-item__leaf">${item.label}</a>`;
+    return `<a href="${base}${item.href}" class="nav-menu-item__leaf">${escapeHtml(item.label)}</a>`;
   }).join('\n        ');
 }
 
@@ -256,21 +120,68 @@ export function navDropdown(triggerLabel, items, base) {
     </div>`;
 }
 
-export function header() {
+function slugFromHref(href) {
+  return href ? href.replace(/\/$/, '') : null;
+}
+
+// Filtre le menu Expertises (groupé, 2 niveaux) selon le champ `hidden` des
+// pages expertise correspondantes. Un groupe sans enfant visible disparaît ;
+// si seul le lien du déclencheur d'un groupe est masqué, le groupe devient
+// un simple libellé (ses enfants visibles restent accessibles).
+function filterExpertisesMenu(expertises) {
+  const hidden = new Set((expertises || []).filter(e => e.hidden).map(e => e.slug));
+  return EXPERTISES_MENU
+    .map(item => {
+      if (item.children) {
+        const children = item.children.filter(c => !hidden.has(slugFromHref(c.href)));
+        if (!children.length) return null;
+        if (item.href && hidden.has(slugFromHref(item.href))) {
+          return { label: item.label, children };
+        }
+        return { ...item, children };
+      }
+      if (item.href && hidden.has(slugFromHref(item.href))) return null;
+      return item;
+    })
+    .filter(Boolean);
+}
+
+export function header(pages, base = '../') {
+  const expertises = (pages || []).filter(x => x.section === 'expertise');
+  const homeHref = base || './';
   return `<header class="site-header">
   <div class="container site-header__inner">
-  <a class="brand brand--logo" href="../"><img src="../images/logo-bpce.jpg" alt="BPCE Finances &amp; Territoires"></a>
+  <a class="brand brand--logo" href="${homeHref}"><img src="${base}images/logo-bpce.jpg" alt="BPCE Finances &amp; Territoires"></a>
   <button type="button" class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span><span></span></button>
-  <nav class="main-nav">${navDropdown('Expertises et Solutions', EXPERTISES_MENU, '../')}
-    <a href="../les-reussites-de-nos-clients/">Réussites</a>${navDropdown('Qui sommes-nous ?', QUI_SOMMES_NOUS_MENU, '../')}
-    <a class="btn-nav-cta btn-nav-cta--mobile" href="../contact/">Contactez-nous</a>
+  <nav class="main-nav">${navDropdown('Expertises et Solutions', filterExpertisesMenu(expertises), base)}
+    <a href="${base}les-reussites-de-nos-clients/">Réussites</a>${navDropdown('Qui sommes-nous ?', QUI_SOMMES_NOUS_MENU, base)}
+    <a class="btn-nav-cta btn-nav-cta--mobile" href="${base}contact/">Contactez-nous</a>
   </nav>
-  <a class="btn-nav-cta" href="../contact/">Contactez-nous</a>
+  <a class="btn-nav-cta" href="${base}contact/">Contactez-nous</a>
   </div>
 </header>`;
 }
 
-export function footer() {
+const FOOTER_EXPERTISE_LINKS = [
+  ['detections-des-opportunites', 'Détection'],
+  ['mobilisation-des-aides', 'Mobilisation'],
+  ['fonds-de-dotation-mecenat-local', 'Mécénat &amp; Fundraising'],
+  ['nos-formations', 'Formations'],
+  ['optimaides-subventions', 'Optim Aides &amp; Subventions'],
+];
+
+const FOOTER_SECTEUR_LINKS = [
+  ['collectivites-epci', 'Collectivité &amp; EPCI'],
+  ['etablissements-de-sante-publics-non-lucratifs', 'Santé non lucratif'],
+  ['structures-medico-sociales', 'Médico-Social &amp; Social'],
+  ['logement-social', 'Logement social'],
+  ['sdis-service-de-secours', 'SDIS &amp; Secours'],
+];
+
+export function footer(pages, base = '../') {
+  const hiddenSlugs = new Set((pages || []).filter(x => x.hidden).map(x => x.slug));
+  const expertiseItems = FOOTER_EXPERTISE_LINKS.filter(([slug]) => !hiddenSlugs.has(slug));
+  const secteurItems = FOOTER_SECTEUR_LINKS.filter(([slug]) => !hiddenSlugs.has(slug));
   return `<footer class="site-footer">
   <div class="container footer-top">
     <div class="footer-about">
@@ -281,31 +192,23 @@ export function footer() {
     <div class="footer-col">
       <h4>Expertises</h4>
       <ul>
-        <li><a href="../detections-des-opportunites/">Détection</a></li>
-        <li><a href="../mobilisation-des-aides/">Mobilisation</a></li>
-        <li><a href="../fonds-de-dotation-mecenat-local/">Mécénat &amp; Fundraising</a></li>
-        <li><a href="../nos-formations/">Formations</a></li>
-        <li><a href="../optimaides-subventions/">Optim Aides &amp; Subventions</a></li>
+        ${expertiseItems.map(([slug, label]) => `<li><a href="${base}${slug}/">${label}</a></li>`).join('\n        ')}
       </ul>
     </div>
     <div class="footer-col">
       <h4>Secteurs</h4>
       <ul>
-        <li><a href="../collectivites-epci/">Collectivité &amp; EPCI</a></li>
-        <li><a href="../etablissements-de-sante-publics-non-lucratifs/">Santé non lucratif</a></li>
-        <li><a href="../structures-medico-sociales/">Médico-Social &amp; Social</a></li>
-        <li><a href="../logement-social/">Logement social</a></li>
-        <li><a href="../sdis-service-de-secours/">SDIS &amp; Secours</a></li>
+        ${secteurItems.map(([slug, label]) => `<li><a href="${base}${slug}/">${label}</a></li>`).join('\n        ')}
       </ul>
     </div>
     <div class="footer-col">
       <h4>À propos</h4>
       <ul>
-        <li><a href="../finances-et-territoires/">Finances &amp; Territoires</a></li>
-        <li><a href="../les-reussites-de-nos-clients/">Réussites clients</a></li>
-        <li><a href="../evenements/">Événements</a></li>
-        <li><a href="../guide/">Guide pratique</a></li>
-        <li><a href="../contact/">Contact</a></li>
+        <li><a href="${base}finances-et-territoires/">Finances &amp; Territoires</a></li>
+        <li><a href="${base}les-reussites-de-nos-clients/">Réussites clients</a></li>
+        <li><a href="${base}evenements/">Événements</a></li>
+        <li><a href="${base}guide/">Guide pratique</a></li>
+        <li><a href="${base}contact/">Contact</a></li>
       </ul>
     </div>
   </div>
@@ -343,21 +246,21 @@ export function featureList(features) {
   <div class="feature-list">
     ${features.map((f, i) => `<div class="feature-list__item">
       <span class="feature-list__bullet">${i + 1}</span>
-      <h3>${f.title}</h3>
-      <p>${f.text}</p>
+      <h3>${escapeHtml(f.title)}</h3>
+      <p>${escapeHtml(f.text)}</p>
     </div>`).join('\n    ')}
   </div>`;
 }
 
 export function relatedGrid(p, pages, { excludeHub = false } = {}) {
-  let siblings = pages.filter(x => x.section === p.section && x.slug !== p.slug);
+  let siblings = pages.filter(x => x.section === p.section && x.slug !== p.slug && !x.hidden);
   if (excludeHub) siblings = siblings.filter(x => !x.isHub);
   if (!siblings.length) return '';
   return `
   <div class="container">
     <h2 class="section-title" style="text-align:left;">${SECTIONS[p.section].label}</h2>
     <div class="related-grid">
-      ${siblings.map(x => `<a class="related-card" href="../${x.slug}/">${x.title}</a>`).join('\n      ')}
+      ${siblings.map(x => `<a class="related-card" href="../${x.slug}/">${escapeHtml(x.title)}</a>`).join('\n      ')}
     </div>
   </div>`;
 }
@@ -374,8 +277,8 @@ export function pageBanner(slug) {
 export function renderExpertiseOrSecteur(p, pages) {
   return `<main class="container">
   <div class="page-hero">
-    <h1>${p.title}</h1>
-    <p class="lead">${p.lead}</p>
+    <h1>${escapeHtml(p.title)}</h1>
+    <p class="lead">${escapeHtml(p.lead)}</p>
     <a class="btn btn--site btn-primary" href="../contact/">Contactez-nous →</a>
   </div>${pageBanner(p.slug)}
   ${featureList(p.features)}
@@ -649,13 +552,13 @@ export function page(p, pages, events) {
 </head>
 <body>
 
-${header()}
+${header(pages)}
 
 ${breadcrumb(p)}
 
 ${render(p, pages, events)}
 
-${footer()}
+${footer(pages)}
 
 <script src="../nav.js" defer></script>
 </body>
@@ -663,8 +566,241 @@ ${footer()}
 `;
 }
 
-// Assemble la liste complète des pages à partir du socle statique + des
-// articles Guide (dynamiques, éditables depuis l'admin).
-export function buildPages(guideArticles) {
-  return [...BASE_PAGES, ...(guideArticles || [])];
+// --- Page d'accueil ---
+// Comme les autres pages, la maquette elle-même reste statique (elle a été
+// dessinée en dur, pas générée à partir d'un pool de contenu) — seuls les
+// trois champs de la section hero (titre, texte, bouton) sont éditables
+// depuis l'admin, échappés comme tout contenu venant de la saisie libre.
+
+export function renderHomepage(homepage, pages) {
+  const heroTitle = escapeHtml(homepage?.heroTitle || '');
+  const heroLead = escapeHtml(homepage?.heroLead || '');
+  const ctaLabel = escapeHtml(homepage?.ctaLabel || '');
+  return `<main>
+
+  <div class="hero-band">
+  <div class="container">
+  <section class="hero">
+    <div class="hero-card">
+      <span class="hero-card__mark"></span>
+      <h1>${heroTitle}</h1>
+      <p>${heroLead}</p>
+      <div>
+        <div class="hero-stat__value">1,2 Md€</div>
+        <div class="hero-stat__label">mobilisés pour nos clients</div>
+      </div>
+      <a class="btn btn--site btn-primary" href="finances-et-territoires/">${ctaLabel}</a>
+    </div>
+    <div class="photo-grid">
+      <div class="photo-tile photo-tile--big"><img src="images/banque-de-france.webp" alt="" loading="lazy" onerror="this.remove()"></div>
+      <div class="photo-tile photo-tile--tr1"><img src="images/reserve-or.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
+      <div class="photo-tile photo-tile--tr2"><img src="images/conseil-client.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
+      <div class="photo-tile photo-tile--bl"><img src="images/agence-bancaire.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
+      <div class="photo-tile photo-tile--br"><img src="images/paris-eiffel.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
+      <img class="photo-grid__avatar" src="images/handshake-contrat.webp" alt="" loading="lazy" onerror="this.remove()">
+    </div>
+  </section>
+  </div>
+  </div>
+
+  <section class="client-types-section">
+    <div class="container">
+    <div class="client-types">
+    <a class="client-type" href="entreprise/"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg></span>Entreprise</a>
+    <a class="client-type" href="collectivites-epci/"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5H3l9-5z"/><path d="M4 10h16"/><path d="M6 10v9M10 10v9M14 10v9M18 10v9"/><path d="M3 21h18"/></svg></span>Collectivité &amp; EPCI</a>
+    <a class="client-type" href="etablissements-de-sante-publics-non-lucratifs/"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span>Santé non lucratif</a>
+    <a class="client-type" href="structures-medico-sociales/"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.35-9.33-8.94C1.4 8.94 2.9 5.5 6.2 5.02 8.4 4.7 10.6 5.9 12 7.8c1.4-1.9 3.6-3.1 5.8-2.78 3.3.48 4.8 3.92 3.53 7.04C19 16.65 12 21 12 21z"/></svg></span>Médico-social</a>
+    <a class="client-type" href="entreprises-publiques-locales-epl/"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/><path d="M4 21h16"/></svg></span>Établ. Public Local</a>
+    <a class="client-type" href="logement-social/"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-6h4v6"/></svg></span>Logement social</a>
+    <a class="client-type" href="sdis-service-de-secours/"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s-5 5.5-5 10a5 5 0 0 0 10 0c0-2-1-3.5-2-4.5.3 1.5-.5 2.5-1.5 2.5-1.2 0-1.8-1-1.5-2.5A7 7 0 0 1 12 3z"/></svg></span>SDIS</a>
+    </div>
+    </div>
+  </section>
+
+  <div class="container">
+  <section id="expertises">
+    <div class="section-intro">
+      <h2 class="section-title">L'ingénierie financière pour mener à bien vos projets</h2>
+      <p class="section-intro__text">BPCE Finances &amp; Territoires vous accompagne dans <strong>l'identification</strong> et la <strong>mobilisation</strong> sécurisée des financements nécessaires à la réussite de vos projets, en alliant expertise, stratégie et efficacité opérationnelle. Dans un contexte où les <strong>financements publics et privés non-bancaires</strong> évoluent rapidement, il est essentiel de pouvoir compter sur un partenaire :</p>
+    </div>
+    <div class="cards-grid">
+      <article class="icon-card">
+        <span class="icon-card__badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg></span>
+        <h3>Expertise</h3>
+        <p>Des consultants alliant expertise territoriale et sectorielle, rompus à l'exercice de recherche de financement qui capitalisent sur des centaines de dossiers de demande montés.</p>
+      </article>
+      <article class="icon-card">
+        <span class="icon-card__badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.97 7.97 0 0 0 0-2l2-1.5-2-3.4-2.4 1a8 8 0 0 0-1.7-1L15 3h-4l-.3 2.4a8 8 0 0 0-1.7 1l-2.4-1-2 3.4L6.6 11a7.97 7.97 0 0 0 0 2l-2 1.5 2 3.4 2.4-1a8 8 0 0 0 1.7 1L9 21h4l.3-2.4a8 8 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6z"/></svg></span>
+        <h3>Adaptation</h3>
+        <p>Une approche sur mesure, adaptée à vos besoins et enjeux.</p>
+      </article>
+      <article class="icon-card">
+        <span class="icon-card__badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/><path d="M9 12.5l2 2 4-4.5"/></svg></span>
+        <h3>Sécurisation</h3>
+        <p>20 ans d'expertise dans la mobilisation de financements pour des projets à vocation publique, privée et associative. Un accompagnement complet, de la veille au suivi des financements obtenus.</p>
+      </article>
+    </div>
+  </section>
+  </div>
+
+  <section class="section--muted" id="reussites">
+    <div class="testimonial-band">
+      <div class="container">
+        <div class="testimonial-inner">
+          <span class="testimonial-quote-mark">"</span>
+          <div class="testimonial-card">
+            <span class="meta">Témoignages</span>
+            <blockquote>« Votre expertise et votre engagement ont été déterminants dans l'obtention des subventions accordées par l'Agence de l'eau et le Fonds Vert pour le réaménagement du parc Charles-de-Gaulle et de la Place Michelet. »</blockquote>
+            <cite>Julien Chambon — Maire</cite>
+          </div>
+        </div>
+        <div class="testimonial-footnote">Commune de Ricailles · 33 617 habitants (Insee 2022)</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+  <section>
+    <h2 class="section-title">Baromètre des aides &amp; subventions</h2>
+    <div class="stats-row">
+      <div><div class="stat-value">18 600</div><div class="stat-label">aides pour nos clients</div></div>
+      <div><div class="stat-value">10 000</div><div class="stat-label">aides publiques</div></div>
+      <div><div class="stat-value">8 600</div><div class="stat-label">aides privées</div></div>
+    </div>
+    <p class="stats-caption">Notre base référence plus de 18 600 dispositifs en métropole et DROM-COM, suivis par 20 experts.</p>
+  </section>
+  </div>
+
+  <section class="section--muted">
+    <div class="container">
+    <div class="section-header-row">
+      <div>
+        <h2 class="section-title">Guide</h2>
+        <p class="section-subtitle">Comprendre, anticiper et agir face aux évolutions du financement</p>
+      </div>
+      <a class="link-arrow" href="guide/">Voir le guide →</a>
+    </div>
+    ${renderHomepageGuideCarousel(pages)}
+    </div>
+  </section>
+
+  <div class="container">
+  <section id="qui-sommes-nous">
+    <h2 class="section-title">Valeurs et engagements</h2>
+    <div class="values-grid">
+      <div class="value-item">
+        <span class="value-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="16" cy="9" r="2.6"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/><path d="M14 20c.3-2.3 2-4 4.5-4"/></svg></span>
+        <h3>Engagement humain</h3>
+        <p>Un accompagnement sur mesure avec un consultant dédié, à l'écoute de vos besoins.</p>
+      </div>
+      <div class="value-item">
+        <span class="value-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg></span>
+        <h3>Impact et résultats</h3>
+        <p>La concrétisation de vos projets dans une approche responsable et durable.</p>
+      </div>
+      <div class="value-item">
+        <span class="value-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/><path d="M9 12.5l2 2 4-4.5"/></svg></span>
+        <h3>Excellence et fiabilité</h3>
+        <p>Une veille rigoureuse et une méthodologie éprouvée, au service de la qualité.</p>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <section class="section--muted">
+    <div class="container">
+    <h2 class="section-title">Partenaires</h2>
+    <div class="partners-row">
+      <img class="partner-logo" src="images/grant-thornton.png" alt="Grant Thornton" loading="lazy">
+      <img class="partner-logo" src="images/ecofinance-groupe.png" alt="Eco Finance Groupe" loading="lazy">
+      <img class="partner-logo" src="images/andsis.png" alt="ANDSIS" loading="lazy">
+    </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="cta-band">
+      <div>
+        <h3>Vous souhaitez mieux comprendre les aides possibles pour votre projet ?</h3>
+        <p>Contactez-nous pour un échange personnalisé sur vos besoins en financement.</p>
+      </div>
+      <a class="btn-cta-pill" href="contact/">Contactez-nous →</a>
+    </div>
+  </section>
+
+  <div class="container">
+  <section>
+    <h2 class="section-title">FAQ</h2>
+    <div class="faq-grid">
+      <div class="faq-item">Qu'est-ce que le financement public ?<span>›</span></div>
+      <div class="faq-item">Quelle est votre couverture géographique ?<span>›</span></div>
+      <div class="faq-item">Qu'entend-on par financement non bancaire ?<span>›</span></div>
+      <div class="faq-item">Comment se déroule le montage des dossiers ?<span>›</span></div>
+      <div class="faq-item">Comment fonctionne Optim Aides &amp; Subventions ?<span>›</span></div>
+      <div class="faq-item">Qu'est-ce qu'un outil SaaS ?<span>›</span></div>
+    </div>
+  </section>
+  </div>
+
+</main>`;
+}
+
+// Carousel Guide de la page d'accueil : rendu à partir des mêmes articles
+// que la page /guide/ (pas de copie figée), pour éviter tout risque de
+// divergence entre les deux quand l'admin ajoute/retire un article.
+function renderHomepageGuideCarousel(pages) {
+  const articles = (pages || []).filter(x => x.section === 'guide');
+  const slides = [];
+  for (let i = 0; i < articles.length; i += 3) slides.push(articles.slice(i, i + 3));
+  if (!slides.length) return '';
+  return `<div class="guide-carousel" id="guide-carousel">
+      <div class="guide-carousel__track">
+        ${slides.map((slide, si) => `<div class="cards-grid guide-carousel__slide${si === 0 ? ' is-active' : ''}">
+          ${slide.map((a, i) => `<article class="feature-card feature-card--guide">
+            <div class="feature-card__banner">
+              <img src="images/${GUIDE_PHOTOS[(si * 3 + i) % GUIDE_PHOTOS.length]}" alt="" loading="lazy" onerror="this.remove()">
+            </div>
+            <div class="feature-card__body">
+              <h3><a href="${a.slug}/" style="color:inherit;text-decoration:none;">${escapeHtml(a.title)}</a></h3>
+              <p>${escapeHtml(a.intro)}</p>
+            </div>
+          </article>`).join('\n          ')}
+        </div>`).join('\n        ')}
+      </div>
+      <div class="guide-carousel__dots">
+        ${slides.map((_, si) => `<button type="button" class="guide-carousel__dot${si === 0 ? ' is-active' : ''}" data-index="${si}" aria-label="Diapositive ${si + 1} sur ${slides.length}"></button>`).join('\n        ')}
+      </div>
+    </div>`;
+}
+
+export function homepagePage(homepage, pages) {
+  return `<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finances &amp; Territoires — ${escapeHtml(homepage?.heroTitle || '')}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/site.css">
+</head>
+<body>
+
+${header(pages, '')}
+
+${renderHomepage(homepage, pages)}
+
+${footer(pages, '')}
+<script src="nav.js" defer></script>
+<script src="guide-carousel.js" defer></script>
+</body>
+</html>
+`;
+}
+
+// Assemble la liste complète des pages à partir du socle statique protégé +
+// des trois contenus éditables depuis l'admin (Expertises, Secteurs, Guide).
+export function buildPages({ guideArticles, expertises, secteurs } = {}) {
+  return [...BASE_PAGES, ...(expertises || []), ...(secteurs || []), ...(guideArticles || [])];
 }

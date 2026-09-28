@@ -6,14 +6,21 @@
 import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { buildPages, page } from './templates.mjs';
+import { buildPages, page, homepagePage } from './templates.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
-const guideArticles = JSON.parse(readFileSync(join(ROOT, 'data/guide-articles.json'), 'utf8'));
-const events = JSON.parse(readFileSync(join(ROOT, 'data/evenements.json'), 'utf8'));
+function readJSON(relPath) {
+  return JSON.parse(readFileSync(join(ROOT, relPath), 'utf8'));
+}
 
-const PAGES = buildPages(guideArticles);
+const guideArticles = readJSON('data/guide-articles.json');
+const expertises = readJSON('data/expertises.json');
+const secteurs = readJSON('data/secteurs.json');
+const homepage = readJSON('data/homepage.json');
+const events = readJSON('data/evenements.json');
+
+const PAGES = buildPages({ guideArticles, expertises, secteurs });
 
 for (const p of PAGES) {
   const dir = join(ROOT, p.slug);
@@ -21,4 +28,6 @@ for (const p of PAGES) {
   writeFileSync(join(dir, 'index.html'), page(p, PAGES, events));
 }
 
-console.log(`Généré ${PAGES.length} pages.`);
+writeFileSync(join(ROOT, 'index.html'), homepagePage(homepage, PAGES));
+
+console.log(`Généré ${PAGES.length} pages + la page d'accueil.`);

@@ -1,11 +1,16 @@
 import { config } from './config.js';
-import { buildPages, page } from '../scripts/templates.mjs';
+import { buildPages, page, homepagePage } from '../scripts/templates.mjs';
 
 let state = null;
 
+const RESOURCE_KINDS = {
+  expertises: { key: 'expertises', section: 'expertise', type: 'expertise', tabLabel: 'Expertises', itemNoun: 'cette page' },
+  secteurs: { key: 'secteurs', section: 'secteur', type: 'secteur', tabLabel: 'Secteurs', itemNoun: 'cette page' },
+};
+
 function slugify(str) {
   return String(str || '')
-    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9]+/g, '-')
@@ -27,23 +32,28 @@ async function fetchJSON(path) {
 export async function mountAdmin(root, { user, credentials, signOut }) {
   state = {
     user, credentials,
-    guideArticles: [],
-    events: [],
-    originalGuideSlugs: new Set(),
-    view: { tab: 'guide' },
+    guideArticles: [], events: [], expertises: [], secteurs: [], homepage: {},
+    originalPageSlugs: new Set(),
+    view: { tab: 'accueil' },
     dirty: false,
   };
 
   root.innerHTML = `<div class="admin-shell"><p>Chargement des données…</p></div>`;
 
   try {
-    const [guideArticles, events] = await Promise.all([
+    const [guideArticles, events, expertises, secteurs, homepage] = await Promise.all([
       fetchJSON('data/guide-articles.json'),
       fetchJSON('data/evenements.json'),
+      fetchJSON('data/expertises.json'),
+      fetchJSON('data/secteurs.json'),
+      fetchJSON('data/homepage.json'),
     ]);
     state.guideArticles = guideArticles;
     state.events = events;
-    state.originalGuideSlugs = new Set(guideArticles.map(a => a.slug));
+    state.expertises = expertises;
+    state.secteurs = secteurs;
+    state.homepage = homepage;
+    state.originalPageSlugs = new Set([...guideArticles, ...expertises, ...secteurs].map(x => x.slug));
   } catch (err) {
     root.innerHTML = `<div class="admin-shell"><p class="admin-error">Erreur de chargement : ${escapeHtml(err.message)}</p></div>`;
     return;
@@ -51,6 +61,14 @@ export async function mountAdmin(root, { user, credentials, signOut }) {
 
   render(root, signOut);
 }
+
+const TABS = [
+  { id: 'accueil', label: () => 'Accueil' },
+  { id: 'expertises', label: () => `Expertises (${state.expertises.length})` },
+  { id: 'secteurs', label: () => `Secteurs (${state.secteurs.length})` },
+  { id: 'guide', label: () => `Guide (${state.guideArticles.length})` },
+  { id: 'evenements', label: () => `Événements (${state.events.length})` },
+];
 
 function render(root, signOut) {
   root.innerHTML = `
@@ -65,8 +83,7 @@ function render(root, signOut) {
       </header>
       <p id="publish-status" class="admin-status"></p>
       <nav class="admin-tabs">
-        <button class="admin-tab${state.view.tab === 'guide' ? ' is-active' : ''}" data-tab="guide">Guide (${state.guideArticles.length})</button>
-        <button class="admin-tab${state.view.tab === 'evenements' ? ' is-active' : ''}" data-tab="evenements">Événements (${state.events.length})</button>
+        ${TABS.map(t => `<button class="admin-tab${state.view.tab === t.id ? ' is-active' : ''}" data-tab="${t.id}">${t.label()}</button>`).join('')}
       </nav>
       <div id="tab-content"></div>
     </div>`;
@@ -82,13 +99,178 @@ function render(root, signOut) {
   updateDirtyBadge();
 
   const content = document.getElementById('tab-content');
-  if (state.view.tab === 'guide') renderGuideList(content, root, signOut);
+  if (state.view.tab === 'accueil') renderHomepageForm(content);
+  else if (state.view.tab === 'expertises') renderResourceList(RESOURCE_KINDS.expertises, content, root, signOut);
+  else if (state.view.tab === 'secteurs') renderResourceList(RESOURCE_KINDS.secteurs, content, root, signOut);
+  else if (state.view.tab === 'guide') renderGuideList(content, root, signOut);
   else renderEventsList(content, root, signOut);
 }
 
 function updateDirtyBadge() {
   const badge = document.getElementById('dirty-badge');
   if (badge) badge.hidden = !state.dirty;
+}
+
+// ---------- Onglet Accueil ----------
+
+function renderHomepageForm(content) {
+  const h = state.homepage;
+  content.innerHTML = `
+    <form class="admin-form" id="homepage-form">
+      <h2>Page d'accueil</h2>
+      <label>Titre (bandeau principal)
+        <input type="text" id="f-hero-title" value="${escapeHtml(h.heroTitle)}" required>
+      </label>
+      <label>Texte sous le titre
+        <textarea id="f-hero-lead" rows="3" required>${escapeHtml(h.heroLead)}</textarea>
+      </label>
+      <label>Texte du bouton
+        <input type="text" id="f-cta-label" value="${escapeHtml(h.ctaLabel)}" required>
+      </label>
+      <div class="admin-form__actions">
+        <button type="submit" class="btn btn--site btn-primary">Enregistrer</button>
+      </div>
+    </form>`;
+
+  document.getElementById('homepage-form').addEventListener('submit', e => {
+    e.preventDefault();
+    state.homepage = {
+      heroTitle: document.getElementById('f-hero-title').value,
+      heroLead: document.getElementById('f-hero-lead').value,
+      ctaLabel: document.getElementById('f-cta-label').value,
+    };
+    state.dirty = true;
+    updateDirtyBadge();
+  });
+}
+
+// ---------- Onglets Expertises / Secteurs (partagés) ----------
+
+function renderResourceList(kind, content, root, signOut) {
+  const items = state[kind.key];
+  content.innerHTML = `
+    <div class="admin-list-header">
+      <button id="new-resource" class="btn btn--site btn-primary">+ Nouvelle page</button>
+    </div>
+    <div class="admin-list">
+      ${items.map(x => `
+        <div class="admin-list-item">
+          <div>
+            <strong>${escapeHtml(x.title)}</strong>${x.hidden ? ' <span class="admin-badge">Masqué</span>' : ''}
+            <div class="admin-list-item__meta">/${escapeHtml(x.slug)}/</div>
+          </div>
+          <div class="admin-list-item__actions">
+            <button class="btn" data-edit="${escapeHtml(x.slug)}">Modifier</button>
+            <button class="btn btn--danger" data-delete="${escapeHtml(x.slug)}">Supprimer</button>
+          </div>
+        </div>`).join('') || '<p class="admin-empty">Aucune page pour le moment.</p>'}
+    </div>`;
+
+  document.getElementById('new-resource').addEventListener('click', () => renderResourceForm(kind, content, root, signOut, null));
+  content.querySelectorAll('[data-edit]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = state[kind.key].find(x => x.slug === btn.dataset.edit);
+      renderResourceForm(kind, content, root, signOut, item);
+    });
+  });
+  content.querySelectorAll('[data-delete]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!confirm(`Supprimer ${kind.itemNoun} (${btn.dataset.delete}) ? La suppression ne sera effective qu'après publication.`)) return;
+      state[kind.key] = state[kind.key].filter(x => x.slug !== btn.dataset.delete);
+      state.dirty = true;
+      render(root, signOut);
+    });
+  });
+}
+
+function renderResourceForm(kind, content, root, signOut, item) {
+  const isNew = !item;
+  const draft = item
+    ? JSON.parse(JSON.stringify(item))
+    : { slug: '', title: '', section: kind.section, type: kind.type, hidden: false, lead: '', features: [{ title: '', text: '' }] };
+
+  function paint() {
+    content.innerHTML = `
+      <form class="admin-form" id="resource-form">
+        <h2>${isNew ? 'Nouvelle page' : 'Modifier la page'}</h2>
+        <label>Titre
+          <input type="text" id="f-title" value="${escapeHtml(draft.title)}" required>
+        </label>
+        <label>Slug (URL)
+          <input type="text" id="f-slug" value="${escapeHtml(draft.slug)}" required pattern="[a-z0-9-]+">
+        </label>
+        <label>Texte d'introduction
+          <textarea id="f-lead" rows="3" required>${escapeHtml(draft.lead)}</textarea>
+        </label>
+        <label style="flex-direction:row;align-items:center;gap:8px;">
+          <input type="checkbox" id="f-hidden" ${draft.hidden ? 'checked' : ''} style="width:auto;">
+          Masquer dans la navigation (menu, footer, pages liées) — la page reste accessible par son lien direct
+        </label>
+        <h3>Points clés</h3>
+        <div id="f-features">
+          ${draft.features.map((f, i) => `
+            <div class="admin-body-section" data-i="${i}">
+              <input type="text" class="f-feat-title" placeholder="Titre" value="${escapeHtml(f.title)}">
+              <textarea class="f-feat-text" rows="3" placeholder="Texte">${escapeHtml(f.text)}</textarea>
+              <button type="button" class="btn btn--danger" data-remove-feature="${i}">Retirer</button>
+            </div>`).join('')}
+        </div>
+        <button type="button" id="add-feature" class="btn">+ Ajouter un point</button>
+        <div class="admin-form__actions">
+          <button type="submit" class="btn btn--site btn-primary">Enregistrer</button>
+          <button type="button" id="cancel-form" class="btn">Annuler</button>
+        </div>
+      </form>`;
+
+    document.getElementById('f-title').addEventListener('input', e => {
+      draft.title = e.target.value;
+      if (isNew) {
+        draft.slug = slugify(draft.title);
+        document.getElementById('f-slug').value = draft.slug;
+      }
+    });
+    document.getElementById('f-slug').addEventListener('input', e => { draft.slug = slugify(e.target.value); });
+    document.getElementById('add-feature').addEventListener('click', () => {
+      syncFormToDraft();
+      draft.features.push({ title: '', text: '' });
+      paint();
+    });
+    content.querySelectorAll('[data-remove-feature]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        syncFormToDraft();
+        draft.features.splice(Number(btn.dataset.removeFeature), 1);
+        if (!draft.features.length) draft.features.push({ title: '', text: '' });
+        paint();
+      });
+    });
+    document.getElementById('cancel-form').addEventListener('click', () => renderResourceList(kind, content, root, signOut));
+    document.getElementById('resource-form').addEventListener('submit', e => {
+      e.preventDefault();
+      syncFormToDraft();
+      if (!draft.slug) { alert('Le slug est obligatoire.'); return; }
+      const clash = state[kind.key].find(x => x.slug === draft.slug && x !== item);
+      if (clash) { alert('Ce slug est déjà utilisé par une autre page.'); return; }
+      draft.features = draft.features.filter(f => f.title.trim() || f.text.trim());
+      if (!draft.features.length) draft.features = [{ title: '', text: '' }];
+      if (isNew) state[kind.key].push(draft);
+      else Object.assign(item, draft);
+      state.dirty = true;
+      renderResourceList(kind, content, root, signOut);
+      updateDirtyBadge();
+    });
+  }
+
+  function syncFormToDraft() {
+    draft.title = document.getElementById('f-title').value;
+    draft.slug = slugify(document.getElementById('f-slug').value);
+    draft.lead = document.getElementById('f-lead').value;
+    draft.hidden = document.getElementById('f-hidden').checked;
+    const titles = content.querySelectorAll('.f-feat-title');
+    const texts = content.querySelectorAll('.f-feat-text');
+    draft.features = Array.from(titles).map((t, i) => ({ title: t.value, text: texts[i].value }));
+  }
+
+  paint();
 }
 
 // ---------- Onglet Guide ----------
@@ -299,12 +481,16 @@ async function publish(root, signOut) {
     const { S3Client, PutObjectCommand, DeleteObjectCommand } = await import('https://cdn.jsdelivr.net/npm/@aws-sdk/client-s3@3/+esm');
     const s3 = new S3Client({ region: config.region, credentials: state.credentials });
 
-    const pages = buildPages(state.guideArticles);
-    const currentSlugs = new Set(state.guideArticles.map(a => a.slug));
-    const deletedSlugs = [...state.originalGuideSlugs].filter(s => !currentSlugs.has(s));
+    const pages = buildPages({
+      guideArticles: state.guideArticles,
+      expertises: state.expertises,
+      secteurs: state.secteurs,
+    });
+    const currentSlugs = new Set([...state.guideArticles, ...state.expertises, ...state.secteurs].map(x => x.slug));
+    const deletedSlugs = [...state.originalPageSlugs].filter(s => !currentSlugs.has(s));
 
     let done = 0;
-    const total = pages.length + 2 + deletedSlugs.length;
+    const total = pages.length + 1 /* index.html */ + 5 /* fichiers data/*.json */ + deletedSlugs.length;
     const tick = () => { statusEl.textContent = `Publication en cours… (${++done}/${total})`; };
 
     for (const p of pages) {
@@ -320,26 +506,35 @@ async function publish(root, signOut) {
 
     await s3.send(new PutObjectCommand({
       Bucket: config.bucket,
-      Key: 'data/guide-articles.json',
-      Body: JSON.stringify(state.guideArticles, null, 2),
-      ContentType: 'application/json',
+      Key: 'index.html',
+      Body: homepagePage(state.homepage, pages),
+      ContentType: 'text/html; charset=utf-8',
     }));
     tick();
 
-    await s3.send(new PutObjectCommand({
-      Bucket: config.bucket,
-      Key: 'data/evenements.json',
-      Body: JSON.stringify(state.events, null, 2),
-      ContentType: 'application/json',
-    }));
-    tick();
+    const dataFiles = {
+      'data/guide-articles.json': state.guideArticles,
+      'data/expertises.json': state.expertises,
+      'data/secteurs.json': state.secteurs,
+      'data/evenements.json': state.events,
+      'data/homepage.json': state.homepage,
+    };
+    for (const [key, value] of Object.entries(dataFiles)) {
+      await s3.send(new PutObjectCommand({
+        Bucket: config.bucket,
+        Key: key,
+        Body: JSON.stringify(value, null, 2),
+        ContentType: 'application/json',
+      }));
+      tick();
+    }
 
     for (const slug of deletedSlugs) {
       await s3.send(new DeleteObjectCommand({ Bucket: config.bucket, Key: `${slug}/index.html` }));
       tick();
     }
 
-    state.originalGuideSlugs = currentSlugs;
+    state.originalPageSlugs = currentSlugs;
     state.dirty = false;
     updateDirtyBadge();
 
