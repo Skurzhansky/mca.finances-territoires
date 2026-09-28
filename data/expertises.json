@@ -5,11 +5,21 @@
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
+    "image": "images/graphique-bourse.webp",
     "lead": "Nous identifions, en amont de vos projets, les dispositifs de financement — publics et privés — auxquels vous êtes éligible, pour ne laisser aucune opportunité de côté.",
     "features": [
-      { "title": "Veille active", "text": "Suivi de plus de 18 600 dispositifs (aides, subventions, appels à projets) en métropole et DROM-COM." },
-      { "title": "Analyse d'éligibilité", "text": "Croisement avec votre projet, votre secteur et votre territoire pour ne cibler que le pertinent." },
-      { "title": "Alertes ciblées", "text": "Notification dès l'ouverture d'un dispositif correspondant à votre structure." }
+      {
+        "title": "Veille active",
+        "text": "Suivi de plus de 18 600 dispositifs (aides, subventions, appels à projets) en métropole et DROM-COM."
+      },
+      {
+        "title": "Analyse d'éligibilité",
+        "text": "Croisement avec votre projet, votre secteur et votre territoire pour ne cibler que le pertinent."
+      },
+      {
+        "title": "Alertes ciblées",
+        "text": "Notification dès l'ouverture d'un dispositif correspondant à votre structure."
+      }
     ]
   },
   {
@@ -18,11 +28,21 @@
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
+    "image": "images/remise-billets.webp",
     "lead": "Une fois les dispositifs identifiés, nous vous accompagnons pour les mobiliser efficacement et sécuriser leur obtention.",
     "features": [
-      { "title": "Dépôt des dossiers", "text": "Constitution et dépôt des demandes dans le respect des exigences de chaque financeur." },
-      { "title": "Coordination", "text": "Interface avec les financeurs : État, Europe, collectivités, fondations." },
-      { "title": "Suivi jusqu’au versement", "text": "Suivi administratif jusqu'au versement effectif des fonds." }
+      {
+        "title": "Dépôt des dossiers",
+        "text": "Constitution et dépôt des demandes dans le respect des exigences de chaque financeur."
+      },
+      {
+        "title": "Coordination",
+        "text": "Interface avec les financeurs : État, Europe, collectivités, fondations."
+      },
+      {
+        "title": "Suivi jusqu’au versement",
+        "text": "Suivi administratif jusqu'au versement effectif des fonds."
+      }
     ]
   },
   {
@@ -31,11 +51,21 @@
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
+    "image": "images/conseil-client.jpg",
     "lead": "De la définition du plan de financement au dépôt final, nous prenons en charge le montage technique et administratif de vos dossiers.",
     "features": [
-      { "title": "Cadrage du projet", "text": "Construction du plan de financement adapté à votre projet." },
-      { "title": "Rédaction des dossiers", "text": "Conformité avec les attentes de chaque financeur sollicité." },
-      { "title": "Interface avec vos équipes", "text": "Coordination fluide à chaque étape du montage." }
+      {
+        "title": "Cadrage du projet",
+        "text": "Construction du plan de financement adapté à votre projet."
+      },
+      {
+        "title": "Rédaction des dossiers",
+        "text": "Conformité avec les attentes de chaque financeur sollicité."
+      },
+      {
+        "title": "Interface avec vos équipes",
+        "text": "Coordination fluide à chaque étape du montage."
+      }
     ]
   },
   {
@@ -44,11 +74,21 @@
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
+    "image": "images/banque-digitale-2.webp",
     "lead": "Recevez uniquement les opportunités de financement qui correspondent réellement à vos projets et à votre secteur.",
     "features": [
-      { "title": "Profil sur mesure", "text": "Veille configurée selon vos priorités et votre territoire." },
-      { "title": "Notifications ciblées", "text": "Alerte dès la publication d'un appel à projets pertinent." },
-      { "title": "Veille réglementaire", "text": "Suivi des évolutions impactant vos financements." }
+      {
+        "title": "Profil sur mesure",
+        "text": "Veille configurée selon vos priorités et votre territoire."
+      },
+      {
+        "title": "Notifications ciblées",
+        "text": "Alerte dès la publication d'un appel à projets pertinent."
+      },
+      {
+        "title": "Veille réglementaire",
+        "text": "Suivi des évolutions impactant vos financements."
+      }
     ]
   },
   {
@@ -57,11 +97,21 @@
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
+    "image": "images/coffre-fort.jpeg",
     "lead": "Après l'obtention d'un financement, nous vous aidons à en piloter le suivi jusqu'au solde final, pour sécuriser son versement.",
     "features": [
-      { "title": "Suivi des échéances", "text": "Justificatifs et conditions de versement suivis pas à pas." },
-      { "title": "Reporting financeurs", "text": "Gestion du reporting exigé par chaque dispositif." },
-      { "title": "Réduction du risque", "text": "Moins de risque de reversement ou de perte de la subvention." }
+      {
+        "title": "Suivi des échéances",
+        "text": "Justificatifs et conditions de versement suivis pas à pas."
+      },
+      {
+        "title": "Reporting financeurs",
+        "text": "Gestion du reporting exigé par chaque dispositif."
+      },
+      {
+        "title": "Réduction du risque",
+        "text": "Moins de risque de reversement ou de perte de la subvention."
+      }
     ]
   },
   {
@@ -70,11 +120,21 @@
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
+    "image": "images/handshake-contrat.webp",
     "lead": "Nous vous aidons à diversifier vos sources de financement en mobilisant le mécénat et les partenariats privés.",
     "features": [
-      { "title": "Stratégie de collecte", "text": "Structuration adaptée à votre projet et à votre territoire." },
-      { "title": "Approche des mécènes", "text": "Identification et sollicitation des entreprises partenaires." },
-      { "title": "Mise en œuvre", "text": "Accompagnement de vos campagnes de collecte." }
+      {
+        "title": "Stratégie de collecte",
+        "text": "Structuration adaptée à votre projet et à votre territoire."
+      },
+      {
+        "title": "Approche des mécènes",
+        "text": "Identification et sollicitation des entreprises partenaires."
+      },
+      {
+        "title": "Mise en œuvre",
+        "text": "Accompagnement de vos campagnes de collecte."
+      }
     ]
   },
   {
@@ -83,11 +143,21 @@
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
+    "image": "images/handshake-reunion.webp",
     "lead": "Nous vous accompagnons dans la création ou la relance d'un fonds de dotation pour mobiliser durablement le mécénat local.",
     "features": [
-      { "title": "Étude d'opportunité", "text": "Cadrage juridique et statutaire du fonds de dotation." },
-      { "title": "Gouvernance", "text": "Mise en œuvre des statuts et de la gouvernance." },
-      { "title": "Club de mécènes", "text": "Mobilisation des entreprises du territoire." }
+      {
+        "title": "Étude d'opportunité",
+        "text": "Cadrage juridique et statutaire du fonds de dotation."
+      },
+      {
+        "title": "Gouvernance",
+        "text": "Mise en œuvre des statuts et de la gouvernance."
+      },
+      {
+        "title": "Club de mécènes",
+        "text": "Mobilisation des entreprises du territoire."
+      }
     ]
   },
   {
@@ -96,11 +166,21 @@
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
+    "image": "images/reserve-or.jpg",
     "lead": "Nous identifions les fondations privées susceptibles de soutenir votre projet et vous accompagnons dans leur sollicitation.",
     "features": [
-      { "title": "Cartographie", "text": "Fondations alignées avec votre thématique et votre territoire." },
-      { "title": "Dossiers dédiés", "text": "Rédaction adaptée à chaque fondation sollicitée." },
-      { "title": "Relation durable", "text": "Mise en relation et suivi dans la durée." }
+      {
+        "title": "Cartographie",
+        "text": "Fondations alignées avec votre thématique et votre territoire."
+      },
+      {
+        "title": "Dossiers dédiés",
+        "text": "Rédaction adaptée à chaque fondation sollicitée."
+      },
+      {
+        "title": "Relation durable",
+        "text": "Mise en relation et suivi dans la durée."
+      }
     ]
   },
   {
@@ -109,11 +189,21 @@
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
+    "image": "images/agence-bancaire.jpg",
     "lead": "Nous formons vos équipes aux méthodes et outils du financement de projets, pour gagner en autonomie.",
     "features": [
-      { "title": "Modules pratiques", "text": "Recherche de financements, montage de dossiers, gestion des aides." },
-      { "title": "Formats adaptés", "text": "Présentiel, distanciel ou sur mesure selon vos besoins." },
-      { "title": "20 ans de pratique", "text": "Intervenants issus du financement territorial." }
+      {
+        "title": "Modules pratiques",
+        "text": "Recherche de financements, montage de dossiers, gestion des aides."
+      },
+      {
+        "title": "Formats adaptés",
+        "text": "Présentiel, distanciel ou sur mesure selon vos besoins."
+      },
+      {
+        "title": "20 ans de pratique",
+        "text": "Intervenants issus du financement territorial."
+      }
     ]
   },
   {
@@ -122,11 +212,21 @@
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
+    "image": "images/banque-digitale.webp",
     "lead": "Notre outil SaaS pour piloter en autonomie la détection et le suivi de vos aides et subventions.",
     "features": [
-      { "title": "Base de dispositifs", "text": "Plus de 18 600 dispositifs, mise à jour en continu." },
-      { "title": "Tableau de bord", "text": "Suivi des dossiers en cours, versés et des échéances à venir." },
-      { "title": "Alertes personnalisées", "text": "Selon votre secteur et votre territoire." }
+      {
+        "title": "Base de dispositifs",
+        "text": "Plus de 18 600 dispositifs, mise à jour en continu."
+      },
+      {
+        "title": "Tableau de bord",
+        "text": "Suivi des dossiers en cours, versés et des échéances à venir."
+      },
+      {
+        "title": "Alertes personnalisées",
+        "text": "Selon votre secteur et votre territoire."
+      }
     ]
   }
 ]

@@ -5,11 +5,21 @@
     "section": "secteur",
     "type": "secteur",
     "hidden": false,
+    "image": "images/banque-de-france.webp",
     "lead": "Communes, intercommunalités, départements, régions : nous sécurisons le financement de vos projets d'investissement et de transition.",
     "features": [
-      { "title": "Transition écologique", "text": "Rénovation énergétique et projets d'aménagement durable." },
-      { "title": "Équipements publics", "text": "Aménagement urbain et équipements de proximité." },
-      { "title": "Financements croisés", "text": "Europe, État, région : construction de plans de financement multi-partenaires." }
+      {
+        "title": "Transition écologique",
+        "text": "Rénovation énergétique et projets d'aménagement durable."
+      },
+      {
+        "title": "Équipements publics",
+        "text": "Aménagement urbain et équipements de proximité."
+      },
+      {
+        "title": "Financements croisés",
+        "text": "Europe, État, région : construction de plans de financement multi-partenaires."
+      }
     ]
   },
   {
@@ -18,11 +28,21 @@
     "section": "secteur",
     "type": "secteur",
     "hidden": false,
+    "image": "images/conseil-client.jpg",
     "lead": "Établissements de santé à but non lucratif : nous vous aidons à financer vos projets d'investissement et de modernisation.",
     "features": [
-      { "title": "Modernisation", "text": "Équipements et infrastructures de soin." },
-      { "title": "Financements dédiés", "text": "Agence régionale de santé (ARS) et fonds spécialisés." },
-      { "title": "Mécénat santé", "text": "Fondations et mécènes sensibles aux enjeux de santé." }
+      {
+        "title": "Modernisation",
+        "text": "Équipements et infrastructures de soin."
+      },
+      {
+        "title": "Financements dédiés",
+        "text": "Agence régionale de santé (ARS) et fonds spécialisés."
+      },
+      {
+        "title": "Mécénat santé",
+        "text": "Fondations et mécènes sensibles aux enjeux de santé."
+      }
     ]
   },
   {
@@ -31,11 +51,21 @@
     "section": "secteur",
     "type": "secteur",
     "hidden": false,
+    "image": "images/handshake-reunion.webp",
     "lead": "EHPAD, établissements médico-sociaux, structures sociales : nous mobilisons les financements adaptés à vos projets.",
     "features": [
-      { "title": "Autonomie et grand âge", "text": "Dispositifs dédiés au vieillissement et au handicap." },
-      { "title": "Mise aux normes", "text": "Rénovation et mise en conformité des établissements." },
-      { "title": "Financeurs sociaux", "text": "Conseils départementaux et ARS." }
+      {
+        "title": "Autonomie et grand âge",
+        "text": "Dispositifs dédiés au vieillissement et au handicap."
+      },
+      {
+        "title": "Mise aux normes",
+        "text": "Rénovation et mise en conformité des établissements."
+      },
+      {
+        "title": "Financeurs sociaux",
+        "text": "Conseils départementaux et ARS."
+      }
     ]
   },
   {
@@ -44,11 +74,21 @@
     "section": "secteur",
     "type": "secteur",
     "hidden": false,
+    "image": "images/paris-eiffel.jpg",
     "lead": "Bailleurs sociaux : nous vous accompagnons dans le financement de vos opérations de construction et de rénovation.",
     "features": [
-      { "title": "Rénovation énergétique", "text": "Financement de la rénovation du parc social." },
-      { "title": "Action Logement", "text": "Éco-prêts et dispositifs dédiés au logement social." },
-      { "title": "Plans multi-partenaires", "text": "Montage de plans de financement combinant plusieurs financeurs." }
+      {
+        "title": "Rénovation énergétique",
+        "text": "Financement de la rénovation du parc social."
+      },
+      {
+        "title": "Action Logement",
+        "text": "Éco-prêts et dispositifs dédiés au logement social."
+      },
+      {
+        "title": "Plans multi-partenaires",
+        "text": "Montage de plans de financement combinant plusieurs financeurs."
+      }
     ]
   },
   {
@@ -57,11 +97,21 @@
     "section": "secteur",
     "type": "secteur",
     "hidden": false,
+    "image": "images/coffre-fort.jpeg",
     "lead": "Services départementaux d'incendie et de secours : nous identifions les financements adaptés à vos équipements et infrastructures.",
     "features": [
-      { "title": "Casernes et équipements", "text": "Financement des infrastructures opérationnelles." },
-      { "title": "Sécurité civile", "text": "Fonds dédiés à la sécurité civile." },
-      { "title": "Montage de dossiers", "text": "Auprès des financeurs publics compétents." }
+      {
+        "title": "Casernes et équipements",
+        "text": "Financement des infrastructures opérationnelles."
+      },
+      {
+        "title": "Sécurité civile",
+        "text": "Fonds dédiés à la sécurité civile."
+      },
+      {
+        "title": "Montage de dossiers",
+        "text": "Auprès des financeurs publics compétents."
+      }
     ]
   },
   {
@@ -70,11 +120,21 @@
     "section": "secteur",
     "type": "secteur",
     "hidden": false,
+    "image": "images/agence-bancaire.jpg",
     "lead": "Promoteurs et opérateurs immobiliers : nous identifions les aides mobilisables sur vos opérations.",
     "features": [
-      { "title": "Rénovation énergétique", "text": "Financement de la performance énergétique des bâtiments." },
-      { "title": "Aides à la construction", "text": "Dispositifs d'aménagement et de construction." },
-      { "title": "Partenaires dédiés", "text": "Collectivités et ANAH." }
+      {
+        "title": "Rénovation énergétique",
+        "text": "Financement de la performance énergétique des bâtiments."
+      },
+      {
+        "title": "Aides à la construction",
+        "text": "Dispositifs d'aménagement et de construction."
+      },
+      {
+        "title": "Partenaires dédiés",
+        "text": "Collectivités et ANAH."
+      }
     ]
   },
   {
@@ -83,11 +143,21 @@
     "section": "secteur",
     "type": "secteur",
     "hidden": false,
+    "image": "images/banque-de-france.webp",
     "lead": "SEM, SPL, SEMOP : nous accompagnons les entreprises publiques locales dans le financement de leurs projets d'intérêt général.",
     "features": [
-      { "title": "Financements adaptés", "text": "Dispositifs non bancaires adaptés au statut EPL." },
-      { "title": "Partenaires publics et privés", "text": "Montage de dossiers auprès de financeurs mixtes." },
-      { "title": "Plans pluriannuels", "text": "Sécurisation des plans de financement dans la durée." }
+      {
+        "title": "Financements adaptés",
+        "text": "Dispositifs non bancaires adaptés au statut EPL."
+      },
+      {
+        "title": "Partenaires publics et privés",
+        "text": "Montage de dossiers auprès de financeurs mixtes."
+      },
+      {
+        "title": "Plans pluriannuels",
+        "text": "Sécurisation des plans de financement dans la durée."
+      }
     ]
   },
   {
@@ -96,11 +166,21 @@
     "section": "secteur",
     "type": "secteur",
     "hidden": false,
+    "image": "images/banque-digitale.webp",
     "lead": "Établissements publics et institutions : nous vous aidons à mobiliser les financements adaptés à vos missions.",
     "features": [
-      { "title": "Dispositifs dédiés", "text": "Identification des aides propres au secteur public." },
-      { "title": "Montage et suivi", "text": "Accompagnement de bout en bout des dossiers." },
-      { "title": "Veille réglementaire", "text": "Suivi des appels à projets et de leurs évolutions." }
+      {
+        "title": "Dispositifs dédiés",
+        "text": "Identification des aides propres au secteur public."
+      },
+      {
+        "title": "Montage et suivi",
+        "text": "Accompagnement de bout en bout des dossiers."
+      },
+      {
+        "title": "Veille réglementaire",
+        "text": "Suivi des appels à projets et de leurs évolutions."
+      }
     ]
   },
   {
@@ -109,11 +189,21 @@
     "section": "secteur",
     "type": "secteur",
     "hidden": false,
+    "image": "images/reserve-or.jpg",
     "lead": "Une expertise transverse au service de l'ensemble des acteurs du secteur public, de la collectivité à l'établissement public.",
     "features": [
-      { "title": "Vision transverse", "text": "Collectivités, EPCI et établissements publics." },
-      { "title": "Ingénierie financière", "text": "Adaptée aux règles de la commande publique." },
-      { "title": "20 ans d’expérience", "text": "Une pratique éprouvée du financement territorial." }
+      {
+        "title": "Vision transverse",
+        "text": "Collectivités, EPCI et établissements publics."
+      },
+      {
+        "title": "Ingénierie financière",
+        "text": "Adaptée aux règles de la commande publique."
+      },
+      {
+        "title": "20 ans d’expérience",
+        "text": "Une pratique éprouvée du financement territorial."
+      }
     ]
   }
 ]

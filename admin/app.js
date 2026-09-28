@@ -10,7 +10,7 @@ const RESOURCE_KINDS = {
 
 function slugify(str) {
   return String(str || '')
-    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9]+/g, '-')
@@ -25,6 +25,53 @@ async function fetchJSON(path) {
   const res = await fetch(`${config.siteUrl}/${path}?t=${Date.now()}`, { cache: 'no-store' });
   if (!res.ok) throw new Error(`Impossible de charger ${path} (${res.status})`);
   return res.json();
+}
+
+// ---------- Upload de photos ----------
+// Les fichiers choisis ne sont envoyés à S3 qu'au moment de « Publier » —
+// on les garde ici en mémoire, prêts à être uploadés.
+const pendingUploads = new Map(); // clé S3 -> File
+
+function extOf(file) {
+  const m = /\.([a-zA-Z0-9]+)$/.exec(file.name);
+  return m ? m[1].toLowerCase() : 'jpg';
+}
+
+function previewUrlFor(key) {
+  if (!key) return '';
+  if (pendingUploads.has(key)) return URL.createObjectURL(pendingUploads.get(key));
+  return `${config.siteUrl}/${key}`;
+}
+
+// id : préfixe unique pour les éléments DOM de ce champ.
+// label : texte affiché à côté de l'aperçu.
+// key : clé S3 actuelle de la photo (peut être vide/absente).
+function photoFieldHtml(id, label, key) {
+  return `<div class="admin-photo-field">
+    <img id="${id}-preview" src="${escapeHtml(previewUrlFor(key))}" alt="" onerror="this.style.visibility='hidden'">
+    <div class="admin-photo-field__info">
+      <span>${escapeHtml(label)}</span>
+      <input type="file" id="${id}-input" accept="image/*">
+    </div>
+  </div>`;
+}
+
+// computeKey(ext) : calcule la clé S3 définitive pour le fichier choisi.
+// onSelected(key) : appelé après sélection, pour que l'appelant mette à
+// jour son brouillon avec la nouvelle clé.
+function wirePhotoField(id, computeKey, onSelected) {
+  const input = document.getElementById(`${id}-input`);
+  if (!input) return;
+  input.addEventListener('change', () => {
+    const file = input.files[0];
+    if (!file) return;
+    const key = computeKey(extOf(file));
+    pendingUploads.set(key, file);
+    const preview = document.getElementById(`${id}-preview`);
+    preview.src = URL.createObjectURL(file);
+    preview.style.visibility = '';
+    onSelected(key);
+  });
 }
 
 // ---------- Point d'entrée ----------
@@ -54,6 +101,7 @@ export async function mountAdmin(root, { user, credentials, signOut }) {
     state.secteurs = secteurs;
     state.homepage = homepage;
     state.originalPageSlugs = new Set([...guideArticles, ...expertises, ...secteurs].map(x => x.slug));
+    state.originalPartnerImages = new Set((homepage.partners || []).map(p => p.image).filter(Boolean));
   } catch (err) {
     root.innerHTML = `<div class="admin-shell"><p class="admin-error">Erreur de chargement : ${escapeHtml(err.message)}</p></div>`;
     return;
@@ -112,36 +160,232 @@ function updateDirtyBadge() {
 }
 
 // ---------- Onglet Accueil ----------
+// Un seul grand formulaire, organisé en sections repliables (<details>) pour
+// rester lisible malgré le nombre de champs — chaque section correspond à
+// un bloc visible de la page d'accueil, dans l'ordre où il apparaît.
 
 function renderHomepageForm(content) {
-  const h = state.homepage;
-  content.innerHTML = `
-    <form class="admin-form" id="homepage-form">
-      <h2>Page d'accueil</h2>
-      <label>Titre (bandeau principal)
-        <input type="text" id="f-hero-title" value="${escapeHtml(h.heroTitle)}" required>
-      </label>
-      <label>Texte sous le titre
-        <textarea id="f-hero-lead" rows="3" required>${escapeHtml(h.heroLead)}</textarea>
-      </label>
-      <label>Texte du bouton
-        <input type="text" id="f-cta-label" value="${escapeHtml(h.ctaLabel)}" required>
-      </label>
-      <div class="admin-form__actions">
-        <button type="submit" class="btn btn--site btn-primary">Enregistrer</button>
-      </div>
-    </form>`;
+  const draft = JSON.parse(JSON.stringify(state.homepage));
+  // Garantit que les tableaux à taille fixe ont bien 3 entrées, même sur
+  // d'anciennes données incomplètes.
+  const fill3 = (arr, empty) => { arr = arr || []; while (arr.length < 3) arr.push({ ...empty }); return arr.slice(0, 3); };
+  draft.introCards = fill3(draft.introCards, { title: '', text: '' });
+  draft.stats = fill3(draft.stats, { value: '', label: '' });
+  draft.values = fill3(draft.values, { title: '', text: '' });
+  draft.testimonial = draft.testimonial || { quote: '', cite: '', footnote: '' };
+  draft.heroPhotos = draft.heroPhotos || {};
+  draft.clientTypes = draft.clientTypes || [];
+  draft.partners = draft.partners || [];
+  draft.faq = draft.faq || [];
 
-  document.getElementById('homepage-form').addEventListener('submit', e => {
-    e.preventDefault();
-    state.homepage = {
-      heroTitle: document.getElementById('f-hero-title').value,
-      heroLead: document.getElementById('f-hero-lead').value,
-      ctaLabel: document.getElementById('f-cta-label').value,
-    };
-    state.dirty = true;
-    updateDirtyBadge();
-  });
+  function section(id, title, bodyHtml, open) {
+    return `<details class="admin-section"${open ? ' open' : ''}>
+      <summary>${escapeHtml(title)}</summary>
+      <div class="admin-section__body" id="${id}">${bodyHtml}</div>
+    </details>`;
+  }
+
+  function paint() {
+    content.innerHTML = `
+      <form class="admin-form" id="homepage-form">
+        <h2>Page d'accueil</h2>
+        <p class="admin-hint">Modifiez les sections qui vous intéressent, puis « Enregistrer » en bas — la publication effective se fait ensuite avec le bouton « Publier » en haut de page.</p>
+        <p id="homepage-save-status" class="admin-status admin-status--ok" style="margin:0;"></p>
+
+        ${section('sec-hero', 'Bandeau principal (hero)', `
+          <label>Titre
+            <input type="text" id="f-hero-title" value="${escapeHtml(draft.heroTitle)}" required>
+          </label>
+          <label>Texte sous le titre
+            <textarea id="f-hero-lead" rows="2" required>${escapeHtml(draft.heroLead)}</textarea>
+          </label>
+          <label>Texte du bouton
+            <input type="text" id="f-cta-label" value="${escapeHtml(draft.ctaLabel)}" required>
+          </label>
+          <div class="admin-form-row">
+            <label>Chiffre clé
+              <input type="text" id="f-hero-stat-value" value="${escapeHtml(draft.heroStatValue)}">
+            </label>
+            <label>Légende du chiffre
+              <input type="text" id="f-hero-stat-label" value="${escapeHtml(draft.heroStatLabel)}">
+            </label>
+          </div>
+          <h3>Photos (6 emplacements du collage)</h3>
+          ${photoFieldHtml('hero-big', 'Grande photo (gauche)', draft.heroPhotos.big)}
+          ${photoFieldHtml('hero-tr1', 'Photo en haut à droite (1)', draft.heroPhotos.tr1)}
+          ${photoFieldHtml('hero-tr2', 'Photo en haut à droite (2)', draft.heroPhotos.tr2)}
+          ${photoFieldHtml('hero-bl', 'Photo en bas à gauche', draft.heroPhotos.bl)}
+          ${photoFieldHtml('hero-br', 'Photo en bas à droite', draft.heroPhotos.br)}
+          ${photoFieldHtml('hero-avatar', 'Photo ronde (médaillon)', draft.heroPhotos.avatar)}
+        `, true)}
+
+        ${section('sec-clients', 'Types de clients (rangée d’icônes)', `
+          <p class="admin-hint">Libellés courts (l'icône et le lien restent fixes). Un type dont la page correspondante est masquée ou supprimée disparaîtra automatiquement de cette rangée.</p>
+          ${draft.clientTypes.map((ct, i) => `<label>${escapeHtml(ct.slug)}
+            <input type="text" class="f-ct-label" data-i="${i}" value="${escapeHtml(ct.label)}">
+          </label>`).join('')}
+        `, false)}
+
+        ${section('sec-intro', 'Bloc « ingénierie financière » (3 cartes)', `
+          <label>Titre du bloc
+            <input type="text" id="f-intro-title" value="${escapeHtml(draft.introTitle)}">
+          </label>
+          <label>Texte du bloc
+            <textarea id="f-intro-text" rows="3">${escapeHtml(draft.introText)}</textarea>
+          </label>
+          ${draft.introCards.map((c, i) => `<div class="admin-body-section">
+            <input type="text" class="f-card-title" data-i="${i}" placeholder="Titre de la carte" value="${escapeHtml(c.title)}">
+            <textarea class="f-card-text" data-i="${i}" rows="2" placeholder="Texte">${escapeHtml(c.text)}</textarea>
+          </div>`).join('')}
+        `, false)}
+
+        ${section('sec-testimonial', 'Témoignage', `
+          <label>Citation
+            <textarea id="f-test-quote" rows="3">${escapeHtml(draft.testimonial.quote)}</textarea>
+          </label>
+          <label>Auteur
+            <input type="text" id="f-test-cite" value="${escapeHtml(draft.testimonial.cite)}">
+          </label>
+          <label>Précision (sous le témoignage)
+            <input type="text" id="f-test-footnote" value="${escapeHtml(draft.testimonial.footnote)}">
+          </label>
+        `, false)}
+
+        ${section('sec-stats', 'Baromètre (statistiques)', `
+          <label>Titre du bloc
+            <input type="text" id="f-stats-title" value="${escapeHtml(draft.statsTitle)}">
+          </label>
+          ${draft.stats.map((s, i) => `<div class="admin-form-row">
+            <label>Chiffre ${i + 1}
+              <input type="text" class="f-stat-value" data-i="${i}" value="${escapeHtml(s.value)}">
+            </label>
+            <label>Légende ${i + 1}
+              <input type="text" class="f-stat-label" data-i="${i}" value="${escapeHtml(s.label)}">
+            </label>
+          </div>`).join('')}
+          <label>Légende générale
+            <input type="text" id="f-stats-caption" value="${escapeHtml(draft.statsCaption)}">
+          </label>
+        `, false)}
+
+        ${section('sec-values', 'Valeurs et engagements (3 items)', `
+          <label>Titre du bloc
+            <input type="text" id="f-values-title" value="${escapeHtml(draft.valuesTitle)}">
+          </label>
+          ${draft.values.map((v, i) => `<div class="admin-body-section">
+            <input type="text" class="f-value-title" data-i="${i}" placeholder="Titre" value="${escapeHtml(v.title)}">
+            <textarea class="f-value-text" data-i="${i}" rows="2" placeholder="Texte">${escapeHtml(v.text)}</textarea>
+          </div>`).join('')}
+        `, false)}
+
+        ${section('sec-partners', 'Partenaires (logos)', `
+          <label>Titre du bloc
+            <input type="text" id="f-partners-title" value="${escapeHtml(draft.partnersTitle)}">
+          </label>
+          <div id="f-partners-list">
+            ${draft.partners.map((p, i) => `<div class="admin-body-section" data-i="${i}">
+              ${photoFieldHtml(`partner-${i}`, `Logo ${i + 1}`, p.image)}
+              <input type="text" class="f-partner-alt" data-i="${i}" placeholder="Nom du partenaire" value="${escapeHtml(p.alt)}">
+              <button type="button" class="btn btn--danger" data-remove-partner="${i}">Retirer</button>
+            </div>`).join('')}
+          </div>
+          <button type="button" id="add-partner" class="btn">+ Ajouter un partenaire</button>
+        `, false)}
+
+        ${section('sec-faq', 'FAQ (questions)', `
+          <label>Titre du bloc
+            <input type="text" id="f-faq-title" value="${escapeHtml(draft.faqTitle)}">
+          </label>
+          <div id="f-faq-list">
+            ${draft.faq.map((q, i) => `<div class="admin-body-section" data-i="${i}">
+              <input type="text" class="f-faq-item" data-i="${i}" value="${escapeHtml(q)}">
+              <button type="button" class="btn btn--danger" data-remove-faq="${i}">Retirer</button>
+            </div>`).join('')}
+          </div>
+          <button type="button" id="add-faq" class="btn">+ Ajouter une question</button>
+        `, false)}
+
+        <div class="admin-form__actions">
+          <button type="submit" class="btn btn--site btn-primary">Enregistrer</button>
+        </div>
+      </form>`;
+
+    wirePhotoField('hero-big', ext => `images/uploads/homepage-hero-big.${ext}`, key => { draft.heroPhotos.big = key; });
+    wirePhotoField('hero-tr1', ext => `images/uploads/homepage-hero-tr1.${ext}`, key => { draft.heroPhotos.tr1 = key; });
+    wirePhotoField('hero-tr2', ext => `images/uploads/homepage-hero-tr2.${ext}`, key => { draft.heroPhotos.tr2 = key; });
+    wirePhotoField('hero-bl', ext => `images/uploads/homepage-hero-bl.${ext}`, key => { draft.heroPhotos.bl = key; });
+    wirePhotoField('hero-br', ext => `images/uploads/homepage-hero-br.${ext}`, key => { draft.heroPhotos.br = key; });
+    wirePhotoField('hero-avatar', ext => `images/uploads/homepage-hero-avatar.${ext}`, key => { draft.heroPhotos.avatar = key; });
+    draft.partners.forEach((p, i) => {
+      p._uid = p._uid || `p${Math.random().toString(36).slice(2, 8)}`;
+      wirePhotoField(`partner-${i}`, ext => `images/uploads/partner-${p._uid}.${ext}`, key => { p.image = key; });
+    });
+
+    document.getElementById('add-partner').addEventListener('click', () => {
+      syncFormToDraft();
+      draft.partners.push({ image: '', alt: '', _uid: `p${Math.random().toString(36).slice(2, 8)}` });
+      paint();
+    });
+    content.querySelectorAll('[data-remove-partner]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        syncFormToDraft();
+        draft.partners.splice(Number(btn.dataset.removePartner), 1);
+        paint();
+      });
+    });
+    document.getElementById('add-faq').addEventListener('click', () => {
+      syncFormToDraft();
+      draft.faq.push('');
+      paint();
+    });
+    content.querySelectorAll('[data-remove-faq]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        syncFormToDraft();
+        draft.faq.splice(Number(btn.dataset.removeFaq), 1);
+        paint();
+      });
+    });
+
+    document.getElementById('homepage-form').addEventListener('submit', e => {
+      e.preventDefault();
+      syncFormToDraft();
+      draft.partners = draft.partners.filter(p => p.image || p.alt.trim());
+      draft.faq = draft.faq.filter(q => q.trim());
+      state.homepage = draft;
+      state.dirty = true;
+      updateDirtyBadge();
+      document.getElementById('homepage-save-status').textContent = 'Enregistré localement — pensez à cliquer « Publier » en haut pour mettre le site à jour.';
+    });
+  }
+
+  function syncFormToDraft() {
+    draft.heroTitle = document.getElementById('f-hero-title').value;
+    draft.heroLead = document.getElementById('f-hero-lead').value;
+    draft.ctaLabel = document.getElementById('f-cta-label').value;
+    draft.heroStatValue = document.getElementById('f-hero-stat-value').value;
+    draft.heroStatLabel = document.getElementById('f-hero-stat-label').value;
+    content.querySelectorAll('.f-ct-label').forEach(el => { draft.clientTypes[Number(el.dataset.i)].label = el.value; });
+    draft.introTitle = document.getElementById('f-intro-title').value;
+    draft.introText = document.getElementById('f-intro-text').value;
+    content.querySelectorAll('.f-card-title').forEach(el => { draft.introCards[Number(el.dataset.i)].title = el.value; });
+    content.querySelectorAll('.f-card-text').forEach(el => { draft.introCards[Number(el.dataset.i)].text = el.value; });
+    draft.testimonial.quote = document.getElementById('f-test-quote').value;
+    draft.testimonial.cite = document.getElementById('f-test-cite').value;
+    draft.testimonial.footnote = document.getElementById('f-test-footnote').value;
+    draft.statsTitle = document.getElementById('f-stats-title').value;
+    content.querySelectorAll('.f-stat-value').forEach(el => { draft.stats[Number(el.dataset.i)].value = el.value; });
+    content.querySelectorAll('.f-stat-label').forEach(el => { draft.stats[Number(el.dataset.i)].label = el.value; });
+    draft.statsCaption = document.getElementById('f-stats-caption').value;
+    draft.valuesTitle = document.getElementById('f-values-title').value;
+    content.querySelectorAll('.f-value-title').forEach(el => { draft.values[Number(el.dataset.i)].title = el.value; });
+    content.querySelectorAll('.f-value-text').forEach(el => { draft.values[Number(el.dataset.i)].text = el.value; });
+    draft.partnersTitle = document.getElementById('f-partners-title').value;
+    content.querySelectorAll('.f-partner-alt').forEach(el => { draft.partners[Number(el.dataset.i)].alt = el.value; });
+    draft.faqTitle = document.getElementById('f-faq-title').value;
+    content.querySelectorAll('.f-faq-item').forEach(el => { draft.faq[Number(el.dataset.i)] = el.value; });
+  }
+
+  paint();
 }
 
 // ---------- Onglets Expertises / Secteurs (partagés) ----------
@@ -187,7 +431,7 @@ function renderResourceForm(kind, content, root, signOut, item) {
   const isNew = !item;
   const draft = item
     ? JSON.parse(JSON.stringify(item))
-    : { slug: '', title: '', section: kind.section, type: kind.type, hidden: false, lead: '', features: [{ title: '', text: '' }] };
+    : { slug: '', title: '', section: kind.section, type: kind.type, hidden: false, image: '', lead: '', features: [{ title: '', text: '' }] };
 
   function paint() {
     content.innerHTML = `
@@ -199,6 +443,7 @@ function renderResourceForm(kind, content, root, signOut, item) {
         <label>Slug (URL)
           <input type="text" id="f-slug" value="${escapeHtml(draft.slug)}" required pattern="[a-z0-9-]+">
         </label>
+        ${photoFieldHtml('resource-photo', 'Photo de bannière', draft.image)}
         <label>Texte d'introduction
           <textarea id="f-lead" rows="3" required>${escapeHtml(draft.lead)}</textarea>
         </label>
@@ -230,6 +475,7 @@ function renderResourceForm(kind, content, root, signOut, item) {
       }
     });
     document.getElementById('f-slug').addEventListener('input', e => { draft.slug = slugify(e.target.value); });
+    wirePhotoField('resource-photo', ext => `images/uploads/page-${draft.slug || 'nouvelle'}.${ext}`, key => { draft.image = key; });
     document.getElementById('add-feature').addEventListener('click', () => {
       syncFormToDraft();
       draft.features.push({ title: '', text: '' });
@@ -315,7 +561,7 @@ function renderArticleForm(content, root, signOut, article) {
   const isNew = !article;
   const draft = article
     ? JSON.parse(JSON.stringify(article))
-    : { slug: '', title: '', section: 'guide', type: 'article', intro: '', body: [['', '']] };
+    : { slug: '', title: '', section: 'guide', type: 'article', image: '', intro: '', body: [['', '']] };
 
   function paint() {
     content.innerHTML = `
@@ -327,6 +573,7 @@ function renderArticleForm(content, root, signOut, article) {
         <label>Slug (URL)
           <input type="text" id="f-slug" value="${escapeHtml(draft.slug)}" required pattern="[a-z0-9-]+">
         </label>
+        ${photoFieldHtml('article-photo', 'Photo de l’article', draft.image)}
         <label>Introduction (chapô)
           <textarea id="f-intro" rows="3" required>${escapeHtml(draft.intro)}</textarea>
         </label>
@@ -354,6 +601,7 @@ function renderArticleForm(content, root, signOut, article) {
       }
     });
     document.getElementById('f-slug').addEventListener('input', e => { draft.slug = slugify(e.target.value); });
+    wirePhotoField('article-photo', ext => `images/uploads/page-${draft.slug || 'nouvel-article'}.${ext}`, key => { draft.image = key; });
     document.getElementById('add-section').addEventListener('click', () => {
       syncFormToDraft();
       draft.body.push(['', '']);
@@ -489,9 +737,23 @@ async function publish(root, signOut) {
     const currentSlugs = new Set([...state.guideArticles, ...state.expertises, ...state.secteurs].map(x => x.slug));
     const deletedSlugs = [...state.originalPageSlugs].filter(s => !currentSlugs.has(s));
 
+    const currentPartnerImages = new Set((state.homepage.partners || []).map(p => p.image).filter(Boolean));
+    const deletedPartnerImages = [...state.originalPartnerImages].filter(k => !currentPartnerImages.has(k));
+
     let done = 0;
-    const total = pages.length + 1 /* index.html */ + 5 /* fichiers data/*.json */ + deletedSlugs.length;
+    const total = pages.length + 1 /* index.html */ + 5 /* fichiers data/*.json */
+      + deletedSlugs.length + pendingUploads.size + deletedPartnerImages.length;
     const tick = () => { statusEl.textContent = `Publication en cours… (${++done}/${total})`; };
+
+    for (const [key, file] of pendingUploads) {
+      await s3.send(new PutObjectCommand({
+        Bucket: config.bucket,
+        Key: key,
+        Body: file,
+        ContentType: file.type || 'application/octet-stream',
+      }));
+      tick();
+    }
 
     for (const p of pages) {
       const html = page(p, pages, state.events);
@@ -534,7 +796,14 @@ async function publish(root, signOut) {
       tick();
     }
 
+    for (const key of deletedPartnerImages) {
+      await s3.send(new DeleteObjectCommand({ Bucket: config.bucket, Key: key }));
+      tick();
+    }
+
+    pendingUploads.clear();
     state.originalPageSlugs = currentSlugs;
+    state.originalPartnerImages = currentPartnerImages;
     state.dirty = false;
     updateDirtyBadge();
 

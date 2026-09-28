@@ -30,39 +30,11 @@ export const BASE_PAGES = [
   { slug: 'contact', title: 'Contact', section: 'main', type: 'custom' },
   { slug: 'guide', title: 'Guide', section: 'main', type: 'custom' },
   { slug: 'evenements', title: 'Événements', section: 'main', type: 'custom' },
-  { slug: 'entreprise', title: 'Entreprise', section: 'secteur', type: 'custom' },
-  { slug: 'secteurs-dactivite', title: "Secteurs d'activité", section: 'secteur', type: 'secteur', isHub: true,
+  { slug: 'entreprise', title: 'Entreprise', section: 'secteur', type: 'custom', image: 'images/carte-calculatrice.jpg' },
+  { slug: 'secteurs-dactivite', title: "Secteurs d'activité", section: 'secteur', type: 'secteur', isHub: true, image: 'images/paris-eiffel.jpg',
     lead: "Une expertise territoriale et sectorielle : nous adaptons notre accompagnement aux enjeux propres à chaque type de structure.",
     features: [] },
 ];
-
-// Photo de couverture par page expertise/secteur (pool limité de photos réelles, réutilisées par thème).
-export const PAGE_IMAGE = {
-  'detections-des-opportunites': 'graphique-bourse.webp',
-  'mobilisation-des-aides': 'remise-billets.webp',
-  'montage-des-dossiers': 'conseil-client.jpg',
-  'veille-personnalisee': 'banque-digitale-2.webp',
-  'gestion-des-aides': 'coffre-fort.jpeg',
-  'fundraising': 'handshake-contrat.webp',
-  'fonds-de-dotation-mecenat-local': 'handshake-reunion.webp',
-  'recherche-de-fondations': 'reserve-or.jpg',
-  'nos-formations': 'agence-bancaire.jpg',
-  'optimaides-subventions': 'banque-digitale.webp',
-  'secteurs-dactivite': 'paris-eiffel.jpg',
-  'collectivites-epci': 'banque-de-france.webp',
-  'etablissements-de-sante-publics-non-lucratifs': 'conseil-client.jpg',
-  'structures-medico-sociales': 'handshake-reunion.webp',
-  'logement-social': 'paris-eiffel.jpg',
-  'sdis-service-de-secours': 'coffre-fort.jpeg',
-  'entreprise': 'carte-calculatrice.jpg',
-  'immobilier': 'agence-bancaire.jpg',
-  'entreprises-publiques-locales-epl': 'banque-de-france.webp',
-  'acteurs-public-institutions': 'banque-digitale.webp',
-  'secteur-public': 'reserve-or.jpg',
-};
-
-// Photos réutilisées pour les vignettes Guide (cycle, pool limité).
-export const GUIDE_PHOTOS = ['paris-eiffel.jpg', 'handshake-contrat.webp', 'banque-de-france.webp', 'handshake-reunion.webp'];
 
 // --- Gabarits partagés ---
 
@@ -267,11 +239,10 @@ export function relatedGrid(p, pages, { excludeHub = false } = {}) {
 
 // --- Rendu par type de page ---
 
-export function pageBanner(slug) {
-  const img = PAGE_IMAGE[slug];
-  if (!img) return '';
+export function pageBanner(p) {
+  if (!p.image) return '';
   return `
-  <div class="page-banner"><img src="../images/${img}" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>`;
+  <div class="page-banner"><img src="../${p.image}" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>`;
 }
 
 export function renderExpertiseOrSecteur(p, pages) {
@@ -280,7 +251,7 @@ export function renderExpertiseOrSecteur(p, pages) {
     <h1>${escapeHtml(p.title)}</h1>
     <p class="lead">${escapeHtml(p.lead)}</p>
     <a class="btn btn--site btn-primary" href="../contact/">Contactez-nous →</a>
-  </div>${pageBanner(p.slug)}
+  </div>${pageBanner(p)}
   ${featureList(p.features)}
 </main>
 ${p.section === 'expertise' ? relatedGrid(p, pages, { excludeHub: true }) : ''}
@@ -309,7 +280,7 @@ export function renderGuideHub(articles) {
   </div>
   <div class="cards-grid" style="grid-template-columns:repeat(3,1fr); margin-bottom:64px;">
     ${articles.map((a, i) => `<article class="feature-card feature-card--guide">
-      <div class="feature-card__banner"><img src="../images/${GUIDE_PHOTOS[i % GUIDE_PHOTOS.length]}" alt="" loading="lazy" onerror="this.remove()"></div>
+      <div class="feature-card__banner"><img src="../${a.image || 'images/paris-eiffel.jpg'}" alt="" loading="lazy" onerror="this.remove()"></div>
       <div class="feature-card__body">
         <h3><a href="../${a.slug}/" style="color:inherit;text-decoration:none;">${escapeHtml(a.title)}</a></h3>
         <p>${escapeHtml(a.intro)}</p>
@@ -358,7 +329,7 @@ export function renderCustom(p, pages, events) {
     <h1>Activez des leviers de financement et de partenariat pour vos projets à impact</h1>
     <p class="lead">Qu'il s'agisse de PME, d'ETI ou de grandes entreprises, de plus en plus d'acteurs économiques s'engagent sur leur territoire : transition écologique, innovation sociale, revitalisation des centres-bourgs, mécénat ou développement de projets collaboratifs. Ces initiatives peuvent bénéficier de financements publics, de soutiens privés, ou s'inscrire dans des partenariats stratégiques avec les collectivités.</p>
     <a class="btn btn--site btn-primary" href="../contact/">Contactez-nous →</a>
-  </div>${pageBanner(p.slug)}
+  </div>${pageBanner(p)}
 
   <div class="article-body" style="max-width:none;">
     <h2>Vos enjeux</h2>
@@ -567,15 +538,53 @@ ${footer(pages)}
 }
 
 // --- Page d'accueil ---
-// Comme les autres pages, la maquette elle-même reste statique (elle a été
-// dessinée en dur, pas générée à partir d'un pool de contenu) — seuls les
-// trois champs de la section hero (titre, texte, bouton) sont éditables
-// depuis l'admin, échappés comme tout contenu venant de la saisie libre.
+// Entièrement pilotée par data/homepage.json — texte, chiffres et photos.
+// Seules les icônes SVG dessinées à la main (types de clients, cartes
+// « Expertise/Adaptation/Sécurisation », valeurs) restent fixes dans le
+// gabarit : remplacer une icône vectorielle par une photo n'aurait pas de
+// sens visuel. Le libellé de chaque type de client est lu directement sur
+// la page secteur/entreprise correspondante (une seule source de vérité
+// pour ce nom, au lieu de le dupliquer ici) ; une entrée dont la page est
+// masquée ou supprimée disparaît simplement de la rangée.
+
+const CLIENT_TYPE_ICONS = {
+  'entreprise': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg>',
+  'collectivites-epci': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5H3l9-5z"/><path d="M4 10h16"/><path d="M6 10v9M10 10v9M14 10v9M18 10v9"/><path d="M3 21h18"/></svg>',
+  'etablissements-de-sante-publics-non-lucratifs': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>',
+  'structures-medico-sociales': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.35-9.33-8.94C1.4 8.94 2.9 5.5 6.2 5.02 8.4 4.7 10.6 5.9 12 7.8c1.4-1.9 3.6-3.1 5.8-2.78 3.3.48 4.8 3.92 3.53 7.04C19 16.65 12 21 12 21z"/></svg>',
+  'entreprises-publiques-locales-epl': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/><path d="M4 21h16"/></svg>',
+  'logement-social': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-6h4v6"/></svg>',
+  'sdis-service-de-secours': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s-5 5.5-5 10a5 5 0 0 0 10 0c0-2-1-3.5-2-4.5.3 1.5-.5 2.5-1.5 2.5-1.2 0-1.8-1-1.5-2.5A7 7 0 0 1 12 3z"/></svg>',
+};
+
+// Le libellé (court, choisi pour ce rang étroit) et l'ordre viennent de
+// homepage.clientTypes ; l'icône reste fixe par slug ; une entrée dont la
+// page cible est masquée ou supprimée disparaît de la rangée.
+function renderClientTypes(homepage, pages) {
+  return (homepage?.clientTypes || [])
+    .filter(ct => {
+      const page = (pages || []).find(p => p.slug === ct.slug);
+      return page && !page.hidden;
+    })
+    .map(ct => `<a class="client-type" href="${ct.slug}/"><span class="client-type__icon">${CLIENT_TYPE_ICONS[ct.slug] || ''}</span>${escapeHtml(ct.label)}</a>`)
+    .join('\n    ');
+}
+
+const INTRO_CARD_ICONS = [
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.97 7.97 0 0 0 0-2l2-1.5-2-3.4-2.4 1a8 8 0 0 0-1.7-1L15 3h-4l-.3 2.4a8 8 0 0 0-1.7 1l-2.4-1-2 3.4L6.6 11a7.97 7.97 0 0 0 0 2l-2 1.5 2 3.4 2.4-1a8 8 0 0 0 1.7 1L9 21h4l.3-2.4a8 8 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6z"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/><path d="M9 12.5l2 2 4-4.5"/></svg>',
+];
+
+const VALUE_ICONS = [
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="16" cy="9" r="2.6"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/><path d="M14 20c.3-2.3 2-4 4.5-4"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/><path d="M9 12.5l2 2 4-4.5"/></svg>',
+];
 
 export function renderHomepage(homepage, pages) {
-  const heroTitle = escapeHtml(homepage?.heroTitle || '');
-  const heroLead = escapeHtml(homepage?.heroLead || '');
-  const ctaLabel = escapeHtml(homepage?.ctaLabel || '');
+  const h = homepage || {};
+  const photos = h.heroPhotos || {};
   return `<main>
 
   <div class="hero-band">
@@ -583,21 +592,21 @@ export function renderHomepage(homepage, pages) {
   <section class="hero">
     <div class="hero-card">
       <span class="hero-card__mark"></span>
-      <h1>${heroTitle}</h1>
-      <p>${heroLead}</p>
+      <h1>${escapeHtml(h.heroTitle)}</h1>
+      <p>${escapeHtml(h.heroLead)}</p>
       <div>
-        <div class="hero-stat__value">1,2 Md€</div>
-        <div class="hero-stat__label">mobilisés pour nos clients</div>
+        <div class="hero-stat__value">${escapeHtml(h.heroStatValue)}</div>
+        <div class="hero-stat__label">${escapeHtml(h.heroStatLabel)}</div>
       </div>
-      <a class="btn btn--site btn-primary" href="finances-et-territoires/">${ctaLabel}</a>
+      <a class="btn btn--site btn-primary" href="finances-et-territoires/">${escapeHtml(h.ctaLabel)}</a>
     </div>
     <div class="photo-grid">
-      <div class="photo-tile photo-tile--big"><img src="images/banque-de-france.webp" alt="" loading="lazy" onerror="this.remove()"></div>
-      <div class="photo-tile photo-tile--tr1"><img src="images/reserve-or.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
-      <div class="photo-tile photo-tile--tr2"><img src="images/conseil-client.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
-      <div class="photo-tile photo-tile--bl"><img src="images/agence-bancaire.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
-      <div class="photo-tile photo-tile--br"><img src="images/paris-eiffel.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
-      <img class="photo-grid__avatar" src="images/handshake-contrat.webp" alt="" loading="lazy" onerror="this.remove()">
+      <div class="photo-tile photo-tile--big"><img src="${escapeHtml(photos.big)}" alt="" loading="lazy" onerror="this.remove()"></div>
+      <div class="photo-tile photo-tile--tr1"><img src="${escapeHtml(photos.tr1)}" alt="" loading="lazy" onerror="this.remove()"></div>
+      <div class="photo-tile photo-tile--tr2"><img src="${escapeHtml(photos.tr2)}" alt="" loading="lazy" onerror="this.remove()"></div>
+      <div class="photo-tile photo-tile--bl"><img src="${escapeHtml(photos.bl)}" alt="" loading="lazy" onerror="this.remove()"></div>
+      <div class="photo-tile photo-tile--br"><img src="${escapeHtml(photos.br)}" alt="" loading="lazy" onerror="this.remove()"></div>
+      <img class="photo-grid__avatar" src="${escapeHtml(photos.avatar)}" alt="" loading="lazy" onerror="this.remove()">
     </div>
   </section>
   </div>
@@ -606,13 +615,7 @@ export function renderHomepage(homepage, pages) {
   <section class="client-types-section">
     <div class="container">
     <div class="client-types">
-    <a class="client-type" href="entreprise/"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg></span>Entreprise</a>
-    <a class="client-type" href="collectivites-epci/"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5H3l9-5z"/><path d="M4 10h16"/><path d="M6 10v9M10 10v9M14 10v9M18 10v9"/><path d="M3 21h18"/></svg></span>Collectivité &amp; EPCI</a>
-    <a class="client-type" href="etablissements-de-sante-publics-non-lucratifs/"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span>Santé non lucratif</a>
-    <a class="client-type" href="structures-medico-sociales/"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.35-9.33-8.94C1.4 8.94 2.9 5.5 6.2 5.02 8.4 4.7 10.6 5.9 12 7.8c1.4-1.9 3.6-3.1 5.8-2.78 3.3.48 4.8 3.92 3.53 7.04C19 16.65 12 21 12 21z"/></svg></span>Médico-social</a>
-    <a class="client-type" href="entreprises-publiques-locales-epl/"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/><path d="M4 21h16"/></svg></span>Établ. Public Local</a>
-    <a class="client-type" href="logement-social/"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-6h4v6"/></svg></span>Logement social</a>
-    <a class="client-type" href="sdis-service-de-secours/"><span class="client-type__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s-5 5.5-5 10a5 5 0 0 0 10 0c0-2-1-3.5-2-4.5.3 1.5-.5 2.5-1.5 2.5-1.2 0-1.8-1-1.5-2.5A7 7 0 0 1 12 3z"/></svg></span>SDIS</a>
+    ${renderClientTypes(h, pages)}
     </div>
     </div>
   </section>
@@ -620,25 +623,15 @@ export function renderHomepage(homepage, pages) {
   <div class="container">
   <section id="expertises">
     <div class="section-intro">
-      <h2 class="section-title">L'ingénierie financière pour mener à bien vos projets</h2>
-      <p class="section-intro__text">BPCE Finances &amp; Territoires vous accompagne dans <strong>l'identification</strong> et la <strong>mobilisation</strong> sécurisée des financements nécessaires à la réussite de vos projets, en alliant expertise, stratégie et efficacité opérationnelle. Dans un contexte où les <strong>financements publics et privés non-bancaires</strong> évoluent rapidement, il est essentiel de pouvoir compter sur un partenaire :</p>
+      <h2 class="section-title">${escapeHtml(h.introTitle)}</h2>
+      <p class="section-intro__text">${escapeHtml(h.introText)}</p>
     </div>
     <div class="cards-grid">
-      <article class="icon-card">
-        <span class="icon-card__badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg></span>
-        <h3>Expertise</h3>
-        <p>Des consultants alliant expertise territoriale et sectorielle, rompus à l'exercice de recherche de financement qui capitalisent sur des centaines de dossiers de demande montés.</p>
-      </article>
-      <article class="icon-card">
-        <span class="icon-card__badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.97 7.97 0 0 0 0-2l2-1.5-2-3.4-2.4 1a8 8 0 0 0-1.7-1L15 3h-4l-.3 2.4a8 8 0 0 0-1.7 1l-2.4-1-2 3.4L6.6 11a7.97 7.97 0 0 0 0 2l-2 1.5 2 3.4 2.4-1a8 8 0 0 0 1.7 1L9 21h4l.3-2.4a8 8 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6z"/></svg></span>
-        <h3>Adaptation</h3>
-        <p>Une approche sur mesure, adaptée à vos besoins et enjeux.</p>
-      </article>
-      <article class="icon-card">
-        <span class="icon-card__badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/><path d="M9 12.5l2 2 4-4.5"/></svg></span>
-        <h3>Sécurisation</h3>
-        <p>20 ans d'expertise dans la mobilisation de financements pour des projets à vocation publique, privée et associative. Un accompagnement complet, de la veille au suivi des financements obtenus.</p>
-      </article>
+      ${(h.introCards || []).map((c, i) => `<article class="icon-card">
+        <span class="icon-card__badge">${INTRO_CARD_ICONS[i % INTRO_CARD_ICONS.length]}</span>
+        <h3>${escapeHtml(c.title)}</h3>
+        <p>${escapeHtml(c.text)}</p>
+      </article>`).join('\n      ')}
     </div>
   </section>
   </div>
@@ -650,24 +643,22 @@ export function renderHomepage(homepage, pages) {
           <span class="testimonial-quote-mark">"</span>
           <div class="testimonial-card">
             <span class="meta">Témoignages</span>
-            <blockquote>« Votre expertise et votre engagement ont été déterminants dans l'obtention des subventions accordées par l'Agence de l'eau et le Fonds Vert pour le réaménagement du parc Charles-de-Gaulle et de la Place Michelet. »</blockquote>
-            <cite>Julien Chambon — Maire</cite>
+            <blockquote>${escapeHtml(h.testimonial?.quote)}</blockquote>
+            <cite>${escapeHtml(h.testimonial?.cite)}</cite>
           </div>
         </div>
-        <div class="testimonial-footnote">Commune de Ricailles · 33 617 habitants (Insee 2022)</div>
+        <div class="testimonial-footnote">${escapeHtml(h.testimonial?.footnote)}</div>
       </div>
     </div>
   </section>
 
   <div class="container">
   <section>
-    <h2 class="section-title">Baromètre des aides &amp; subventions</h2>
+    <h2 class="section-title">${escapeHtml(h.statsTitle)}</h2>
     <div class="stats-row">
-      <div><div class="stat-value">18 600</div><div class="stat-label">aides pour nos clients</div></div>
-      <div><div class="stat-value">10 000</div><div class="stat-label">aides publiques</div></div>
-      <div><div class="stat-value">8 600</div><div class="stat-label">aides privées</div></div>
+      ${(h.stats || []).map(s => `<div><div class="stat-value">${escapeHtml(s.value)}</div><div class="stat-label">${escapeHtml(s.label)}</div></div>`).join('\n      ')}
     </div>
-    <p class="stats-caption">Notre base référence plus de 18 600 dispositifs en métropole et DROM-COM, suivis par 20 experts.</p>
+    <p class="stats-caption">${escapeHtml(h.statsCaption)}</p>
   </section>
   </div>
 
@@ -686,34 +677,22 @@ export function renderHomepage(homepage, pages) {
 
   <div class="container">
   <section id="qui-sommes-nous">
-    <h2 class="section-title">Valeurs et engagements</h2>
+    <h2 class="section-title">${escapeHtml(h.valuesTitle)}</h2>
     <div class="values-grid">
-      <div class="value-item">
-        <span class="value-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="16" cy="9" r="2.6"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/><path d="M14 20c.3-2.3 2-4 4.5-4"/></svg></span>
-        <h3>Engagement humain</h3>
-        <p>Un accompagnement sur mesure avec un consultant dédié, à l'écoute de vos besoins.</p>
-      </div>
-      <div class="value-item">
-        <span class="value-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg></span>
-        <h3>Impact et résultats</h3>
-        <p>La concrétisation de vos projets dans une approche responsable et durable.</p>
-      </div>
-      <div class="value-item">
-        <span class="value-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/><path d="M9 12.5l2 2 4-4.5"/></svg></span>
-        <h3>Excellence et fiabilité</h3>
-        <p>Une veille rigoureuse et une méthodologie éprouvée, au service de la qualité.</p>
-      </div>
+      ${(h.values || []).map((v, i) => `<div class="value-item">
+        <span class="value-item__icon">${VALUE_ICONS[i % VALUE_ICONS.length]}</span>
+        <h3>${escapeHtml(v.title)}</h3>
+        <p>${escapeHtml(v.text)}</p>
+      </div>`).join('\n      ')}
     </div>
   </section>
   </div>
 
   <section class="section--muted">
     <div class="container">
-    <h2 class="section-title">Partenaires</h2>
+    <h2 class="section-title">${escapeHtml(h.partnersTitle)}</h2>
     <div class="partners-row">
-      <img class="partner-logo" src="images/grant-thornton.png" alt="Grant Thornton" loading="lazy">
-      <img class="partner-logo" src="images/ecofinance-groupe.png" alt="Eco Finance Groupe" loading="lazy">
-      <img class="partner-logo" src="images/andsis.png" alt="ANDSIS" loading="lazy">
+      ${(h.partners || []).map(p => `<img class="partner-logo" src="${escapeHtml(p.image)}" alt="${escapeHtml(p.alt)}" loading="lazy">`).join('\n      ')}
     </div>
     </div>
   </section>
@@ -730,14 +709,9 @@ export function renderHomepage(homepage, pages) {
 
   <div class="container">
   <section>
-    <h2 class="section-title">FAQ</h2>
+    <h2 class="section-title">${escapeHtml(h.faqTitle)}</h2>
     <div class="faq-grid">
-      <div class="faq-item">Qu'est-ce que le financement public ?<span>›</span></div>
-      <div class="faq-item">Quelle est votre couverture géographique ?<span>›</span></div>
-      <div class="faq-item">Qu'entend-on par financement non bancaire ?<span>›</span></div>
-      <div class="faq-item">Comment se déroule le montage des dossiers ?<span>›</span></div>
-      <div class="faq-item">Comment fonctionne Optim Aides &amp; Subventions ?<span>›</span></div>
-      <div class="faq-item">Qu'est-ce qu'un outil SaaS ?<span>›</span></div>
+      ${(h.faq || []).map(q => `<div class="faq-item">${escapeHtml(q)}<span>›</span></div>`).join('\n      ')}
     </div>
   </section>
   </div>
@@ -756,9 +730,9 @@ function renderHomepageGuideCarousel(pages) {
   return `<div class="guide-carousel" id="guide-carousel">
       <div class="guide-carousel__track">
         ${slides.map((slide, si) => `<div class="cards-grid guide-carousel__slide${si === 0 ? ' is-active' : ''}">
-          ${slide.map((a, i) => `<article class="feature-card feature-card--guide">
+          ${slide.map(a => `<article class="feature-card feature-card--guide">
             <div class="feature-card__banner">
-              <img src="images/${GUIDE_PHOTOS[(si * 3 + i) % GUIDE_PHOTOS.length]}" alt="" loading="lazy" onerror="this.remove()">
+              <img src="${escapeHtml(a.image || 'images/paris-eiffel.jpg')}" alt="" loading="lazy" onerror="this.remove()">
             </div>
             <div class="feature-card__body">
               <h3><a href="${a.slug}/" style="color:inherit;text-decoration:none;">${escapeHtml(a.title)}</a></h3>
