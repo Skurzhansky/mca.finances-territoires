@@ -32,7 +32,7 @@ function renderLoggedOut() {
   document.getElementById('app').innerHTML = `
     <div class="admin-login">
       <h1>Administration</h1>
-      <p>Connectez-vous pour éditer le Guide et les Événements.</p>
+      <p>Connectez-vous pour gérer le contenu du site : accueil, expertises, secteurs, guide et événements.</p>
       <button id="signIn" class="btn btn--site btn-primary">Se connecter</button>
     </div>`;
   document.getElementById('signIn').addEventListener('click', () => userManager.signinRedirect());

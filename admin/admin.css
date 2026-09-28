@@ -1,31 +1,71 @@
 body { background: var(--canvas); }
 
-.admin-login,
-.admin-shell {
-  max-width: 640px;
-  margin: 80px auto;
+.admin-login {
+  max-width: 420px;
+  margin: 120px auto;
   padding: 0 24px;
+  text-align: center;
 }
 
 .admin-login h1 { color: var(--purple-900); margin-bottom: 8px; }
 .admin-login p { color: var(--ink-soft); margin-bottom: 24px; }
 
-.admin-shell--wide { max-width: 900px; }
+/* ---------- Structure générale ---------- */
+
+.admin-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
 .admin-topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 16px;
-  margin-bottom: 8px;
+  gap: 16px;
+  padding: 14px 32px;
+  background: var(--white);
   border-bottom: 1px solid var(--border-soft);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.admin-topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: var(--purple-900);
+  white-space: nowrap;
+}
+.admin-topbar__brand-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-chip);
+  background: var(--purple-700);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+
+.admin-topbar__user {
   color: var(--ink-soft);
+  font-size: var(--caption-size);
+  white-space: nowrap;
 }
 
 .admin-topbar__actions {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .admin-badge {
@@ -34,75 +74,216 @@ body { background: var(--canvas); }
   background: var(--warning-bg);
   padding: 4px 10px;
   border-radius: var(--radius-pill);
+  white-space: nowrap;
 }
 
-.admin-status {
-  min-height: 1.4em;
-  font-size: var(--caption-size);
-  color: var(--ink-soft);
-  margin: 0 0 16px;
+.admin-layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  align-items: flex-start;
 }
-.admin-status--ok { color: var(--success); }
-.admin-status--error { color: var(--critical); }
+
+/* ---------- Barre latérale ---------- */
+
+.admin-sidebar {
+  width: 232px;
+  flex-shrink: 0;
+  padding: 20px 12px;
+  position: sticky;
+  top: 61px;
+  align-self: flex-start;
+}
+
+.admin-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  border: none;
+  background: none;
+  font: inherit;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: var(--radius-button);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.admin-nav-item svg { width: 19px; height: 19px; flex-shrink: 0; color: var(--muted); }
+.admin-nav-item span:first-of-type { flex: 1; }
+.admin-nav-item:hover { background: var(--purple-050); color: var(--purple-900); }
+.admin-nav-item:hover svg { color: var(--purple-600); }
+.admin-nav-item.is-active { background: var(--purple-100); color: var(--purple-700); font-weight: 600; }
+.admin-nav-item.is-active svg { color: var(--purple-700); }
+
+.admin-nav-item__count {
+  font-size: var(--meta-size);
+  color: var(--muted-2);
+  background: var(--canvas);
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+}
+.admin-nav-item.is-active .admin-nav-item__count { background: var(--white); color: var(--purple-700); }
+
+/* ---------- Contenu principal ---------- */
+
+.admin-main {
+  flex: 1;
+  min-width: 0;
+  padding: 28px 32px 60px;
+  max-width: 880px;
+}
+
+.admin-section-title {
+  color: var(--purple-900);
+  margin: 0 0 4px;
+}
+.admin-section-subtitle {
+  color: var(--muted);
+  font-size: var(--body-size);
+  margin: 0 0 20px;
+}
+
+/* ---------- Bandeau de statut (toast inline) ---------- */
+
+.admin-status {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px;
+  border-radius: var(--radius-chip);
+  background: var(--neutral-bg);
+  color: var(--ink-soft);
+  font-size: var(--body-size);
+  margin: 0 0 18px;
+}
+.admin-status:not(:empty) { display: flex; }
+.admin-status svg { width: 18px; height: 18px; flex-shrink: 0; }
+.admin-status--ok { background: var(--success-bg); color: var(--success); }
+.admin-status--error { background: var(--critical-bg); color: var(--critical); }
+.admin-status--progress { background: var(--purple-050); color: var(--purple-700); }
 
 .admin-error { color: var(--critical); }
 
-.admin-tabs {
-  display: flex;
-  gap: 4px;
-  border-bottom: 1px solid var(--border-soft);
-  margin-bottom: 24px;
-}
+/* ---------- Listes en cartes ---------- */
 
-.admin-tab {
-  border: none;
-  background: none;
-  padding: 10px 16px;
-  font: inherit;
-  color: var(--ink-soft);
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-}
-.admin-tab.is-active {
-  color: var(--purple-700);
-  border-bottom-color: var(--purple-700);
-  font-weight: 600;
-}
-
-.admin-list-header { margin-bottom: 16px; }
-
-.admin-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.admin-list-item {
+.admin-list-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+
+.admin-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.admin-card {
+  display: flex;
+  flex-direction: column;
   background: var(--white);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  transition: border-color .15s, box-shadow .15s;
+}
+.admin-card:hover { border-color: var(--purple-500); box-shadow: 0 4px 14px rgba(43, 22, 64, .1); }
+
+.admin-card__thumb-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--purple-050);
+}
+.admin-card__thumb {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.admin-card__thumb--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-2);
+}
+.admin-card__thumb--placeholder svg { width: 30px; height: 30px; }
+
+.admin-card__body {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.admin-card__title {
+  font-size: var(--row-title-size);
+  font-weight: 600;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.admin-card__meta {
+  font-size: var(--caption-size);
+  color: var(--muted);
+}
+
+.admin-card__actions {
+  display: flex;
+  gap: 6px;
+  padding: 8px 10px;
+  border-top: 1px solid var(--border-soft);
+  background: var(--canvas);
+}
+
+.admin-empty {
+  color: var(--muted);
+  grid-column: 1 / -1;
+  padding: 32px;
+  text-align: center;
+  background: var(--white);
+  border: 1px dashed var(--border-soft);
   border-radius: var(--radius-card);
 }
 
-.admin-list-item__meta {
-  color: var(--muted);
-  font-size: var(--caption-size);
-  margin-top: 2px;
-}
+/* ---------- Boutons icône (actions de carte) ---------- */
 
-.admin-list-item__actions {
-  display: flex;
-  gap: 8px;
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
   flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-button);
+  background: var(--white);
+  color: var(--ink-soft);
+  cursor: pointer;
 }
-
-.admin-empty { color: var(--muted); }
+.icon-btn svg { width: 16px; height: 16px; }
+.icon-btn:hover { background: var(--purple-050); color: var(--purple-700); border-color: var(--purple-500); }
+.icon-btn--danger:hover { background: var(--critical-bg); color: var(--critical); border-color: var(--critical); }
 
 .btn--danger { color: var(--critical); border-color: var(--critical-bg); }
 .btn--danger:hover { background: var(--critical-bg); }
+
+/* ---------- Formulaires ---------- */
 
 .admin-form {
   display: flex;
@@ -211,4 +392,20 @@ body { background: var(--canvas); }
   gap: 4px;
   font-size: var(--caption-size);
   color: var(--ink-soft);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 860px) {
+  .admin-layout { flex-direction: column; }
+  .admin-sidebar {
+    width: 100%;
+    position: static;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .admin-sidebar-nav { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+  .admin-nav-item { width: auto; }
+  .admin-main { padding: 20px 20px 48px; max-width: none; }
+  .admin-topbar { padding: 12px 20px; flex-wrap: wrap; }
 }

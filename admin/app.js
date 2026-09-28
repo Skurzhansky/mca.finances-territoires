@@ -4,8 +4,8 @@ import { buildPages, page, homepagePage } from '../scripts/templates.mjs';
 let state = null;
 
 const RESOURCE_KINDS = {
-  expertises: { key: 'expertises', section: 'expertise', type: 'expertise', tabLabel: 'Expertises', itemNoun: 'cette page' },
-  secteurs: { key: 'secteurs', section: 'secteur', type: 'secteur', tabLabel: 'Secteurs', itemNoun: 'cette page' },
+  expertises: { key: 'expertises', section: 'expertise', type: 'expertise', itemNoun: 'cette page' },
+  secteurs: { key: 'secteurs', section: 'secteur', type: 'secteur', itemNoun: 'cette page' },
 };
 
 function slugify(str) {
@@ -19,6 +19,36 @@ function slugify(str) {
 
 function escapeHtml(str) {
   return String(str ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+// ---------- Icônes (SVG inline, aucune dépendance externe) ----------
+
+const ICONS = {
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9a1 1 0 0 0 1 1H9.5a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-9"/></svg>',
+  briefcase: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="11" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg>',
+  building: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="10" height="18"/><rect x="14" y="9" width="6" height="12"/><path d="M7 7h1M7 11h1M7 15h1M11 7h1M11 11h1M11 15h1M17 12h1M17 16h1"/></svg>',
+  book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg>',
+  calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>',
+  pencil: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m14.5 5.5 4 4L8 20H4v-4z"/></svg>',
+  trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V7"/><path d="M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13"/></svg>',
+  image: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m5 17 4.5-5 3.5 4 2.5-3 4.5 5"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.5 2.5L16 9.5"/></svg>',
+  alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>',
+  info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>',
+};
+
+function setStatus(el, text, kind) {
+  el.className = 'admin-status' + (kind ? ` admin-status--${kind}` : '');
+  const icon = kind === 'ok' ? ICONS.check : kind === 'error' ? ICONS.alert : kind === 'progress' ? ICONS.info : '';
+  el.innerHTML = text ? `${icon}<span>${escapeHtml(text)}</span>` : '';
+}
+
+function thumbHtml(image) {
+  if (!image) return `<div class="admin-card__thumb-wrap"><div class="admin-card__thumb admin-card__thumb--placeholder">${ICONS.image}</div></div>`;
+  return `<div class="admin-card__thumb-wrap">
+    <div class="admin-card__thumb admin-card__thumb--placeholder">${ICONS.image}</div>
+    <img class="admin-card__thumb" src="${escapeHtml(`${config.siteUrl}/${image}`)}" alt="" onerror="this.remove()">
+  </div>`;
 }
 
 async function fetchJSON(path) {
@@ -85,7 +115,7 @@ export async function mountAdmin(root, { user, credentials, signOut }) {
     dirty: false,
   };
 
-  root.innerHTML = `<div class="admin-shell"><p>Chargement des données…</p></div>`;
+  root.innerHTML = `<div class="admin-login"><p>Chargement des données…</p></div>`;
 
   try {
     const [guideArticles, events, expertises, secteurs, homepage] = await Promise.all([
@@ -103,42 +133,57 @@ export async function mountAdmin(root, { user, credentials, signOut }) {
     state.originalPageSlugs = new Set([...guideArticles, ...expertises, ...secteurs].map(x => x.slug));
     state.originalPartnerImages = new Set((homepage.partners || []).map(p => p.image).filter(Boolean));
   } catch (err) {
-    root.innerHTML = `<div class="admin-shell"><p class="admin-error">Erreur de chargement : ${escapeHtml(err.message)}</p></div>`;
+    root.innerHTML = `<div class="admin-login"><p class="admin-error">Erreur de chargement : ${escapeHtml(err.message)}</p></div>`;
     return;
   }
 
   render(root, signOut);
 }
 
-const TABS = [
-  { id: 'accueil', label: () => 'Accueil' },
-  { id: 'expertises', label: () => `Expertises (${state.expertises.length})` },
-  { id: 'secteurs', label: () => `Secteurs (${state.secteurs.length})` },
-  { id: 'guide', label: () => `Guide (${state.guideArticles.length})` },
-  { id: 'evenements', label: () => `Événements (${state.events.length})` },
+const NAV_ITEMS = [
+  { id: 'accueil', icon: 'home', label: 'Page d’accueil', count: () => null },
+  { id: 'expertises', icon: 'briefcase', label: 'Expertises', count: () => state.expertises.length },
+  { id: 'secteurs', icon: 'building', label: 'Secteurs', count: () => state.secteurs.length },
+  { id: 'guide', icon: 'book', label: 'Guide', count: () => state.guideArticles.length },
+  { id: 'evenements', icon: 'calendar', label: 'Événements', count: () => state.events.length },
 ];
 
 function render(root, signOut) {
   root.innerHTML = `
-    <div class="admin-shell admin-shell--wide">
+    <div class="admin-app">
       <header class="admin-topbar">
-        <span>Connecté : ${escapeHtml(state.user.profile?.email || '')}</span>
+        <div class="admin-topbar__brand">
+          <span class="admin-topbar__brand-mark">FT</span>
+          <span>Administration du site</span>
+        </div>
         <div class="admin-topbar__actions">
+          <span class="admin-topbar__user">${escapeHtml(state.user.profile?.email || '')}</span>
           <span id="dirty-badge" class="admin-badge" hidden>Modifications non publiées</span>
           <button id="publish-btn" class="btn btn--site btn-primary">Publier</button>
           <button id="signOut" class="btn">Se déconnecter</button>
         </div>
       </header>
-      <p id="publish-status" class="admin-status"></p>
-      <nav class="admin-tabs">
-        ${TABS.map(t => `<button class="admin-tab${state.view.tab === t.id ? ' is-active' : ''}" data-tab="${t.id}">${t.label()}</button>`).join('')}
-      </nav>
-      <div id="tab-content"></div>
+      <div class="admin-layout">
+        <aside class="admin-sidebar">
+          <nav class="admin-sidebar-nav">
+            ${NAV_ITEMS.map(t => {
+              const count = t.count();
+              return `<button class="admin-nav-item${state.view.tab === t.id ? ' is-active' : ''}" data-tab="${t.id}">
+                ${ICONS[t.icon]}<span>${escapeHtml(t.label)}</span>${count !== null ? `<span class="admin-nav-item__count">${count}</span>` : ''}
+              </button>`;
+            }).join('')}
+          </nav>
+        </aside>
+        <main class="admin-main">
+          <p id="publish-status" class="admin-status"></p>
+          <div id="tab-content"></div>
+        </main>
+      </div>
     </div>`;
 
   document.getElementById('signOut').addEventListener('click', () => signOut());
   document.getElementById('publish-btn').addEventListener('click', () => publish(root, signOut));
-  root.querySelectorAll('.admin-tab').forEach(btn => {
+  root.querySelectorAll('.admin-nav-item').forEach(btn => {
     btn.addEventListener('click', () => {
       state.view = { tab: btn.dataset.tab };
       render(root, signOut);
@@ -354,7 +399,7 @@ function renderHomepageForm(content) {
       state.homepage = draft;
       state.dirty = true;
       updateDirtyBadge();
-      document.getElementById('homepage-save-status').textContent = 'Enregistré localement — pensez à cliquer « Publier » en haut pour mettre le site à jour.';
+      setStatus(document.getElementById('homepage-save-status'), 'Enregistré localement — pensez à cliquer « Publier » en haut pour mettre le site à jour.', 'ok');
     });
   }
 
@@ -394,18 +439,23 @@ function renderResourceList(kind, content, root, signOut) {
   const items = state[kind.key];
   content.innerHTML = `
     <div class="admin-list-header">
+      <div>
+        <h2 class="admin-section-title">${kind.key === 'expertises' ? 'Expertises' : 'Secteurs'}</h2>
+        <p class="admin-section-subtitle" style="margin:0;">${items.length} page${items.length > 1 ? 's' : ''}</p>
+      </div>
       <button id="new-resource" class="btn btn--site btn-primary">+ Nouvelle page</button>
     </div>
     <div class="admin-list">
       ${items.map(x => `
-        <div class="admin-list-item">
-          <div>
-            <strong>${escapeHtml(x.title)}</strong>${x.hidden ? ' <span class="admin-badge">Masqué</span>' : ''}
-            <div class="admin-list-item__meta">/${escapeHtml(x.slug)}/</div>
+        <div class="admin-card">
+          ${thumbHtml(x.image)}
+          <div class="admin-card__body">
+            <div class="admin-card__title">${escapeHtml(x.title)}${x.hidden ? ' <span class="admin-badge">Masqué</span>' : ''}</div>
+            <div class="admin-card__meta">/${escapeHtml(x.slug)}/</div>
           </div>
-          <div class="admin-list-item__actions">
-            <button class="btn" data-edit="${escapeHtml(x.slug)}">Modifier</button>
-            <button class="btn btn--danger" data-delete="${escapeHtml(x.slug)}">Supprimer</button>
+          <div class="admin-card__actions">
+            <button class="icon-btn" data-edit="${escapeHtml(x.slug)}" title="Modifier" aria-label="Modifier">${ICONS.pencil}</button>
+            <button class="icon-btn icon-btn--danger" data-delete="${escapeHtml(x.slug)}" title="Supprimer" aria-label="Supprimer">${ICONS.trash}</button>
           </div>
         </div>`).join('') || '<p class="admin-empty">Aucune page pour le moment.</p>'}
     </div>`;
@@ -524,18 +574,23 @@ function renderResourceForm(kind, content, root, signOut, item) {
 function renderGuideList(content, root, signOut) {
   content.innerHTML = `
     <div class="admin-list-header">
+      <div>
+        <h2 class="admin-section-title">Guide</h2>
+        <p class="admin-section-subtitle" style="margin:0;">${state.guideArticles.length} article${state.guideArticles.length > 1 ? 's' : ''}</p>
+      </div>
       <button id="new-article" class="btn btn--site btn-primary">+ Nouvel article</button>
     </div>
     <div class="admin-list">
       ${state.guideArticles.map(a => `
-        <div class="admin-list-item">
-          <div>
-            <strong>${escapeHtml(a.title)}</strong>
-            <div class="admin-list-item__meta">/${escapeHtml(a.slug)}/</div>
+        <div class="admin-card">
+          ${thumbHtml(a.image)}
+          <div class="admin-card__body">
+            <div class="admin-card__title">${escapeHtml(a.title)}</div>
+            <div class="admin-card__meta">/${escapeHtml(a.slug)}/</div>
           </div>
-          <div class="admin-list-item__actions">
-            <button class="btn" data-edit="${escapeHtml(a.slug)}">Modifier</button>
-            <button class="btn btn--danger" data-delete="${escapeHtml(a.slug)}">Supprimer</button>
+          <div class="admin-card__actions">
+            <button class="icon-btn" data-edit="${escapeHtml(a.slug)}" title="Modifier" aria-label="Modifier">${ICONS.pencil}</button>
+            <button class="icon-btn icon-btn--danger" data-delete="${escapeHtml(a.slug)}" title="Supprimer" aria-label="Supprimer">${ICONS.trash}</button>
           </div>
         </div>`).join('') || '<p class="admin-empty">Aucun article pour le moment.</p>'}
     </div>`;
@@ -649,18 +704,23 @@ function renderArticleForm(content, root, signOut, article) {
 function renderEventsList(content, root, signOut) {
   content.innerHTML = `
     <div class="admin-list-header">
+      <div>
+        <h2 class="admin-section-title">Événements</h2>
+        <p class="admin-section-subtitle" style="margin:0;">${state.events.length} événement${state.events.length > 1 ? 's' : ''}</p>
+      </div>
       <button id="new-event" class="btn btn--site btn-primary">+ Nouvel événement</button>
     </div>
     <div class="admin-list">
       ${state.events.map((e, i) => `
-        <div class="admin-list-item">
-          <div>
-            <strong>${escapeHtml(e.title)}</strong>
-            <div class="admin-list-item__meta">${escapeHtml(e.date)}</div>
+        <div class="admin-card">
+          <div class="admin-card__thumb-wrap"><div class="admin-card__thumb admin-card__thumb--placeholder">${ICONS.calendar}</div></div>
+          <div class="admin-card__body">
+            <div class="admin-card__title">${escapeHtml(e.title)}</div>
+            <div class="admin-card__meta">${escapeHtml(e.date)}</div>
           </div>
-          <div class="admin-list-item__actions">
-            <button class="btn" data-edit="${i}">Modifier</button>
-            <button class="btn btn--danger" data-delete="${i}">Supprimer</button>
+          <div class="admin-card__actions">
+            <button class="icon-btn" data-edit="${i}" title="Modifier" aria-label="Modifier">${ICONS.pencil}</button>
+            <button class="icon-btn icon-btn--danger" data-delete="${i}" title="Supprimer" aria-label="Supprimer">${ICONS.trash}</button>
           </div>
         </div>`).join('') || '<p class="admin-empty">Aucun événement programmé.</p>'}
     </div>`;
@@ -722,8 +782,7 @@ async function publish(root, signOut) {
   const statusEl = document.getElementById('publish-status');
   const btn = document.getElementById('publish-btn');
   btn.disabled = true;
-  statusEl.className = 'admin-status';
-  statusEl.textContent = 'Publication en cours…';
+  setStatus(statusEl, 'Publication en cours…', 'progress');
 
   try {
     const { S3Client, PutObjectCommand, DeleteObjectCommand } = await import('https://cdn.jsdelivr.net/npm/@aws-sdk/client-s3@3/+esm');
@@ -743,7 +802,7 @@ async function publish(root, signOut) {
     let done = 0;
     const total = pages.length + 1 /* index.html */ + 5 /* fichiers data/*.json */
       + deletedSlugs.length + pendingUploads.size + deletedPartnerImages.length;
-    const tick = () => { statusEl.textContent = `Publication en cours… (${++done}/${total})`; };
+    const tick = () => { setStatus(statusEl, `Publication en cours… (${++done}/${total})`, 'progress'); };
 
     for (const [key, file] of pendingUploads) {
       await s3.send(new PutObjectCommand({
@@ -807,7 +866,7 @@ async function publish(root, signOut) {
     state.dirty = false;
     updateDirtyBadge();
 
-    statusEl.textContent = 'Publié. Invalidation du cache CloudFront…';
+    setStatus(statusEl, 'Publié. Invalidation du cache CloudFront…', 'progress');
     try {
       const { CloudFrontClient, CreateInvalidationCommand } = await import('https://cdn.jsdelivr.net/npm/@aws-sdk/client-cloudfront@3/+esm');
       const cf = new CloudFrontClient({ region: config.region, credentials: state.credentials });
@@ -818,16 +877,14 @@ async function publish(root, signOut) {
           Paths: { Quantity: 1, Items: ['/*'] },
         },
       }));
-      statusEl.textContent = 'Publié — les changements sont visibles immédiatement.';
+      setStatus(statusEl, 'Publié — les changements sont visibles immédiatement.', 'ok');
     } catch (cfErr) {
-      statusEl.textContent = 'Publié — le cache n’a pas pu être vidé automatiquement (droits manquants), les changements apparaîtront d’ici quelques minutes.';
+      setStatus(statusEl, 'Publié — le cache n’a pas pu être vidé automatiquement (droits manquants), les changements apparaîtront d’ici quelques minutes.', 'ok');
       console.warn(cfErr);
     }
-    statusEl.classList.add('admin-status--ok');
   } catch (err) {
     console.error(err);
-    statusEl.textContent = `Erreur de publication : ${err.message}`;
-    statusEl.classList.add('admin-status--error');
+    setStatus(statusEl, `Erreur de publication : ${err.message}`, 'error');
   } finally {
     btn.disabled = false;
   }
