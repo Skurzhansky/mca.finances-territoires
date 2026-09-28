@@ -3,6 +3,14 @@
 // l'admin dans le navigateur (régénération à la publication), pour éviter
 // toute divergence entre les deux.
 
+// Les titres/textes des articles Guide et des Événements viennent de l'admin
+// (saisie libre) et sont interpolés tels quels dans le HTML publié — échapper
+// systématiquement pour éviter à la fois une page cassée (ex. un titre
+// contenant "</title>") et une injection de script stockée.
+function escapeHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
 export const SECTIONS = {
   main:      { label: null },
   expertise: { label: 'Expertises et Solutions' },
@@ -312,7 +320,7 @@ export function breadcrumb(p) {
     if (section.hub) parts.push(`<a href="${section.hub}">${section.label}</a>`);
     else parts.push(`<span>${section.label}</span>`);
   }
-  parts.push(`<span class="current">${p.title}</span>`);
+  parts.push(`<span class="current">${escapeHtml(p.title)}</span>`);
   return `<nav class="breadcrumb container">${parts.join(' <span>/</span> ')}</nav>`;
 }
 
@@ -380,11 +388,11 @@ export function renderArticle(p) {
   return `<main class="container">
   <div class="page-hero">
     <span class="article-meta">Guide</span>
-    <h1>${p.title}</h1>
-    <p class="lead">${p.intro}</p>
+    <h1>${escapeHtml(p.title)}</h1>
+    <p class="lead">${escapeHtml(p.intro)}</p>
   </div>
   <div class="article-body">
-    ${p.body.map(([h, text]) => `<h2>${h}</h2>\n    <p>${text}</p>`).join('\n    ')}
+    ${p.body.map(([h, text]) => `<h2>${escapeHtml(h)}</h2>\n    <p>${escapeHtml(text)}</p>`).join('\n    ')}
   </div>
 </main>
 ${ctaBand()}`;
@@ -400,8 +408,8 @@ export function renderGuideHub(articles) {
     ${articles.map((a, i) => `<article class="feature-card feature-card--guide">
       <div class="feature-card__banner"><img src="../images/${GUIDE_PHOTOS[i % GUIDE_PHOTOS.length]}" alt="" loading="lazy" onerror="this.remove()"></div>
       <div class="feature-card__body">
-        <h3><a href="../${a.slug}/" style="color:inherit;text-decoration:none;">${a.title}</a></h3>
-        <p>${a.intro}</p>
+        <h3><a href="../${a.slug}/" style="color:inherit;text-decoration:none;">${escapeHtml(a.title)}</a></h3>
+        <p>${escapeHtml(a.intro)}</p>
       </div>
     </article>`).join('\n    ')}
   </div>
@@ -420,9 +428,9 @@ export function renderEvenements(events) {
   const body = list.length
     ? `<div class="events-list">
     ${list.map(e => `<div class="event-item">
-      <div class="event-item__date">${formatEventDate(e.date)}</div>
-      <h3>${e.title}</h3>
-      <p>${e.description || ''}</p>
+      <div class="event-item__date">${escapeHtml(formatEventDate(e.date))}</div>
+      <h3>${escapeHtml(e.title)}</h3>
+      <p>${escapeHtml(e.description || '')}</p>
     </div>`).join('\n    ')}
   </div>`
     : `<div class="empty-state">
@@ -633,7 +641,7 @@ export function page(p, pages, events) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${p.title} — Finances &amp; Territoires</title>
+<title>${escapeHtml(p.title)} — Finances &amp; Territoires</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
