@@ -798,7 +798,7 @@ ${seoTags(p, site.content)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles/site.css?v=20260930a">
+<link rel="stylesheet" href="../styles/site.css?v=20260930b">
 </head>
 <body>
 
@@ -1106,12 +1106,17 @@ function renderHomepageGuideCarousel(pages) {
             <div class="feature-card__body">
               <h3><a href="${a.slug}/" style="color:inherit;text-decoration:none;">${escapeHtml(a.title)}</a></h3>
               <p>${escapeHtml(a.intro)}</p>
+              <a class="feature-card__more" href="${a.slug}/">Lire l'article →</a>
             </div>
           </article>`).join('\n          ')}
         </div>`).join('\n        ')}
       </div>
-      <div class="guide-carousel__dots">
+      <div class="guide-carousel__nav">
+        <button type="button" class="guide-carousel__arrow guide-carousel__prev" aria-label="Précédent"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <div class="guide-carousel__dots">
         ${slides.map((_, si) => `<button type="button" class="guide-carousel__dot${si === 0 ? ' is-active' : ''}" data-index="${si}" aria-label="Diapositive ${si + 1} sur ${slides.length}"></button>`).join('\n        ')}
+        </div>
+        <button type="button" class="guide-carousel__arrow guide-carousel__next" aria-label="Suivant"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
       </div>
     </div>`;
 }
@@ -1126,7 +1131,7 @@ ${metaTags(homepage?.seoTitle || `Finances & Territoires — ${homepage?.heroTit
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/site.css?v=20260930a">
+<link rel="stylesheet" href="styles/site.css?v=20260930b">
 </head>
 <body>
 

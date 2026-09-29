@@ -1,5 +1,5 @@
 // Carrousel "Guide" de la page d'accueil : rotation automatique toutes les 6s,
-// navigation manuelle via les points.
+// navigation manuelle via les flèches et les points.
 (function () {
   var root = document.getElementById('guide-carousel');
   if (!root) return;
@@ -30,6 +30,11 @@
       startAutoplay();
     });
   });
+
+  var prev = root.querySelector('.guide-carousel__prev');
+  var next = root.querySelector('.guide-carousel__next');
+  if (prev) prev.addEventListener('click', function () { show(current - 1); startAutoplay(); });
+  if (next) next.addEventListener('click', function () { show(current + 1); startAutoplay(); });
 
   show(0);
   startAutoplay();
