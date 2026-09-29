@@ -11,14 +11,19 @@ function escapeHtml(str) {
   return String(str ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 
-// Texte éditable pouvant contenir des liens au format [libellé](url) : tout est
-// échappé, seuls ces liens sont convertis en <a>. Les URL relatives sont
-// résolues depuis `base` (racine du site depuis la page courante).
+// Texte éditable avec mise en forme légère : tout est échappé, puis seuls
+// **gras**, *italique*, les liens [libellé](url) et les retours à la ligne
+// sont convertis en HTML. Les URL relatives sont résolues depuis `base`
+// (racine du site depuis la page courante).
 export function richText(str, base = '../') {
-  return escapeHtml(str).replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, href) => {
-    const url = /^(https?:|mailto:|tel:|#|\/)/.test(href) ? href : `${base}${href}`;
-    return `<a href="${url}">${label}</a>`;
-  });
+  return escapeHtml(str)
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, href) => {
+      const url = /^(https?:|mailto:|tel:|#|\/)/.test(href) ? href : `${base}${href}`;
+      return `<a href="${url}">${label}</a>`;
+    })
+    .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[^*])\*(?!\s)([^*\n]*[^*\s])\*(?!\*)/g, '$1<em>$2</em>')
+    .replace(/\r?\n/g, '<br>');
 }
 
 export const SECTIONS = {
@@ -305,7 +310,7 @@ export function footer(pages, base = '../', navigation) {
   <div class="container footer-top">
     <div class="footer-about">
       <div class="brand"><span class="brand__dot"></span> ${escapeHtml(f.brand)}</div>
-      <p>${escapeHtml(f.text)}</p>
+      <p>${richText(f.text, base)}</p>
       <span class="footer-subsidiary">${escapeHtml(f.subsidiary)}</span>
     </div>
     ${columns.map(col => `<div class="footer-col">
@@ -337,7 +342,7 @@ export function ctaBand(content, base = '../') {
     <div class="cta-band">
       <div>
         <h3>${escapeHtml(c.title)}</h3>
-        <p>${escapeHtml(c.text)}</p>
+        <p>${richText(c.text, base)}</p>
       </div>
       <a class="btn-cta-pill" href="${base}contact/">${escapeHtml(c.label)}</a>
     </div>
@@ -351,7 +356,7 @@ export function featureList(features) {
     ${features.map((f, i) => `<div class="feature-list__item">
       <span class="feature-list__bullet">${i + 1}</span>
       <h3>${escapeHtml(f.title)}</h3>
-      <p>${escapeHtml(f.text)}</p>
+      <p>${richText(f.text)}</p>
     </div>`).join('\n    ')}
   </div>`;
 }
@@ -381,7 +386,7 @@ export function renderExpertiseOrSecteur(p, pages, content) {
   return `<main class="container">
   <div class="page-hero">
     <h1>${escapeHtml(p.title)}</h1>
-    <p class="lead">${escapeHtml(p.lead)}</p>
+    <p class="lead">${richText(p.lead)}</p>
     <a class="btn btn--site btn-primary" href="../contact/">Contactez-nous →</a>
   </div>${pageBanner(p)}
   ${featureList(p.features)}
@@ -395,10 +400,10 @@ export function renderArticle(p, content) {
   <div class="page-hero">
     <span class="article-meta">Guide</span>
     <h1>${escapeHtml(p.title)}</h1>
-    <p class="lead">${escapeHtml(p.intro)}</p>
+    <p class="lead">${richText(p.intro)}</p>
   </div>
   <div class="article-body">
-    ${p.body.map(([h, text]) => `<h2>${escapeHtml(h)}</h2>\n    <p>${escapeHtml(text)}</p>`).join('\n    ')}
+    ${p.body.map(([h, text]) => `<h2>${escapeHtml(h)}</h2>\n    <p>${richText(text)}</p>`).join('\n    ')}
   </div>
 </main>
 ${ctaBand(content)}`;
@@ -408,14 +413,14 @@ export function renderGuideHub(articles, c = {}) {
   return `<main class="container">
   <div class="page-hero">
     <h1>${escapeHtml(c.title ?? 'Guide')}</h1>
-    <p class="lead">${escapeHtml(c.lead ?? '')}</p>
+    <p class="lead">${richText(c.lead ?? '')}</p>
   </div>
   <div class="cards-grid" style="grid-template-columns:repeat(3,1fr); margin-bottom:64px;">
     ${articles.map((a, i) => `<article class="feature-card feature-card--guide">
       <div class="feature-card__banner"><img src="../${a.image || 'images/paris-eiffel.jpg'}" alt="" loading="lazy" onerror="this.remove()"></div>
       <div class="feature-card__body">
         <h3><a href="../${a.slug}/" style="color:inherit;text-decoration:none;">${escapeHtml(a.title)}</a></h3>
-        <p>${escapeHtml(a.intro)}</p>
+        <p>${richText(a.intro)}</p>
       </div>
     </article>`).join('\n    ')}
   </div>
@@ -436,7 +441,7 @@ export function renderEvenements(events, c = {}) {
     ${list.map(e => `<div class="event-item">
       <div class="event-item__date">${escapeHtml(formatEventDate(e.date))}</div>
       <h3>${escapeHtml(e.title)}</h3>
-      <p>${escapeHtml(e.description || '')}</p>
+      <p>${richText(e.description || '')}</p>
     </div>`).join('\n    ')}
   </div>`
     : `<div class="empty-state">
@@ -446,7 +451,7 @@ export function renderEvenements(events, c = {}) {
   return `<main class="container">
   <div class="page-hero">
     <h1>${escapeHtml(c.title ?? 'Événements')}</h1>
-    <p class="lead">${escapeHtml(c.lead ?? '')}</p>
+    <p class="lead">${richText(c.lead ?? '')}</p>
   </div>
   ${body}
 </main>`;
@@ -459,13 +464,13 @@ export function renderPageSections(sections) {
     if (s.type === 'list') {
       return `<h2>${escapeHtml(s.title)}</h2>
     <ul class="content-list">
-      ${(s.items || []).map(i => `<li>${escapeHtml(i)}</li>`).join('\n      ')}
+      ${(s.items || []).map(i => `<li>${richText(i)}</li>`).join('\n      ')}
     </ul>`;
     }
     return `<h2>${escapeHtml(s.title)}</h2>
     ${(s.blocks || []).map(b => `<div class="content-block">
       <h3>${escapeHtml(b.title)}</h3>
-      <p>${escapeHtml(b.text)}</p>
+      <p>${richText(b.text)}</p>
     </div>`).join('\n    ')}`;
   }).join('\n\n    ');
 }
@@ -479,7 +484,7 @@ export function renderCustom(p, pages, events, content) {
   <div class="page-hero">
     <span class="page-hero__eyebrow">${escapeHtml(c.eyebrow)}</span>
     <h1>${escapeHtml(c.headline || c.title)}</h1>
-    <p class="lead">${escapeHtml(c.lead)}</p>
+    <p class="lead">${richText(c.lead)}</p>
     <a class="btn btn--site btn-primary" href="../contact/">${escapeHtml(c.ctaLabel)}</a>
   </div>${pageBanner({ ...p, image: c.image || p.image })}
 
@@ -491,7 +496,7 @@ export function renderCustom(p, pages, events, content) {
   <div class="cta-band">
     <div>
       <h3>${escapeHtml(cta.title)}</h3>
-      <p>${escapeHtml(cta.text)}</p>
+      <p>${richText(cta.text)}</p>
     </div>
     <a class="btn-cta-pill" href="../contact/">${escapeHtml(cta.label)}</a>
   </div>
@@ -502,7 +507,7 @@ export function renderCustom(p, pages, events, content) {
       return `<main class="container">
   <div class="page-hero">
     <h1>${escapeHtml(c.headline || c.title)}</h1>
-    <p class="lead">${escapeHtml(c.lead)}</p>
+    <p class="lead">${richText(c.lead)}</p>
   </div>
 
   <div class="stats-row" style="margin-top:40px; margin-bottom:56px;">
@@ -513,7 +518,7 @@ export function renderCustom(p, pages, events, content) {
     ${(c.features || []).map((f, i) => `<div class="feature-list__item">
       <span class="feature-list__bullet">${i + 1}</span>
       <h3>${escapeHtml(f.title)}</h3>
-      <p>${escapeHtml(f.text)}</p>
+      <p>${richText(f.text)}</p>
     </div>`).join('\n    ')}
   </div>
 </main>
@@ -530,7 +535,7 @@ ${ctaBand(content)}`;
 </div>
 ` : ''}<main class="container">
   <div class="page-hero">
-    <p class="lead">${escapeHtml(c.lead)}</p>
+    <p class="lead">${richText(c.lead)}</p>
   </div>
 
   <div class="testimonial-band" style="border-radius:16px; margin-bottom:56px;">
@@ -538,7 +543,7 @@ ${ctaBand(content)}`;
       <span class="testimonial-quote-mark">"</span>
       <div class="testimonial-card">
         <span class="meta">${escapeHtml(t.meta)}</span>
-        <blockquote>${escapeHtml(t.quote)}</blockquote>
+        <blockquote>${richText(t.quote)}</blockquote>
         <cite>${escapeHtml(t.cite)}</cite>
       </div>
     </div>
@@ -559,7 +564,7 @@ ${ctaBand(content)}`;
       return `<main class="container">
   <div class="page-hero">
     <h1>${escapeHtml(c.headline || c.title)}</h1>
-    <p class="lead">${escapeHtml(c.lead)}</p>
+    <p class="lead">${richText(c.lead)}</p>
   </div>
 
   <div class="contact-layout">
@@ -724,7 +729,7 @@ export function renderHomepage(homepage, pages, content) {
     <div class="hero-card">
       <span class="hero-card__mark"></span>
       <h1>${escapeHtml(h.heroTitle)}</h1>
-      <p>${escapeHtml(h.heroLead)}</p>
+      <p>${richText(h.heroLead, '')}</p>
       <div>
         <div class="hero-stat__value">${escapeHtml(h.heroStatValue)}</div>
         <div class="hero-stat__label">${escapeHtml(h.heroStatLabel)}</div>
@@ -755,13 +760,13 @@ export function renderHomepage(homepage, pages, content) {
   <section id="expertises">
     <div class="section-intro">
       <h2 class="section-title">${escapeHtml(h.introTitle)}</h2>
-      <p class="section-intro__text">${escapeHtml(h.introText)}</p>
+      <p class="section-intro__text">${richText(h.introText, '')}</p>
     </div>
     <div class="cards-grid">
       ${(h.introCards || []).map((c, i) => `<article class="icon-card">
         <span class="icon-card__badge">${INTRO_CARD_ICONS[i % INTRO_CARD_ICONS.length]}</span>
         <h3>${escapeHtml(c.title)}</h3>
-        <p>${escapeHtml(c.text)}</p>
+        <p>${richText(c.text, '')}</p>
       </article>`).join('\n      ')}
     </div>
   </section>
@@ -774,7 +779,7 @@ export function renderHomepage(homepage, pages, content) {
           <span class="testimonial-quote-mark">"</span>
           <div class="testimonial-card">
             <span class="meta">Témoignages</span>
-            <blockquote>${escapeHtml(h.testimonial?.quote)}</blockquote>
+            <blockquote>${richText(h.testimonial?.quote, '')}</blockquote>
             <cite>${escapeHtml(h.testimonial?.cite)}</cite>
           </div>
         </div>
@@ -789,7 +794,7 @@ export function renderHomepage(homepage, pages, content) {
     <div class="stats-row">
       ${(h.stats || []).map(s => `<div><div class="stat-value">${escapeHtml(s.value)}</div><div class="stat-label">${escapeHtml(s.label)}</div></div>`).join('\n      ')}
     </div>
-    <p class="stats-caption">${escapeHtml(h.statsCaption)}</p>
+    <p class="stats-caption">${richText(h.statsCaption, '')}</p>
   </section>
   </div>
 
@@ -813,7 +818,7 @@ export function renderHomepage(homepage, pages, content) {
       ${(h.values || []).map((v, i) => `<div class="value-item">
         <span class="value-item__icon">${VALUE_ICONS[i % VALUE_ICONS.length]}</span>
         <h3>${escapeHtml(v.title)}</h3>
-        <p>${escapeHtml(v.text)}</p>
+        <p>${richText(v.text, '')}</p>
       </div>`).join('\n      ')}
     </div>
   </section>
@@ -823,7 +828,7 @@ export function renderHomepage(homepage, pages, content) {
     <div class="container">
     <h2 class="section-title">${escapeHtml(h.partnersTitle)}</h2>
     <div class="partners-row">
-      ${(h.partners || []).map(p => `<img class="partner-logo" src="${escapeHtml(p.image)}" alt="${escapeHtml(p.alt)}" loading="lazy">`).join('\n      ')}
+      ${(h.partners || []).filter(p => p.image).map(p => `<img class="partner-logo" src="${escapeHtml(p.image)}" alt="${escapeHtml(p.alt)}" loading="lazy">`).join('\n      ')}
     </div>
     </div>
   </section>
@@ -832,7 +837,7 @@ export function renderHomepage(homepage, pages, content) {
     <div class="cta-band">
       <div>
         <h3>${escapeHtml(cta.title)}</h3>
-        <p>${escapeHtml(cta.text)}</p>
+        <p>${richText(cta.text, '')}</p>
       </div>
       <a class="btn-cta-pill" href="contact/">${escapeHtml(cta.label)}</a>
     </div>

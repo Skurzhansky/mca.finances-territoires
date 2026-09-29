@@ -36,6 +36,7 @@ const ICONS = {
   alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>',
   info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>',
   menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>',
+  upload: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>',
   file: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>',
 };
 
@@ -222,30 +223,340 @@ function previewUrlFor(key) {
 // key : clé S3 actuelle de la photo (peut être vide/absente).
 function photoFieldHtml(id, label, key) {
   return `<div class="admin-photo-field">
-    <img id="${id}-preview" src="${escapeHtml(previewUrlFor(key))}" alt="" onerror="this.style.visibility='hidden'">
+    <img id="${id}-preview" src="${escapeHtml(previewUrlFor(key))}" alt="" ${key ? '' : 'style="visibility:hidden"'} onerror="this.style.visibility='hidden'">
     <div class="admin-photo-field__info">
       <span>${escapeHtml(label)}</span>
-      <input type="file" id="${id}-input" accept="image/*">
+      <div class="admin-photo-field__actions">
+        <label class="btn btn--small">${ICONS.upload}<span>Téléverser</span><input type="file" id="${id}-input" accept="image/*" hidden></label>
+        <button type="button" class="btn btn--small" id="${id}-pick">${ICONS.image}<span>Médiathèque</span></button>
+        <button type="button" class="btn btn--small btn--danger" id="${id}-clear">Retirer</button>
+      </div>
     </div>
   </div>`;
 }
 
 // computeKey(ext) : calcule la clé S3 définitive pour le fichier choisi.
-// onSelected(key) : appelé après sélection, pour que l'appelant mette à
-// jour son brouillon avec la nouvelle clé.
+// onSelected(key) : appelé après sélection (téléversement, choix dans la
+// médiathèque ou retrait — clé vide), pour que l'appelant mette à jour son
+// brouillon.
 function wirePhotoField(id, computeKey, onSelected) {
   const input = document.getElementById(`${id}-input`);
   if (!input) return;
+  const preview = document.getElementById(`${id}-preview`);
+  const show = key => {
+    preview.src = previewUrlFor(key);
+    preview.style.visibility = key ? '' : 'hidden';
+    onSelected(key);
+  };
   input.addEventListener('change', () => {
     const file = input.files[0];
     if (!file) return;
     const key = computeKey(extOf(file));
     pendingUploads.set(key, file);
-    const preview = document.getElementById(`${id}-preview`);
-    preview.src = URL.createObjectURL(file);
-    preview.style.visibility = '';
-    onSelected(key);
+    pendingDeletes.delete(key);
+    show(key);
   });
+  document.getElementById(`${id}-pick`).addEventListener('click', () => openMediaPicker(show));
+  document.getElementById(`${id}-clear`).addEventListener('click', () => {
+    input.value = '';
+    show('');
+  });
+}
+
+// ---------- Éditeur de texte (mise en forme légère) ----------
+// Les zones de texte longues reçoivent une barre d'outils qui insère la
+// syntaxe comprise par richText() dans les gabarits : **gras**, *italique*,
+// [lien](url). Les retours à la ligne sont conservés à l'affichage.
+
+const PLAIN_TEXTAREA = el => /seo/i.test(el.id) || /seoDescription$/.test(el.dataset.path || '');
+
+function wrapSelection(ta, before, after, placeholder) {
+  const { selectionStart: start, selectionEnd: end, value } = ta;
+  const selected = value.slice(start, end) || placeholder;
+  ta.value = value.slice(0, start) + before + selected + after + value.slice(end);
+  ta.focus();
+  ta.setSelectionRange(start + before.length, start + before.length + selected.length);
+  ta.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+function enhanceTextarea(ta) {
+  if (ta.dataset.rte || PLAIN_TEXTAREA(ta)) return;
+  ta.dataset.rte = '1';
+  const bar = document.createElement('div');
+  bar.className = 'admin-rte-toolbar';
+  bar.innerHTML = `
+    <button type="button" data-rte="bold" title="Gras (Ctrl+B)"><strong>G</strong></button>
+    <button type="button" data-rte="italic" title="Italique (Ctrl+I)"><em>I</em></button>
+    <button type="button" data-rte="link" title="Lien (Ctrl+K)">Lien</button>
+    <span class="admin-rte-toolbar__hint">Entrée = retour à la ligne</span>`;
+  const actions = {
+    bold: () => wrapSelection(ta, '**', '**', 'texte en gras'),
+    italic: () => wrapSelection(ta, '*', '*', 'texte en italique'),
+    link: () => {
+      const url = prompt('Adresse du lien (ex. contact/ ou https://…)');
+      if (url) wrapSelection(ta, '[', `](${url.trim()})`, 'libellé du lien');
+    },
+  };
+  bar.querySelectorAll('[data-rte]').forEach(btn => {
+    btn.addEventListener('mousedown', e => e.preventDefault());
+    btn.addEventListener('click', e => { e.preventDefault(); actions[btn.dataset.rte](); });
+  });
+  ta.addEventListener('keydown', e => {
+    if (!(e.ctrlKey || e.metaKey)) return;
+    const k = { b: 'bold', i: 'italic', k: 'link' }[e.key.toLowerCase()];
+    if (k) { e.preventDefault(); actions[k](); }
+  });
+  ta.classList.add('admin-rte-textarea');
+  ta.parentNode.insertBefore(bar, ta);
+}
+
+let textareaObserver = null;
+function enhanceTextareas(root) {
+  root.querySelectorAll('textarea').forEach(enhanceTextarea);
+  if (textareaObserver) textareaObserver.disconnect();
+  textareaObserver = new MutationObserver(() => root.querySelectorAll('textarea:not([data-rte])').forEach(enhanceTextarea));
+  textareaObserver.observe(root, { childList: true, subtree: true });
+}
+
+// ---------- Médiathèque ----------
+// Liste des images du bucket (préfixe images/), complétée par les fichiers
+// en attente de publication. Les suppressions ne sont appliquées sur S3
+// qu'au moment de « Publier », comme les téléversements.
+
+const pendingDeletes = new Set(); // clés S3 à supprimer à la publication
+const IMAGE_EXT = /\.(jpe?g|png|gif|webp|svg|avif)$/i;
+
+async function loadMedia() {
+  const referenced = [...new Set(allDataText().match(/images\/[^"'\s)]+/g) || [])];
+  let items;
+  let listError = null;
+  try {
+    const { S3Client, ListObjectsV2Command } = await import('https://cdn.jsdelivr.net/npm/@aws-sdk/client-s3@3/+esm');
+    const s3 = new S3Client({ region: config.region, credentials: state.credentials });
+    items = [];
+    let token;
+    do {
+      const res = await s3.send(new ListObjectsV2Command({ Bucket: config.bucket, Prefix: 'images/', ContinuationToken: token }));
+      for (const o of res.Contents || []) {
+        if (IMAGE_EXT.test(o.Key)) items.push({ key: o.Key, size: o.Size, date: o.LastModified });
+      }
+      token = res.IsTruncated ? res.NextContinuationToken : undefined;
+    } while (token);
+  } catch (err) {
+    console.warn(err);
+    listError = err;
+    items = referenced.filter(k => IMAGE_EXT.test(k)).map(key => ({ key }));
+  }
+  let staticText = '';
+  try {
+    const texts = await Promise.all(['scripts/templates.mjs', 'styles/site.css'].map(f =>
+      fetch(`${config.siteUrl}/${f}`, { cache: 'no-store' }).then(r => (r.ok ? r.text() : ''))));
+    staticText = texts.join('\n');
+  } catch { /* ignoré : seules les données JSON servent alors au calcul d'usage */ }
+  state.media = { items, listError, staticText };
+}
+
+function allDataText() {
+  return JSON.stringify([state.homepage, state.navigation, state.content, state.expertises, state.secteurs, state.guideArticles, state.events]);
+}
+
+function mediaItems() {
+  const known = new Set(state.media.items.map(i => i.key));
+  const pending = [...pendingUploads.keys()].filter(k => !known.has(k)).map(key => ({ key, size: pendingUploads.get(key).size, pending: true }));
+  return [...pending, ...state.media.items.map(i => ({ ...i, pending: pendingUploads.has(i.key) }))]
+    .filter(i => !pendingDeletes.has(i.key));
+}
+
+function mediaUsage(key) {
+  const data = allDataText();
+  const inData = data.split(`"${key}"`).length - 1;
+  const inStatic = state.media?.staticText.includes(key) ? 1 : 0;
+  return inData + inStatic;
+}
+
+function formatSize(bytes) {
+  if (bytes == null) return '';
+  if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} Ko`;
+  return `${(bytes / 1024 / 1024).toFixed(1)} Mo`;
+}
+
+function uploadKeyFor(file) {
+  const base = slugify(file.name.replace(/\.[^.]+$/, '')) || 'photo';
+  return `images/uploads/${base}-${Math.random().toString(36).slice(2, 7)}.${extOf(file)}`;
+}
+
+function addMediaFiles(files) {
+  const keys = [];
+  for (const file of files) {
+    if (!file.type.startsWith('image/')) continue;
+    const key = uploadKeyFor(file);
+    pendingUploads.set(key, file);
+    keys.push(key);
+  }
+  if (keys.length) { state.dirty = true; updateDirtyBadge(); }
+  return keys;
+}
+
+function mediaGridHtml(items, { picker = false } = {}) {
+  if (!items.length) return '<p class="admin-hint">Aucune photo trouvée.</p>';
+  return `<div class="admin-media-grid">${items.map(i => {
+    const used = mediaUsage(i.key);
+    const name = i.key.split('/').pop();
+    return `<figure class="admin-media-card" data-key="${escapeHtml(i.key)}">
+      <button type="button" class="admin-media-card__thumb" ${picker ? `data-choose="${escapeHtml(i.key)}"` : `data-open="${escapeHtml(i.key)}"`} title="${escapeHtml(i.key)}">
+        <img src="${escapeHtml(previewUrlFor(i.key))}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+      </button>
+      <figcaption>
+        <span class="admin-media-card__name" title="${escapeHtml(i.key)}">${escapeHtml(name)}</span>
+        <span class="admin-media-card__meta">
+          ${i.pending ? '<span class="admin-chip admin-chip--warn">À publier</span>' : ''}
+          ${used ? `<span class="admin-chip">Utilisée${used > 1 ? ` ×${used}` : ''}</span>` : '<span class="admin-chip admin-chip--muted">Non utilisée</span>'}
+          <span>${formatSize(i.size)}</span>
+        </span>
+        ${picker ? '' : `<span class="admin-media-card__actions">
+          <button type="button" class="icon-btn" data-copy="${escapeHtml(i.key)}" title="Copier le chemin">${ICONS.file}</button>
+          <button type="button" class="icon-btn icon-btn--danger" data-delete="${escapeHtml(i.key)}" title="Supprimer">${ICONS.trash}</button>
+        </span>`}
+      </figcaption>
+    </figure>`;
+  }).join('')}</div>`;
+}
+
+function filterMedia(items, query) {
+  const q = query.trim().toLowerCase();
+  return q ? items.filter(i => i.key.toLowerCase().includes(q)) : items;
+}
+
+function dropZoneHtml(id) {
+  return `<label class="admin-dropzone" id="${id}">
+    ${ICONS.upload}
+    <span><strong>Glissez-déposez vos photos ici</strong> ou cliquez pour les choisir</span>
+    <input type="file" accept="image/*" multiple hidden>
+  </label>`;
+}
+
+function wireDropZone(zone, onFiles) {
+  const input = zone.querySelector('input');
+  input.addEventListener('change', () => { onFiles([...input.files]); input.value = ''; });
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('is-over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('is-over'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('is-over');
+    onFiles([...e.dataTransfer.files]);
+  });
+}
+
+async function renderMediaLibrary(content) {
+  if (!state.media) {
+    content.innerHTML = '<p class="admin-hint">Chargement de la médiathèque…</p>';
+    await loadMedia();
+    if (state.view.tab !== 'medias') return;
+  }
+  let query = '';
+
+  function paint() {
+    const items = filterMedia(mediaItems(), query);
+    content.innerHTML = `
+      <div class="admin-section-title"><h2>Médiathèque</h2></div>
+      <p class="admin-hint">Toutes les photos du site. Ajoutez-en, supprimez celles qui ne servent plus, puis cliquez « Publier » en haut pour appliquer les changements.</p>
+      ${state.media.listError ? '<p class="admin-status admin-status--error">Liste complète du stockage indisponible (droit « ListBucket » manquant) — seules les photos utilisées par le site sont affichées.</p>' : ''}
+      <p id="media-status" class="admin-status"></p>
+      ${dropZoneHtml('media-drop')}
+      <input type="search" id="media-search" class="admin-media-search" placeholder="Rechercher une photo…" value="${escapeHtml(query)}">
+      <p class="admin-hint">${items.length} photo(s)</p>
+      ${mediaGridHtml(items)}`;
+
+    const search = document.getElementById('media-search');
+    search.addEventListener('input', () => {
+      query = search.value;
+      const pos = search.selectionStart;
+      paint();
+      const s2 = document.getElementById('media-search');
+      s2.focus();
+      s2.setSelectionRange(pos, pos);
+    });
+    wireDropZone(document.getElementById('media-drop'), files => {
+      const keys = addMediaFiles(files);
+      paint();
+      if (keys.length) setStatus(document.getElementById('media-status'), `${keys.length} photo(s) ajoutée(s) — cliquez « Publier » pour les mettre en ligne.`, 'ok');
+    });
+    content.querySelectorAll('[data-open]').forEach(btn => btn.addEventListener('click', () => window.open(previewUrlFor(btn.dataset.open), '_blank')));
+    content.querySelectorAll('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy);
+        setStatus(document.getElementById('media-status'), `Chemin copié : ${btn.dataset.copy}`, 'ok');
+      } catch {
+        prompt('Chemin de la photo :', btn.dataset.copy);
+      }
+    }));
+    content.querySelectorAll('[data-delete]').forEach(btn => btn.addEventListener('click', () => {
+      const key = btn.dataset.delete;
+      const statusEl = document.getElementById('media-status');
+      if (mediaUsage(key)) {
+        setStatus(statusEl, 'Cette photo est utilisée sur le site : remplacez-la ou retirez-la de la page concernée avant de la supprimer.', 'error');
+        return;
+      }
+      if (!confirm(`Supprimer définitivement « ${key.split('/').pop()} » ?`)) return;
+      if (pendingUploads.has(key) && !state.media.items.some(i => i.key === key)) {
+        pendingUploads.delete(key);
+      } else {
+        pendingUploads.delete(key);
+        pendingDeletes.add(key);
+        state.dirty = true;
+        updateDirtyBadge();
+      }
+      paint();
+      setStatus(document.getElementById('media-status'), 'Photo supprimée — cliquez « Publier » pour appliquer.', 'ok');
+    }));
+    const countEl = document.querySelector('[data-tab="medias"] .admin-nav-item__count');
+    if (countEl) countEl.textContent = mediaItems().length;
+  }
+  paint();
+}
+
+async function openMediaPicker(onChoose) {
+  const overlay = document.createElement('div');
+  overlay.className = 'admin-modal';
+  overlay.innerHTML = `<div class="admin-modal__dialog" role="dialog" aria-modal="true" aria-label="Choisir une photo">
+    <div class="admin-modal__header">
+      <h3>Choisir une photo</h3>
+      <button type="button" class="icon-btn" data-close title="Fermer">✕</button>
+    </div>
+    <div class="admin-modal__body"><p class="admin-hint">Chargement…</p></div>
+  </div>`;
+  document.body.appendChild(overlay);
+  const close = () => { overlay.remove(); document.removeEventListener('keydown', onKey); };
+  const onKey = e => { if (e.key === 'Escape') close(); };
+  document.addEventListener('keydown', onKey);
+  overlay.addEventListener('click', e => { if (e.target === overlay || e.target.closest('[data-close]')) close(); });
+  if (!state.media) await loadMedia();
+  const body = overlay.querySelector('.admin-modal__body');
+  let query = '';
+
+  function paint() {
+    body.innerHTML = `${dropZoneHtml('picker-drop')}
+      <input type="search" class="admin-media-search" placeholder="Rechercher une photo…" value="${escapeHtml(query)}">
+      ${mediaGridHtml(filterMedia(mediaItems(), query), { picker: true })}`;
+    const search = body.querySelector('input[type="search"]');
+    search.addEventListener('input', () => {
+      query = search.value;
+      const pos = search.selectionStart;
+      paint();
+      const s2 = body.querySelector('input[type="search"]');
+      s2.focus();
+      s2.setSelectionRange(pos, pos);
+    });
+    wireDropZone(body.querySelector('#picker-drop'), files => {
+      const [key] = addMediaFiles(files);
+      if (key) { close(); onChoose(key); }
+    });
+    body.querySelectorAll('[data-choose]').forEach(btn => btn.addEventListener('click', () => {
+      close();
+      onChoose(btn.dataset.choose);
+    }));
+  }
+  paint();
 }
 
 // ---------- Point d'entrée ----------
@@ -258,6 +569,7 @@ export async function mountAdmin(root, { user, credentials, signOut }) {
     originalPageSlugs: new Set(),
     view: { tab: 'accueil' },
     dirty: false,
+    media: null,
   };
 
   root.innerHTML = `<div class="admin-login"><p>Chargement des données…</p></div>`;
@@ -297,6 +609,7 @@ const NAV_ITEMS = [
   { id: 'secteurs', icon: 'building', label: 'Secteurs', count: () => state.secteurs.length },
   { id: 'guide', icon: 'book', label: 'Guide', count: () => state.guideArticles.length },
   { id: 'evenements', icon: 'calendar', label: 'Événements', count: () => state.events.length },
+  { id: 'medias', icon: 'image', label: 'Médiathèque', count: () => (state.media ? mediaItems().length : null) },
 ];
 
 function render(root, signOut) {
@@ -336,6 +649,7 @@ function render(root, signOut) {
   document.getElementById('signOut').addEventListener('click', () => signOut());
   document.getElementById('publish-btn').addEventListener('click', () => publish(root, signOut));
   document.getElementById('preview-btn').addEventListener('click', () => openPreview(null));
+  enhanceTextareas(root);
   root.querySelectorAll('.admin-nav-item').forEach(btn => {
     btn.addEventListener('click', () => {
       state.view = { tab: btn.dataset.tab };
@@ -351,6 +665,7 @@ function render(root, signOut) {
   else if (state.view.tab === 'expertises') renderResourceList(RESOURCE_KINDS.expertises, content, root, signOut);
   else if (state.view.tab === 'secteurs') renderResourceList(RESOURCE_KINDS.secteurs, content, root, signOut);
   else if (state.view.tab === 'guide') renderGuideList(content, root, signOut);
+  else if (state.view.tab === 'medias') renderMediaLibrary(content);
   else renderEventsList(content, root, signOut);
 }
 
@@ -1336,11 +1651,14 @@ async function publish(root, signOut) {
     const deletedSlugs = [...state.originalPageSlugs].filter(s => !currentSlugs.has(s));
 
     const currentPartnerImages = new Set((state.homepage.partners || []).map(p => p.image).filter(Boolean));
-    const deletedPartnerImages = [...state.originalPartnerImages].filter(k => !currentPartnerImages.has(k));
+    const usedElsewhere = allDataText();
+    const deletedPartnerImages = [...state.originalPartnerImages]
+      .filter(k => !currentPartnerImages.has(k) && !usedElsewhere.includes(`"${k}"`) && !pendingDeletes.has(k));
+    const mediaDeletes = [...pendingDeletes];
 
     let done = 0;
     const total = pages.length + 1 /* index.html */ + 7 /* fichiers data/*.json */
-      + deletedSlugs.length + pendingUploads.size + deletedPartnerImages.length;
+      + deletedSlugs.length + pendingUploads.size + deletedPartnerImages.length + mediaDeletes.length;
     const tick = () => { setStatus(statusEl, `Publication en cours… (${++done}/${total})`, 'progress'); };
 
     for (const [key, file] of pendingUploads) {
@@ -1396,12 +1714,21 @@ async function publish(root, signOut) {
       tick();
     }
 
-    for (const key of deletedPartnerImages) {
+    for (const key of [...deletedPartnerImages, ...mediaDeletes]) {
       await s3.send(new DeleteObjectCommand({ Bucket: config.bucket, Key: key }));
       tick();
     }
 
+    if (state.media) {
+      const removed = new Set([...deletedPartnerImages, ...mediaDeletes]);
+      const known = new Set(state.media.items.map(i => i.key));
+      state.media.items = state.media.items.filter(i => !removed.has(i.key));
+      for (const [key, file] of pendingUploads) {
+        if (!known.has(key)) state.media.items.push({ key, size: file.size });
+      }
+    }
     pendingUploads.clear();
+    pendingDeletes.clear();
     state.originalPageSlugs = currentSlugs;
     state.originalPartnerImages = currentPartnerImages;
     state.dirty = false;
