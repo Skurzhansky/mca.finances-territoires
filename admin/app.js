@@ -1696,7 +1696,12 @@ async function publish(root, signOut) {
 
   try {
     const { S3Client, PutObjectCommand, DeleteObjectCommand } = await import('https://cdn.jsdelivr.net/npm/@aws-sdk/client-s3@3/+esm');
-    const s3 = new S3Client({ region: config.region, credentials: state.credentials });
+    const s3 = new S3Client({
+      region: config.region,
+      credentials: state.credentials,
+      requestChecksumCalculation: 'WHEN_REQUIRED',
+      responseChecksumValidation: 'WHEN_REQUIRED',
+    });
 
     const pages = currentPages();
     const currentSlugs = new Set([...state.guideArticles, ...state.expertises, ...state.secteurs].map(x => x.slug));
@@ -1717,7 +1722,7 @@ async function publish(root, signOut) {
       await s3.send(new PutObjectCommand({
         Bucket: config.bucket,
         Key: key,
-        Body: file,
+        Body: new Uint8Array(await file.arrayBuffer()),
         ContentType: file.type || 'application/octet-stream',
       }));
       tick();
