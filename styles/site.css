@@ -1122,6 +1122,7 @@ section.section--muted { background: var(--canvas); }
   margin-bottom: 64px;
 }
 .empty-state strong { display: block; color: var(--ink); font-size: 15px; font-weight: 500; margin-bottom: 8px; }
+.empty-state a { color: var(--purple-700); }
 
 .contact-layout {
   display: grid;
@@ -1155,6 +1156,7 @@ section.section--muted { background: var(--canvas); }
 }
 .contact-info h3 { color: var(--white); font-size: 17px; font-weight: 500; margin: 0 0 12px; }
 .contact-info p { font-size: 13px; line-height: 1.6; margin: 0 0 20px; color: rgba(255,255,255,.75); }
+.contact-info a { color: var(--white); }
 
 .page-banner {
   width: 100%;

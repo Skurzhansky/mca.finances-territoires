@@ -1,5 +1,5 @@
 import { config } from './config.js';
-import { buildPages, page, homepagePage } from '../scripts/templates.mjs';
+import { buildPages, page, homepagePage, BASE_PAGES, DEFAULT_NAVIGATION, DEFAULT_CONTENT } from '../scripts/templates.mjs';
 
 let state = null;
 
@@ -35,6 +35,8 @@ const ICONS = {
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.5 2.5L16 9.5"/></svg>',
   alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>',
   info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>',
+  menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>',
+  file: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>',
 };
 
 function setStatus(el, text, kind) {
@@ -55,6 +57,148 @@ async function fetchJSON(path) {
   const res = await fetch(`${config.siteUrl}/${path}?t=${Date.now()}`, { cache: 'no-store' });
   if (!res.ok) throw new Error(`Impossible de charger ${path} (${res.status})`);
   return res.json();
+}
+
+// navigation.json / pages.json peuvent ne pas encore exister en ligne (première
+// publication après cette mise à jour) : on repart alors des valeurs par défaut
+// des gabarits, identiques au site actuel.
+async function fetchJSONOrDefault(path, fallback) {
+  try {
+    return await fetchJSON(path);
+  } catch {
+    return JSON.parse(JSON.stringify(fallback));
+  }
+}
+
+// ---------- Brouillon courant ----------
+
+function site() {
+  return { navigation: state.navigation, content: state.content };
+}
+
+function currentPages() {
+  return buildPages({
+    guideArticles: state.guideArticles,
+    expertises: state.expertises,
+    secteurs: state.secteurs,
+    content: state.content,
+  });
+}
+
+// Aperçu : le HTML est généré avec les mêmes gabarits que la publication, puis
+// ouvert dans un onglet. Une balise <base> fait pointer CSS, images et liens
+// vers le site en ligne ; les photos choisies mais pas encore publiées sont
+// remplacées par leur aperçu local.
+function openPreview(slug) {
+  const pages = currentPages();
+  let html = slug
+    ? page(pages.find(p => p.slug === slug) || pages[0], pages, state.events, site())
+    : homepagePage(state.homepage, pages, site());
+  const baseHref = `${config.siteUrl}/${slug ? `${slug}/` : ''}`;
+  html = html.replace('<head>', `<head>\n<base href="${baseHref}">`);
+  for (const [key, file] of pendingUploads) {
+    html = html.split(key).join(URL.createObjectURL(file));
+  }
+  const win = window.open('', '_blank');
+  if (!win) { alert('Le navigateur a bloqué l’ouverture de l’aperçu. Autorisez les fenêtres pop-up pour ce site.'); return; }
+  win.document.open();
+  win.document.write(html);
+  win.document.close();
+}
+
+function previewButton(slug, label = 'Aperçu') {
+  return `<button type="button" class="btn" data-preview="${escapeHtml(slug || '')}">${escapeHtml(label)}</button>`;
+}
+
+function wirePreviewButtons(container, beforePreview) {
+  container.querySelectorAll('[data-preview]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (beforePreview) beforePreview();
+      openPreview(btn.dataset.preview || null);
+    });
+  });
+}
+
+// ---------- Champs pilotés par chemin (data-path) ----------
+// Chaque champ porte le chemin de la valeur qu'il édite dans le brouillon
+// (ex. "footer.columns.0.links.2.label"), ce qui évite d'écrire un
+// synchroniseur spécifique par formulaire.
+
+function getByPath(obj, path) {
+  return path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
+}
+
+function setByPath(obj, path, value) {
+  const parts = path.split('.');
+  let cur = obj;
+  for (let i = 0; i < parts.length - 1; i++) {
+    if (cur[parts[i]] == null) cur[parts[i]] = /^\d+$/.test(parts[i + 1]) ? [] : {};
+    cur = cur[parts[i]];
+  }
+  cur[parts[parts.length - 1]] = value;
+}
+
+function syncPaths(container, draft) {
+  container.querySelectorAll('[data-path]').forEach(el => setByPath(draft, el.dataset.path, el.value));
+}
+
+function pathField(label, path, value, { rows, hint } = {}) {
+  const input = rows
+    ? `<textarea rows="${rows}" data-path="${escapeHtml(path)}">${escapeHtml(value ?? '')}</textarea>`
+    : `<input type="text" data-path="${escapeHtml(path)}" value="${escapeHtml(value ?? '')}">`;
+  return `<label>${escapeHtml(label)}
+    ${input}
+  </label>${hint ? `<p class="admin-hint">${escapeHtml(hint)}</p>` : ''}`;
+}
+
+function itemToolbar(path, index, length) {
+  return `<div class="admin-item-toolbar">
+    <button type="button" class="btn" data-move="${escapeHtml(path)}.${index}" data-dir="-1" ${index === 0 ? 'disabled' : ''} title="Monter">↑</button>
+    <button type="button" class="btn" data-move="${escapeHtml(path)}.${index}" data-dir="1" ${index === length - 1 ? 'disabled' : ''} title="Descendre">↓</button>
+    <button type="button" class="btn btn--danger" data-remove="${escapeHtml(path)}.${index}">Retirer</button>
+  </div>`;
+}
+
+// Boutons génériques d'édition de listes : ajout (data-add + data-template),
+// suppression (data-remove) et réordonnancement (data-move + data-dir).
+function wireArrayButtons(container, draft, paint, templates) {
+  container.querySelectorAll('[data-add]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      syncPaths(container, draft);
+      const arr = getByPath(draft, btn.dataset.add) || [];
+      arr.push(JSON.parse(JSON.stringify(templates[btn.dataset.template])));
+      setByPath(draft, btn.dataset.add, arr);
+      paint();
+    });
+  });
+  container.querySelectorAll('[data-remove]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      syncPaths(container, draft);
+      const parts = btn.dataset.remove.split('.');
+      const index = Number(parts.pop());
+      getByPath(draft, parts.join('.')).splice(index, 1);
+      paint();
+    });
+  });
+  container.querySelectorAll('[data-move]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      syncPaths(container, draft);
+      const parts = btn.dataset.move.split('.');
+      const index = Number(parts.pop());
+      const arr = getByPath(draft, parts.join('.'));
+      const target = index + Number(btn.dataset.dir);
+      if (target < 0 || target >= arr.length) return;
+      [arr[index], arr[target]] = [arr[target], arr[index]];
+      paint();
+    });
+  });
+}
+
+function seoFieldsHtml(draft, prefix = '') {
+  const p = prefix ? `${prefix}.` : '';
+  return `<p class="admin-hint">Laissés vides, ces champs reprennent le titre et le chapô de la page.</p>
+    ${pathField('Titre SEO (balise <title>)', `${p}seoTitle`, getByPath(draft, `${p}seoTitle`))}
+    ${pathField('Méta description', `${p}seoDescription`, getByPath(draft, `${p}seoDescription`), { rows: 2 })}`;
 }
 
 // ---------- Upload de photos ----------
@@ -110,6 +254,7 @@ export async function mountAdmin(root, { user, credentials, signOut }) {
   state = {
     user, credentials,
     guideArticles: [], events: [], expertises: [], secteurs: [], homepage: {},
+    navigation: null, content: null,
     originalPageSlugs: new Set(),
     view: { tab: 'accueil' },
     dirty: false,
@@ -118,13 +263,17 @@ export async function mountAdmin(root, { user, credentials, signOut }) {
   root.innerHTML = `<div class="admin-login"><p>Chargement des données…</p></div>`;
 
   try {
-    const [guideArticles, events, expertises, secteurs, homepage] = await Promise.all([
+    const [guideArticles, events, expertises, secteurs, homepage, navigation, content] = await Promise.all([
       fetchJSON('data/guide-articles.json'),
       fetchJSON('data/evenements.json'),
       fetchJSON('data/expertises.json'),
       fetchJSON('data/secteurs.json'),
       fetchJSON('data/homepage.json'),
+      fetchJSONOrDefault('data/navigation.json', DEFAULT_NAVIGATION),
+      fetchJSONOrDefault('data/pages.json', DEFAULT_CONTENT),
     ]);
+    state.navigation = navigation;
+    state.content = content;
     state.guideArticles = guideArticles;
     state.events = events;
     state.expertises = expertises;
@@ -142,6 +291,8 @@ export async function mountAdmin(root, { user, credentials, signOut }) {
 
 const NAV_ITEMS = [
   { id: 'accueil', icon: 'home', label: 'Page d’accueil', count: () => null },
+  { id: 'structure', icon: 'menu', label: 'Menu et pied de page', count: () => null },
+  { id: 'pages', icon: 'file', label: 'Pages de base', count: () => BASE_PAGES.length },
   { id: 'expertises', icon: 'briefcase', label: 'Expertises', count: () => state.expertises.length },
   { id: 'secteurs', icon: 'building', label: 'Secteurs', count: () => state.secteurs.length },
   { id: 'guide', icon: 'book', label: 'Guide', count: () => state.guideArticles.length },
@@ -159,6 +310,7 @@ function render(root, signOut) {
         <div class="admin-topbar__actions">
           <span class="admin-topbar__user">${escapeHtml(state.user.profile?.email || '')}</span>
           <span id="dirty-badge" class="admin-badge" hidden>Modifications non publiées</span>
+          <button id="preview-btn" class="btn">Aperçu du site</button>
           <button id="publish-btn" class="btn btn--site btn-primary">Publier</button>
           <button id="signOut" class="btn">Se déconnecter</button>
         </div>
@@ -183,6 +335,7 @@ function render(root, signOut) {
 
   document.getElementById('signOut').addEventListener('click', () => signOut());
   document.getElementById('publish-btn').addEventListener('click', () => publish(root, signOut));
+  document.getElementById('preview-btn').addEventListener('click', () => openPreview(null));
   root.querySelectorAll('.admin-nav-item').forEach(btn => {
     btn.addEventListener('click', () => {
       state.view = { tab: btn.dataset.tab };
@@ -193,6 +346,8 @@ function render(root, signOut) {
 
   const content = document.getElementById('tab-content');
   if (state.view.tab === 'accueil') renderHomepageForm(content);
+  else if (state.view.tab === 'structure') renderNavigationForm(content);
+  else if (state.view.tab === 'pages') renderBasePagesList(content, root, signOut);
   else if (state.view.tab === 'expertises') renderResourceList(RESOURCE_KINDS.expertises, content, root, signOut);
   else if (state.view.tab === 'secteurs') renderResourceList(RESOURCE_KINDS.secteurs, content, root, signOut);
   else if (state.view.tab === 'guide') renderGuideList(content, root, signOut);
@@ -337,6 +492,16 @@ function renderHomepageForm(content) {
           <button type="button" id="add-partner" class="btn">+ Ajouter un partenaire</button>
         `, false)}
 
+        ${section('sec-seo', 'Référencement (SEO)', `
+          <p class="admin-hint">Laissés vides, ces champs reprennent le titre et le texte du bandeau principal.</p>
+          <label>Titre SEO (balise &lt;title&gt;)
+            <input type="text" id="f-seo-title" value="${escapeHtml(draft.seoTitle || '')}">
+          </label>
+          <label>Méta description
+            <textarea id="f-seo-description" rows="2">${escapeHtml(draft.seoDescription || '')}</textarea>
+          </label>
+        `, false)}
+
         ${section('sec-faq', 'FAQ (questions)', `
           <label>Titre du bloc
             <input type="text" id="f-faq-title" value="${escapeHtml(draft.faqTitle)}">
@@ -352,9 +517,14 @@ function renderHomepageForm(content) {
 
         <div class="admin-form__actions">
           <button type="submit" class="btn btn--site btn-primary">Enregistrer</button>
+          ${previewButton('')}
         </div>
       </form>`;
 
+    wirePreviewButtons(content, () => {
+      syncFormToDraft();
+      state.homepage = JSON.parse(JSON.stringify(draft));
+    });
     wirePhotoField('hero-big', ext => `images/uploads/homepage-hero-big.${ext}`, key => { draft.heroPhotos.big = key; });
     wirePhotoField('hero-tr1', ext => `images/uploads/homepage-hero-tr1.${ext}`, key => { draft.heroPhotos.tr1 = key; });
     wirePhotoField('hero-tr2', ext => `images/uploads/homepage-hero-tr2.${ext}`, key => { draft.heroPhotos.tr2 = key; });
@@ -427,12 +597,347 @@ function renderHomepageForm(content) {
     draft.partnersTitle = document.getElementById('f-partners-title').value;
     content.querySelectorAll('.f-partner-alt').forEach(el => { draft.partners[Number(el.dataset.i)].alt = el.value; });
     draft.faqTitle = document.getElementById('f-faq-title').value;
+    draft.seoTitle = document.getElementById('f-seo-title').value;
+    draft.seoDescription = document.getElementById('f-seo-description').value;
     content.querySelectorAll('.f-faq-item').forEach(el => { draft.faq[Number(el.dataset.i)] = el.value; });
   }
 
   paint();
 }
 
+// ---------- Onglet Menu et pied de page ----------
+// Toute la structure de navigation (menus déroulants, sous-menus, colonnes du
+// footer) vient de data/navigation.json : libellés, liens et ordre sont
+// modifiables ici, sans toucher aux gabarits.
+
+const NAV_TEMPLATES = {
+  link: { label: '', href: '' },
+  group: { label: '', href: '', children: [] },
+  column: { title: '', links: [] },
+};
+
+function linkFieldsHtml(path, item, index, length, { withChildren = false } = {}) {
+  const base = `${path}.${index}`;
+  return `<div class="admin-body-section">
+    <div class="admin-form-row">
+      ${pathField('Libellé', `${base}.label`, item.label)}
+      ${pathField('Lien (ex. contact/)', `${base}.href`, item.href)}
+    </div>
+    ${withChildren ? `<div class="admin-subitems">
+      ${(item.children || []).map((child, ci) => `<div class="admin-body-section">
+        <div class="admin-form-row">
+          ${pathField('Libellé', `${base}.children.${ci}.label`, child.label)}
+          ${pathField('Lien', `${base}.children.${ci}.href`, child.href)}
+        </div>
+        ${itemToolbar(`${base}.children`, ci, (item.children || []).length)}
+      </div>`).join('')}
+      <button type="button" class="btn" data-add="${base}.children" data-template="link">+ Ajouter un sous-élément</button>
+    </div>` : ''}
+    ${itemToolbar(path, index, length)}
+  </div>`;
+}
+
+function renderNavigationForm(content) {
+  const draft = JSON.parse(JSON.stringify(state.navigation || DEFAULT_NAVIGATION));
+  draft.header = { ...DEFAULT_NAVIGATION.header, ...(draft.header || {}) };
+  draft.footer = { ...DEFAULT_NAVIGATION.footer, ...(draft.footer || {}) };
+
+  function section(title, bodyHtml, open) {
+    return `<details class="admin-section"${open ? ' open' : ''}>
+      <summary>${escapeHtml(title)}</summary>
+      <div class="admin-section__body">${bodyHtml}</div>
+    </details>`;
+  }
+
+  function paint() {
+    const h = draft.header;
+    const f = draft.footer;
+    content.innerHTML = `
+      <form class="admin-form" id="navigation-form">
+        <h2>Menu et pied de page</h2>
+        <p class="admin-hint">Les liens sont relatifs à la racine du site (ex. <code>contact/</code>). Une page masquée disparaît automatiquement du menu et du pied de page.</p>
+        <p id="navigation-save-status" class="admin-status admin-status--ok" style="margin:0;"></p>
+
+        ${section('Barre de navigation', `
+          <div class="admin-form-row">
+            ${pathField('Libellé du menu « Expertises »', 'header.expertisesLabel', h.expertisesLabel)}
+            ${pathField('Libellé du menu « Qui sommes-nous »', 'header.aboutLabel', h.aboutLabel)}
+          </div>
+          <div class="admin-form-row">
+            ${pathField('Libellé du lien direct', 'header.reussitesLabel', h.reussitesLabel)}
+            ${pathField('Lien direct', 'header.reussitesHref', h.reussitesHref)}
+          </div>
+          <div class="admin-form-row">
+            ${pathField('Libellé du bouton', 'header.ctaLabel', h.ctaLabel)}
+            ${pathField('Lien du bouton', 'header.ctaHref', h.ctaHref)}
+          </div>
+        `, true)}
+
+        ${section('Menu « Expertises » (groupes et sous-menus)', `
+          ${(h.expertisesMenu || []).map((item, i) => linkFieldsHtml('header.expertisesMenu', item, i, h.expertisesMenu.length, { withChildren: true })).join('')}
+          <button type="button" class="btn" data-add="header.expertisesMenu" data-template="group">+ Ajouter un groupe</button>
+        `, false)}
+
+        ${section('Menu « Qui sommes-nous »', `
+          ${(h.aboutMenu || []).map((item, i) => linkFieldsHtml('header.aboutMenu', item, i, h.aboutMenu.length)).join('')}
+          <button type="button" class="btn" data-add="header.aboutMenu" data-template="link">+ Ajouter un lien</button>
+        `, false)}
+
+        ${section('Pied de page — présentation', `
+          ${pathField('Nom affiché', 'footer.brand', f.brand)}
+          ${pathField('Texte de présentation', 'footer.text', f.text, { rows: 2 })}
+          ${pathField('Mention sous le texte', 'footer.subsidiary', f.subsidiary)}
+          ${pathField('Mention légale (bas de page)', 'footer.bottom', f.bottom)}
+        `, false)}
+
+        ${section('Pied de page — colonnes de liens', `
+          ${(f.columns || []).map((col, ci) => `<div class="admin-body-section">
+            ${pathField('Titre de la colonne', `footer.columns.${ci}.title`, col.title)}
+            ${(col.links || []).map((l, li) => `<div class="admin-body-section">
+              <div class="admin-form-row">
+                ${pathField('Libellé', `footer.columns.${ci}.links.${li}.label`, l.label)}
+                ${pathField('Lien', `footer.columns.${ci}.links.${li}.href`, l.href)}
+              </div>
+              ${itemToolbar(`footer.columns.${ci}.links`, li, (col.links || []).length)}
+            </div>`).join('')}
+            <button type="button" class="btn" data-add="footer.columns.${ci}.links" data-template="link">+ Ajouter un lien</button>
+            ${itemToolbar('footer.columns', ci, (f.columns || []).length)}
+          </div>`).join('')}
+          <button type="button" class="btn" data-add="footer.columns" data-template="column">+ Ajouter une colonne</button>
+        `, false)}
+
+        <div class="admin-form__actions">
+          <button type="submit" class="btn btn--site btn-primary">Enregistrer</button>
+          ${previewButton('', 'Aperçu de la page d’accueil')}
+        </div>
+      </form>`;
+
+    wireArrayButtons(content, draft, paint, NAV_TEMPLATES);
+    wirePreviewButtons(content, () => {
+      syncPaths(content, draft);
+      state.navigation = draft;
+    });
+    document.getElementById('navigation-form').addEventListener('submit', e => {
+      e.preventDefault();
+      syncPaths(content, draft);
+      state.navigation = JSON.parse(JSON.stringify(draft));
+      state.dirty = true;
+      updateDirtyBadge();
+      setStatus(document.getElementById('navigation-save-status'), 'Enregistré localement — cliquez « Publier » en haut pour mettre le site à jour.', 'ok');
+    });
+  }
+
+  paint();
+}
+
+// ---------- Onglet Pages de base ----------
+// Contenu des pages du socle (Qui sommes-nous, Réussites, Contact, hubs…),
+// décrit champ par champ ci-dessous et stocké dans data/pages.json.
+
+const PAGE_FIELDS = {
+  'finances-et-territoires': [
+    { k: 'title', l: 'Titre (menu et fil d’Ariane)' },
+    { k: 'headline', l: 'Titre affiché (H1) — vide = titre ci-dessus' },
+    { k: 'lead', l: 'Chapô', rows: 3 },
+    { k: 'stats', l: 'Chiffres clés', type: 'items', template: { value: '', label: '' }, fields: [{ k: 'value', l: 'Chiffre' }, { k: 'label', l: 'Légende' }] },
+    { k: 'features', l: 'Points clés', type: 'items', template: { title: '', text: '' }, fields: [{ k: 'title', l: 'Titre' }, { k: 'text', l: 'Texte', rows: 2 }] },
+  ],
+  'les-reussites-de-nos-clients': [
+    { k: 'title', l: 'Titre (menu et fil d’Ariane)' },
+    { k: 'headline', l: 'Titre affiché sur la photo — vide = titre ci-dessus' },
+    { k: 'bannerImage', l: 'Photo de bandeau', type: 'photo' },
+    { k: 'bannerCtaLabel', l: 'Libellé du bouton du bandeau' },
+    { k: 'bannerCtaHref', l: 'Lien du bouton du bandeau' },
+    { k: 'lead', l: 'Chapô', rows: 3 },
+    { k: 'testimonial', l: 'Témoignage', type: 'group', fields: [
+      { k: 'meta', l: 'Surtitre' }, { k: 'quote', l: 'Citation', rows: 3 }, { k: 'cite', l: 'Auteur' }, { k: 'footnote', l: 'Précision' },
+    ] },
+    { k: 'stats', l: 'Chiffres clés', type: 'items', template: { value: '', label: '' }, fields: [{ k: 'value', l: 'Chiffre' }, { k: 'label', l: 'Légende' }] },
+  ],
+  contact: [
+    { k: 'title', l: 'Titre (menu et fil d’Ariane)' },
+    { k: 'headline', l: 'Titre affiché (H1) — vide = titre ci-dessus' },
+    { k: 'lead', l: 'Chapô', rows: 3 },
+    { k: 'email', l: 'Adresse e-mail destinataire du formulaire' },
+    { k: 'infoTitle', l: 'Titre de l’encart' },
+    { k: 'infoParagraphs', l: 'Paragraphes de l’encart', type: 'strings', rows: 3, hint: 'Un lien s’écrit [libellé](guide/).' },
+  ],
+  guide: [
+    { k: 'title', l: 'Titre' },
+    { k: 'lead', l: 'Chapô', rows: 2 },
+  ],
+  evenements: [
+    { k: 'title', l: 'Titre' },
+    { k: 'lead', l: 'Chapô', rows: 2 },
+    { k: 'emptyTitle', l: 'Titre affiché sans événement' },
+    { k: 'emptyText', l: 'Texte affiché sans événement', rows: 2, hint: 'Un lien s’écrit [libellé](contact/).' },
+  ],
+  entreprise: [
+    { k: 'title', l: 'Titre (menu et fil d’Ariane)' },
+    { k: 'eyebrow', l: 'Surtitre' },
+    { k: 'headline', l: 'Titre affiché (H1)' },
+    { k: 'lead', l: 'Chapô', rows: 4 },
+    { k: 'ctaLabel', l: 'Libellé du bouton' },
+    { k: 'image', l: 'Photo de bandeau', type: 'photo' },
+    { k: 'sections', l: 'Sections de contenu', type: 'sections' },
+    { k: 'cta', l: 'Bandeau d’appel à l’action', type: 'group', fields: [
+      { k: 'title', l: 'Titre' }, { k: 'text', l: 'Texte', rows: 2 }, { k: 'label', l: 'Libellé du bouton' },
+    ] },
+  ],
+  'secteurs-dactivite': [
+    { k: 'title', l: 'Titre' },
+    { k: 'lead', l: 'Chapô', rows: 3 },
+  ],
+};
+
+const PAGE_TEMPLATES = {
+  string: '',
+  listSection: { type: 'list', title: '', items: [''] },
+  blocksSection: { type: 'blocks', title: '', blocks: [{ title: '', text: '' }] },
+  block: { title: '', text: '' },
+};
+
+function sectionsEditorHtml(path, sections) {
+  return `${(sections || []).map((s, i) => `<div class="admin-body-section">
+    ${pathField('Titre de la section', `${path}.${i}.title`, s.title)}
+    ${s.type === 'list'
+      ? `${(s.items || []).map((item, ii) => `<div class="admin-body-section">
+          ${pathField(`Puce ${ii + 1}`, `${path}.${i}.items.${ii}`, item, { rows: 2 })}
+          ${itemToolbar(`${path}.${i}.items`, ii, (s.items || []).length)}
+        </div>`).join('')}
+        <button type="button" class="btn" data-add="${path}.${i}.items" data-template="string">+ Ajouter une puce</button>`
+      : `${(s.blocks || []).map((b, bi) => `<div class="admin-body-section">
+          ${pathField('Titre', `${path}.${i}.blocks.${bi}.title`, b.title)}
+          ${pathField('Texte', `${path}.${i}.blocks.${bi}.text`, b.text, { rows: 3 })}
+          ${itemToolbar(`${path}.${i}.blocks`, bi, (s.blocks || []).length)}
+        </div>`).join('')}
+        <button type="button" class="btn" data-add="${path}.${i}.blocks" data-template="block">+ Ajouter un bloc</button>`}
+    ${itemToolbar(path, i, (sections || []).length)}
+  </div>`).join('')}
+  <div class="admin-form-row">
+    <button type="button" class="btn" data-add="${path}" data-template="listSection">+ Ajouter une liste à puces</button>
+    <button type="button" class="btn" data-add="${path}" data-template="blocksSection">+ Ajouter des blocs titre/texte</button>
+  </div>`;
+}
+
+function pageFieldHtml(field, draft, slug) {
+  const value = draft[field.k];
+  if (field.type === 'photo') {
+    return `<div class="admin-body-section">${photoFieldHtml(`page-${slug}-${field.k}`, field.l, value)}</div>`;
+  }
+  if (field.type === 'group') {
+    return `<div class="admin-body-section">
+      <h3>${escapeHtml(field.l)}</h3>
+      ${field.fields.map(f => pathField(f.l, `${field.k}.${f.k}`, (value || {})[f.k], { rows: f.rows })).join('')}
+    </div>`;
+  }
+  if (field.type === 'strings') {
+    return `<h3>${escapeHtml(field.l)}</h3>
+      ${field.hint ? `<p class="admin-hint">${escapeHtml(field.hint)}</p>` : ''}
+      ${(value || []).map((v, i) => `<div class="admin-body-section">
+        ${pathField(`Paragraphe ${i + 1}`, `${field.k}.${i}`, v, { rows: field.rows || 2 })}
+        ${itemToolbar(field.k, i, (value || []).length)}
+      </div>`).join('')}
+      <button type="button" class="btn" data-add="${field.k}" data-template="string">+ Ajouter</button>`;
+  }
+  if (field.type === 'items') {
+    return `<h3>${escapeHtml(field.l)}</h3>
+      ${(value || []).map((item, i) => `<div class="admin-body-section">
+        ${field.fields.map(f => pathField(f.l, `${field.k}.${i}.${f.k}`, item[f.k], { rows: f.rows })).join('')}
+        ${itemToolbar(field.k, i, (value || []).length)}
+      </div>`).join('')}
+      <button type="button" class="btn" data-add="${field.k}" data-template="${field.k}">+ Ajouter</button>`;
+  }
+  if (field.type === 'sections') {
+    return `<h3>${escapeHtml(field.l)}</h3>${sectionsEditorHtml(field.k, value)}`;
+  }
+  return pathField(field.l, field.k, value, { rows: field.rows, hint: field.hint });
+}
+
+function renderBasePagesList(content, root, signOut) {
+  content.innerHTML = `
+    <div class="admin-list-header">
+      <div>
+        <h2 class="admin-section-title">Pages de base</h2>
+        <p class="admin-section-subtitle" style="margin:0;">Contenu des pages du socle du site</p>
+      </div>
+    </div>
+    <div class="admin-list">
+      ${BASE_PAGES.filter(p => PAGE_FIELDS[p.slug]).map(p => {
+        const c = { ...(DEFAULT_CONTENT.pages[p.slug] || {}), ...((state.content?.pages || {})[p.slug] || {}) };
+        return `<div class="admin-card">
+          ${thumbHtml(c.image || c.bannerImage || p.image)}
+          <div class="admin-card__body">
+            <div class="admin-card__title">${escapeHtml(c.title || p.title)}</div>
+            <div class="admin-card__meta">/${escapeHtml(p.slug)}/</div>
+          </div>
+          <div class="admin-card__actions">
+            <button class="icon-btn" data-edit="${escapeHtml(p.slug)}" title="Modifier" aria-label="Modifier">${ICONS.pencil}</button>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+
+  content.querySelectorAll('[data-edit]').forEach(btn => {
+    btn.addEventListener('click', () => renderBasePageForm(btn.dataset.edit, content, root, signOut));
+  });
+}
+
+function renderBasePageForm(slug, content, root, signOut) {
+  const fields = PAGE_FIELDS[slug];
+  const draft = JSON.parse(JSON.stringify({
+    ...(DEFAULT_CONTENT.pages[slug] || {}),
+    ...((state.content?.pages || {})[slug] || {}),
+  }));
+  const templates = { ...PAGE_TEMPLATES };
+  for (const f of fields) if (f.type === 'items') templates[f.k] = f.template;
+
+  function paint() {
+    content.innerHTML = `
+      <form class="admin-form" id="base-page-form">
+        <h2>${escapeHtml(draft.title || slug)}</h2>
+        <p class="admin-hint">Page /${escapeHtml(slug)}/ — modifiez le contenu, prévisualisez, puis publiez.</p>
+        <p id="base-page-save-status" class="admin-status admin-status--ok" style="margin:0;"></p>
+        ${fields.map(f => pageFieldHtml(f, draft, slug)).join('')}
+        <details class="admin-section">
+          <summary>Référencement (SEO)</summary>
+          <div class="admin-section__body">${seoFieldsHtml(draft)}</div>
+        </details>
+        <div class="admin-form__actions">
+          <button type="submit" class="btn btn--site btn-primary">Enregistrer</button>
+          ${previewButton(slug)}
+          <button type="button" id="cancel-form" class="btn">Retour</button>
+        </div>
+      </form>`;
+
+    for (const f of fields) {
+      if (f.type !== 'photo') continue;
+      wirePhotoField(`page-${slug}-${f.k}`, ext => `images/uploads/page-${slug}-${f.k}.${ext}`, key => { draft[f.k] = key; });
+    }
+    wireArrayButtons(content, draft, paint, templates);
+    wirePreviewButtons(content, () => {
+      syncPaths(content, draft);
+      applyPageDraft(slug, draft);
+    });
+    document.getElementById('cancel-form').addEventListener('click', () => renderBasePagesList(content, root, signOut));
+    document.getElementById('base-page-form').addEventListener('submit', e => {
+      e.preventDefault();
+      syncPaths(content, draft);
+      applyPageDraft(slug, draft);
+      state.dirty = true;
+      updateDirtyBadge();
+      setStatus(document.getElementById('base-page-save-status'), 'Enregistré localement — cliquez « Publier » en haut pour mettre le site à jour.', 'ok');
+    });
+  }
+
+  paint();
+}
+
+function applyPageDraft(slug, draft) {
+  state.content = state.content || JSON.parse(JSON.stringify(DEFAULT_CONTENT));
+  state.content.pages = state.content.pages || {};
+  state.content.pages[slug] = JSON.parse(JSON.stringify(draft));
+}
 // ---------- Onglets Expertises / Secteurs (partagés) ----------
 
 function renderResourceList(kind, content, root, signOut) {
@@ -501,6 +1006,18 @@ function renderResourceForm(kind, content, root, signOut, item) {
           <input type="checkbox" id="f-hidden" ${draft.hidden ? 'checked' : ''} style="width:auto;">
           Masquer dans la navigation (menu, footer, pages liées) — la page reste accessible par son lien direct
         </label>
+        <details class="admin-section">
+          <summary>Référencement (SEO)</summary>
+          <div class="admin-section__body">
+            <p class="admin-hint">Laissés vides, ces champs reprennent le titre et le texte d'introduction.</p>
+            <label>Titre SEO (balise &lt;title&gt;)
+              <input type="text" id="f-seo-title" value="${escapeHtml(draft.seoTitle || '')}">
+            </label>
+            <label>Méta description
+              <textarea id="f-seo-description" rows="2">${escapeHtml(draft.seoDescription || '')}</textarea>
+            </label>
+          </div>
+        </details>
         <h3>Points clés</h3>
         <div id="f-features">
           ${draft.features.map((f, i) => `
@@ -513,10 +1030,15 @@ function renderResourceForm(kind, content, root, signOut, item) {
         <button type="button" id="add-feature" class="btn">+ Ajouter un point</button>
         <div class="admin-form__actions">
           <button type="submit" class="btn btn--site btn-primary">Enregistrer</button>
+          ${isNew ? '' : previewButton(draft.slug)}
           <button type="button" id="cancel-form" class="btn">Annuler</button>
         </div>
       </form>`;
 
+    wirePreviewButtons(content, () => {
+      syncFormToDraft();
+      if (item) Object.assign(item, draft);
+    });
     document.getElementById('f-title').addEventListener('input', e => {
       draft.title = e.target.value;
       if (isNew) {
@@ -561,6 +1083,8 @@ function renderResourceForm(kind, content, root, signOut, item) {
     draft.slug = slugify(document.getElementById('f-slug').value);
     draft.lead = document.getElementById('f-lead').value;
     draft.hidden = document.getElementById('f-hidden').checked;
+    draft.seoTitle = document.getElementById('f-seo-title').value;
+    draft.seoDescription = document.getElementById('f-seo-description').value;
     const titles = content.querySelectorAll('.f-feat-title');
     const texts = content.querySelectorAll('.f-feat-text');
     draft.features = Array.from(titles).map((t, i) => ({ title: t.value, text: texts[i].value }));
@@ -632,6 +1156,18 @@ function renderArticleForm(content, root, signOut, article) {
         <label>Introduction (chapô)
           <textarea id="f-intro" rows="3" required>${escapeHtml(draft.intro)}</textarea>
         </label>
+        <details class="admin-section">
+          <summary>Référencement (SEO)</summary>
+          <div class="admin-section__body">
+            <p class="admin-hint">Laissés vides, ces champs reprennent le titre et le chapô de l'article.</p>
+            <label>Titre SEO (balise &lt;title&gt;)
+              <input type="text" id="f-seo-title" value="${escapeHtml(draft.seoTitle || '')}">
+            </label>
+            <label>Méta description
+              <textarea id="f-seo-description" rows="2">${escapeHtml(draft.seoDescription || '')}</textarea>
+            </label>
+          </div>
+        </details>
         <h3>Sections</h3>
         <div id="f-body">
           ${draft.body.map((sec, i) => `
@@ -644,10 +1180,15 @@ function renderArticleForm(content, root, signOut, article) {
         <button type="button" id="add-section" class="btn">+ Ajouter une section</button>
         <div class="admin-form__actions">
           <button type="submit" class="btn btn--site btn-primary">Enregistrer</button>
+          ${isNew ? '' : previewButton(draft.slug)}
           <button type="button" id="cancel-form" class="btn">Annuler</button>
         </div>
       </form>`;
 
+    wirePreviewButtons(content, () => {
+      syncFormToDraft();
+      if (article) Object.assign(article, draft);
+    });
     document.getElementById('f-title').addEventListener('input', e => {
       draft.title = e.target.value;
       if (isNew) {
@@ -691,6 +1232,8 @@ function renderArticleForm(content, root, signOut, article) {
     draft.title = document.getElementById('f-title').value;
     draft.slug = slugify(document.getElementById('f-slug').value);
     draft.intro = document.getElementById('f-intro').value;
+    draft.seoTitle = document.getElementById('f-seo-title').value;
+    draft.seoDescription = document.getElementById('f-seo-description').value;
     const heads = content.querySelectorAll('.f-body-h');
     const texts = content.querySelectorAll('.f-body-t');
     draft.body = Array.from(heads).map((h, i) => [h.value, texts[i].value]);
@@ -788,11 +1331,7 @@ async function publish(root, signOut) {
     const { S3Client, PutObjectCommand, DeleteObjectCommand } = await import('https://cdn.jsdelivr.net/npm/@aws-sdk/client-s3@3/+esm');
     const s3 = new S3Client({ region: config.region, credentials: state.credentials });
 
-    const pages = buildPages({
-      guideArticles: state.guideArticles,
-      expertises: state.expertises,
-      secteurs: state.secteurs,
-    });
+    const pages = currentPages();
     const currentSlugs = new Set([...state.guideArticles, ...state.expertises, ...state.secteurs].map(x => x.slug));
     const deletedSlugs = [...state.originalPageSlugs].filter(s => !currentSlugs.has(s));
 
@@ -800,7 +1339,7 @@ async function publish(root, signOut) {
     const deletedPartnerImages = [...state.originalPartnerImages].filter(k => !currentPartnerImages.has(k));
 
     let done = 0;
-    const total = pages.length + 1 /* index.html */ + 5 /* fichiers data/*.json */
+    const total = pages.length + 1 /* index.html */ + 7 /* fichiers data/*.json */
       + deletedSlugs.length + pendingUploads.size + deletedPartnerImages.length;
     const tick = () => { setStatus(statusEl, `Publication en cours… (${++done}/${total})`, 'progress'); };
 
@@ -815,7 +1354,7 @@ async function publish(root, signOut) {
     }
 
     for (const p of pages) {
-      const html = page(p, pages, state.events);
+      const html = page(p, pages, state.events, site());
       await s3.send(new PutObjectCommand({
         Bucket: config.bucket,
         Key: `${p.slug}/index.html`,
@@ -828,7 +1367,7 @@ async function publish(root, signOut) {
     await s3.send(new PutObjectCommand({
       Bucket: config.bucket,
       Key: 'index.html',
-      Body: homepagePage(state.homepage, pages),
+      Body: homepagePage(state.homepage, pages, site()),
       ContentType: 'text/html; charset=utf-8',
     }));
     tick();
@@ -839,6 +1378,8 @@ async function publish(root, signOut) {
       'data/secteurs.json': state.secteurs,
       'data/evenements.json': state.events,
       'data/homepage.json': state.homepage,
+      'data/navigation.json': state.navigation,
+      'data/pages.json': state.content,
     };
     for (const [key, value] of Object.entries(dataFiles)) {
       await s3.send(new PutObjectCommand({
