@@ -36,6 +36,10 @@ const ICONS = {
   alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>',
   info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>',
   menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>',
+  eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+  external: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>',
+  logout: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>',
+  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
   upload: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>',
   file: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>',
 };
@@ -310,11 +314,42 @@ function enhanceTextarea(ta) {
   ta.parentNode.insertBefore(bar, ta);
 }
 
+// Les listes de pages reçoivent un champ de recherche instantanée.
+function enhanceList(list) {
+  if (list.dataset.search || list.querySelectorAll('.admin-card').length < 4) return;
+  list.dataset.search = '1';
+  const box = document.createElement('label');
+  box.className = 'admin-search';
+  box.innerHTML = `${ICONS.search}<input type="search" placeholder="Rechercher…" aria-label="Rechercher">`;
+  const input = box.querySelector('input');
+  const empty = document.createElement('p');
+  empty.className = 'admin-empty';
+  empty.textContent = 'Aucun résultat.';
+  empty.hidden = true;
+  input.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    list.querySelectorAll('.admin-card').forEach(card => {
+      const match = !q || card.textContent.toLowerCase().includes(q);
+      card.hidden = !match;
+      if (match) shown++;
+    });
+    empty.hidden = shown > 0;
+  });
+  list.parentNode.insertBefore(box, list);
+  list.appendChild(empty);
+}
+
+function enhanceAll(root) {
+  root.querySelectorAll('textarea:not([data-rte])').forEach(enhanceTextarea);
+  root.querySelectorAll('.admin-list:not([data-search])').forEach(enhanceList);
+}
+
 let textareaObserver = null;
 function enhanceTextareas(root) {
-  root.querySelectorAll('textarea').forEach(enhanceTextarea);
+  enhanceAll(root);
   if (textareaObserver) textareaObserver.disconnect();
-  textareaObserver = new MutationObserver(() => root.querySelectorAll('textarea:not([data-rte])').forEach(enhanceTextarea));
+  textareaObserver = new MutationObserver(() => enhanceAll(root));
   textareaObserver.observe(root, { childList: true, subtree: true });
 }
 
@@ -458,7 +493,7 @@ async function renderMediaLibrary(content) {
   function paint() {
     const items = filterMedia(mediaItems(), query);
     content.innerHTML = `
-      <div class="admin-section-title"><h2>Médiathèque</h2></div>
+      <h2 class="admin-section-title">Médiathèque</h2>
       <p class="admin-hint">Toutes les photos du site. Ajoutez-en, supprimez celles qui ne servent plus, puis cliquez « Publier » en haut pour appliquer les changements.</p>
       ${state.media.listError ? '<p class="admin-status admin-status--error">Liste complète du stockage indisponible (droit « ListBucket » manquant) — seules les photos utilisées par le site sont affichées.</p>' : ''}
       <p id="media-status" class="admin-status"></p>
@@ -602,43 +637,60 @@ export async function mountAdmin(root, { user, credentials, signOut }) {
 }
 
 const NAV_ITEMS = [
-  { id: 'accueil', icon: 'home', label: 'Page d’accueil', count: () => null },
-  { id: 'structure', icon: 'menu', label: 'Menu et pied de page', count: () => null },
-  { id: 'pages', icon: 'file', label: 'Pages de base', count: () => BASE_PAGES.length },
-  { id: 'expertises', icon: 'briefcase', label: 'Expertises', count: () => state.expertises.length },
-  { id: 'secteurs', icon: 'building', label: 'Secteurs', count: () => state.secteurs.length },
-  { id: 'guide', icon: 'book', label: 'Guide', count: () => state.guideArticles.length },
-  { id: 'evenements', icon: 'calendar', label: 'Événements', count: () => state.events.length },
-  { id: 'medias', icon: 'image', label: 'Médiathèque', count: () => (state.media ? mediaItems().length : null) },
+  { id: 'accueil', group: 'Pages', icon: 'home', label: 'Page d’accueil', count: () => null },
+  { id: 'pages', group: 'Pages', icon: 'file', label: 'Pages de base', count: () => BASE_PAGES.length },
+  { id: 'expertises', group: 'Pages', icon: 'briefcase', label: 'Expertises', count: () => state.expertises.length },
+  { id: 'secteurs', group: 'Pages', icon: 'building', label: 'Secteurs', count: () => state.secteurs.length },
+  { id: 'guide', group: 'Contenus', icon: 'book', label: 'Guide', count: () => state.guideArticles.length },
+  { id: 'evenements', group: 'Contenus', icon: 'calendar', label: 'Événements', count: () => state.events.length },
+  { id: 'medias', group: 'Contenus', icon: 'image', label: 'Médiathèque', count: () => (state.media ? mediaItems().length : null) },
+  { id: 'structure', group: 'Site', icon: 'menu', label: 'Menu et pied de page', count: () => null },
 ];
 
 function render(root, signOut) {
+  const email = state.user.profile?.email || '';
+  const current = NAV_ITEMS.find(t => t.id === state.view.tab) || NAV_ITEMS[0];
+  const groups = [...new Set(NAV_ITEMS.map(t => t.group))];
   root.innerHTML = `
     <div class="admin-app">
-      <header class="admin-topbar">
-        <div class="admin-topbar__brand">
-          <span class="admin-topbar__brand-mark">FT</span>
-          <span>Administration du site</span>
+      <aside class="admin-sidebar">
+        <div class="admin-sidebar__brand">
+          <span class="admin-sidebar__brand-mark">FT</span>
+          <span><strong>Finances &amp; Territoires</strong><small>Administration</small></span>
         </div>
-        <div class="admin-topbar__actions">
-          <span class="admin-topbar__user">${escapeHtml(state.user.profile?.email || '')}</span>
-          <span id="dirty-badge" class="admin-badge" hidden>Modifications non publiées</span>
-          <button id="preview-btn" class="btn">Aperçu du site</button>
-          <button id="publish-btn" class="btn btn--site btn-primary">Publier</button>
-          <button id="signOut" class="btn">Se déconnecter</button>
-        </div>
-      </header>
-      <div class="admin-layout">
-        <aside class="admin-sidebar">
-          <nav class="admin-sidebar-nav">
-            ${NAV_ITEMS.map(t => {
+        <nav class="admin-sidebar-nav">
+          ${groups.map(g => `<div class="admin-nav-group">
+            <div class="admin-nav-group__label">${escapeHtml(g)}</div>
+            ${NAV_ITEMS.filter(t => t.group === g).map(t => {
               const count = t.count();
               return `<button class="admin-nav-item${state.view.tab === t.id ? ' is-active' : ''}" data-tab="${t.id}">
                 ${ICONS[t.icon]}<span>${escapeHtml(t.label)}</span>${count !== null ? `<span class="admin-nav-item__count">${count}</span>` : ''}
               </button>`;
             }).join('')}
-          </nav>
-        </aside>
+          </div>`).join('')}
+        </nav>
+        <div class="admin-sidebar__footer">
+          <a class="admin-sidebar__site-link" href="${escapeHtml(config.siteUrl)}/" target="_blank" rel="noopener">${ICONS.external}<span>Voir le site</span></a>
+          <div class="admin-user">
+            <span class="admin-user__avatar">${escapeHtml((email[0] || '?').toUpperCase())}</span>
+            <span class="admin-user__email" title="${escapeHtml(email)}">${escapeHtml(email)}</span>
+            <button id="signOut" class="icon-btn" title="Se déconnecter" aria-label="Se déconnecter">${ICONS.logout}</button>
+          </div>
+        </div>
+      </aside>
+      <div class="admin-shell">
+        <header class="admin-topbar">
+          <div class="admin-topbar__title">
+            <span class="admin-topbar__crumb">${escapeHtml(current.group)}</span>
+            <span class="admin-topbar__sep">/</span>
+            <span>${escapeHtml(current.label)}</span>
+          </div>
+          <div class="admin-topbar__actions">
+            <span id="dirty-badge" class="admin-badge" hidden><span class="admin-badge__dot"></span>Modifications non publiées</span>
+            <button id="preview-btn" class="btn">${ICONS.eye}<span>Aperçu</span></button>
+            <button id="publish-btn" class="btn btn-primary">${ICONS.upload}<span>Publier</span></button>
+          </div>
+        </header>
         <main class="admin-main">
           <p id="publish-status" class="admin-status"></p>
           <div id="tab-content"></div>
