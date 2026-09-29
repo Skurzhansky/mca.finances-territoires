@@ -1425,9 +1425,9 @@ section.section--muted { background: var(--canvas); }
   align-items: center;
 }
 .coverage-map { position: relative; }
-.coverage-map__svg svg { display: block; width: 100%; max-height: 460px; }
+.coverage-map__svg svg { display: block; width: 100%; max-height: 560px; filter: drop-shadow(0 3px 4px rgba(40, 20, 60, .18)); }
 .coverage-map__region {
-  stroke: var(--white); stroke-width: 2.5; stroke-linejoin: round;
+  stroke: #E9E3EF; stroke-width: .8; stroke-linejoin: round;
   cursor: pointer; outline: none;
   transition: fill .15s ease, transform .15s ease;
 }

@@ -857,11 +857,11 @@ function renderHomepageForm(content) {
           <h4 class="admin-subhead">Siège</h4>
           ${[['hqLabel', 'Étiquette'], ['hqValue', 'Chiffre']].map(([k, l]) => `<label>${l}<input type="text" class="f-cv" data-k="${k}" value="${escapeHtml(cv[k] || '')}"></label>`).join('')}
           <label>Texte<textarea class="f-cv" data-k="hqText" rows="2">${escapeHtml(cv.hqText || '')}</textarea></label>
-          <label>Région du siège (surlignée en rose)
+          <label>Département du siège (surligné en rose)
             <select class="f-cv" data-k="hqRegion">${(cv.regions || []).map(r => `<option value="${escapeHtml(r.id)}"${r.id === cv.hqRegion ? ' selected' : ''}>${escapeHtml(r.name)}</option>`).join('')}</select>
           </label>
-          <h4 class="admin-subhead">Dispositifs par région (affichés au survol de la carte)</h4>
-          ${(cv.regions || []).map((r, i) => `<label>${escapeHtml(r.name)}<input type="text" class="f-cv-region" data-i="${i}" placeholder="ex. 2 753" value="${escapeHtml(r.count || '')}"></label>`).join('')}
+          <details class="admin-subdetails"><summary>Dispositifs par département (affichés au survol de la carte)</summary>
+          <div class="admin-dep-grid">${(cv.regions || []).map((r, i) => `<label>${escapeHtml(r.name)}<input type="text" class="f-cv-region" data-i="${i}" placeholder="ex. 2 753" value="${escapeHtml(r.count || '')}"></label>`).join('')}</div></details>
         `, false)}
 
         ${section('sec-testimonial', 'Témoignage', `
