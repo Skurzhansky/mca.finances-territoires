@@ -654,7 +654,7 @@ ${seoTags(p, site.content)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles/site.css">
+<link rel="stylesheet" href="../styles/site.css?v=20260929e">
 </head>
 <body>
 
@@ -683,13 +683,13 @@ ${footer(pages, '../', site.navigation)}
 // masquée ou supprimée disparaît simplement de la rangée.
 
 const CLIENT_TYPE_ICONS = {
-  'entreprise': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg>',
-  'collectivites-epci': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5H3l9-5z"/><path d="M4 10h16"/><path d="M6 10v9M10 10v9M14 10v9M18 10v9"/><path d="M3 21h18"/></svg>',
-  'etablissements-de-sante-publics-non-lucratifs': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>',
-  'structures-medico-sociales': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.35-9.33-8.94C1.4 8.94 2.9 5.5 6.2 5.02 8.4 4.7 10.6 5.9 12 7.8c1.4-1.9 3.6-3.1 5.8-2.78 3.3.48 4.8 3.92 3.53 7.04C19 16.65 12 21 12 21z"/></svg>',
-  'entreprises-publiques-locales-epl': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/><path d="M4 21h16"/></svg>',
-  'logement-social': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-6h4v6"/></svg>',
-  'sdis-service-de-secours': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s-5 5.5-5 10a5 5 0 0 0 10 0c0-2-1-3.5-2-4.5.3 1.5-.5 2.5-1.5 2.5-1.2 0-1.8-1-1.5-2.5A7 7 0 0 1 12 3z"/></svg>',
+  'entreprise': '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 28V9h9v19"/><path d="M15 28V4h11v24"/><path d="M4 28h24"/><path d="M18 8h5v5h-5z"/><path d="M9 13h3M9 17h3M9 21h3"/></svg>',
+  'collectivites-epci': '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4v6"/><path d="M16 4h5v3h-5"/><path d="M8 10h16v18H8z"/><path d="M4 28h24"/><path d="M11 16h10v7H11z"/><path d="M16 16v7M11 19.5h10"/></svg>',
+  'etablissements-de-sante-publics-non-lucratifs': '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M16 27s-11-6.6-11-14.2C5 8.9 7.7 6 11 6c2.2 0 4 1.2 5 3 1-1.8 2.8-3 5-3 3.3 0 6 2.9 6 6.8C27 20.4 16 27 16 27z"/><path d="M16 12v7M12.5 15.5h7"/></svg>',
+  'structures-medico-sociales': '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="11" r="5"/><path d="M6 27c0-5.5 4.5-9 10-9s10 3.5 10 9"/></svg>',
+  'entreprises-publiques-locales-epl': '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="24" height="20" rx="1"/><path d="M4 12h24M16 12v14"/></svg>',
+  'logement-social': '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15L16 6l11 9"/><path d="M8 13v14h16V13"/><path d="M13 27v-7h6v7"/></svg>',
+  'sdis-service-de-secours': '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h16v13H3z"/><path d="M19 14h6l4 5v4H19"/><path d="M6 6h10v4"/><circle cx="8" cy="24" r="2.5"/><circle cx="23" cy="24" r="2.5"/><path d="M3 16h16"/></svg>',
 };
 
 // Le libellé (court, choisi pour ce rang étroit) et l'ordre viennent de
@@ -701,7 +701,7 @@ function renderClientTypes(homepage, pages) {
       const page = (pages || []).find(p => p.slug === ct.slug);
       return page && !page.hidden;
     })
-    .map(ct => `<a class="client-type" href="${ct.slug}/"><span class="client-type__icon">${CLIENT_TYPE_ICONS[ct.slug] || ''}</span>${escapeHtml(ct.label)}</a>`)
+    .map(ct => `<a class="client-type" href="${ct.slug}/"><span class="client-type__icon">${CLIENT_TYPE_ICONS[ct.slug] || ''}</span><span class="client-type__label">${escapeHtml(ct.label).replace(/\r?\n/g, '<br>')}</span></a>`)
     .join('\n    ');
 }
 
@@ -893,7 +893,7 @@ ${metaTags(homepage?.seoTitle || `Finances & Territoires — ${homepage?.heroTit
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/site.css">
+<link rel="stylesheet" href="styles/site.css?v=20260929e">
 </head>
 <body>
 

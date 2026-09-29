@@ -787,9 +787,9 @@ function renderHomepageForm(content) {
         `, true)}
 
         ${section('sec-clients', 'Types de clients (rangée d’icônes)', `
-          <p class="admin-hint">Libellés courts (l'icône et le lien restent fixes). Un type dont la page correspondante est masquée ou supprimée disparaîtra automatiquement de cette rangée.</p>
+          <p class="admin-hint">Libellés courts (l'icône et le lien restent fixes). Passez à la ligne pour afficher le libellé sur deux lignes. Un type dont la page correspondante est masquée ou supprimée disparaîtra automatiquement de cette rangée.</p>
           ${draft.clientTypes.map((ct, i) => `<label>${escapeHtml(ct.slug)}
-            <input type="text" class="f-ct-label" data-i="${i}" value="${escapeHtml(ct.label)}">
+            <textarea class="f-ct-label" data-i="${i}" rows="2">${escapeHtml(ct.label)}</textarea>
           </label>`).join('')}
         `, false)}
 
