@@ -638,3 +638,12 @@ html { scrollbar-color: #c9c2d3 transparent; }
 
 .admin-section-title + .admin-hint { margin: 0 0 18px; }
 .admin-media-card__thumb img[src$=".png"], .admin-media-card__thumb img[src$=".svg"] { object-fit: contain; padding: 12px; box-sizing: border-box; background: #fff; }
+
+.admin-subhead {
+  margin: 18px 0 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted, #6b6b80);
+}

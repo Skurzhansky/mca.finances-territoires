@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 5 360 390" role="img" aria-label="Carte des régions de France">
+  <polygon id="hauts-de-france" data-name="Hauts-de-France" data-level="3" points="190,20 250,15 262,60 240,85 190,80"/>
+  <polygon id="normandie" data-name="Normandie" data-level="2" points="110,55 190,50 190,80 185,110 165,110 115,100 100,80"/>
+  <polygon id="bretagne" data-name="Bretagne" data-level="1" points="20,110 100,95 115,120 95,145 30,145"/>
+  <polygon id="ile-de-france" data-name="Île-de-France" data-level="5" points="190,85 240,85 240,115 205,125 185,110"/>
+  <polygon id="grand-est" data-name="Grand Est" data-level="4" points="262,60 320,70 345,110 320,160 300,160 270,150 240,115 240,85"/>
+  <polygon id="pays-de-la-loire" data-name="Pays de la Loire" data-level="2" points="95,145 115,120 115,100 165,110 165,120 170,165 140,200 100,185"/>
+  <polygon id="centre-val-de-loire" data-name="Centre-Val de Loire" data-level="3" points="165,110 185,110 205,125 215,170 185,200 170,165 165,120"/>
+  <polygon id="bourgogne-franche-comte" data-name="Bourgogne-Franche-Comté" data-level="4" points="240,115 270,150 300,160 290,215 245,215 215,170 205,125"/>
+  <polygon id="nouvelle-aquitaine" data-name="Nouvelle-Aquitaine" data-level="2" points="100,185 140,200 185,200 195,240 170,290 150,340 95,330 105,250"/>
+  <polygon id="auvergne-rhone-alpes" data-name="Auvergne-Rhône-Alpes" data-level="4" points="185,200 215,170 245,215 290,215 310,245 300,290 250,300 225,275 195,240"/>
+  <polygon id="occitanie" data-name="Occitanie" data-level="3" points="195,240 225,275 250,300 235,330 200,355 150,340 170,290"/>
+  <polygon id="provence-alpes-cote-d-azur" data-name="Provence-Alpes-Côte d’Azur" data-level="3" points="250,300 300,290 335,300 320,340 270,340 235,330"/>
+  <polygon id="corse" data-name="Corse" data-level="1" points="345,330 356,322 362,360 350,388 340,360"/>
+</svg>

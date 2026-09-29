@@ -125,6 +125,62 @@ export const DEFAULT_NAVIGATION = {
 // Contenu par défaut des pages de base (reprise dans data/pages.json, éditable
 // depuis l'admin). `title` alimente la navigation et le fil d'Ariane,
 // `headline` le <h1> quand il diffère du titre court.
+export const DEFAULT_FINBOOST = {
+  title: 'Nos experts, amplifiés par',
+  consultantLabel: 'Le consultant — au cœur de votre accompagnement',
+  consultantText: "Votre interlocuteur est avant tout un **expert métier** — ancien instructeur régional, spécialiste des financements européens, en philanthropie ou en ingénierie territoriale. C'est sa connaissance fine des dispositifs, des financeurs et des critères d'attribution qui fait la différence sur chaque dossier.",
+  consultantBullets: ['Consultant dédié, votre interlocuteur unique', 'Expertise sectorielle et réglementaire', 'Interface directe avec les financeurs', 'Accompagnement de A à Z'],
+  toolLabel: 'FinBoost — notre outil innovant interne',
+  toolText: "Votre consultant s'appuie sur **FinBoost**, notre plateforme propriétaire, pour ne laisser passer aucune opportunité.",
+  features: [
+    { title: '+19 000 dispositifs', text: 'Nationaux et européens, mis à jour en continu' },
+    { title: 'Moteur multicritères', text: 'Territoire, statut, +80 thématiques croisées' },
+    { title: 'Alertes personnalisées', text: "Notification dès qu'une aide s'ouvre sur vos projets" },
+    { title: '~1 500 sources privées', text: 'Fondations et fonds de dotation mis à jour quotidiennement' },
+  ],
+  panelBadge: 'Plateforme expert — temps réel',
+  panelCaption: 'Outil interne de nos consultants',
+  panelValue: '19 000+',
+  panelValueLabel: 'dispositifs ↑ continu',
+  sideLabel: 'Sources privées',
+  sideValue: '~1 500',
+  sideText: 'fondations & fonds',
+  primaryLabel: 'Parler à un expert →',
+  primaryHref: 'contact/',
+  secondaryLabel: 'Notre approche conseil',
+  secondaryHref: 'finances-et-territoires/',
+};
+
+export const DEFAULT_COVERAGE = {
+  eyebrow: 'Baromètre des aides et subventions en France',
+  title: 'Une couverture nationale exhaustive',
+  text: "Survolez une région pour découvrir le nombre de dispositifs disponibles — nos consultants veillent sur l'ensemble du territoire national, y compris les DROM-COM.",
+  cards: [
+    { value: '19 000', suffix: '+', text: 'dispositifs référencés\nà l’échelle nationale' },
+    { value: '100', suffix: '%', text: 'du territoire couvert\nDROM-COM inclus' },
+    { value: '~1 500', suffix: '', text: 'sources de financements privés\nfondations & fonds de dotation' },
+  ],
+  hqLabel: 'Notre siège — Savoie',
+  hqValue: '2 753',
+  hqText: 'dispositifs disponibles\nsur le département',
+  hqRegion: 'auvergne-rhone-alpes',
+  regions: [
+    { id: 'hauts-de-france', name: 'Hauts-de-France', count: '' },
+    { id: 'normandie', name: 'Normandie', count: '' },
+    { id: 'bretagne', name: 'Bretagne', count: '' },
+    { id: 'ile-de-france', name: 'Île-de-France', count: '' },
+    { id: 'grand-est', name: 'Grand Est', count: '' },
+    { id: 'pays-de-la-loire', name: 'Pays de la Loire', count: '' },
+    { id: 'centre-val-de-loire', name: 'Centre-Val de Loire', count: '' },
+    { id: 'bourgogne-franche-comte', name: 'Bourgogne-Franche-Comté', count: '' },
+    { id: 'nouvelle-aquitaine', name: 'Nouvelle-Aquitaine', count: '' },
+    { id: 'auvergne-rhone-alpes', name: 'Auvergne-Rhône-Alpes', count: '' },
+    { id: 'occitanie', name: 'Occitanie', count: '' },
+    { id: 'provence-alpes-cote-d-azur', name: 'Provence-Alpes-Côte d’Azur', count: '' },
+    { id: 'corse', name: 'Corse', count: '' },
+  ],
+};
+
 export const DEFAULT_CONTENT = {
   cta: {
     title: 'Vous souhaitez mieux comprendre les aides possibles pour votre projet ?',
@@ -654,7 +710,7 @@ ${seoTags(p, site.content)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles/site.css?v=20260929g">
+<link rel="stylesheet" href="../styles/site.css?v=20260930a">
 </head>
 <body>
 
@@ -717,6 +773,96 @@ const VALUE_ICONS = [
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/><path d="M9 12.5l2 2 4-4.5"/></svg>',
 ];
 
+const FB_ICON = {
+  user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>',
+  pulse: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>',
+  features: [
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>',
+  ],
+};
+
+const multiline = str => escapeHtml(str).replace(/\r?\n/g, '<br>');
+
+function renderFinboost(data) {
+  const f = { ...DEFAULT_FINBOOST, ...(data || {}) };
+  const bars = [38, 52, 34, 70, 60, 46, 78];
+  return `<section class="finboost" id="finboost">
+    <div class="container finboost__grid">
+      <div class="finboost__main">
+        <h2 class="finboost__title">${escapeHtml(f.title)} <span class="finboost__brand">Fin<em>Boost</em></span></h2>
+        <div class="fb-card">
+          <div class="fb-card__head"><span class="fb-card__icon">${FB_ICON.user}</span><span class="fb-card__label">${escapeHtml(f.consultantLabel)}</span></div>
+          <p>${richText(f.consultantText, '')}</p>
+          <ul class="fb-checks">${(f.consultantBullets || []).map(b => `<li>${escapeHtml(b)}</li>`).join('')}</ul>
+        </div>
+        <div class="fb-card fb-card--tool">
+          <div class="fb-card__head"><span class="fb-card__icon fb-card__icon--gold">${FB_ICON.pulse}</span><span class="fb-card__label fb-card__label--gold">${escapeHtml(f.toolLabel)}</span></div>
+          <p>${richText(f.toolText, '')}</p>
+          <div class="fb-features">${(f.features || []).map((x, i) => `<div class="fb-feature">
+            <span class="fb-feature__icon">${FB_ICON.features[i % FB_ICON.features.length]}</span>
+            <strong>${escapeHtml(x.title)}</strong>
+            <span>${escapeHtml(x.text)}</span>
+          </div>`).join('')}</div>
+        </div>
+        <div class="finboost__ctas">
+          ${f.primaryLabel ? `<a class="fb-btn fb-btn--gold" href="${escapeHtml(f.primaryHref)}">${escapeHtml(f.primaryLabel)}</a>` : ''}
+          ${f.secondaryLabel ? `<a class="fb-btn fb-btn--ghost" href="${escapeHtml(f.secondaryHref)}">${escapeHtml(f.secondaryLabel)}</a>` : ''}
+        </div>
+      </div>
+      <div class="finboost__aside" aria-hidden="true">
+        <div class="fb-panel">
+          <span class="fb-panel__badge">● ${escapeHtml(f.panelBadge)}</span>
+          <div class="fb-panel__brand">Fin<em>Boost</em></div>
+          <div class="fb-panel__caption">${escapeHtml(f.panelCaption)}</div>
+          <div class="fb-bars">${bars.map((h, i) => `<span style="height:${h}%"${i === 3 || i === 6 ? ' class="is-gold"' : ''}></span>`).join('')}</div>
+          <div class="fb-panel__stat"><strong>${escapeHtml(f.panelValue)}</strong> <span>${escapeHtml(f.panelValueLabel)}</span></div>
+        </div>
+        <div class="fb-side">
+          <span>${escapeHtml(f.sideLabel)}</span>
+          <strong>${escapeHtml(f.sideValue)}</strong>
+          <span>${escapeHtml(f.sideText)}</span>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderCoverage(data) {
+  const c = { ...DEFAULT_COVERAGE, ...(data || {}) };
+  const regions = JSON.stringify({ regions: c.regions || [], hq: c.hqRegion || '' }).replace(/</g, '\\u003c');
+  return `<section class="coverage" id="couverture">
+    <div class="container">
+      <div class="coverage__intro">
+        <span class="coverage__eyebrow">${escapeHtml(c.eyebrow)}</span>
+        <h2 class="coverage__title">${escapeHtml(c.title)}</h2>
+        <p>${richText(c.text, '')}</p>
+      </div>
+      <div class="coverage__grid">
+        <div class="coverage-map" id="coverage-map">
+          <script type="application/json" class="coverage-map__data">${regions}</script>
+          <div class="coverage-map__svg"></div>
+          <div class="coverage-map__tooltip" hidden></div>
+          <div class="coverage-map__legend"><span>Moins</span><i></i><i></i><i></i><i></i><i></i><span>Plus</span><b></b><span class="coverage-map__legend-hq">Siège</span></div>
+        </div>
+        <div class="coverage-cards">
+          ${(c.cards || []).map((k, i) => `<div class="coverage-card${i === 0 ? ' coverage-card--dark' : ''}">
+            <div class="coverage-card__value">${escapeHtml(k.value)}${k.suffix ? `<sup>${escapeHtml(k.suffix)}</sup>` : ''}</div>
+            <div class="coverage-card__text">${multiline(k.text)}</div>
+          </div>`).join('')}
+          ${c.hqValue ? `<div class="coverage-card coverage-card--hq">
+            <div class="coverage-card__label"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.3 7 13 7 13s7-7.7 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg> ${escapeHtml(c.hqLabel)}</div>
+            <div class="coverage-card__value">${escapeHtml(c.hqValue)}</div>
+            <div class="coverage-card__text">${multiline(c.hqText)}</div>
+          </div>` : ''}
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
 export function renderHomepage(homepage, pages, content) {
   const h = homepage || {};
   const cta = { ...DEFAULT_CONTENT.cta, ...(content?.cta || {}) };
@@ -776,6 +922,10 @@ export function renderHomepage(homepage, pages, content) {
   </section>
   </div>
 
+  ${renderFinboost(h.finboost)}
+
+  ${renderCoverage(h.coverage)}
+
   <section class="section--muted" id="reussites">
     <div class="testimonial-band">
       <div class="container">
@@ -792,15 +942,6 @@ export function renderHomepage(homepage, pages, content) {
     </div>
   </section>
 
-  <div class="container">
-  <section>
-    <h2 class="section-title">${escapeHtml(h.statsTitle)}</h2>
-    <div class="stats-row">
-      ${(h.stats || []).map(s => `<div><div class="stat-value">${escapeHtml(s.value)}</div><div class="stat-label">${escapeHtml(s.label)}</div></div>`).join('\n      ')}
-    </div>
-    <p class="stats-caption">${richText(h.statsCaption, '')}</p>
-  </section>
-  </div>
 
   <section class="section--muted">
     <div class="container">
@@ -897,7 +1038,7 @@ ${metaTags(homepage?.seoTitle || `Finances & Territoires — ${homepage?.heroTit
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/site.css?v=20260929g">
+<link rel="stylesheet" href="styles/site.css?v=20260930a">
 </head>
 <body>
 
@@ -908,6 +1049,7 @@ ${renderHomepage(homepage, pages, site.content)}
 ${footer(pages, '', site.navigation)}
 <script src="nav.js" defer></script>
 <script src="guide-carousel.js" defer></script>
+<script src="france-map.js" defer></script>
 </body>
 </html>
 `;

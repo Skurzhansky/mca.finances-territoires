@@ -1,5 +1,5 @@
 import { config } from './config.js';
-import { buildPages, page, homepagePage, BASE_PAGES, DEFAULT_NAVIGATION, DEFAULT_CONTENT } from '../scripts/templates.mjs';
+import { buildPages, page, homepagePage, BASE_PAGES, DEFAULT_NAVIGATION, DEFAULT_CONTENT, DEFAULT_FINBOOST, DEFAULT_COVERAGE } from '../scripts/templates.mjs';
 
 let state = null;
 
@@ -743,6 +743,12 @@ function renderHomepageForm(content) {
   draft.heroPhotos = draft.heroPhotos || {};
   draft.clientTypes = draft.clientTypes || [];
   draft.partners = draft.partners || [];
+  draft.finboost = { ...JSON.parse(JSON.stringify(DEFAULT_FINBOOST)), ...(draft.finboost || {}) };
+  draft.coverage = { ...JSON.parse(JSON.stringify(DEFAULT_COVERAGE)), ...(draft.coverage || {}) };
+  const fb = draft.finboost;
+  const cv = draft.coverage;
+  const txt = (cls, label, value) => `<label>${label}<input type="text" class="${cls}" value="${escapeHtml(value || '')}"></label>`;
+  const area = (cls, label, value, rows = 3) => `<label>${label}<textarea class="${cls}" rows="${rows}">${escapeHtml(value || '')}</textarea></label>`;
   draft.faq = draft.faq || [];
 
   function section(id, title, bodyHtml, open) {
@@ -818,6 +824,46 @@ function renderHomepageForm(content) {
           </div>`).join('')}
         `, false)}
 
+        ${section('sec-finboost', 'Bloc « FinBoost »', `
+          ${txt('f-fb', 'Titre (suivi de « FinBoost »)', fb.title).replace('class="f-fb"', 'class="f-fb" data-k="title"')}
+          <h4 class="admin-subhead">Carte « Le consultant »</h4>
+          ${txt('f-fb', 'Étiquette', fb.consultantLabel).replace('class="f-fb"', 'class="f-fb" data-k="consultantLabel"')}
+          ${area('f-fb', 'Texte', fb.consultantText).replace('class="f-fb"', 'class="f-fb" data-k="consultantText"')}
+          ${area('f-fb-bullets', 'Points (un par ligne)', (fb.consultantBullets || []).join('\n'), 4)}
+          <h4 class="admin-subhead">Carte « Outil FinBoost »</h4>
+          ${txt('f-fb', 'Étiquette', fb.toolLabel).replace('class="f-fb"', 'class="f-fb" data-k="toolLabel"')}
+          ${area('f-fb', 'Texte', fb.toolText, 2).replace('class="f-fb"', 'class="f-fb" data-k="toolText"')}
+          ${(fb.features || []).map((x, i) => `<div class="admin-form-row">
+            <label>Atout ${i + 1} — titre<input type="text" class="f-fb-feat-title" data-i="${i}" value="${escapeHtml(x.title)}"></label>
+            <label>Atout ${i + 1} — texte<input type="text" class="f-fb-feat-text" data-i="${i}" value="${escapeHtml(x.text)}"></label>
+          </div>`).join('')}
+          <h4 class="admin-subhead">Panneau de droite</h4>
+          ${[['panelBadge', 'Badge'], ['panelCaption', 'Sous-titre'], ['panelValue', 'Chiffre'], ['panelValueLabel', 'Légende du chiffre'], ['sideLabel', 'Encart — titre'], ['sideValue', 'Encart — chiffre'], ['sideText', 'Encart — texte']]
+            .map(([k, l]) => `<label>${l}<input type="text" class="f-fb" data-k="${k}" value="${escapeHtml(fb[k] || '')}"></label>`).join('')}
+          <h4 class="admin-subhead">Boutons</h4>
+          ${[['primaryLabel', 'Bouton principal — libellé'], ['primaryHref', 'Bouton principal — lien'], ['secondaryLabel', 'Bouton secondaire — libellé'], ['secondaryHref', 'Bouton secondaire — lien']]
+            .map(([k, l]) => `<label>${l}<input type="text" class="f-fb" data-k="${k}" value="${escapeHtml(fb[k] || '')}"></label>`).join('')}
+        `, false)}
+
+        ${section('sec-coverage', 'Bloc « Couverture nationale » (carte)', `
+          ${[['eyebrow', 'Surtitre'], ['title', 'Titre']].map(([k, l]) => `<label>${l}<input type="text" class="f-cv" data-k="${k}" value="${escapeHtml(cv[k] || '')}"></label>`).join('')}
+          <label>Texte<textarea class="f-cv" data-k="text" rows="2">${escapeHtml(cv.text || '')}</textarea></label>
+          <h4 class="admin-subhead">Chiffres clés</h4>
+          ${(cv.cards || []).map((k, i) => `<div class="admin-form-row">
+            <label>Chiffre ${i + 1}<input type="text" class="f-cv-card" data-i="${i}" data-k="value" value="${escapeHtml(k.value)}"></label>
+            <label>Suffixe<input type="text" class="f-cv-card" data-i="${i}" data-k="suffix" value="${escapeHtml(k.suffix)}"></label>
+            <label>Texte<textarea class="f-cv-card" data-i="${i}" data-k="text" rows="2">${escapeHtml(k.text)}</textarea></label>
+          </div>`).join('')}
+          <h4 class="admin-subhead">Siège</h4>
+          ${[['hqLabel', 'Étiquette'], ['hqValue', 'Chiffre']].map(([k, l]) => `<label>${l}<input type="text" class="f-cv" data-k="${k}" value="${escapeHtml(cv[k] || '')}"></label>`).join('')}
+          <label>Texte<textarea class="f-cv" data-k="hqText" rows="2">${escapeHtml(cv.hqText || '')}</textarea></label>
+          <label>Région du siège (surlignée en rose)
+            <select class="f-cv" data-k="hqRegion">${(cv.regions || []).map(r => `<option value="${escapeHtml(r.id)}"${r.id === cv.hqRegion ? ' selected' : ''}>${escapeHtml(r.name)}</option>`).join('')}</select>
+          </label>
+          <h4 class="admin-subhead">Dispositifs par région (affichés au survol de la carte)</h4>
+          ${(cv.regions || []).map((r, i) => `<label>${escapeHtml(r.name)}<input type="text" class="f-cv-region" data-i="${i}" placeholder="ex. 2 753" value="${escapeHtml(r.count || '')}"></label>`).join('')}
+        `, false)}
+
         ${section('sec-testimonial', 'Témoignage', `
           <label>Citation
             <textarea id="f-test-quote" rows="3">${escapeHtml(draft.testimonial.quote)}</textarea>
@@ -827,23 +873,6 @@ function renderHomepageForm(content) {
           </label>
           <label>Précision (sous le témoignage)
             <input type="text" id="f-test-footnote" value="${escapeHtml(draft.testimonial.footnote)}">
-          </label>
-        `, false)}
-
-        ${section('sec-stats', 'Baromètre (statistiques)', `
-          <label>Titre du bloc
-            <input type="text" id="f-stats-title" value="${escapeHtml(draft.statsTitle)}">
-          </label>
-          ${draft.stats.map((s, i) => `<div class="admin-form-row">
-            <label>Chiffre ${i + 1}
-              <input type="text" class="f-stat-value" data-i="${i}" value="${escapeHtml(s.value)}">
-            </label>
-            <label>Légende ${i + 1}
-              <input type="text" class="f-stat-label" data-i="${i}" value="${escapeHtml(s.label)}">
-            </label>
-          </div>`).join('')}
-          <label>Légende générale
-            <input type="text" id="f-stats-caption" value="${escapeHtml(draft.statsCaption)}">
           </label>
         `, false)}
 
@@ -967,13 +996,16 @@ function renderHomepageForm(content) {
     content.querySelectorAll('.f-card-items').forEach(el => { draft.introCards[Number(el.dataset.i)].items = el.value.split('\n').map(x => x.trim()).filter(Boolean); });
     content.querySelectorAll('.f-card-link-label').forEach(el => { draft.introCards[Number(el.dataset.i)].linkLabel = el.value.trim(); });
     content.querySelectorAll('.f-card-link-href').forEach(el => { draft.introCards[Number(el.dataset.i)].linkHref = el.value.trim(); });
+    content.querySelectorAll('.f-fb').forEach(el => { draft.finboost[el.dataset.k] = el.value; });
+    content.querySelectorAll('.f-fb-bullets').forEach(el => { draft.finboost.consultantBullets = el.value.split('\n').map(x => x.trim()).filter(Boolean); });
+    content.querySelectorAll('.f-fb-feat-title').forEach(el => { draft.finboost.features[Number(el.dataset.i)].title = el.value; });
+    content.querySelectorAll('.f-fb-feat-text').forEach(el => { draft.finboost.features[Number(el.dataset.i)].text = el.value; });
+    content.querySelectorAll('.f-cv').forEach(el => { draft.coverage[el.dataset.k] = el.value; });
+    content.querySelectorAll('.f-cv-card').forEach(el => { draft.coverage.cards[Number(el.dataset.i)][el.dataset.k] = el.value; });
+    content.querySelectorAll('.f-cv-region').forEach(el => { draft.coverage.regions[Number(el.dataset.i)].count = el.value.trim(); });
     draft.testimonial.quote = document.getElementById('f-test-quote').value;
     draft.testimonial.cite = document.getElementById('f-test-cite').value;
     draft.testimonial.footnote = document.getElementById('f-test-footnote').value;
-    draft.statsTitle = document.getElementById('f-stats-title').value;
-    content.querySelectorAll('.f-stat-value').forEach(el => { draft.stats[Number(el.dataset.i)].value = el.value; });
-    content.querySelectorAll('.f-stat-label').forEach(el => { draft.stats[Number(el.dataset.i)].label = el.value; });
-    draft.statsCaption = document.getElementById('f-stats-caption').value;
     draft.valuesTitle = document.getElementById('f-values-title').value;
     content.querySelectorAll('.f-value-title').forEach(el => { draft.values[Number(el.dataset.i)].title = el.value; });
     content.querySelectorAll('.f-value-text').forEach(el => { draft.values[Number(el.dataset.i)].text = el.value; });
