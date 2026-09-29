@@ -6,10 +6,24 @@
 
 :root {
   /* Couleurs — marque */
-  --purple-900: #2B1640; /* titres, fonds sombres, footer */
-  --purple-700: #4A2568; /* accent principal : boutons, actif, montants clés */
-  --purple-600: #5B2D80; /* dégradé / survol */
-  --purple-500: #7A3F9E; /* accent secondaire, liseré dispositif */
+  --purple-900: #3A1250; /* titres, fonds sombres, footer */
+  --purple-700: #581D74; /* accent principal : boutons, actif, montants clés (BPCE R88 V29 B116) */
+  --purple-600: #66327A; /* dégradé / survol (R102 V50 B122) */
+  --purple-500: #8A5599; /* accent secondaire, liseré dispositif (R138 V85 B153) */
+
+  /* Gamme de couleurs Groupe BPCE */
+  --bpce-plum: #581D74;
+  --bpce-magenta: #B34A8C;
+  --bpce-teal: #00A193;
+  --bpce-yellow: #EAB818;
+  --bpce-red: #DB4B4B;
+  --bpce-indigo: #55579E;
+  --bpce-blue: #00749D;
+  --bpce-orange: #F08050;
+  --bpce-sky: #6694CE;
+  --bpce-green: #8AB973;
+  --bpce-lavender: #9176B4;
+  --bpce-pink: #D676AD;
   --purple-100: #F3F0F7; /* surbrillance de ligne, fond badge échéance */
   --purple-050: #EFEBF5; /* fond statut "En cours" */
 
@@ -18,8 +32,8 @@
   --ink-soft: #4A4550;   /* texte secondaire */
   --muted: #6B6470;      /* légendes */
   --muted-2: #9A93A2;    /* méta, placeholders */
-  --border: #9D7CA9;     /* bordures des cartes */
-  --border-soft: #9D7CA9;/* séparateurs internes */
+  --border: #DCD2E4;     /* bordures des cartes */
+  --border-soft: #E9E3EF;/* séparateurs internes */
   --track: #EAE6EF;      /* fond de barre de progression */
   --canvas: #FAF5FC;     /* fond de page */
   --white: #FFFFFF;      /* cartes */
