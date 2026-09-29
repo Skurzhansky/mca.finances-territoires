@@ -627,30 +627,54 @@ section.section--muted { background: var(--canvas); }
 .section-intro__text strong { color: var(--ink); font-weight: 600; }
 
 .icon-card {
+  --accent: #581D74;
+  --accent-soft: #EFE8F3;
+  position: relative;
+  overflow: hidden;
   background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-card);
-  padding: var(--space-card-inner);
-  transition: background-color .15s ease;
+  border: 1px solid #ECE8F0;
+  border-radius: 14px;
+  padding: 26px 24px 28px;
+  box-shadow: 0 4px 18px rgba(40, 20, 60, .06);
+  transition: transform .2s ease, box-shadow .2s ease;
 }
-.icon-card:hover { background: #FAF5FC; }
+.icon-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--accent);
+}
+.icon-card:nth-child(3n+2) { --accent: #B34A8C; --accent-soft: #F8EBF3; }
+.icon-card:nth-child(3n+3) { --accent: #00A193; --accent-soft: #E3F4F2; }
+.icon-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(40, 20, 60, .12); }
+.icon-card__num {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 1;
+  color: #ECEAF0;
+  pointer-events: none;
+}
 .icon-card__badge {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 46px;
+  width: 42px;
   height: 42px;
-  margin-bottom: 20px;
-  background: var(--purple-700);
-  color: var(--white);
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  margin-bottom: 22px;
+  border-radius: 9px;
+  background: var(--accent-soft);
+  color: var(--accent);
 }
 .icon-card__badge svg { width: 20px; height: 20px; }
 .icon-card h3 {
   margin: 0 0 10px;
-  font-size: var(--card-title-size);
+  font-size: 16px;
   font-weight: 600;
-  color: var(--ink);
+  color: var(--purple-900);
 }
 .icon-card p {
   margin: 0;
