@@ -45,6 +45,17 @@ jobs:
             --exclude "images/*"
           aws s3 sync images "s3://${S3_BUCKET}/images"
 
+      # HTML et JSON toujours revalidés par CloudFront : les publications de
+      # l'admin sont visibles sans invalidation de cache.
+      - name: En-têtes Cache-Control (HTML / JSON)
+        run: |
+          aws s3 cp . "s3://${S3_BUCKET}" --recursive \
+            --exclude "*" --include "*.html" --exclude ".git/*" --exclude ".github/*" \
+            --cache-control "no-cache" --content-type "text/html; charset=utf-8"
+          aws s3 cp data "s3://${S3_BUCKET}/data" --recursive \
+            --exclude "*" --include "*.json" \
+            --cache-control "no-cache" --content-type "application/json"
+
       - name: Invalider le cache CloudFront
         run: |
           aws cloudfront create-invalidation \
