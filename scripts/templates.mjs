@@ -654,7 +654,7 @@ ${seoTags(p, site.content)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles/site.css?v=20260929d">
+<link rel="stylesheet" href="../styles/site.css">
 </head>
 <body>
 
@@ -893,7 +893,7 @@ ${metaTags(homepage?.seoTitle || `Finances & Territoires — ${homepage?.heroTit
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/site.css?v=20260929d">
+<link rel="stylesheet" href="styles/site.css">
 </head>
 <body>
 
