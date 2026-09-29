@@ -638,3 +638,16 @@ html { scrollbar-color: #c9c2d3 transparent; }
 
 .admin-section-title + .admin-hint { margin: 0 0 18px; }
 .admin-media-card__thumb img[src$=".png"], .admin-media-card__thumb img[src$=".svg"] { object-fit: contain; padding: 12px; box-sizing: border-box; background: #fff; }
+
+.admin-subhead {
+  margin: 18px 0 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted, #6b6b80);
+}
+
+.admin-subdetails { margin-top: 14px; }
+.admin-subdetails summary { cursor: pointer; font-weight: 600; font-size: 13px; }
+.admin-dep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px 14px; margin-top: 10px; }
