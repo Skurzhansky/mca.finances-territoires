@@ -1,0 +1,146 @@
+{
+  "cta": {
+    "title": "Vous souhaitez mieux comprendre les aides possibles pour votre projet ?",
+    "text": "Contactez-nous pour un échange personnalisé sur vos besoins en financement.",
+    "label": "Contactez-nous →"
+  },
+  "pages": {
+    "finances-et-territoires": {
+      "title": "Qui sommes-nous ?",
+      "lead": "Finances & Territoires est une filiale du Groupe BPCE, experte du financement public et privé des projets d'investissement des territoires depuis 20 ans.",
+      "stats": [
+        {
+          "value": "1,2 Md€",
+          "label": "mobilisés pour nos clients"
+        },
+        {
+          "value": "18 600",
+          "label": "dispositifs référencés"
+        },
+        {
+          "value": "20 ans",
+          "label": "d'expertise territoriale"
+        }
+      ],
+      "features": [
+        {
+          "title": "Engagement humain",
+          "text": "Un accompagnement sur mesure avec un consultant dédié, à l'écoute de vos besoins."
+        },
+        {
+          "title": "Impact et résultats",
+          "text": "La concrétisation de vos projets dans une approche responsable et durable."
+        },
+        {
+          "title": "Excellence et fiabilité",
+          "text": "Une veille rigoureuse et une méthodologie éprouvée, au service de la qualité."
+        }
+      ]
+    },
+    "les-reussites-de-nos-clients": {
+      "title": "Les réussites de nos clients",
+      "bannerImage": "images/handshake-reunion.webp",
+      "bannerCtaLabel": "En savoir plus →",
+      "bannerCtaHref": "les-reussites-de-nos-clients/",
+      "lead": "Collectivités, associations et entreprises que nous accompagnons dans la sécurisation de leurs financements.",
+      "testimonial": {
+        "meta": "Témoignages",
+        "quote": "« Votre expertise et votre engagement ont été déterminants dans l'obtention des subventions accordées par l'Agence de l'eau et le Fonds Vert pour le réaménagement du parc Charles-de-Gaulle et de la Place Michelet. »",
+        "cite": "Julien Chambon — Maire",
+        "footnote": "Commune de Ricailles · 33 617 habitants (Insee 2022)"
+      },
+      "stats": [
+        {
+          "value": "18 600",
+          "label": "aides pour nos clients"
+        },
+        {
+          "value": "10 000",
+          "label": "aides publiques"
+        },
+        {
+          "value": "8 600",
+          "label": "aides privées"
+        }
+      ]
+    },
+    "contact": {
+      "title": "Contact",
+      "lead": "Un projet à financer ? Parlons-en. Décrivez-nous votre besoin, un consultant vous recontacte pour un premier échange.",
+      "email": "A-REMPLACER@exemple.fr",
+      "infoTitle": "Finances & Territoires",
+      "infoParagraphs": [
+        "Filiale du Groupe BPCE, nous accompagnons les collectivités, associations et entreprises dans la sécurisation de leurs financements depuis 20 ans.",
+        "Retrouvez également nos solutions dans le menu « Expertises et Solutions », ou explorez le [Guide](guide/) pour en savoir plus sur les dispositifs de financement."
+      ]
+    },
+    "guide": {
+      "title": "Guide",
+      "lead": "Comprendre, anticiper et agir face aux évolutions du financement."
+    },
+    "evenements": {
+      "title": "Événements",
+      "lead": "Webinaires, rencontres et temps forts autour du financement des projets territoriaux.",
+      "emptyTitle": "Aucun événement programmé pour le moment",
+      "emptyText": "Revenez bientôt ou [contactez-nous](contact/) pour être informé des prochaines dates."
+    },
+    "entreprise": {
+      "title": "Entreprise",
+      "eyebrow": "Engagées pour un territoire durable",
+      "headline": "Activez des leviers de financement et de partenariat pour vos projets à impact",
+      "lead": "Qu'il s'agisse de PME, d'ETI ou de grandes entreprises, de plus en plus d'acteurs économiques s'engagent sur leur territoire : transition écologique, innovation sociale, revitalisation des centres-bourgs, mécénat ou développement de projets collaboratifs. Ces initiatives peuvent bénéficier de financements publics, de soutiens privés, ou s'inscrire dans des partenariats stratégiques avec les collectivités.",
+      "ctaLabel": "Contactez-nous →",
+      "sections": [
+        {
+          "type": "list",
+          "title": "Vos enjeux",
+          "items": [
+            "Identifier les aides et dispositifs mobilisables pour vos projets à visée sociale ou environnementale",
+            "Structurer des collaborations efficaces avec le secteur public",
+            "Valoriser votre impact RSE et territorial auprès de vos parties prenantes"
+          ]
+        },
+        {
+          "type": "blocks",
+          "title": "Ce que nous vous proposons",
+          "blocks": [
+            {
+              "title": "Identification des dispositifs publics et privés adaptés",
+              "text": "Nous analysons vos projets pour repérer les aides disponibles : subventions à l'innovation ou à la transition énergétique, dispositifs territoriaux, soutien à l'investissement, mécénat, fonds européens…"
+            },
+            {
+              "title": "Structuration de projets en co-développement avec le public",
+              "text": "Nous vous accompagnons dans la construction de projets conjoints avec les collectivités (bailleurs sociaux, EPL, établissements de santé…), en intégrant les enjeux réglementaires, financiers et opérationnels."
+            },
+            {
+              "title": "Déploiement de démarches RSE territorialisées",
+              "text": "Nous vous aidons à traduire vos engagements RSE en projets concrets et visibles, à identifier les bons leviers de financement, et à communiquer efficacement votre impact auprès de vos partenaires institutionnels, clients ou investisseurs."
+            },
+            {
+              "title": "Mobilisation du mécénat et des clubs d'entreprises",
+              "text": "Nous accompagnons les entreprises désireuses de s'impliquer localement dans des initiatives d'intérêt général : constitution de clubs de mécènes, mécénat de compétence ou en nature, partenariats avec des structures non lucratives locales."
+            }
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Ce que vous y gagnez",
+          "items": [
+            "Une stratégie claire pour accéder à des aides souvent méconnues",
+            "Des projets structurés en cohérence avec vos valeurs et votre stratégie RSE",
+            "Une reconnaissance accrue auprès des acteurs publics et de vos partenaires économiques"
+          ]
+        }
+      ],
+      "cta": {
+        "title": "Vous développez un projet stratégique à fort impact territorial ?",
+        "text": "Contactez-nous pour concevoir une solution de financement alignée sur vos ambitions économiques et sociales.",
+        "label": "Contactez-nous →"
+      }
+    },
+    "secteurs-dactivite": {
+      "title": "Secteurs d'activité",
+      "lead": "Une expertise territoriale et sectorielle : nous adaptons notre accompagnement aux enjeux propres à chaque type de structure."
+    }
+  }
+}

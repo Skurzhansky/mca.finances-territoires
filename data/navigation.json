@@ -1,0 +1,158 @@
+{
+  "header": {
+    "expertisesLabel": "Expertises et Solutions",
+    "expertisesMenu": [
+      {
+        "label": "Détections des opportunités",
+        "href": "detections-des-opportunites/",
+        "children": [
+          {
+            "label": "Optim Aides & Subventions",
+            "href": "optimaides-subventions/"
+          },
+          {
+            "label": "Veille personnalisée",
+            "href": "veille-personnalisee/"
+          }
+        ]
+      },
+      {
+        "label": "Mobilisation des aides",
+        "href": "mobilisation-des-aides/",
+        "children": [
+          {
+            "label": "Montage des dossiers",
+            "href": "montage-des-dossiers/"
+          },
+          {
+            "label": "Gestion des aides",
+            "href": "gestion-des-aides/"
+          }
+        ]
+      },
+      {
+        "label": "Mécénat et Fundraising",
+        "children": [
+          {
+            "label": "Fonds de dotation & Mécénat local",
+            "href": "fonds-de-dotation-mecenat-local/"
+          },
+          {
+            "label": "Recherche de fondations",
+            "href": "recherche-de-fondations/"
+          },
+          {
+            "label": "Fundraising",
+            "href": "fundraising/"
+          }
+        ]
+      },
+      {
+        "label": "Formations",
+        "href": "nos-formations/"
+      }
+    ],
+    "aboutLabel": "Qui sommes-nous ?",
+    "aboutMenu": [
+      {
+        "label": "Finances & Territoires",
+        "href": "finances-et-territoires/"
+      },
+      {
+        "label": "Événements",
+        "href": "evenements/"
+      },
+      {
+        "label": "Guide",
+        "href": "guide/"
+      }
+    ],
+    "reussitesLabel": "Réussites",
+    "reussitesHref": "les-reussites-de-nos-clients/",
+    "ctaLabel": "Contactez-nous",
+    "ctaHref": "contact/"
+  },
+  "footer": {
+    "brand": "FINANCES & TERRITOIRES",
+    "text": "Expert des financements publics et du développement des territoires.",
+    "subsidiary": "Une filiale du Groupe BPCE",
+    "columns": [
+      {
+        "title": "Expertises",
+        "links": [
+          {
+            "label": "Détection",
+            "href": "detections-des-opportunites/"
+          },
+          {
+            "label": "Mobilisation",
+            "href": "mobilisation-des-aides/"
+          },
+          {
+            "label": "Mécénat & Fundraising",
+            "href": "fonds-de-dotation-mecenat-local/"
+          },
+          {
+            "label": "Formations",
+            "href": "nos-formations/"
+          },
+          {
+            "label": "Optim Aides & Subventions",
+            "href": "optimaides-subventions/"
+          }
+        ]
+      },
+      {
+        "title": "Secteurs",
+        "links": [
+          {
+            "label": "Collectivité & EPCI",
+            "href": "collectivites-epci/"
+          },
+          {
+            "label": "Santé non lucratif",
+            "href": "etablissements-de-sante-publics-non-lucratifs/"
+          },
+          {
+            "label": "Médico-Social & Social",
+            "href": "structures-medico-sociales/"
+          },
+          {
+            "label": "Logement social",
+            "href": "logement-social/"
+          },
+          {
+            "label": "SDIS & Secours",
+            "href": "sdis-service-de-secours/"
+          }
+        ]
+      },
+      {
+        "title": "À propos",
+        "links": [
+          {
+            "label": "Finances & Territoires",
+            "href": "finances-et-territoires/"
+          },
+          {
+            "label": "Réussites clients",
+            "href": "les-reussites-de-nos-clients/"
+          },
+          {
+            "label": "Événements",
+            "href": "evenements/"
+          },
+          {
+            "label": "Guide pratique",
+            "href": "guide/"
+          },
+          {
+            "label": "Contact",
+            "href": "contact/"
+          }
+        ]
+      }
+    ],
+    "bottom": "© 2020 BPCE Finances & Territoires — Filiale du Groupe BPCE. Tous droits réservés."
+  }
+}
