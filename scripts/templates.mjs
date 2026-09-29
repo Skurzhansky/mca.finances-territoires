@@ -654,7 +654,7 @@ ${seoTags(p, site.content)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles/site.css?v=20260929f">
+<link rel="stylesheet" href="../styles/site.css?v=20260929g">
 </head>
 <body>
 
@@ -766,8 +766,11 @@ export function renderHomepage(homepage, pages, content) {
       ${(h.introCards || []).map((c, i) => `<article class="icon-card">
         <span class="icon-card__num">${String(i + 1).padStart(2, '0')}</span>
         <span class="icon-card__badge">${INTRO_CARD_ICONS[i % INTRO_CARD_ICONS.length]}</span>
+        ${c.tag ? `<span class="icon-card__tag">${escapeHtml(c.tag)}</span>` : ''}
         <h3>${escapeHtml(c.title)}</h3>
         <p>${richText(c.text, '')}</p>
+        ${(c.items || []).length ? `<ul class="icon-card__list">${c.items.map(it => `<li>${richText(it, '')}</li>`).join('')}</ul>` : ''}
+        ${c.linkLabel && c.linkHref ? `<a class="icon-card__link" href="${escapeHtml(c.linkHref)}">${escapeHtml(c.linkLabel)} →</a>` : ''}
       </article>`).join('\n      ')}
     </div>
   </section>
@@ -894,7 +897,7 @@ ${metaTags(homepage?.seoTitle || `Finances & Territoires — ${homepage?.heroTit
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/site.css?v=20260929f">
+<link rel="stylesheet" href="styles/site.css?v=20260929g">
 </head>
 <body>
 
