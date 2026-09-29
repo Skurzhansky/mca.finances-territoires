@@ -701,16 +701,6 @@ section.section--muted { background: var(--canvas); }
 .icon-card:nth-child(3n+2) { --accent: #B34A8C; --accent-soft: #F8EBF3; }
 .icon-card:nth-child(3n+3) { --accent: #00A193; --accent-soft: #E3F4F2; }
 .icon-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(40, 20, 60, .12); }
-.icon-card__num {
-  position: absolute;
-  top: 12px;
-  right: 18px;
-  font-size: 40px;
-  font-weight: 300;
-  line-height: 1;
-  color: #ECEAF0;
-  pointer-events: none;
-}
 .icon-card__badge {
   display: flex;
   align-items: center;
