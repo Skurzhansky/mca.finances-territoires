@@ -3,6 +3,12 @@
 // data-name), colore chaque département selon son nombre de dispositifs et
 // affiche une info-bulle au survol.
 (function () {
+  function shadeOf(id) {
+    var h = 0;
+    for (var i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) % 997;
+    return 1 + (h % 4);
+  }
+
   var root = document.getElementById('coverage-map');
   if (!root) return;
   var data = {};
@@ -28,7 +34,7 @@
       shapes.forEach(function (el) {
         var r = byId[el.id] || {};
         var n = parseFloat(String(r.count || '').replace(/[^\d.]/g, ''));
-        var level = max && n ? Math.max(1, Math.ceil((n / max) * 5)) : Number(el.getAttribute('data-level')) || 4;
+        var level = max && n ? Math.max(1, Math.ceil((n / max) * 5)) : Number(el.getAttribute('data-level')) || shadeOf(el.id);
         el.classList.add('coverage-map__region', 'is-level-' + level);
         if (el.id === data.hq) el.classList.add('is-hq');
         el.setAttribute('tabindex', '0');
