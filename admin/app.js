@@ -1788,6 +1788,7 @@ async function publish(root, signOut) {
         Key: `${p.slug}/index.html`,
         Body: html,
         ContentType: 'text/html; charset=utf-8',
+        CacheControl: 'no-cache',
       }));
       tick();
     }
@@ -1797,6 +1798,7 @@ async function publish(root, signOut) {
       Key: 'index.html',
       Body: homepagePage(state.homepage, pages, site()),
       ContentType: 'text/html; charset=utf-8',
+      CacheControl: 'no-cache',
     }));
     tick();
 
@@ -1815,6 +1817,7 @@ async function publish(root, signOut) {
         Key: key,
         Body: JSON.stringify(value, null, 2),
         ContentType: 'application/json',
+        CacheControl: 'no-cache',
       }));
       tick();
     }
