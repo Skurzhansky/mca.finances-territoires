@@ -42,3 +42,15 @@ jobs:
           aws cloudfront create-invalidation \
             --distribution-id "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}" \
             --paths "/*"
+
+      - name: Autoriser l'admin (CORS du bucket)
+        run: |
+          aws s3api put-bucket-cors --bucket "${S3_BUCKET}" --cors-configuration '{
+            "CORSRules": [{
+              "AllowedOrigins": ["https://site.id.finances-territoires.fr", "https://skurzhansky.github.io"],
+              "AllowedMethods": ["GET", "HEAD", "PUT", "POST", "DELETE"],
+              "AllowedHeaders": ["*"],
+              "ExposeHeaders": ["ETag"],
+              "MaxAgeSeconds": 3600
+            }]
+          }'
