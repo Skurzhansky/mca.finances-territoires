@@ -670,6 +670,48 @@ section.section--muted { background: var(--canvas); }
   color: var(--accent);
 }
 .icon-card__badge svg { width: 20px; height: 20px; }
+.icon-card { display: flex; flex-direction: column; }
+.icon-card__tag {
+  align-self: flex-start;
+  margin-bottom: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.icon-card__list {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.icon-card__list li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+.icon-card__list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+.icon-card__link {
+  margin-top: auto;
+  padding-top: 22px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+.icon-card__link:hover { text-decoration: underline; }
 .icon-card h3 {
   margin: 0 0 10px;
   font-size: 16px;

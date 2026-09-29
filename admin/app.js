@@ -802,7 +802,19 @@ function renderHomepageForm(content) {
           </label>
           ${draft.introCards.map((c, i) => `<div class="admin-body-section">
             <input type="text" class="f-card-title" data-i="${i}" placeholder="Titre de la carte" value="${escapeHtml(c.title)}">
+            <label>Étiquette (optionnelle)
+              <input type="text" class="f-card-tag" data-i="${i}" placeholder="Ex. Détection des opportunités" value="${escapeHtml(c.tag || '')}">
+            </label>
             <textarea class="f-card-text" data-i="${i}" rows="2" placeholder="Texte">${escapeHtml(c.text)}</textarea>
+            <label>Liste à puces (un élément par ligne, optionnelle)
+              <textarea class="f-card-items" data-i="${i}" rows="3">${escapeHtml((c.items || []).join('\n'))}</textarea>
+            </label>
+            <label>Lien — libellé (optionnel)
+              <input type="text" class="f-card-link-label" data-i="${i}" placeholder="En savoir plus" value="${escapeHtml(c.linkLabel || '')}">
+            </label>
+            <label>Lien — adresse (ex. detections-des-opportunites/)
+              <input type="text" class="f-card-link-href" data-i="${i}" value="${escapeHtml(c.linkHref || '')}">
+            </label>
           </div>`).join('')}
         `, false)}
 
@@ -951,6 +963,10 @@ function renderHomepageForm(content) {
     draft.introText = document.getElementById('f-intro-text').value;
     content.querySelectorAll('.f-card-title').forEach(el => { draft.introCards[Number(el.dataset.i)].title = el.value; });
     content.querySelectorAll('.f-card-text').forEach(el => { draft.introCards[Number(el.dataset.i)].text = el.value; });
+    content.querySelectorAll('.f-card-tag').forEach(el => { draft.introCards[Number(el.dataset.i)].tag = el.value.trim(); });
+    content.querySelectorAll('.f-card-items').forEach(el => { draft.introCards[Number(el.dataset.i)].items = el.value.split('\n').map(x => x.trim()).filter(Boolean); });
+    content.querySelectorAll('.f-card-link-label').forEach(el => { draft.introCards[Number(el.dataset.i)].linkLabel = el.value.trim(); });
+    content.querySelectorAll('.f-card-link-href').forEach(el => { draft.introCards[Number(el.dataset.i)].linkHref = el.value.trim(); });
     draft.testimonial.quote = document.getElementById('f-test-quote').value;
     draft.testimonial.cite = document.getElementById('f-test-cite').value;
     draft.testimonial.footnote = document.getElementById('f-test-footnote').value;
