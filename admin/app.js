@@ -1689,6 +1689,11 @@ function renderEventForm(content, root, signOut, evt) {
 // ---------- Publication ----------
 
 async function publish(root, signOut) {
+  const openForm = document.querySelector('#tab-content form.admin-form');
+  if (openForm) {
+    if (!openForm.reportValidity()) return;
+    openForm.requestSubmit();
+  }
   const statusEl = document.getElementById('publish-status');
   const btn = document.getElementById('publish-btn');
   btn.disabled = true;
