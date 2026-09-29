@@ -17,12 +17,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Régénérer les pages statiques
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: node scripts/generate-pages.mjs
-
       - name: Configurer les identifiants AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -30,12 +24,26 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      # Le contenu publié depuis l'admin (data/*.json) fait foi : on le récupère
+      # avant de régénérer les pages pour ne pas l'écraser avec la version du dépôt.
+      - name: Récupérer le contenu publié depuis l'admin
+        run: aws s3 cp "s3://${S3_BUCKET}/data/" data/ --recursive --exclude "*" --include "*.json"
+
+      - name: Régénérer les pages statiques
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/generate-pages.mjs
+
+      # Les photos téléversées depuis l'admin n'existent que dans S3 : pas de --delete sur images/.
       - name: Synchroniser vers S3
         run: |
           aws s3 sync . "s3://${S3_BUCKET}" \
             --delete \
             --exclude ".git/*" \
-            --exclude ".github/*"
+            --exclude ".github/*" \
+            --exclude "images/*"
+          aws s3 sync images "s3://${S3_BUCKET}/images"
 
       - name: Invalider le cache CloudFront
         run: |
