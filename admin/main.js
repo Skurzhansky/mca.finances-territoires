@@ -40,7 +40,7 @@ function renderLoggedOut() {
 
 async function renderLoggedIn(user) {
   const credentials = await getCredentials(user.id_token);
-  const { mountAdmin } = await import('./app.js?v=20260930d');
+  const { mountAdmin } = await import('./app.js?v=20261001a');
   await mountAdmin(document.getElementById('app'), { user, credentials, signOut: signOutRedirect });
 }
 

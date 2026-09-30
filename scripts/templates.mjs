@@ -167,6 +167,18 @@ export const DEFAULT_PROJECT_CTA = {
   secondaryHref: 'finances-et-territoires/',
 };
 
+export const DEFAULT_ACCOMPAGNEMENT = {
+  eyebrow: 'Notre accompagnement',
+  title: 'De la détection au pilotage des aides',
+  text: 'Un conseil stratégique expert à chaque étape du cycle de financement.',
+  cards: [
+    { tag: 'Détection des opportunités', title: "Veille continue & Note d'opportunité", text: 'Identification de toutes les aides mobilisables — en continu ou sur un projet ciblé.', items: ['+19 000 mesures de soutien référencées', 'Alertes et veille personnalisées par secteur', 'Détection des AAP de fondations', 'Cartographie priorisée des financements'], linkLabel: 'En savoir plus', linkHref: 'detections-des-opportunites/' },
+    { tag: 'Mobilisation des aides', title: 'Montage des dossiers', text: "Constitution et dépôt des dossiers d'aides françaises et européennes.", items: ['Rédaction des mémoires techniques', 'Recensement des pièces administratives', "Suivi de l'instruction des demandes", 'Principalement rémunéré au succès'], linkLabel: 'En savoir plus', linkHref: 'mobilisation-des-aides/' },
+    { tag: 'Pilotage des aides', title: 'Gestion des aides obtenues', text: "Pilotage des demandes de paiement et accompagnement jusqu'au versement final.", items: ['Suivi des échéances et montants à percevoir', 'Alertes personnalisées sur les versements', 'Assistance à la liquidation', "Bilan d'exécution"], linkLabel: 'En savoir plus', linkHref: 'gestion-des-aides/' },
+    { tag: 'Fonds privés / Mécénat', title: 'Fonds de dotation & collecte de fonds privés', text: 'De la création de votre fonds de dotation à la mobilisation de mécènes.', items: ['Création et développement de fonds de dotation', 'Stratégie de mécénat et ciblage des mécènes', 'Recherche de mécènes et AAP de fondations', '~1 500 sources de financements privés'], linkLabel: 'En savoir plus', linkHref: 'fonds-de-dotation-mecenat-local/' },
+  ],
+};
+
 export const DEFAULT_ABOUT = {
   cardTitle: 'Une expertise ancrée dans le terrain',
   cardText: "Fondé en 2019, BPCE Finances & Territoires est né d'un constat de terrain : pour nombre d'acteurs, la recherche de financements constitue un frein majeur — faute de moyens humains, de temps ou de compétences spécifiques, mais aussi face à un paysage d'aides particulièrement vaste et épars, difficile à appréhender sans expertise dédiée.",
@@ -855,7 +867,7 @@ ${seoTags(p, site.content)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles/site.css?v=20260930f">
+<link rel="stylesheet" href="../styles/site.css?v=20261001a">
 </head>
 <body>
 
@@ -911,6 +923,35 @@ const INTRO_CARD_ICONS = [
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/><path d="M9 12.5l2 2 4-4.5"/></svg>',
 ];
+
+const ACC_ICONS = [
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2M11 8.5v5M8.5 11h5"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2.5-6 5 12 2.5-6h4"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg>',
+];
+
+function renderAccompagnement(data) {
+  const a = { ...DEFAULT_ACCOMPAGNEMENT, ...(data || {}) };
+  const cards = (a.cards || []).filter(c => c.title || c.text);
+  return `<section id="expertises">
+    <div class="section-intro">
+      ${a.eyebrow ? `<span class="section-eyebrow">${escapeHtml(a.eyebrow)}</span>` : ''}
+      <h2 class="section-title">${escapeHtml(a.title)}</h2>
+      ${a.text ? `<p class="section-intro__text">${richText(a.text, '')}</p>` : ''}
+    </div>
+    <div class="cards-grid cards-grid--${Math.min(cards.length, 4) || 1}">
+      ${cards.map((c, i) => `<article class="icon-card">
+        <span class="icon-card__badge">${ACC_ICONS[i % ACC_ICONS.length]}</span>
+        ${c.tag ? `<span class="icon-card__tag">${escapeHtml(c.tag)}</span>` : ''}
+        <h3>${c.linkHref ? `<a href="${escapeHtml(c.linkHref)}">${escapeHtml(c.title)}</a>` : escapeHtml(c.title)}</h3>
+        <p>${richText(c.text, '')}</p>
+        ${(c.items || []).length ? `<ul class="icon-card__list">${c.items.map(it => `<li>${richText(it, '')}</li>`).join('')}</ul>` : ''}
+        ${c.linkLabel && c.linkHref ? `<a class="icon-card__link" href="${escapeHtml(c.linkHref)}">${escapeHtml(c.linkLabel)} →</a>` : ''}
+      </article>`).join('\n      ')}
+    </div>
+  </section>`;
+}
 
 const VALUE_ICONS = [
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="16" cy="9" r="2.6"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/><path d="M14 20c.3-2.3 2-4 4.5-4"/></svg>',
@@ -1092,22 +1133,7 @@ export function renderHomepage(homepage, pages, content) {
   </section>
 
   <div class="container">
-  <section id="expertises">
-    <div class="section-intro">
-      <h2 class="section-title">${escapeHtml(h.introTitle)}</h2>
-      <p class="section-intro__text">${richText(h.introText, '')}</p>
-    </div>
-    <div class="cards-grid">
-      ${(h.introCards || []).map((c, i) => `<article class="icon-card">
-        <span class="icon-card__badge">${INTRO_CARD_ICONS[i % INTRO_CARD_ICONS.length]}</span>
-        ${c.tag ? `<span class="icon-card__tag">${escapeHtml(c.tag)}</span>` : ''}
-        <h3>${escapeHtml(c.title)}</h3>
-        <p>${richText(c.text, '')}</p>
-        ${(c.items || []).length ? `<ul class="icon-card__list">${c.items.map(it => `<li>${richText(it, '')}</li>`).join('')}</ul>` : ''}
-        ${c.linkLabel && c.linkHref ? `<a class="icon-card__link" href="${escapeHtml(c.linkHref)}">${escapeHtml(c.linkLabel)} →</a>` : ''}
-      </article>`).join('\n      ')}
-    </div>
-  </section>
+  ${renderAccompagnement(h.accompagnement)}
   </div>
 
   ${renderFinboost(h.finboost)}
@@ -1194,7 +1220,7 @@ ${metaTags(homepage?.seoTitle || `Finances & Territoires — ${homepage?.heroTit
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/site.css?v=20260930f">
+<link rel="stylesheet" href="styles/site.css?v=20261001a">
 </head>
 <body>
 
