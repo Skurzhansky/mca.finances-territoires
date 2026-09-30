@@ -1,5 +1,5 @@
 import { config } from './config.js';
-import { buildPages, page, homepagePage, BASE_PAGES, DEFAULT_NAVIGATION, DEFAULT_CONTENT, DEFAULT_FINBOOST, DEFAULT_COVERAGE } from '../scripts/templates.mjs';
+import { buildPages, page, homepagePage, BASE_PAGES, DEFAULT_NAVIGATION, DEFAULT_CONTENT, DEFAULT_FINBOOST, DEFAULT_COVERAGE, DEFAULT_PROJECT_CTA, DEFAULT_ABOUT } from '../scripts/templates.mjs';
 
 let state = null;
 
@@ -745,6 +745,9 @@ function renderHomepageForm(content) {
   draft.partners = draft.partners || [];
   draft.finboost = { ...JSON.parse(JSON.stringify(DEFAULT_FINBOOST)), ...(draft.finboost || {}) };
   draft.coverage = { ...JSON.parse(JSON.stringify(DEFAULT_COVERAGE)), ...(draft.coverage || {}) };
+  draft.projectCta = { ...DEFAULT_PROJECT_CTA, ...(draft.projectCta || {}) };
+  draft.about = { ...JSON.parse(JSON.stringify(DEFAULT_ABOUT)), ...(draft.about || {}) };
+  const ab = draft.about;
   const fb = draft.finboost;
   const cv = draft.coverage;
   const txt = (cls, label, value) => `<label>${label}<input type="text" class="${cls}" value="${escapeHtml(value || '')}"></label>`;
@@ -843,6 +846,32 @@ function renderHomepageForm(content) {
           <h4 class="admin-subhead">Boutons</h4>
           ${[['primaryLabel', 'Bouton principal — libellé'], ['primaryHref', 'Bouton principal — lien'], ['secondaryLabel', 'Bouton secondaire — libellé'], ['secondaryHref', 'Bouton secondaire — lien']]
             .map(([k, l]) => `<label>${l}<input type="text" class="f-fb" data-k="${k}" value="${escapeHtml(fb[k] || '')}"></label>`).join('')}
+        `, false)}
+
+        ${section('sec-project-cta', 'Bandeau « Analysons vos projets » (après le Guide)', `
+          <label>Titre<input type="text" class="f-pcta" data-k="title" value="${escapeHtml(draft.projectCta.title || '')}"></label>
+          <label>Texte<textarea class="f-pcta" data-k="text" rows="2">${escapeHtml(draft.projectCta.text || '')}</textarea></label>
+          ${[['primaryLabel', 'Bouton principal — libellé'], ['primaryHref', 'Bouton principal — lien'], ['secondaryLabel', 'Bouton secondaire — libellé'], ['secondaryHref', 'Bouton secondaire — lien']]
+            .map(([k, l]) => `<label>${l}<input type="text" class="f-pcta" data-k="${k}" value="${escapeHtml(draft.projectCta[k] || '')}"></label>`).join('')}
+        `, false)}
+
+        ${section('sec-about', 'Bloc « Qui sommes-nous ? » (bas de page d’accueil)', `
+          <h4 class="admin-subhead">Carte violette</h4>
+          ${[['cardTitle', 'Titre'], ['badge', 'Badge']].map(([k, l]) => `<label>${l}<input type="text" class="f-ab" data-k="${k}" value="${escapeHtml(ab[k] || '')}"></label>`).join('')}
+          <label>Texte<textarea class="f-ab" data-k="cardText" rows="4">${escapeHtml(ab.cardText || '')}</textarea></label>
+          ${(ab.stats || []).map((x, i) => `<div class="admin-form-row">
+            <label>Chiffre ${i + 1}<input type="text" class="f-ab-stat" data-i="${i}" data-k="value" value="${escapeHtml(x.value || '')}"></label>
+            <label>Suffixe (+, %, Md€…)<input type="text" class="f-ab-stat" data-i="${i}" data-k="suffix" value="${escapeHtml(x.suffix || '')}"></label>
+            <label>Légende<input type="text" class="f-ab-stat" data-i="${i}" data-k="label" value="${escapeHtml(x.label || '')}"></label>
+          </div>`).join('')}
+          <h4 class="admin-subhead">Texte de droite</h4>
+          ${[['eyebrow', 'Surtitre'], ['title', 'Titre']].map(([k, l]) => `<label>${l}<input type="text" class="f-ab" data-k="${k}" value="${escapeHtml(ab[k] || '')}"></label>`).join('')}
+          <label>Texte (ligne vide = nouveau paragraphe)<textarea class="f-ab" data-k="text" rows="5">${escapeHtml(ab.text || '')}</textarea></label>
+          ${(ab.values || []).map((x, i) => `<div class="admin-form-row">
+            <label>Valeur ${i + 1} — mot en gras<input type="text" class="f-ab-val" data-i="${i}" data-k="title" value="${escapeHtml(x.title || '')}"></label>
+            <label>Valeur ${i + 1} — texte<input type="text" class="f-ab-val" data-i="${i}" data-k="text" value="${escapeHtml(x.text || '')}"></label>
+          </div>`).join('')}
+          ${[['buttonLabel', 'Bouton — libellé'], ['buttonHref', 'Bouton — lien']].map(([k, l]) => `<label>${l}<input type="text" class="f-ab" data-k="${k}" value="${escapeHtml(ab[k] || '')}"></label>`).join('')}
         `, false)}
 
         ${section('sec-coverage', 'Bloc « Couverture nationale » (carte)', `
@@ -996,6 +1025,10 @@ function renderHomepageForm(content) {
     content.querySelectorAll('.f-card-items').forEach(el => { draft.introCards[Number(el.dataset.i)].items = el.value.split('\n').map(x => x.trim()).filter(Boolean); });
     content.querySelectorAll('.f-card-link-label').forEach(el => { draft.introCards[Number(el.dataset.i)].linkLabel = el.value.trim(); });
     content.querySelectorAll('.f-card-link-href').forEach(el => { draft.introCards[Number(el.dataset.i)].linkHref = el.value.trim(); });
+    content.querySelectorAll('.f-ab').forEach(el => { draft.about[el.dataset.k] = el.value; });
+    content.querySelectorAll('.f-ab-stat').forEach(el => { draft.about.stats[Number(el.dataset.i)][el.dataset.k] = el.value; });
+    content.querySelectorAll('.f-ab-val').forEach(el => { draft.about.values[Number(el.dataset.i)][el.dataset.k] = el.value; });
+    content.querySelectorAll('.f-pcta').forEach(el => { draft.projectCta[el.dataset.k] = el.value; });
     content.querySelectorAll('.f-fb').forEach(el => { draft.finboost[el.dataset.k] = el.value; });
     content.querySelectorAll('.f-fb-bullets').forEach(el => { draft.finboost.consultantBullets = el.value.split('\n').map(x => x.trim()).filter(Boolean); });
     content.querySelectorAll('.f-fb-feat-title').forEach(el => { draft.finboost.features[Number(el.dataset.i)].title = el.value; });
@@ -1101,7 +1134,18 @@ function renderNavigationForm(content) {
         ${section('Pied de page — présentation', `
           ${pathField('Nom affiché', 'footer.brand', f.brand)}
           ${pathField('Texte de présentation', 'footer.text', f.text, { rows: 2 })}
-          ${pathField('Mention sous le texte', 'footer.subsidiary', f.subsidiary)}
+          ${pathField('Sous-titre sous le nom', 'footer.tagline', f.tagline)}
+          ${pathField('Badge', 'footer.badge', f.badge)}
+          <div class="admin-form-row">
+            ${pathField('LinkedIn (adresse, vide = masqué)', 'footer.linkedin', f.linkedin)}
+            ${pathField('YouTube (adresse, vide = masqué)', 'footer.youtube', f.youtube)}
+          </div>
+          <h4 class="admin-subhead">Carte contact (dans la dernière colonne)</h4>
+          <div class="admin-form-row">
+            ${pathField('Téléphone', 'footer.phone', f.phone)}
+            ${pathField('E-mail', 'footer.email', f.email)}
+          </div>
+          ${pathField('Adresse', 'footer.address', f.address, { rows: 2 })}
           ${pathField('Mention légale (bas de page)', 'footer.bottom', f.bottom)}
         `, false)}
 

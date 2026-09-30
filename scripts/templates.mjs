@@ -95,6 +95,13 @@ export const DEFAULT_NAVIGATION = {
     brand: 'FINANCES & TERRITOIRES',
     text: 'Expert des financements publics et du développement des territoires.',
     subsidiary: 'Une filiale du Groupe BPCE',
+    tagline: 'Filiale du Groupe BPCE',
+    badge: 'Groupe BPCE',
+    linkedin: '',
+    youtube: '',
+    phone: '04 69 96 61 60',
+    email: 'info@finances-territoires.fr',
+    address: "L'Amiral — 2B rue Simone Veil\n73000 Bassens (Savoie)",
     columns: [
       { title: 'Expertises', links: [
         { label: 'Détection', href: 'detections-des-opportunites/' },
@@ -149,6 +156,40 @@ export const DEFAULT_FINBOOST = {
   primaryHref: 'contact/',
   secondaryLabel: 'Notre approche conseil',
   secondaryHref: 'finances-et-territoires/',
+};
+
+export const DEFAULT_PROJECT_CTA = {
+  title: 'Analysons vos projets, identifions vos financements',
+  text: 'Nos experts évaluent votre situation et identifient les aides accessibles pour votre structure. Échanges gratuits et sans engagement.',
+  primaryLabel: 'Nous contacter →',
+  primaryHref: 'contact/',
+  secondaryLabel: 'Découvrir nos solutions →',
+  secondaryHref: 'finances-et-territoires/',
+};
+
+export const DEFAULT_ABOUT = {
+  cardTitle: 'Une expertise ancrée dans le terrain',
+  cardText: "Fondé en 2019, BPCE Finances & Territoires est né d'un constat de terrain : pour nombre d'acteurs, la recherche de financements constitue un frein majeur — faute de moyens humains, de temps ou de compétences spécifiques, mais aussi face à un paysage d'aides particulièrement vaste et épars, difficile à appréhender sans expertise dédiée.",
+  badge: 'Filiale du Groupe BPCE',
+  stats: [
+    { value: '500', suffix: '+', label: 'Structures accompagnées' },
+    { value: '1,2', suffix: 'Md€', label: "D'aides mobilisées" },
+    { value: '2019', suffix: '', label: 'Depuis notre création' },
+    { value: '100', suffix: '%', label: 'National + DROM-COM' },
+  ],
+  eyebrow: 'Qui sommes-nous ?',
+  title: 'BPCE Finances & Territoires, votre partenaire de confiance',
+  text: "Filiale du Groupe BPCE, basée à Bassens en Savoie, nous intervenons sur l'ensemble du territoire national auprès de collectivités, organismes de santé, acteurs du médico-social, bailleurs sociaux et entreprises.\n\nNotre approche allie expertise humaine et environnement de travail propriétaire pour maximiser les chances de succès à chaque étape.",
+  values: [
+    { title: 'Utilité', text: 'solutions concrètes et efficaces' },
+    { title: 'Rigueur', text: 'expertise pointue et méthode' },
+    { title: 'Confiance', text: 'écoute, transparence, co-construction' },
+    { title: 'Ancrage', text: 'territorial fort, interventions nationales' },
+    { title: 'Accompagnement', text: 'de bout en bout' },
+    { title: 'Réseau', text: 'Groupe BPCE' },
+  ],
+  buttonLabel: 'En savoir plus →',
+  buttonHref: 'finances-et-territoires/',
 };
 
 export const DEFAULT_COVERAGE = {
@@ -450,19 +491,35 @@ export function footer(pages, base = '../', navigation) {
     ...col,
     links: (col.links || []).filter(l => !hiddenSlugs.has(slugFromHref(l.href))),
   }));
+  const lastCol = columns.length - 1;
+  const hasContact = f.phone || f.email || f.address;
+  const telHref = String(f.phone || '').replace(/[^\d+]/g, '');
+  const social = [
+    f.linkedin ? `<a class="footer-social" href="${escapeHtml(f.linkedin)}" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4v11H3zm7 0h3.8v1.6h.05c.53-1 1.84-2.05 3.78-2.05 4.04 0 4.79 2.66 4.79 6.12v5.33h-4v-4.73c0-1.13-.02-2.58-1.57-2.58-1.58 0-1.82 1.23-1.82 2.5v4.81H10z"/></svg></a>` : '',
+    f.youtube ? `<a class="footer-social" href="${escapeHtml(f.youtube)}" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor"/></svg></a>` : '',
+  ].filter(Boolean).join('');
+  const contactCard = hasContact ? `<div class="footer-contact">
+        ${f.phone ? `<a href="tel:${telHref}">${escapeHtml(f.phone)}</a>` : ''}
+        ${f.email ? `<a href="mailto:${escapeHtml(f.email)}">${escapeHtml(f.email)}</a>` : ''}
+        ${f.address ? `<p>${escapeHtml(f.address).replace(/\r?\n/g, '<br>')}</p>` : ''}
+      </div>` : '';
   return `<footer class="site-footer">
   <div class="container footer-top">
     <div class="footer-about">
-      <div class="brand"><span class="brand__dot"></span> ${escapeHtml(f.brand)}</div>
+      <div class="footer-brand">${escapeHtml(f.brand)}</div>
+      ${f.tagline ? `<div class="footer-tagline">${escapeHtml(f.tagline)}</div>` : ''}
       <p>${richText(f.text, base)}</p>
-      <span class="footer-subsidiary">${escapeHtml(f.subsidiary)}</span>
+      ${f.badge ? `<span class="footer-subsidiary">${escapeHtml(f.badge)}</span>` : ''}
+      ${social ? `<div class="footer-socials">${social}</div>` : ''}
     </div>
-    ${columns.map(col => `<div class="footer-col">
+    ${columns.map((col, ci) => `<div class="footer-col">
       <h4>${escapeHtml(col.title)}</h4>
       <ul>
         ${col.links.map(l => `<li><a href="${base}${l.href}">${escapeHtml(l.label)}</a></li>`).join('\n        ')}
       </ul>
+      ${ci === lastCol ? contactCard : ''}
     </div>`).join('\n    ')}
+    ${columns.length ? '' : contactCard}
   </div>
   <div class="footer-bottom">${escapeHtml(f.bottom)}</div>
 </footer>`;
@@ -798,7 +855,7 @@ ${seoTags(p, site.content)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles/site.css?v=20260930d">
+<link rel="stylesheet" href="../styles/site.css?v=20260930f">
 </head>
 <body>
 
@@ -913,6 +970,50 @@ function renderFinboost(data) {
           <strong>${escapeHtml(f.sideValue)}</strong>
           <span>${escapeHtml(f.sideText)}</span>
         </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderProjectCta(data) {
+  const c = { ...DEFAULT_PROJECT_CTA, ...(data || {}) };
+  if (!c.title) return '';
+  return `<section class="project-cta">
+    <div class="project-cta__inner">
+      <h2 class="project-cta__title">${escapeHtml(c.title)}</h2>
+      ${c.text ? `<p class="project-cta__text">${richText(c.text, '')}</p>` : ''}
+      <div class="project-cta__actions">
+        ${c.primaryLabel ? `<a class="btn-cta-pill" href="${escapeHtml(c.primaryHref || 'contact/')}">${escapeHtml(c.primaryLabel)}</a>` : ''}
+        ${c.secondaryLabel ? `<a class="btn-cta-pill btn-cta-pill--ghost" href="${escapeHtml(c.secondaryHref || '')}">${escapeHtml(c.secondaryLabel)}</a>` : ''}
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderAbout(data) {
+  const a = { ...DEFAULT_ABOUT, ...(data || {}) };
+  const paras = String(a.text || '').split(/\n\s*\n/).filter(x => x.trim());
+  return `<section class="about-home" id="qui-sommes-nous">
+    <div class="container about-home__grid">
+      <div class="about-card">
+        ${a.cardTitle ? `<h3 class="about-card__title">${escapeHtml(a.cardTitle)}</h3>` : ''}
+        ${a.cardText ? `<p class="about-card__text">${richText(a.cardText, '')}</p>` : ''}
+        ${a.badge ? `<span class="about-card__badge"><i></i>${escapeHtml(a.badge)}</span>` : ''}
+        <div class="about-card__stats">
+          ${(a.stats || []).filter(x => x.value || x.label).map(x => `<div class="about-stat">
+            <div class="about-stat__value">${escapeHtml(x.value)}${x.suffix ? `<small>${escapeHtml(x.suffix)}</small>` : ''}</div>
+            <div class="about-stat__label">${escapeHtml(x.label)}</div>
+          </div>`).join('\n          ')}
+        </div>
+      </div>
+      <div class="about-home__content">
+        ${a.eyebrow ? `<span class="about-home__eyebrow">${escapeHtml(a.eyebrow)}</span>` : ''}
+        <h2 class="about-home__title">${escapeHtml(a.title)}</h2>
+        ${paras.map(x => `<p class="about-home__text">${richText(x.trim(), '')}</p>`).join('\n        ')}
+        <ul class="about-values">
+          ${(a.values || []).filter(v => v.title || v.text).map(v => `<li><strong>${escapeHtml(v.title)}</strong>${v.text ? ` : ${escapeHtml(v.text)}` : ''}</li>`).join('\n          ')}
+        </ul>
+        ${a.buttonLabel ? `<a class="btn-nav-cta about-home__btn" href="${escapeHtml(a.buttonHref || '')}">${escapeHtml(a.buttonLabel)}</a>` : ''}
       </div>
     </div>
   </section>`;
@@ -1043,46 +1144,9 @@ export function renderHomepage(homepage, pages, content) {
     </div>
   </section>
 
-  <div class="container">
-  <section id="qui-sommes-nous">
-    <h2 class="section-title">${escapeHtml(h.valuesTitle)}</h2>
-    <div class="values-grid">
-      ${(h.values || []).map((v, i) => `<div class="value-item">
-        <span class="value-item__icon">${VALUE_ICONS[i % VALUE_ICONS.length]}</span>
-        <h3>${escapeHtml(v.title)}</h3>
-        <p>${richText(v.text, '')}</p>
-      </div>`).join('\n      ')}
-    </div>
-  </section>
-  </div>
+  ${renderProjectCta(h.projectCta)}
 
-  <section class="section--muted">
-    <div class="container">
-    <h2 class="section-title">${escapeHtml(h.partnersTitle)}</h2>
-    <div class="partners-row">
-      ${(h.partners || []).filter(p => p.image).map(p => `<img class="partner-logo" src="${escapeHtml(p.image)}" alt="${escapeHtml(p.alt)}" loading="lazy">`).join('\n      ')}
-    </div>
-    </div>
-  </section>
-
-  <section id="contact">
-    <div class="cta-band">
-      <div>
-        <h3>${escapeHtml(cta.title)}</h3>
-        <p>${richText(cta.text, '')}</p>
-      </div>
-      <a class="btn-cta-pill" href="contact/">${escapeHtml(cta.label)}</a>
-    </div>
-  </section>
-
-  <div class="container">
-  <section>
-    <h2 class="section-title">${escapeHtml(h.faqTitle)}</h2>
-    <div class="faq-grid">
-      ${(h.faq || []).map(q => `<div class="faq-item">${escapeHtml(q)}<span>›</span></div>`).join('\n      ')}
-    </div>
-  </section>
-  </div>
+  ${renderAbout(h.about)}
 
 </main>`;
 }
@@ -1130,7 +1194,7 @@ ${metaTags(homepage?.seoTitle || `Finances & Territoires — ${homepage?.heroTit
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/site.css?v=20260930d">
+<link rel="stylesheet" href="styles/site.css?v=20260930f">
 </head>
 <body>
 
