@@ -534,6 +534,11 @@ section.section--muted { background: var(--canvas); }
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-card-gap);
 }
+.cards-grid--4 { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.cards-grid--2 { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 1100px) {
+  .cards-grid--4 { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 900px) {
   .cards-grid { grid-template-columns: 1fr; }
 }
@@ -700,6 +705,10 @@ section.section--muted { background: var(--canvas); }
 }
 .icon-card:nth-child(3n+2) { --accent: #B34A8C; --accent-soft: #F8EBF3; }
 .icon-card:nth-child(3n+3) { --accent: #00A193; --accent-soft: #E3F4F2; }
+.cards-grid--4 .icon-card:nth-child(4) { --accent: #8E4FA8; --accent-soft: #F1E9F5; }
+.icon-card h3 a { color: inherit; text-decoration: none; }
+.icon-card h3 a:hover { color: var(--accent); }
+.section-eyebrow { display: block; margin-bottom: 10px; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #B34A8C; }
 .icon-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(40, 20, 60, .12); }
 .icon-card__badge {
   display: flex;
@@ -1616,3 +1625,5 @@ section.section--muted { background: var(--canvas); }
 .about-values strong { color: var(--purple-900); font-weight: 600; }
 .about-home__btn { border-radius: 999px; background: var(--purple-700); }
 .about-home__btn:hover { background: var(--purple-900); }
+.cards-grid--4 .icon-card { padding: 24px 20px 26px; }
+.cards-grid--4 .icon-card__tag { font-size: 9.5px; letter-spacing: .04em; }

@@ -1,5 +1,5 @@
 import { config } from './config.js';
-import { buildPages, page, homepagePage, BASE_PAGES, DEFAULT_NAVIGATION, DEFAULT_CONTENT, DEFAULT_FINBOOST, DEFAULT_COVERAGE, DEFAULT_PROJECT_CTA, DEFAULT_ABOUT } from '../scripts/templates.mjs';
+import { buildPages, page, homepagePage, BASE_PAGES, DEFAULT_NAVIGATION, DEFAULT_CONTENT, DEFAULT_FINBOOST, DEFAULT_COVERAGE, DEFAULT_PROJECT_CTA, DEFAULT_ABOUT, DEFAULT_ACCOMPAGNEMENT } from '../scripts/templates.mjs';
 
 let state = null;
 
@@ -746,6 +746,8 @@ function renderHomepageForm(content) {
   draft.finboost = { ...JSON.parse(JSON.stringify(DEFAULT_FINBOOST)), ...(draft.finboost || {}) };
   draft.coverage = { ...JSON.parse(JSON.stringify(DEFAULT_COVERAGE)), ...(draft.coverage || {}) };
   draft.projectCta = { ...DEFAULT_PROJECT_CTA, ...(draft.projectCta || {}) };
+  draft.accompagnement = { ...JSON.parse(JSON.stringify(DEFAULT_ACCOMPAGNEMENT)), ...(draft.accompagnement || {}) };
+  while (draft.accompagnement.cards.length < 4) draft.accompagnement.cards.push({ tag: '', title: '', text: '', items: [], linkLabel: '', linkHref: '' });
   draft.about = { ...JSON.parse(JSON.stringify(DEFAULT_ABOUT)), ...(draft.about || {}) };
   const ab = draft.about;
   const fb = draft.finboost;
@@ -802,28 +804,38 @@ function renderHomepageForm(content) {
           </label>`).join('')}
         `, false)}
 
-        ${section('sec-intro', 'Bloc « ingénierie financière » (3 cartes)', `
+        ${section('sec-intro', 'Bloc « Notre accompagnement » (4 cartes)', `
+          <label>Surtitre
+            <input type="text" class="f-acc" data-k="eyebrow" value="${escapeHtml(draft.accompagnement.eyebrow)}">
+          </label>
           <label>Titre du bloc
-            <input type="text" id="f-intro-title" value="${escapeHtml(draft.introTitle)}">
+            <input type="text" class="f-acc" data-k="title" value="${escapeHtml(draft.accompagnement.title)}">
           </label>
-          <label>Texte du bloc
-            <textarea id="f-intro-text" rows="3">${escapeHtml(draft.introText)}</textarea>
+          <label>Sous-titre
+            <textarea class="f-acc" data-k="text" rows="2">${escapeHtml(draft.accompagnement.text)}</textarea>
           </label>
-          ${draft.introCards.map((c, i) => `<div class="admin-body-section">
-            <input type="text" class="f-card-title" data-i="${i}" placeholder="Titre de la carte" value="${escapeHtml(c.title)}">
-            <label>Étiquette (optionnelle)
-              <input type="text" class="f-card-tag" data-i="${i}" placeholder="Ex. Détection des opportunités" value="${escapeHtml(c.tag || '')}">
+          ${draft.accompagnement.cards.map((c, i) => `<div class="admin-body-section">
+            <h4 class="admin-subhead">Carte ${i + 1}</h4>
+            <label>Étiquette
+              <input type="text" class="f-acc-card" data-i="${i}" data-k="tag" value="${escapeHtml(c.tag || '')}">
             </label>
-            <textarea class="f-card-text" data-i="${i}" rows="2" placeholder="Texte">${escapeHtml(c.text)}</textarea>
-            <label>Liste à puces (un élément par ligne, optionnelle)
-              <textarea class="f-card-items" data-i="${i}" rows="3">${escapeHtml((c.items || []).join('\n'))}</textarea>
+            <label>Titre (vide = carte masquée)
+              <input type="text" class="f-acc-card" data-i="${i}" data-k="title" value="${escapeHtml(c.title || '')}">
             </label>
-            <label>Lien — libellé (optionnel)
-              <input type="text" class="f-card-link-label" data-i="${i}" placeholder="En savoir plus" value="${escapeHtml(c.linkLabel || '')}">
+            <label>Texte
+              <textarea class="f-acc-card" data-i="${i}" data-k="text" rows="2">${escapeHtml(c.text || '')}</textarea>
             </label>
-            <label>Lien — adresse (ex. detections-des-opportunites/)
-              <input type="text" class="f-card-link-href" data-i="${i}" value="${escapeHtml(c.linkHref || '')}">
+            <label>Liste à puces (un élément par ligne)
+              <textarea class="f-acc-items" data-i="${i}" rows="4">${escapeHtml((c.items || []).join('\n'))}</textarea>
             </label>
+            <div class="admin-form-row">
+              <label>Lien — libellé
+                <input type="text" class="f-acc-card" data-i="${i}" data-k="linkLabel" value="${escapeHtml(c.linkLabel || '')}">
+              </label>
+              <label>Lien — page (ex. mobilisation-des-aides/)
+                <input type="text" class="f-acc-card" data-i="${i}" data-k="linkHref" value="${escapeHtml(c.linkHref || '')}">
+              </label>
+            </div>
           </div>`).join('')}
         `, false)}
 
@@ -1017,14 +1029,9 @@ function renderHomepageForm(content) {
     draft.heroStatValue = document.getElementById('f-hero-stat-value').value;
     draft.heroStatLabel = document.getElementById('f-hero-stat-label').value;
     content.querySelectorAll('.f-ct-label').forEach(el => { draft.clientTypes[Number(el.dataset.i)].label = el.value; });
-    draft.introTitle = document.getElementById('f-intro-title').value;
-    draft.introText = document.getElementById('f-intro-text').value;
-    content.querySelectorAll('.f-card-title').forEach(el => { draft.introCards[Number(el.dataset.i)].title = el.value; });
-    content.querySelectorAll('.f-card-text').forEach(el => { draft.introCards[Number(el.dataset.i)].text = el.value; });
-    content.querySelectorAll('.f-card-tag').forEach(el => { draft.introCards[Number(el.dataset.i)].tag = el.value.trim(); });
-    content.querySelectorAll('.f-card-items').forEach(el => { draft.introCards[Number(el.dataset.i)].items = el.value.split('\n').map(x => x.trim()).filter(Boolean); });
-    content.querySelectorAll('.f-card-link-label').forEach(el => { draft.introCards[Number(el.dataset.i)].linkLabel = el.value.trim(); });
-    content.querySelectorAll('.f-card-link-href').forEach(el => { draft.introCards[Number(el.dataset.i)].linkHref = el.value.trim(); });
+    content.querySelectorAll('.f-acc').forEach(el => { draft.accompagnement[el.dataset.k] = el.value; });
+    content.querySelectorAll('.f-acc-card').forEach(el => { draft.accompagnement.cards[Number(el.dataset.i)][el.dataset.k] = el.value.trim(); });
+    content.querySelectorAll('.f-acc-items').forEach(el => { draft.accompagnement.cards[Number(el.dataset.i)].items = el.value.split('\n').map(x => x.trim()).filter(Boolean); });
     content.querySelectorAll('.f-ab').forEach(el => { draft.about[el.dataset.k] = el.value; });
     content.querySelectorAll('.f-ab-stat').forEach(el => { draft.about.stats[Number(el.dataset.i)][el.dataset.k] = el.value; });
     content.querySelectorAll('.f-ab-val').forEach(el => { draft.about.values[Number(el.dataset.i)][el.dataset.k] = el.value; });
