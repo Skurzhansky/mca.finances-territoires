@@ -151,6 +151,15 @@ export const DEFAULT_FINBOOST = {
   secondaryHref: 'finances-et-territoires/',
 };
 
+export const DEFAULT_PROJECT_CTA = {
+  title: 'Analysons vos projets, identifions vos financements',
+  text: 'Nos experts évaluent votre situation et identifient les aides accessibles pour votre structure. Échanges gratuits et sans engagement.',
+  primaryLabel: 'Nous contacter →',
+  primaryHref: 'contact/',
+  secondaryLabel: 'Découvrir nos solutions →',
+  secondaryHref: 'finances-et-territoires/',
+};
+
 export const DEFAULT_COVERAGE = {
   eyebrow: 'Baromètre des aides et subventions en France',
   title: 'Une couverture nationale exhaustive',
@@ -798,7 +807,7 @@ ${seoTags(p, site.content)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles/site.css?v=20260930d">
+<link rel="stylesheet" href="../styles/site.css?v=20260930e">
 </head>
 <body>
 
@@ -913,6 +922,21 @@ function renderFinboost(data) {
           <strong>${escapeHtml(f.sideValue)}</strong>
           <span>${escapeHtml(f.sideText)}</span>
         </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderProjectCta(data) {
+  const c = { ...DEFAULT_PROJECT_CTA, ...(data || {}) };
+  if (!c.title) return '';
+  return `<section class="project-cta">
+    <div class="project-cta__inner">
+      <h2 class="project-cta__title">${escapeHtml(c.title)}</h2>
+      ${c.text ? `<p class="project-cta__text">${richText(c.text, '')}</p>` : ''}
+      <div class="project-cta__actions">
+        ${c.primaryLabel ? `<a class="btn-cta-pill" href="${escapeHtml(c.primaryHref || 'contact/')}">${escapeHtml(c.primaryLabel)}</a>` : ''}
+        ${c.secondaryLabel ? `<a class="btn-cta-pill btn-cta-pill--ghost" href="${escapeHtml(c.secondaryHref || '')}">${escapeHtml(c.secondaryLabel)}</a>` : ''}
       </div>
     </div>
   </section>`;
@@ -1043,6 +1067,8 @@ export function renderHomepage(homepage, pages, content) {
     </div>
   </section>
 
+  ${renderProjectCta(h.projectCta)}
+
   <div class="container">
   <section id="qui-sommes-nous">
     <h2 class="section-title">${escapeHtml(h.valuesTitle)}</h2>
@@ -1130,7 +1156,7 @@ ${metaTags(homepage?.seoTitle || `Finances & Territoires — ${homepage?.heroTit
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/site.css?v=20260930d">
+<link rel="stylesheet" href="styles/site.css?v=20260930e">
 </head>
 <body>
 

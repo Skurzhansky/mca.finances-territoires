@@ -1528,3 +1528,28 @@ section.section--muted { background: var(--canvas); }
   .coverage__grid { grid-template-columns: 1fr; }
   .coverage__title { font-size: 26px; }
 }
+
+/* Bandeau « Analysons vos projets » (après le Guide) */
+.project-cta {
+  position: relative;
+  overflow: hidden;
+  padding: 72px 24px 80px;
+  background: linear-gradient(135deg, #4A1A66 0%, #581D74 55%, #66327A 100%);
+  color: var(--white);
+  text-align: center;
+}
+.project-cta::before, .project-cta::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .05);
+  pointer-events: none;
+}
+.project-cta::before { width: 420px; height: 420px; top: -180px; left: -120px; }
+.project-cta::after { width: 340px; height: 340px; bottom: -170px; right: -90px; }
+.project-cta__inner { position: relative; max-width: 640px; margin: 0 auto; }
+.project-cta__title { margin: 0 0 16px; font-size: clamp(26px, 3.4vw, 38px); font-weight: 600; line-height: 1.15; }
+.project-cta__text { margin: 0 auto 28px; max-width: 520px; font-size: 14.5px; line-height: 1.6; color: rgba(255, 255, 255, .78); }
+.project-cta__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.btn-cta-pill--ghost { background: transparent; color: var(--white); border: 1px solid rgba(255, 255, 255, .6); }
+.btn-cta-pill--ghost:hover { background: rgba(255, 255, 255, .1); color: var(--white); }

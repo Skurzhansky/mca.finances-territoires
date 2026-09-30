@@ -1,5 +1,5 @@
 import { config } from './config.js';
-import { buildPages, page, homepagePage, BASE_PAGES, DEFAULT_NAVIGATION, DEFAULT_CONTENT, DEFAULT_FINBOOST, DEFAULT_COVERAGE } from '../scripts/templates.mjs';
+import { buildPages, page, homepagePage, BASE_PAGES, DEFAULT_NAVIGATION, DEFAULT_CONTENT, DEFAULT_FINBOOST, DEFAULT_COVERAGE, DEFAULT_PROJECT_CTA } from '../scripts/templates.mjs';
 
 let state = null;
 
@@ -745,6 +745,7 @@ function renderHomepageForm(content) {
   draft.partners = draft.partners || [];
   draft.finboost = { ...JSON.parse(JSON.stringify(DEFAULT_FINBOOST)), ...(draft.finboost || {}) };
   draft.coverage = { ...JSON.parse(JSON.stringify(DEFAULT_COVERAGE)), ...(draft.coverage || {}) };
+  draft.projectCta = { ...DEFAULT_PROJECT_CTA, ...(draft.projectCta || {}) };
   const fb = draft.finboost;
   const cv = draft.coverage;
   const txt = (cls, label, value) => `<label>${label}<input type="text" class="${cls}" value="${escapeHtml(value || '')}"></label>`;
@@ -843,6 +844,13 @@ function renderHomepageForm(content) {
           <h4 class="admin-subhead">Boutons</h4>
           ${[['primaryLabel', 'Bouton principal — libellé'], ['primaryHref', 'Bouton principal — lien'], ['secondaryLabel', 'Bouton secondaire — libellé'], ['secondaryHref', 'Bouton secondaire — lien']]
             .map(([k, l]) => `<label>${l}<input type="text" class="f-fb" data-k="${k}" value="${escapeHtml(fb[k] || '')}"></label>`).join('')}
+        `, false)}
+
+        ${section('sec-project-cta', 'Bandeau « Analysons vos projets » (après le Guide)', `
+          <label>Titre<input type="text" class="f-pcta" data-k="title" value="${escapeHtml(draft.projectCta.title || '')}"></label>
+          <label>Texte<textarea class="f-pcta" data-k="text" rows="2">${escapeHtml(draft.projectCta.text || '')}</textarea></label>
+          ${[['primaryLabel', 'Bouton principal — libellé'], ['primaryHref', 'Bouton principal — lien'], ['secondaryLabel', 'Bouton secondaire — libellé'], ['secondaryHref', 'Bouton secondaire — lien']]
+            .map(([k, l]) => `<label>${l}<input type="text" class="f-pcta" data-k="${k}" value="${escapeHtml(draft.projectCta[k] || '')}"></label>`).join('')}
         `, false)}
 
         ${section('sec-coverage', 'Bloc « Couverture nationale » (carte)', `
@@ -996,6 +1004,7 @@ function renderHomepageForm(content) {
     content.querySelectorAll('.f-card-items').forEach(el => { draft.introCards[Number(el.dataset.i)].items = el.value.split('\n').map(x => x.trim()).filter(Boolean); });
     content.querySelectorAll('.f-card-link-label').forEach(el => { draft.introCards[Number(el.dataset.i)].linkLabel = el.value.trim(); });
     content.querySelectorAll('.f-card-link-href').forEach(el => { draft.introCards[Number(el.dataset.i)].linkHref = el.value.trim(); });
+    content.querySelectorAll('.f-pcta').forEach(el => { draft.projectCta[el.dataset.k] = el.value; });
     content.querySelectorAll('.f-fb').forEach(el => { draft.finboost[el.dataset.k] = el.value; });
     content.querySelectorAll('.f-fb-bullets').forEach(el => { draft.finboost.consultantBullets = el.value.split('\n').map(x => x.trim()).filter(Boolean); });
     content.querySelectorAll('.f-fb-feat-title').forEach(el => { draft.finboost.features[Number(el.dataset.i)].title = el.value; });
