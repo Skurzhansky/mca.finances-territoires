@@ -1205,6 +1205,7 @@ const PAGE_FIELDS = {
     { k: 'title', l: 'Titre (menu et fil d’Ariane)' },
     { k: 'headline', l: 'Titre affiché (H1) — vide = titre ci-dessus' },
     { k: 'lead', l: 'Chapô', rows: 3 },
+    { k: 'image', l: 'Photo de bandeau', type: 'photo' },
     { k: 'stats', l: 'Chiffres clés', type: 'items', template: { value: '', label: '' }, fields: [{ k: 'value', l: 'Chiffre' }, { k: 'label', l: 'Légende' }] },
     { k: 'features', l: 'Points clés', type: 'items', template: { title: '', text: '' }, fields: [{ k: 'title', l: 'Titre' }, { k: 'text', l: 'Texte', rows: 2 }] },
   ],
@@ -1224,6 +1225,7 @@ const PAGE_FIELDS = {
     { k: 'title', l: 'Titre (menu et fil d’Ariane)' },
     { k: 'headline', l: 'Titre affiché (H1) — vide = titre ci-dessus' },
     { k: 'lead', l: 'Chapô', rows: 3 },
+    { k: 'image', l: 'Photo de bandeau', type: 'photo' },
     { k: 'email', l: 'Adresse e-mail destinataire du formulaire' },
     { k: 'infoTitle', l: 'Titre de l’encart' },
     { k: 'infoParagraphs', l: 'Paragraphes de l’encart', type: 'strings', rows: 3, hint: 'Un lien s’écrit [libellé](guide/).' },
@@ -1231,10 +1233,12 @@ const PAGE_FIELDS = {
   guide: [
     { k: 'title', l: 'Titre' },
     { k: 'lead', l: 'Chapô', rows: 2 },
+    { k: 'image', l: 'Photo de bandeau', type: 'photo' },
   ],
   evenements: [
     { k: 'title', l: 'Titre' },
     { k: 'lead', l: 'Chapô', rows: 2 },
+    { k: 'image', l: 'Photo de bandeau', type: 'photo' },
     { k: 'emptyTitle', l: 'Titre affiché sans événement' },
     { k: 'emptyText', l: 'Texte affiché sans événement', rows: 2, hint: 'Un lien s’écrit [libellé](contact/).' },
   ],
@@ -1253,6 +1257,7 @@ const PAGE_FIELDS = {
   'secteurs-dactivite': [
     { k: 'title', l: 'Titre' },
     { k: 'lead', l: 'Chapô', rows: 3 },
+    { k: 'image', l: 'Photo de bandeau', type: 'photo' },
   ],
 };
 
@@ -1722,7 +1727,7 @@ function renderEventsList(content, root, signOut) {
     <div class="admin-list">
       ${state.events.map((e, i) => `
         <div class="admin-card">
-          <div class="admin-card__thumb-wrap"><div class="admin-card__thumb admin-card__thumb--placeholder">${ICONS.calendar}</div></div>
+          ${e.image ? thumbHtml(e.image) : `<div class="admin-card__thumb-wrap"><div class="admin-card__thumb admin-card__thumb--placeholder">${ICONS.calendar}</div></div>`}
           <div class="admin-card__body">
             <div class="admin-card__title">${escapeHtml(e.title)}</div>
             <div class="admin-card__meta">${escapeHtml(e.date)}</div>
@@ -1764,12 +1769,14 @@ function renderEventForm(content, root, signOut, evt) {
       <label>Description
         <textarea id="f-description" rows="4">${escapeHtml(draft.description || '')}</textarea>
       </label>
+      ${photoFieldHtml('event-photo', 'Photo de l’événement', draft.image)}
       <div class="admin-form__actions">
         <button type="submit" class="btn btn--site btn-primary">Enregistrer</button>
         <button type="button" id="cancel-form" class="btn">Annuler</button>
       </div>
     </form>`;
 
+  wirePhotoField('event-photo', ext => `images/uploads/event-${slugify(draft.title || 'evenement')}-${Date.now()}.${ext}`, key => { draft.image = key; });
   document.getElementById('cancel-form').addEventListener('click', () => renderEventsList(content, root, signOut));
   document.getElementById('event-form').addEventListener('submit', e => {
     e.preventDefault();
