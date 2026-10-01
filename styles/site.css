@@ -1522,6 +1522,7 @@ section.section--muted { background: var(--canvas); }
   font-size: 12px; white-space: nowrap; pointer-events: none;
   box-shadow: 0 8px 20px rgba(0, 0, 0, .2);
 }
+.coverage-map__tooltip[hidden] { display: none; }
 .coverage-map__tooltip span { color: #EDE6F5; }
 .coverage-map__legend {
   display: flex; align-items: center; gap: 4px; margin-top: 12px;
