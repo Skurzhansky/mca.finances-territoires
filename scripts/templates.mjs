@@ -862,6 +862,9 @@ export function page(p, pages, events, site = {}) {
 <html lang="fr">
 <head>
 <meta charset="utf-8">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 ${seoTags(p, site.content)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1215,6 +1218,9 @@ export function homepagePage(homepage, pages, site = {}) {
 <html lang="fr">
 <head>
 <meta charset="utf-8">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 ${metaTags(homepage?.seoTitle || `Finances & Territoires — ${homepage?.heroTitle || ''}`, homepage?.seoDescription || homepage?.heroLead || '')}
 <link rel="preconnect" href="https://fonts.googleapis.com">
