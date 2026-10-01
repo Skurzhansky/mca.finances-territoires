@@ -592,7 +592,7 @@ export function relatedGrid(p, pages, { excludeHub = false } = {}) {
 export function pageBanner(p) {
   if (!p.image) return '';
   return `
-  <div class="page-banner"><img src="../${p.image}" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>`;
+  <div class="page-banner"><img src="../${escapeHtml(p.image)}" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>`;
 }
 
 export function renderExpertiseOrSecteur(p, pages, content) {
@@ -627,7 +627,7 @@ export function renderGuideHub(articles, c = {}) {
   <div class="page-hero">
     <h1>${escapeHtml(c.title ?? 'Guide')}</h1>
     <p class="lead">${richText(c.lead ?? '')}</p>
-  </div>
+  </div>${pageBanner(c)}
   <div class="cards-grid" style="grid-template-columns:repeat(3,1fr); margin-bottom:64px;">
     ${articles.map((a, i) => `<article class="feature-card feature-card--guide">
       <div class="feature-card__banner"><img src="../${a.image || 'images/paris-eiffel.jpg'}" alt="" loading="lazy" onerror="this.remove()"></div>
@@ -651,7 +651,8 @@ export function renderEvenements(events, c = {}) {
   const list = events || [];
   const body = list.length
     ? `<div class="events-list">
-    ${list.map(e => `<div class="event-item">
+    ${list.map(e => `<div class="event-item${e.image ? ' event-item--photo' : ''}">
+      ${e.image ? `<img class="event-item__photo" src="../${escapeHtml(e.image)}" alt="" loading="lazy" onerror="this.remove()">` : ''}
       <div class="event-item__date">${escapeHtml(formatEventDate(e.date))}</div>
       <h3>${escapeHtml(e.title)}</h3>
       <p>${richText(e.description || '')}</p>
@@ -665,7 +666,7 @@ export function renderEvenements(events, c = {}) {
   <div class="page-hero">
     <h1>${escapeHtml(c.title ?? 'Événements')}</h1>
     <p class="lead">${richText(c.lead ?? '')}</p>
-  </div>
+  </div>${pageBanner(c)}
   ${body}
 </main>`;
 }
@@ -721,7 +722,7 @@ export function renderCustom(p, pages, events, content) {
   <div class="page-hero">
     <h1>${escapeHtml(c.headline || c.title)}</h1>
     <p class="lead">${richText(c.lead)}</p>
-  </div>
+  </div>${pageBanner(c)}
 
   <div class="stats-row" style="margin-top:40px; margin-bottom:56px;">
     ${(c.stats || []).map(s => `<div><div class="stat-value">${escapeHtml(s.value)}</div><div class="stat-label">${escapeHtml(s.label)}</div></div>`).join('\n    ')}
@@ -778,7 +779,7 @@ ${ctaBand(content)}`;
   <div class="page-hero">
     <h1>${escapeHtml(c.headline || c.title)}</h1>
     <p class="lead">${richText(c.lead)}</p>
-  </div>
+  </div>${pageBanner(c)}
 
   <div class="contact-layout">
     <form class="contact-form" id="contact-form">
@@ -870,7 +871,7 @@ ${seoTags(p, site.content)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles/site.css?v=20261001b">
+<link rel="stylesheet" href="../styles/site.css?v=20261001c">
 </head>
 <body>
 
@@ -1226,7 +1227,7 @@ ${metaTags(homepage?.seoTitle || `Finances & Territoires — ${homepage?.heroTit
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/site.css?v=20261001b">
+<link rel="stylesheet" href="styles/site.css?v=20261001c">
 </head>
 <body>
 
@@ -1248,7 +1249,7 @@ ${footer(pages, '', site.navigation)}
 export function buildPages({ guideArticles, expertises, secteurs, content } = {}) {
   const basePages = BASE_PAGES.map(p => {
     const c = pageContent(p.slug, content);
-    return { ...p, ...(c.title ? { title: c.title } : {}), ...(c.lead ? { lead: c.lead } : {}), ...(c.image ? { image: c.image } : {}) };
+    return { ...p, ...(c.title ? { title: c.title } : {}), ...(c.lead ? { lead: c.lead } : {}), ...(c.image !== undefined ? { image: c.image } : {}) };
   });
   return [...basePages, ...(expertises || []), ...(secteurs || []), ...(guideArticles || [])];
 }
