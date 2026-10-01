@@ -17,6 +17,7 @@
   (data.regions || []).forEach(function (r) { if (r.id) byId[r.id] = r; });
   var holder = root.querySelector('.coverage-map__svg');
   var tip = root.querySelector('.coverage-map__tooltip');
+  function hide() { tip.hidden = true; }
 
   fetch('images/france-regions.svg', { cache: 'no-cache' })
     .then(function (res) { return res.ok ? res.text() : ''; })
@@ -51,10 +52,16 @@
           tip.style.top = y + 'px';
         }
         el.addEventListener('mousemove', show);
-        el.addEventListener('focus', show);
-        el.addEventListener('mouseleave', function () { tip.hidden = true; });
-        el.addEventListener('blur', function () { tip.hidden = true; });
+        el.addEventListener('focus', function () { if (el.matches(':focus-visible')) show(); });
+        el.addEventListener('mouseleave', hide);
+        el.addEventListener('blur', hide);
       });
+      holder.addEventListener('mousemove', function (ev) {
+        if (!ev.target.closest || !ev.target.closest('.coverage-map__region')) hide();
+      });
+      holder.addEventListener('mouseleave', hide);
+      root.addEventListener('mouseleave', hide);
+      window.addEventListener('scroll', hide, { passive: true });
     })
     .catch(function () {});
 })();
