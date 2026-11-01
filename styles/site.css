@@ -3,8 +3,8 @@
   Densité mesurée : l'air est réservé aux pages marketing (voir tokens.css / --page-padding-site).
 */
 
-@import url('tokens.css');
-@import url('components.css');
+@import url('tokens.css?v=20261101b');
+@import url('components.css?v=20261101b');
 
 body { margin: 0; background: var(--white); }
 
