@@ -118,5 +118,55 @@
     "Comment fonctionne Optim Aides & Subventions ?",
     "Qu'est-ce qu'un outil SaaS ?"
   ],
-  "_v": 2
+  "_v": 3,
+  "reussites": {
+    "eyebrow": "Réussites clients",
+    "title": "Ils nous ont fait confiance",
+    "text": "Des résultats concrets, obtenus grâce à notre expertise et notre engagement.",
+    "linkLabel": "Voir la réussite →",
+    "buttonLabel": "Voir toutes les réussites →",
+    "buttonHref": "les-reussites-de-nos-clients/",
+    "items": [
+      {
+        "badge": "Collectivité — Rhône",
+        "title": "Pôle nautique — Financement sécurisé",
+        "text": "Une commune du Rhône accompagnée pour la reconstruction de son pôle nautique. 800 000 € mobilisés auprès du Secrétariat d'État chargé de la Mer.",
+        "href": "collectivites-epci/",
+        "color": "violet",
+        "icon": "building"
+      },
+      {
+        "badge": "Médico-social — Aisne",
+        "title": "Complexe inclusif — Projet innovant",
+        "text": "Association médico-sociale accompagnée pour un complexe inclusif (restauration + gîtes hôteliers). 250 000 € obtenus via le FNADT.",
+        "href": "structures-medico-sociales/",
+        "color": "turquoise",
+        "icon": "plus"
+      },
+      {
+        "badge": "Bailleurs sociaux — Bouches-du-Rhône",
+        "title": "Renaturation résidence — 70 % financé",
+        "text": "Bailleur social accompagné pour un projet de renaturation ambitieux. Reste à charge réduit à seulement 30 % grâce aux financements obtenus.",
+        "href": "logement-social/",
+        "color": "magenta",
+        "icon": "house"
+      },
+      {
+        "badge": "Collectivité — Île-de-France",
+        "title": "Rénovation énergétique — 2,5 M€",
+        "text": "Commune de 25 000 hab. accompagnée 3 ans sur son programme de rénovation énergétique des groupes scolaires. 6 montages gagnants.",
+        "href": "collectivites-epci/",
+        "color": "indigo",
+        "icon": "school"
+      },
+      {
+        "badge": "Médico-social — Nouvelle-Aquitaine",
+        "title": "Résidence intergénérationnelle — 900 000 €",
+        "text": "Association médico-sociale accompagnée 2 ans pour la création d'une résidence intergénérationnelle innovante. 6 montages aboutis.",
+        "href": "structures-medico-sociales/",
+        "color": "prune",
+        "icon": "person"
+      }
+    ]
+  }
 }

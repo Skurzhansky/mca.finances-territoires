@@ -115,43 +115,43 @@
   },
   "footer": {
     "brand": "FINANCES & TERRITOIRES",
-    "text": "Expert des financements publics et du développement des territoires.",
+    "text": "Expertise en financement public et privé — collectivités, santé, médico-social, bailleurs sociaux et entreprises.",
     "subsidiary": "Une filiale du Groupe BPCE",
     "columns": [
       {
         "title": "Expertises",
         "links": [
           {
-            "label": "Détection",
+            "label": "Détection des opportunités",
             "href": "detections-des-opportunites/"
           },
           {
-            "label": "Mobilisation",
+            "label": "Mobilisation des aides",
             "href": "mobilisation-des-aides/"
           },
           {
-            "label": "Mécénat & Fundraising",
+            "label": "Pilotage des aides",
+            "href": "gestion-des-aides/"
+          },
+          {
+            "label": "Fonds privés / Mécénat",
             "href": "fonds-de-dotation-mecenat-local/"
           },
           {
             "label": "Formations",
             "href": "nos-formations/"
-          },
-          {
-            "label": "Optim Aides & Subventions",
-            "href": "optimaides-subventions/"
           }
         ]
       },
       {
-        "title": "Secteurs",
+        "title": "Profil de nos clients",
         "links": [
           {
-            "label": "Collectivité & EPCI",
+            "label": "Collectivités & EPCI",
             "href": "collectivites-epci/"
           },
           {
-            "label": "Santé non lucratif",
+            "label": "Santé (non lucratif)",
             "href": "etablissements-de-sante-publics-non-lucratifs/"
           },
           {
@@ -159,42 +159,68 @@
             "href": "structures-medico-sociales/"
           },
           {
-            "label": "Logement social",
+            "label": "Entreprise Publique Locale",
+            "href": "entreprises-publiques-locales-epl/"
+          },
+          {
+            "label": "Bailleurs sociaux",
             "href": "logement-social/"
           },
           {
-            "label": "SDIS & Secours",
+            "label": "SDIS & Service de secours",
             "href": "sdis-service-de-secours/"
+          },
+          {
+            "label": "Entreprise privée",
+            "href": "entreprise/"
           }
         ]
       },
       {
-        "title": "À propos",
+        "title": "Nous contacter",
         "links": [
           {
-            "label": "Finances & Territoires",
-            "href": "finances-et-territoires/"
+            "label": "Réussites",
+            "href": "les-reussites-de-nos-clients/"
           },
           {
-            "label": "Réussites clients",
-            "href": "les-reussites-de-nos-clients/"
+            "label": "Qui sommes-nous ?",
+            "href": "finances-et-territoires/"
           },
           {
             "label": "Événements",
             "href": "evenements/"
           },
           {
-            "label": "Guide pratique",
-            "href": "guide/"
-          },
-          {
-            "label": "Contact",
+            "label": "Nous contacter",
             "href": "contact/"
           }
         ]
       }
     ],
-    "bottom": "© 2020 BPCE Finances & Territoires — Filiale du Groupe BPCE. Tous droits réservés."
+    "bottom": "© 2026 BPCE Finances & Territoires — Filiale du Groupe BPCE. Tous droits réservés.",
+    "legal": [
+      {
+        "label": "Mentions réglementaires",
+        "href": "mentions-legales/"
+      },
+      {
+        "label": "Données personnelles",
+        "href": "donnees-personnelles/"
+      },
+      {
+        "label": "Gestion des cookies",
+        "href": "cookies/"
+      },
+      {
+        "label": "Vigilance fraude",
+        "href": "vigilance-fraude/"
+      },
+      {
+        "label": "Accessibilité : partiellement conforme",
+        "href": "https://www.groupebpce.com/mentions-legales/accessibilite/"
+      }
+    ]
   },
-  "_v": 2
+  "_v": 3
 }

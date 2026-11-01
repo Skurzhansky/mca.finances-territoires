@@ -1,5 +1,5 @@
 import { config } from './config.js';
-import { buildPages, page, homepagePage, BASE_PAGES, DEFAULT_NAVIGATION, DEFAULT_CONTENT, DEFAULT_FINBOOST, DEFAULT_COVERAGE, DEFAULT_PROJECT_CTA, DEFAULT_ABOUT, DEFAULT_ACCOMPAGNEMENT, DEFAULT_HERO } from '../scripts/templates.mjs';
+import { buildPages, page, homepagePage, BASE_PAGES, DEFAULT_NAVIGATION, DEFAULT_CONTENT, DEFAULT_FINBOOST, DEFAULT_COVERAGE, DEFAULT_PROJECT_CTA, DEFAULT_ABOUT, DEFAULT_ACCOMPAGNEMENT, DEFAULT_HERO, DEFAULT_REUSSITES, REUSSITE_COLORS } from '../scripts/templates.mjs';
 import { migrate } from '../scripts/migrations.mjs';
 
 let state = null;
@@ -742,7 +742,9 @@ function renderHomepageForm(content) {
   draft.introCards = fill3(draft.introCards, { title: '', text: '' });
   draft.stats = fill3(draft.stats, { value: '', label: '' });
   draft.values = fill3(draft.values, { title: '', text: '' });
-  draft.testimonial = draft.testimonial || { quote: '', cite: '', footnote: '' };
+  draft.reussites = { ...JSON.parse(JSON.stringify(DEFAULT_REUSSITES)), ...(draft.reussites || {}) };
+  draft.reussites.items = draft.reussites.items || [];
+  const ru = draft.reussites;
   draft.hero = { ...JSON.parse(JSON.stringify(DEFAULT_HERO)), ...(draft.hero || {}) };
   draft.hero.photos = { ...DEFAULT_HERO.photos, ...(draft.hero.photos || {}) };
   const hr = draft.hero;
@@ -916,16 +918,30 @@ function renderHomepageForm(content) {
           <div class="admin-dep-grid">${(cv.regions || []).map((r, i) => `<label>${escapeHtml(r.name)}<input type="text" class="f-cv-region" data-i="${i}" placeholder="ex. 2 753" value="${escapeHtml(r.count || '')}"></label>`).join('')}</div></details>
         `, false)}
 
-        ${section('sec-testimonial', 'Témoignage', `
-          <label>Citation
-            <textarea id="f-test-quote" rows="3">${escapeHtml(draft.testimonial.quote)}</textarea>
-          </label>
-          <label>Auteur
-            <input type="text" id="f-test-cite" value="${escapeHtml(draft.testimonial.cite)}">
-          </label>
-          <label>Précision (sous le témoignage)
-            <input type="text" id="f-test-footnote" value="${escapeHtml(draft.testimonial.footnote)}">
-          </label>
+        ${section('sec-reussites', 'Bloc « Réussites » (carrousel)', `
+          ${[['eyebrow', 'Surtitre'], ['title', 'Titre']].map(([k, l]) => `<label>${l}<input type="text" class="f-ru" data-k="${k}" value="${escapeHtml(ru[k] || '')}"></label>`).join('')}
+          <label>Texte<textarea class="f-ru" data-k="text" rows="2">${escapeHtml(ru.text || '')}</textarea></label>
+          <div class="admin-form-row">
+            ${[['linkLabel', 'Libellé du lien sur chaque carte'], ['buttonLabel', 'Bouton sous le carrousel — libellé'], ['buttonHref', 'Bouton — lien']].map(([k, l]) => `<label>${l}<input type="text" class="f-ru" data-k="${k}" value="${escapeHtml(ru[k] || '')}"></label>`).join('')}
+          </div>
+          <h4 class="admin-subhead">Réussites (cartes)</h4>
+          <div id="f-ru-list">
+            ${ru.items.map((it, i) => `<div class="admin-body-section">
+              <div class="admin-form-row">
+                <label>Étiquette (ex. Collectivité — Rhône)<input type="text" class="f-ru-item" data-i="${i}" data-k="badge" value="${escapeHtml(it.badge || '')}"></label>
+                <label>Couleur du visuel<select class="f-ru-item" data-i="${i}" data-k="color">${Object.keys(REUSSITE_COLORS).map(c => `<option value="${c}"${c === (it.color || 'violet') ? ' selected' : ''}>${c}</option>`).join('')}</select></label>
+              </div>
+              <label>Titre<input type="text" class="f-ru-item" data-i="${i}" data-k="title" value="${escapeHtml(it.title || '')}"></label>
+              <label>Texte<textarea class="f-ru-item" data-i="${i}" data-k="text" rows="3">${escapeHtml(it.text || '')}</textarea></label>
+              <label>Lien de la carte (ex. collectivites-epci/)<input type="text" class="f-ru-item" data-i="${i}" data-k="href" value="${escapeHtml(it.href || '')}"></label>
+              <div class="admin-item-toolbar">
+                ${i > 0 ? `<button type="button" class="btn" data-ru-move="${i}" data-dir="-1">↑</button>` : ''}
+                ${i < ru.items.length - 1 ? `<button type="button" class="btn" data-ru-move="${i}" data-dir="1">↓</button>` : ''}
+                <button type="button" class="btn btn--danger" data-ru-remove="${i}">Retirer</button>
+              </div>
+            </div>`).join('')}
+          </div>
+          <button type="button" id="add-ru" class="btn">+ Ajouter une réussite</button>
         `, false)}
 
         ${section('sec-values', 'Valeurs et engagements (3 items)', `
@@ -1006,6 +1022,26 @@ function renderHomepageForm(content) {
         paint();
       });
     });
+    document.getElementById('add-ru').addEventListener('click', () => {
+      syncFormToDraft();
+      ru.items.push({ badge: '', title: '', text: '', href: '', color: 'violet', icon: 'building' });
+      paint();
+    });
+    content.querySelectorAll('[data-ru-remove]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        syncFormToDraft();
+        ru.items.splice(Number(btn.dataset.ruRemove), 1);
+        paint();
+      });
+    });
+    content.querySelectorAll('[data-ru-move]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        syncFormToDraft();
+        const i = Number(btn.dataset.ruMove), j = i + Number(btn.dataset.dir);
+        [ru.items[i], ru.items[j]] = [ru.items[j], ru.items[i]];
+        paint();
+      });
+    });
     document.getElementById('add-faq').addEventListener('click', () => {
       syncFormToDraft();
       draft.faq.push('');
@@ -1054,9 +1090,8 @@ function renderHomepageForm(content) {
     content.querySelectorAll('.f-cv').forEach(el => { draft.coverage[el.dataset.k] = el.value; });
     content.querySelectorAll('.f-cv-card').forEach(el => { draft.coverage.cards[Number(el.dataset.i)][el.dataset.k] = el.value; });
     content.querySelectorAll('.f-cv-region').forEach(el => { draft.coverage.regions[Number(el.dataset.i)].count = el.value.trim(); });
-    draft.testimonial.quote = document.getElementById('f-test-quote').value;
-    draft.testimonial.cite = document.getElementById('f-test-cite').value;
-    draft.testimonial.footnote = document.getElementById('f-test-footnote').value;
+    content.querySelectorAll('.f-ru').forEach(el => { ru[el.dataset.k] = el.value; });
+    content.querySelectorAll('.f-ru-item').forEach(el => { ru.items[Number(el.dataset.i)][el.dataset.k] = el.value; });
     draft.valuesTitle = document.getElementById('f-values-title').value;
     content.querySelectorAll('.f-value-title').forEach(el => { draft.values[Number(el.dataset.i)].title = el.value; });
     content.querySelectorAll('.f-value-text').forEach(el => { draft.values[Number(el.dataset.i)].text = el.value; });
@@ -1181,6 +1216,11 @@ function renderNavigationForm(content) {
             ${itemToolbar('footer.columns', ci, (f.columns || []).length)}
           </div>`).join('')}
           <button type="button" class="btn" data-add="footer.columns" data-template="column">+ Ajouter une colonne</button>
+        `, false)}
+
+        ${section('Pied de page — liens légaux (dernière ligne)', `
+          ${(f.legal || []).map((item, i) => linkFieldsHtml('footer.legal', item, i, (f.legal || []).length)).join('')}
+          <button type="button" class="btn" data-add="footer.legal" data-template="link">+ Ajouter un lien</button>
         `, false)}
 
         <div class="admin-form__actions">

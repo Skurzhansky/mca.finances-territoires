@@ -135,7 +135,7 @@ export const DEFAULT_NAVIGATION = {
   },
   footer: {
     brand: 'FINANCES & TERRITOIRES',
-    text: 'Expert des financements publics et du développement des territoires.',
+    text: 'Expertise en financement public et privé — collectivités, santé, médico-social, bailleurs sociaux et entreprises.',
     subsidiary: 'Une filiale du Groupe BPCE',
     tagline: 'Filiale du Groupe BPCE',
     badge: 'Groupe BPCE',
@@ -146,28 +146,36 @@ export const DEFAULT_NAVIGATION = {
     address: "L'Amiral — 2B rue Simone Veil\n73000 Bassens (Savoie)",
     columns: [
       { title: 'Expertises', links: [
-        { label: 'Détection', href: 'detections-des-opportunites/' },
-        { label: 'Mobilisation', href: 'mobilisation-des-aides/' },
-        { label: 'Mécénat & Fundraising', href: 'fonds-de-dotation-mecenat-local/' },
+        { label: 'Détection des opportunités', href: 'detections-des-opportunites/' },
+        { label: 'Mobilisation des aides', href: 'mobilisation-des-aides/' },
+        { label: 'Pilotage des aides', href: 'gestion-des-aides/' },
+        { label: 'Fonds privés / Mécénat', href: 'fonds-de-dotation-mecenat-local/' },
         { label: 'Formations', href: 'nos-formations/' },
-        { label: 'Optim Aides & Subventions', href: 'optimaides-subventions/' },
       ] },
-      { title: 'Secteurs', links: [
-        { label: 'Collectivité & EPCI', href: 'collectivites-epci/' },
-        { label: 'Santé non lucratif', href: 'etablissements-de-sante-publics-non-lucratifs/' },
+      { title: 'Profil de nos clients', links: [
+        { label: 'Collectivités & EPCI', href: 'collectivites-epci/' },
+        { label: 'Santé (non lucratif)', href: 'etablissements-de-sante-publics-non-lucratifs/' },
         { label: 'Médico-Social & Social', href: 'structures-medico-sociales/' },
-        { label: 'Logement social', href: 'logement-social/' },
-        { label: 'SDIS & Secours', href: 'sdis-service-de-secours/' },
+        { label: 'Entreprise Publique Locale', href: 'entreprises-publiques-locales-epl/' },
+        { label: 'Bailleurs sociaux', href: 'logement-social/' },
+        { label: 'SDIS & Service de secours', href: 'sdis-service-de-secours/' },
+        { label: 'Entreprise privée', href: 'entreprise/' },
       ] },
-      { title: 'À propos', links: [
-        { label: 'Finances & Territoires', href: 'finances-et-territoires/' },
-        { label: 'Réussites clients', href: 'les-reussites-de-nos-clients/' },
+      { title: 'Nous contacter', links: [
+        { label: 'Réussites', href: 'les-reussites-de-nos-clients/' },
+        { label: 'Qui sommes-nous ?', href: 'finances-et-territoires/' },
         { label: 'Événements', href: 'evenements/' },
-        { label: 'Guide pratique', href: 'guide/' },
-        { label: 'Contact', href: 'contact/' },
+        { label: 'Nous contacter', href: 'contact/' },
       ] },
     ],
-    bottom: '© 2020 BPCE Finances & Territoires — Filiale du Groupe BPCE. Tous droits réservés.',
+    legal: [
+      { label: 'Mentions réglementaires', href: 'mentions-legales/' },
+      { label: 'Données personnelles', href: 'donnees-personnelles/' },
+      { label: 'Gestion des cookies', href: 'cookies/' },
+      { label: 'Vigilance fraude', href: 'vigilance-fraude/' },
+      { label: 'Accessibilité : partiellement conforme', href: 'https://www.groupebpce.com/mentions-legales/accessibilite/' },
+    ],
+    bottom: '© 2026 BPCE Finances & Territoires — Filiale du Groupe BPCE. Tous droits réservés.',
   },
 };
 
@@ -206,7 +214,7 @@ export const DEFAULT_PROJECT_CTA = {
   primaryLabel: 'Nous contacter →',
   primaryHref: 'contact/',
   secondaryLabel: 'Découvrir nos solutions →',
-  secondaryHref: 'finances-et-territoires/',
+  secondaryHref: 'detections-des-opportunites/',
 };
 
 export const DEFAULT_ACCOMPAGNEMENT = {
@@ -244,6 +252,40 @@ export const DEFAULT_ABOUT = {
   ],
   buttonLabel: 'En savoir plus →',
   buttonHref: 'finances-et-territoires/',
+};
+
+export const DEFAULT_REUSSITES = {
+  eyebrow: 'Réussites clients',
+  title: 'Ils nous ont fait confiance',
+  text: 'Des résultats concrets, obtenus grâce à notre expertise et notre engagement.',
+  linkLabel: 'Voir la réussite →',
+  buttonLabel: 'Voir toutes les réussites →',
+  buttonHref: 'les-reussites-de-nos-clients/',
+  items: [
+    { badge: 'Collectivité — Rhône', title: 'Pôle nautique — Financement sécurisé', text: "Une commune du Rhône accompagnée pour la reconstruction de son pôle nautique. 800 000 € mobilisés auprès du Secrétariat d'État chargé de la Mer.", href: 'collectivites-epci/', color: 'violet', icon: 'building' },
+    { badge: 'Médico-social — Aisne', title: 'Complexe inclusif — Projet innovant', text: 'Association médico-sociale accompagnée pour un complexe inclusif (restauration + gîtes hôteliers). 250 000 € obtenus via le FNADT.', href: 'structures-medico-sociales/', color: 'turquoise', icon: 'plus' },
+    { badge: 'Bailleurs sociaux — Bouches-du-Rhône', title: 'Renaturation résidence — 70 % financé', text: 'Bailleur social accompagné pour un projet de renaturation ambitieux. Reste à charge réduit à seulement 30 % grâce aux financements obtenus.', href: 'logement-social/', color: 'magenta', icon: 'house' },
+    { badge: 'Collectivité — Île-de-France', title: 'Rénovation énergétique — 2,5 M€', text: 'Commune de 25 000 hab. accompagnée 3 ans sur son programme de rénovation énergétique des groupes scolaires. 6 montages gagnants.', href: 'collectivites-epci/', color: 'indigo', icon: 'school' },
+    { badge: 'Médico-social — Nouvelle-Aquitaine', title: 'Résidence intergénérationnelle — 900 000 €', text: "Association médico-sociale accompagnée 2 ans pour la création d'une résidence intergénérationnelle innovante. 6 montages aboutis.", href: 'structures-medico-sociales/', color: 'prune', icon: 'person' },
+  ],
+};
+
+export const REUSSITE_COLORS = {
+  violet: 'linear-gradient(135deg,#581D74,#9176B4)',
+  turquoise: 'linear-gradient(135deg,#01A193,#00749D)',
+  magenta: 'linear-gradient(135deg,#B34A8C,#8A5599)',
+  indigo: 'linear-gradient(135deg,#55579E,#6694CE)',
+  prune: 'linear-gradient(135deg,#8A5599,#B34A8C)',
+  orange: 'linear-gradient(135deg,#F08050,#D676AD)',
+  vert: 'linear-gradient(135deg,#8AB973,#01A193)',
+};
+
+const REUSSITE_ICONS = {
+  building: '<rect x="20" y="30" width="60" height="50"/><rect x="30" y="15" width="40" height="15"/><line x1="50" y1="15" x2="50" y2="8"/>',
+  plus: '<circle cx="50" cy="50" r="35"/><line x1="50" y1="30" x2="50" y2="70"/><line x1="30" y1="50" x2="70" y2="50"/>',
+  house: '<path d="M15 60L50 25l35 35"/><rect x="25" y="60" width="50" height="30"/>',
+  school: '<rect x="10" y="40" width="80" height="50"/><rect x="30" y="20" width="40" height="20"/>',
+  person: '<path d="M20 70c0-16 13-28 30-28s30 12 30 28"/><circle cx="50" cy="30" r="14"/>',
 };
 
 export const DEFAULT_COVERAGE = {
@@ -575,7 +617,12 @@ export function footer(pages, base = '../', navigation) {
     </div>`).join('\n    ')}
     ${columns.length ? '' : contactCard}
   </div>
-  <div class="footer-bottom">${escapeHtml(f.bottom)}</div>
+  <div class="footer-bottom container">
+    <div class="footer-copy">${escapeHtml(f.bottom)}</div>
+    ${(f.legal || []).filter(l => l.label).length ? `<nav class="footer-legal" aria-label="Liens légaux">
+      ${(f.legal || []).filter(l => l.label).map(l => /^https?:/.test(l.href || '') ? `<a href="${escapeHtml(l.href)}" target="_blank" rel="noopener">${escapeHtml(l.label)}</a>` : `<a href="${base}${escapeHtml(l.href || '')}">${escapeHtml(l.label)}</a>`).join('\n      ')}
+    </nav>` : ''}
+  </div>
 </footer>`;
 }
 
@@ -1062,6 +1109,40 @@ function renderFinboost(data) {
   </section>`;
 }
 
+function renderReussites(data) {
+  const r = { ...DEFAULT_REUSSITES, ...(data || {}) };
+  const items = (r.items || []).filter(x => x.title || x.text);
+  if (!items.length) return '';
+  return `<section class="reussites section--muted" id="reussites">
+    <div class="container">
+      <div class="section-intro">
+        ${r.eyebrow ? `<span class="section-eyebrow">${escapeHtml(r.eyebrow)}</span>` : ''}
+        <h2 class="section-title">${escapeHtml(r.title)}</h2>
+        ${r.text ? `<p class="section-intro__text">${richText(r.text, '')}</p>` : ''}
+      </div>
+      <div class="ru-carousel" id="ru-carousel">
+        <div class="ru-outer">
+          <div class="ru-track">
+            ${items.map(it => {
+              const bg = REUSSITE_COLORS[it.color] || REUSSITE_COLORS.violet;
+              const ico = REUSSITE_ICONS[it.icon] || REUSSITE_ICONS.building;
+              const inner = `<div class="ru-visual" style="background:${bg}"><svg viewBox="0 0 100 100" aria-hidden="true">${ico}</svg>${it.badge ? `<span class="ru-badge">${escapeHtml(it.badge)}</span>` : ''}</div>
+              <div class="ru-body"><h3 class="ru-title">${escapeHtml(it.title)}</h3><p class="ru-desc">${richText(it.text, '')}</p>${it.href && r.linkLabel ? `<span class="ru-lnk">${escapeHtml(r.linkLabel)}</span>` : ''}</div>`;
+              return it.href ? `<a class="ru-card" href="${escapeHtml(it.href)}">${inner}</a>` : `<div class="ru-card">${inner}</div>`;
+            }).join('\n            ')}
+          </div>
+        </div>
+        <div class="ru-nav">
+          <button type="button" class="ru-btn ru-prev" aria-label="Précédent"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <div class="ru-dots"></div>
+          <button type="button" class="ru-btn ru-next" aria-label="Suivant"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+        </div>
+      </div>
+      ${r.buttonLabel ? `<div class="ru-more"><a class="btn-ap" href="${escapeHtml(r.buttonHref || 'les-reussites-de-nos-clients/')}">${escapeHtml(r.buttonLabel)}</a></div>` : ''}
+    </div>
+  </section>`;
+}
+
 function renderProjectCta(data) {
   const c = { ...DEFAULT_PROJECT_CTA, ...(data || {}) };
   if (!c.title) return '';
@@ -1179,74 +1260,13 @@ export function renderHomepage(homepage, pages, content) {
 
   ${renderCoverage(h.coverage)}
 
-  <section class="section--muted" id="reussites">
-    <div class="testimonial-band">
-      <div class="container">
-        <div class="testimonial-inner">
-          <span class="testimonial-quote-mark">"</span>
-          <div class="testimonial-card">
-            <span class="meta">Témoignages</span>
-            <blockquote>${richText(h.testimonial?.quote, '')}</blockquote>
-            <cite>${escapeHtml(h.testimonial?.cite)}</cite>
-          </div>
-        </div>
-        <div class="testimonial-footnote">${escapeHtml(h.testimonial?.footnote)}</div>
-      </div>
-    </div>
-  </section>
-
-
-  <section class="section--muted">
-    <div class="container">
-    <div class="section-header-row">
-      <div>
-        <h2 class="section-title">Guide</h2>
-        <p class="section-subtitle">Comprendre, anticiper et agir face aux évolutions du financement</p>
-      </div>
-      <a class="link-arrow" href="guide/">Voir le guide →</a>
-    </div>
-    ${renderHomepageGuideCarousel(pages)}
-    </div>
-  </section>
+  ${renderReussites(h.reussites)}
 
   ${renderProjectCta(h.projectCta)}
 
   ${renderAbout(h.about)}
 
 </main>`;
-}
-
-// Carousel Guide de la page d'accueil : rendu à partir des mêmes articles
-// que la page /guide/ (pas de copie figée), pour éviter tout risque de
-// divergence entre les deux quand l'admin ajoute/retire un article.
-function renderHomepageGuideCarousel(pages) {
-  const articles = (pages || []).filter(x => x.section === 'guide');
-  const slides = [];
-  for (let i = 0; i < articles.length; i += 3) slides.push(articles.slice(i, i + 3));
-  if (!slides.length) return '';
-  return `<div class="guide-carousel" id="guide-carousel">
-      <div class="guide-carousel__track">
-        ${slides.map((slide, si) => `<div class="cards-grid guide-carousel__slide${si === 0 ? ' is-active' : ''}">
-          ${slide.map(a => `<article class="feature-card feature-card--guide">
-            <div class="feature-card__banner">
-              <img src="${escapeHtml(a.image || 'images/paris-eiffel.jpg')}" alt="" loading="lazy" onerror="this.remove()">
-            </div>
-            <div class="feature-card__body">
-              <h3><a href="${a.slug}/" style="color:inherit;text-decoration:none;">${escapeHtml(a.title)}</a></h3>
-              <p>${escapeHtml(a.intro)}</p>
-              <a class="feature-card__more" href="${a.slug}/">Lire l'article →</a>
-            </div>
-          </article>`).join('\n          ')}
-        </div>`).join('\n        ')}
-      </div>
-      <div class="guide-carousel__nav">
-        <button type="button" class="guide-carousel__arrow guide-carousel__prev" aria-label="Précédent"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
-        <div class="guide-carousel__dots">
-        ${slides.map((_, si) => `<button type="button" class="guide-carousel__dot${si === 0 ? ' is-active' : ''}" data-index="${si}" aria-label="Diapositive ${si + 1} sur ${slides.length}"></button>`).join('\n        ')}
-        </div>
-        <button type="button" class="guide-carousel__arrow guide-carousel__next" aria-label="Suivant"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
-      </div>
-    </div>`;
 }
 
 export function homepagePage(homepage, pages, site = {}) {
@@ -1258,7 +1278,7 @@ export function homepagePage(homepage, pages, site = {}) {
 <link rel="icon" type="image/png" href="/favicon-32.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-${metaTags(homepage?.seoTitle || `Finances & Territoires — ${homepage?.heroTitle || ''}`, homepage?.seoDescription || homepage?.heroLead || '')}
+${metaTags(homepage?.seoTitle || `BPCE Finances & Territoires — ${String(homepage?.hero?.title || DEFAULT_HERO.title).replace(/\*\*/g, '')}`, homepage?.seoDescription || homepage?.hero?.text || DEFAULT_HERO.text)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
@@ -1272,7 +1292,7 @@ ${renderHomepage(homepage, pages, site.content)}
 
 ${footer(pages, '', site.navigation)}
 <script src="nav.js" defer></script>
-<script src="guide-carousel.js" defer></script>
+<script src="reussites-carousel.js" defer></script>
 <script src="france-map.js?v=20261001b" defer></script>
 </body>
 </html>
