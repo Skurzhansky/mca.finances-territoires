@@ -12,8 +12,8 @@
 <meta property="og:description" content="Identifiez et sécurisez les financements nécessaires à leur réalisation.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/site.css?v=20261001c">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/site.css?v=20261101a">
 </head>
 <body>
 
@@ -27,25 +27,30 @@
       <div class="nav-dropdown__panel">
         <div class="nav-dropdown__panel-inner">
         <div class="nav-menu-item">
-          <span class="nav-menu-item__label"><a href="detections-des-opportunites/">Détections des opportunités</a><button type="button" class="nav-menu-item__arrow" aria-label="Afficher le sous-menu">›</button></span>
+          <span class="nav-menu-item__label"><a href="detections-des-opportunites/">Détection des opportunités</a><button type="button" class="nav-menu-item__arrow" aria-label="Afficher le sous-menu">›</button></span>
           <div class="nav-submenu">
-            <a href="optimaides-subventions/">Optim Aides &amp; Subventions</a>
-            <a href="veille-personnalisee/">Veille personnalisée</a>
+            <a href="veille-personnalisee/">Veille continue</a>
+            <a href="optimaides-subventions/">Note d&#39;opportunité</a>
           </div>
         </div>
         <div class="nav-menu-item">
           <span class="nav-menu-item__label"><a href="mobilisation-des-aides/">Mobilisation des aides</a><button type="button" class="nav-menu-item__arrow" aria-label="Afficher le sous-menu">›</button></span>
           <div class="nav-submenu">
             <a href="montage-des-dossiers/">Montage des dossiers</a>
-            <a href="gestion-des-aides/">Gestion des aides</a>
           </div>
         </div>
         <div class="nav-menu-item">
-          <span class="nav-menu-item__label"><span class="nav-menu-item__text">Mécénat et Fundraising</span><button type="button" class="nav-menu-item__arrow" aria-label="Afficher le sous-menu">›</button></span>
+          <span class="nav-menu-item__label"><a href="gestion-des-aides/">Pilotage des aides</a><button type="button" class="nav-menu-item__arrow" aria-label="Afficher le sous-menu">›</button></span>
+          <div class="nav-submenu">
+            <a href="gestion-des-aides/">Gestion des aides obtenues</a>
+          </div>
+        </div>
+        <div class="nav-menu-item">
+          <span class="nav-menu-item__label"><a href="fonds-de-dotation-mecenat-local/">Fonds privés / Mécénat</a><button type="button" class="nav-menu-item__arrow" aria-label="Afficher le sous-menu">›</button></span>
           <div class="nav-submenu">
             <a href="fonds-de-dotation-mecenat-local/">Fonds de dotation &amp; Mécénat local</a>
-            <a href="recherche-de-fondations/">Recherche de fondations</a>
-            <a href="fundraising/">Fundraising</a>
+            <a href="fundraising/">Recherche de mécènes</a>
+            <a href="recherche-de-fondations/">AAP de fondations</a>
           </div>
         </div>
         <a href="nos-formations/" class="nav-menu-item__leaf">Formations</a>
@@ -57,58 +62,63 @@
       <button class="nav-dropdown__trigger" type="button" aria-expanded="false">Qui sommes-nous ?</button>
       <div class="nav-dropdown__panel">
         <div class="nav-dropdown__panel-inner">
-        <a href="finances-et-territoires/" class="nav-menu-item__leaf">Finances &amp; Territoires</a>
+        <a href="finances-et-territoires/" class="nav-menu-item__leaf">BPCE Finances &amp; Territoires</a>
+        <div class="nav-menu-item">
+          <span class="nav-menu-item__label"><a href="secteurs-dactivite/">Profil de nos clients</a><button type="button" class="nav-menu-item__arrow" aria-label="Afficher le sous-menu">›</button></span>
+          <div class="nav-submenu">
+            <a href="collectivites-epci/">Collectivité &amp; EPCI</a>
+            <a href="etablissements-de-sante-publics-non-lucratifs/">Santé (non lucratif)</a>
+            <a href="structures-medico-sociales/">Médico-Social &amp; Social</a>
+            <a href="entreprises-publiques-locales-epl/">Entreprise Publique Locale</a>
+            <a href="logement-social/">Bailleurs sociaux</a>
+            <a href="sdis-service-de-secours/">SDIS &amp; Service de secours</a>
+            <a href="entreprise/">Entreprise privée</a>
+          </div>
+        </div>
         <a href="evenements/" class="nav-menu-item__leaf">Événements</a>
         <a href="guide/" class="nav-menu-item__leaf">Guide</a>
         </div>
       </div>
     </div>
-    <a class="btn-nav-cta btn-nav-cta--mobile" href="contact/">Contactez-nous</a>
+    <a class="btn-nav-cta btn-nav-cta--mobile" href="contact/">Contactez-nous ›</a>
   </nav>
-  <a class="btn-nav-cta" href="contact/">Contactez-nous</a>
+  <a class="btn-nav-cta" href="contact/">Contactez-nous ›</a>
   </div>
 </header>
 
 <main>
 
-  <div class="hero-band">
-  <div class="container">
   <section class="hero">
-    <div class="hero-card">
-      <span class="hero-card__mark"></span>
-      <h1>Concrétisez vos projets</h1>
-      <p>Identifiez et sécurisez les financements nécessaires à leur réalisation.</p>
-      <div>
-        <div class="hero-stat__value">1,2 Md€</div>
-        <div class="hero-stat__label">mobilisés pour nos clients</div>
+    <div class="hero-bg" aria-hidden="true">
+      <div><img src="images/hero-bibliotheque.jpg" alt="" onerror="this.remove()"></div>
+      <div><img src="images/hero-poignee-de-main.jpg" alt="" onerror="this.remove()"></div>
+      <div><img src="images/hero-sante-numerique.jpg" alt="" onerror="this.remove()"></div>
+      <div><img src="images/hero-maison.jpg" alt="" onerror="this.remove()"></div>
+    </div>
+    <div class="container hero-wrap">
+      <div class="hero-content">
+        <div class="hero-pill"><span class="star">★</span> Filiale du Groupe BPCE</div>
+        <h1>Mobilisez les <em>aides et subventions</em> pour vos projets</h1>
+        <p class="hero-sub">BPCE Finances &amp; Territoires accompagne collectivités, organismes de santé, acteurs du médico-social, bailleurs sociaux et entreprises dans la détection, le montage et la gestion des financements externes.</p>
+        <div class="hero-ctas">
+          <a class="btn-hero-p" href="detections-des-opportunites/">→ Découvrir nos solutions</a>
+          <a class="btn-hero-s" href="contact/">→ Nous contacter</a>
+        </div>
       </div>
-      <a class="btn btn--site btn-primary" href="finances-et-territoires/">En savoir plus →</a>
-    </div>
-    <div class="photo-grid">
-      <div class="photo-tile photo-tile--big"><img src="images/banque-de-france.webp" alt="" loading="lazy" onerror="this.remove()"></div>
-      <div class="photo-tile photo-tile--tr1"><img src="images/reserve-or.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
-      <div class="photo-tile photo-tile--tr2"><img src="images/conseil-client.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
-      <div class="photo-tile photo-tile--bl"><img src="images/agence-bancaire.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
-      <div class="photo-tile photo-tile--br"><img src="images/paris-eiffel.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
-      <img class="photo-grid__avatar" src="images/handshake-contrat.webp" alt="" loading="lazy" onerror="this.remove()">
     </div>
   </section>
-  </div>
-  </div>
 
-  <section class="client-types-section">
-    <div class="container">
-    <div class="client-types">
-    <a class="client-type" href="entreprise/"><span class="client-type__icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 28V9h9v19"/><path d="M15 28V4h11v24"/><path d="M4 28h24"/><path d="M18 8h5v5h-5z"/><path d="M9 13h3M9 17h3M9 21h3"/></svg></span><span class="client-type__label">Entreprise</span></a>
-    <a class="client-type" href="collectivites-epci/"><span class="client-type__icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4v6"/><path d="M16 4h5v3h-5"/><path d="M8 10h16v18H8z"/><path d="M4 28h24"/><path d="M11 16h10v7H11z"/><path d="M16 16v7M11 19.5h10"/></svg></span><span class="client-type__label">Collectivité &amp; EPCI</span></a>
-    <a class="client-type" href="etablissements-de-sante-publics-non-lucratifs/"><span class="client-type__icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M16 27s-11-6.6-11-14.2C5 8.9 7.7 6 11 6c2.2 0 4 1.2 5 3 1-1.8 2.8-3 5-3 3.3 0 6 2.9 6 6.8C27 20.4 16 27 16 27z"/><path d="M16 12v7M12.5 15.5h7"/></svg></span><span class="client-type__label">Santé non lucratif</span></a>
-    <a class="client-type" href="structures-medico-sociales/"><span class="client-type__icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="11" r="5"/><path d="M6 27c0-5.5 4.5-9 10-9s10 3.5 10 9"/></svg></span><span class="client-type__label">Médico-social</span></a>
-    <a class="client-type" href="entreprises-publiques-locales-epl/"><span class="client-type__icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="24" height="20" rx="1"/><path d="M4 12h24M16 12v14"/></svg></span><span class="client-type__label">Établ. Public Local</span></a>
-    <a class="client-type" href="logement-social/"><span class="client-type__icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15L16 6l11 9"/><path d="M8 13v14h16V13"/><path d="M13 27v-7h6v7"/></svg></span><span class="client-type__label">Logement social</span></a>
-    <a class="client-type" href="sdis-service-de-secours/"><span class="client-type__icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h16v13H3z"/><path d="M19 14h6l4 5v4H19"/><path d="M6 6h10v4"/><circle cx="8" cy="24" r="2.5"/><circle cx="23" cy="24" r="2.5"/><path d="M3 16h16"/></svg></span><span class="client-type__label">SDIS</span></a>
-    </div>
-    </div>
-  </section>
+  <div class="sect-bar">
+    <nav class="sect-grid" aria-label="Profils de clients">
+    <a class="sect-item" href="collectivites-epci/"><span class="sect-ico"><svg viewBox="0 0 56 56"><rect x="8" y="22" width="40" height="28"/><rect x="20" y="10" width="16" height="12"/><line x1="28" y1="10" x2="28" y2="4"/><rect x="16" y="32" width="8" height="10"/><rect x="32" y="32" width="8" height="10"/><rect x="22" y="36" width="12" height="14"/></svg></span><span class="sect-lbl">Collectivité<br>&amp; EPCI</span></a>
+    <a class="sect-item" href="etablissements-de-sante-publics-non-lucratifs/"><span class="sect-ico"><svg viewBox="0 0 56 56"><path d="M28 44C28 44 8 32 8 20c0-6 5-10 12-8 4 1 7 4 8 6 1-2 4-5 8-6 7-2 12 2 12 8 0 12-20 24-20 24Z"/><line x1="28" y1="18" x2="28" y2="30"/><line x1="22" y1="24" x2="34" y2="24"/></svg></span><span class="sect-lbl">Santé<br>(non lucratif)</span></a>
+    <a class="sect-item" href="structures-medico-sociales/"><span class="sect-ico"><svg viewBox="0 0 56 56"><circle cx="28" cy="18" r="8"/><path d="M12 46c0-10 8-16 16-16s16 6 16 16"/><path d="M36 24c4-4 10-2 10 4"/><path d="M20 24c-4-4-10-2-10 4"/></svg></span><span class="sect-lbl">Médico-Social<br>&amp; Social</span></a>
+    <a class="sect-item" href="entreprises-publiques-locales-epl/"><span class="sect-ico"><svg viewBox="0 0 56 56"><rect x="8" y="14" width="40" height="32" rx="2"/><line x1="8" y1="24" x2="48" y2="24"/><line x1="24" y1="14" x2="24" y2="46"/></svg></span><span class="sect-lbl">Entreprise<br>Publique Locale</span></a>
+    <a class="sect-item" href="logement-social/"><span class="sect-ico"><svg viewBox="0 0 56 56"><path d="M10 28L28 12l18 16"/><rect x="16" y="28" width="24" height="18"/><rect x="24" y="36" width="8" height="10"/></svg></span><span class="sect-lbl">Bailleurs<br>sociaux</span></a>
+    <a class="sect-item" href="sdis-service-de-secours/"><span class="sect-ico"><svg viewBox="0 0 56 56"><rect x="8" y="26" width="40" height="20" rx="3"/><rect x="8" y="20" width="28" height="8"/><circle cx="16" cy="46" r="5"/><circle cx="40" cy="46" r="5"/><line x1="32" y1="26" x2="32" y2="20"/></svg></span><span class="sect-lbl">SDIS &amp; Service<br>de secours</span></a>
+    <a class="sect-item" href="entreprise/"><span class="sect-ico"><svg viewBox="0 0 56 56"><rect x="16" y="8" width="24" height="40"/><rect x="6" y="20" width="10" height="28"/><rect x="40" y="20" width="10" height="28"/><rect x="22" y="16" width="12" height="10"/></svg></span><span class="sect-lbl">Entreprise<br>privée</span></a>
+    </nav>
+  </div>
 
   <div class="container">
   <section id="expertises">

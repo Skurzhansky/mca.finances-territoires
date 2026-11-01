@@ -3,16 +3,16 @@
     "expertisesLabel": "Expertises et Solutions",
     "expertisesMenu": [
       {
-        "label": "Détections des opportunités",
+        "label": "Détection des opportunités",
         "href": "detections-des-opportunites/",
         "children": [
           {
-            "label": "Optim Aides & Subventions",
-            "href": "optimaides-subventions/"
+            "label": "Veille continue",
+            "href": "veille-personnalisee/"
           },
           {
-            "label": "Veille personnalisée",
-            "href": "veille-personnalisee/"
+            "label": "Note d'opportunité",
+            "href": "optimaides-subventions/"
           }
         ]
       },
@@ -23,27 +23,34 @@
           {
             "label": "Montage des dossiers",
             "href": "montage-des-dossiers/"
-          },
+          }
+        ]
+      },
+      {
+        "label": "Pilotage des aides",
+        "href": "gestion-des-aides/",
+        "children": [
           {
-            "label": "Gestion des aides",
+            "label": "Gestion des aides obtenues",
             "href": "gestion-des-aides/"
           }
         ]
       },
       {
-        "label": "Mécénat et Fundraising",
+        "label": "Fonds privés / Mécénat",
+        "href": "fonds-de-dotation-mecenat-local/",
         "children": [
           {
             "label": "Fonds de dotation & Mécénat local",
             "href": "fonds-de-dotation-mecenat-local/"
           },
           {
-            "label": "Recherche de fondations",
-            "href": "recherche-de-fondations/"
+            "label": "Recherche de mécènes",
+            "href": "fundraising/"
           },
           {
-            "label": "Fundraising",
-            "href": "fundraising/"
+            "label": "AAP de fondations",
+            "href": "recherche-de-fondations/"
           }
         ]
       },
@@ -55,8 +62,42 @@
     "aboutLabel": "Qui sommes-nous ?",
     "aboutMenu": [
       {
-        "label": "Finances & Territoires",
+        "label": "BPCE Finances & Territoires",
         "href": "finances-et-territoires/"
+      },
+      {
+        "label": "Profil de nos clients",
+        "href": "secteurs-dactivite/",
+        "children": [
+          {
+            "label": "Collectivité & EPCI",
+            "href": "collectivites-epci/"
+          },
+          {
+            "label": "Santé (non lucratif)",
+            "href": "etablissements-de-sante-publics-non-lucratifs/"
+          },
+          {
+            "label": "Médico-Social & Social",
+            "href": "structures-medico-sociales/"
+          },
+          {
+            "label": "Entreprise Publique Locale",
+            "href": "entreprises-publiques-locales-epl/"
+          },
+          {
+            "label": "Bailleurs sociaux",
+            "href": "logement-social/"
+          },
+          {
+            "label": "SDIS & Service de secours",
+            "href": "sdis-service-de-secours/"
+          },
+          {
+            "label": "Entreprise privée",
+            "href": "entreprise/"
+          }
+        ]
       },
       {
         "label": "Événements",
@@ -69,7 +110,7 @@
     ],
     "reussitesLabel": "Réussites",
     "reussitesHref": "les-reussites-de-nos-clients/",
-    "ctaLabel": "Contactez-nous",
+    "ctaLabel": "Contactez-nous ›",
     "ctaHref": "contact/"
   },
   "footer": {
@@ -154,5 +195,6 @@
       }
     ],
     "bottom": "© 2020 BPCE Finances & Territoires — Filiale du Groupe BPCE. Tous droits réservés."
-  }
+  },
+  "_v": 2
 }

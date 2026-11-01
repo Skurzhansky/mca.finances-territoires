@@ -1,5 +1,6 @@
 import { config } from './config.js';
-import { buildPages, page, homepagePage, BASE_PAGES, DEFAULT_NAVIGATION, DEFAULT_CONTENT, DEFAULT_FINBOOST, DEFAULT_COVERAGE, DEFAULT_PROJECT_CTA, DEFAULT_ABOUT, DEFAULT_ACCOMPAGNEMENT } from '../scripts/templates.mjs';
+import { buildPages, page, homepagePage, BASE_PAGES, DEFAULT_NAVIGATION, DEFAULT_CONTENT, DEFAULT_FINBOOST, DEFAULT_COVERAGE, DEFAULT_PROJECT_CTA, DEFAULT_ABOUT, DEFAULT_ACCOMPAGNEMENT, DEFAULT_HERO } from '../scripts/templates.mjs';
+import { migrate } from '../scripts/migrations.mjs';
 
 let state = null;
 
@@ -625,6 +626,8 @@ export async function mountAdmin(root, { user, credentials, signOut }) {
     state.events = events;
     state.expertises = expertises;
     state.secteurs = secteurs;
+    migrate('homepage', homepage);
+    migrate('navigation', navigation);
     state.homepage = homepage;
     state.originalPageSlugs = new Set([...guideArticles, ...expertises, ...secteurs].map(x => x.slug));
     state.originalPartnerImages = new Set((homepage.partners || []).map(p => p.image).filter(Boolean));
@@ -740,7 +743,9 @@ function renderHomepageForm(content) {
   draft.stats = fill3(draft.stats, { value: '', label: '' });
   draft.values = fill3(draft.values, { title: '', text: '' });
   draft.testimonial = draft.testimonial || { quote: '', cite: '', footnote: '' };
-  draft.heroPhotos = draft.heroPhotos || {};
+  draft.hero = { ...JSON.parse(JSON.stringify(DEFAULT_HERO)), ...(draft.hero || {}) };
+  draft.hero.photos = { ...DEFAULT_HERO.photos, ...(draft.hero.photos || {}) };
+  const hr = draft.hero;
   draft.clientTypes = draft.clientTypes || [];
   draft.partners = draft.partners || [];
   draft.finboost = { ...JSON.parse(JSON.stringify(DEFAULT_FINBOOST)), ...(draft.finboost || {}) };
@@ -771,30 +776,36 @@ function renderHomepageForm(content) {
         <p id="homepage-save-status" class="admin-status admin-status--ok" style="margin:0;"></p>
 
         ${section('sec-hero', 'Bandeau principal (hero)', `
-          <label>Titre
-            <input type="text" id="f-hero-title" value="${escapeHtml(draft.heroTitle)}" required>
+          <label>Badge au-dessus du titre
+            <input type="text" id="f-hero-badge" value="${escapeHtml(hr.badge)}">
+          </label>
+          <label>Titre — les mots entre **doubles astérisques** s'affichent en couleur d'accent
+            <input type="text" id="f-hero-title" value="${escapeHtml(hr.title)}" required>
           </label>
           <label>Texte sous le titre
-            <textarea id="f-hero-lead" rows="2" required>${escapeHtml(draft.heroLead)}</textarea>
-          </label>
-          <label>Texte du bouton
-            <input type="text" id="f-cta-label" value="${escapeHtml(draft.ctaLabel)}" required>
+            <textarea id="f-hero-text" rows="3">${escapeHtml(hr.text)}</textarea>
           </label>
           <div class="admin-form-row">
-            <label>Chiffre clé
-              <input type="text" id="f-hero-stat-value" value="${escapeHtml(draft.heroStatValue)}">
+            <label>Bouton principal — texte
+              <input type="text" id="f-hero-p-label" value="${escapeHtml(hr.primaryLabel)}">
             </label>
-            <label>Légende du chiffre
-              <input type="text" id="f-hero-stat-label" value="${escapeHtml(draft.heroStatLabel)}">
+            <label>Bouton principal — lien
+              <input type="text" id="f-hero-p-href" value="${escapeHtml(hr.primaryHref)}">
             </label>
           </div>
-          <h3>Photos (6 emplacements du collage)</h3>
-          ${photoFieldHtml('hero-big', 'Grande photo (gauche)', draft.heroPhotos.big)}
-          ${photoFieldHtml('hero-tr1', 'Photo en haut à droite (1)', draft.heroPhotos.tr1)}
-          ${photoFieldHtml('hero-tr2', 'Photo en haut à droite (2)', draft.heroPhotos.tr2)}
-          ${photoFieldHtml('hero-bl', 'Photo en bas à gauche', draft.heroPhotos.bl)}
-          ${photoFieldHtml('hero-br', 'Photo en bas à droite', draft.heroPhotos.br)}
-          ${photoFieldHtml('hero-avatar', 'Photo ronde (médaillon)', draft.heroPhotos.avatar)}
+          <div class="admin-form-row">
+            <label>Bouton secondaire — texte
+              <input type="text" id="f-hero-s-label" value="${escapeHtml(hr.secondaryLabel)}">
+            </label>
+            <label>Bouton secondaire — lien
+              <input type="text" id="f-hero-s-href" value="${escapeHtml(hr.secondaryHref)}">
+            </label>
+          </div>
+          <h3>Mosaïque photographique (4 emplacements)</h3>
+          ${photoFieldHtml('hero-big', 'Grande photo (gauche, derrière le texte)', hr.photos.big)}
+          ${photoFieldHtml('hero-top', 'Photo du milieu, en haut', hr.photos.top)}
+          ${photoFieldHtml('hero-bottom', 'Photo du milieu, en bas', hr.photos.bottom)}
+          ${photoFieldHtml('hero-right', 'Photo de droite (pleine hauteur)', hr.photos.right)}
         `, true)}
 
         ${section('sec-clients', 'Types de clients (rangée d’icônes)', `
@@ -974,12 +985,10 @@ function renderHomepageForm(content) {
       syncFormToDraft();
       state.homepage = JSON.parse(JSON.stringify(draft));
     });
-    wirePhotoField('hero-big', ext => `images/uploads/homepage-hero-big.${ext}`, key => { draft.heroPhotos.big = key; });
-    wirePhotoField('hero-tr1', ext => `images/uploads/homepage-hero-tr1.${ext}`, key => { draft.heroPhotos.tr1 = key; });
-    wirePhotoField('hero-tr2', ext => `images/uploads/homepage-hero-tr2.${ext}`, key => { draft.heroPhotos.tr2 = key; });
-    wirePhotoField('hero-bl', ext => `images/uploads/homepage-hero-bl.${ext}`, key => { draft.heroPhotos.bl = key; });
-    wirePhotoField('hero-br', ext => `images/uploads/homepage-hero-br.${ext}`, key => { draft.heroPhotos.br = key; });
-    wirePhotoField('hero-avatar', ext => `images/uploads/homepage-hero-avatar.${ext}`, key => { draft.heroPhotos.avatar = key; });
+    wirePhotoField('hero-big', ext => `images/uploads/homepage-hero-big.${ext}`, key => { hr.photos.big = key; });
+    wirePhotoField('hero-top', ext => `images/uploads/homepage-hero-top.${ext}`, key => { hr.photos.top = key; });
+    wirePhotoField('hero-bottom', ext => `images/uploads/homepage-hero-bottom.${ext}`, key => { hr.photos.bottom = key; });
+    wirePhotoField('hero-right', ext => `images/uploads/homepage-hero-right.${ext}`, key => { hr.photos.right = key; });
     draft.partners.forEach((p, i) => {
       p._uid = p._uid || `p${Math.random().toString(36).slice(2, 8)}`;
       wirePhotoField(`partner-${i}`, ext => `images/uploads/partner-${p._uid}.${ext}`, key => { p.image = key; });
@@ -1023,11 +1032,13 @@ function renderHomepageForm(content) {
   }
 
   function syncFormToDraft() {
-    draft.heroTitle = document.getElementById('f-hero-title').value;
-    draft.heroLead = document.getElementById('f-hero-lead').value;
-    draft.ctaLabel = document.getElementById('f-cta-label').value;
-    draft.heroStatValue = document.getElementById('f-hero-stat-value').value;
-    draft.heroStatLabel = document.getElementById('f-hero-stat-label').value;
+    hr.badge = document.getElementById('f-hero-badge').value;
+    hr.title = document.getElementById('f-hero-title').value;
+    hr.text = document.getElementById('f-hero-text').value;
+    hr.primaryLabel = document.getElementById('f-hero-p-label').value;
+    hr.primaryHref = document.getElementById('f-hero-p-href').value;
+    hr.secondaryLabel = document.getElementById('f-hero-s-label').value;
+    hr.secondaryHref = document.getElementById('f-hero-s-href').value;
     content.querySelectorAll('.f-ct-label').forEach(el => { draft.clientTypes[Number(el.dataset.i)].label = el.value; });
     content.querySelectorAll('.f-acc').forEach(el => { draft.accompagnement[el.dataset.k] = el.value; });
     content.querySelectorAll('.f-acc-card').forEach(el => { draft.accompagnement.cards[Number(el.dataset.i)][el.dataset.k] = el.value.trim(); });
