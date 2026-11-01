@@ -86,56 +86,100 @@
   </div>
 </header>
 
-<nav class="breadcrumb container"><a href="../">Accueil</a> <span>/</span> <span class="current">Contact</span></nav>
+<div class="bc-bar"><nav class="breadcrumb container" aria-label="Fil d'Ariane"><a href="../">Accueil</a> <span class="bc-sep">›</span> <span class="current">Contact</span></nav></div>
 
-<main class="container">
-  <div class="page-hero">
-    <h1>Contact</h1>
-    <p class="lead">Un projet à financer ? Parlons-en. Décrivez-nous votre besoin, un consultant vous recontacte pour un premier échange.</p>
+<div class="ph">
+  
+  <div class="ph-over"></div>
+  <div class="ph-content container">
+    <div class="ph-pill"><em>★</em> Contact</div>
+    <h1>Contactez-nous</h1>
+    <p>Un projet à financer ? Parlons-en. Décrivez-nous votre besoin, un consultant vous recontacte pour un premier échange.</p>
   </div>
-
-  <div class="contact-layout">
-    <form class="contact-form" id="contact-form">
-      <div class="form-field">
-        <label for="name">Nom et prénom</label>
-        <input id="name" type="text" name="name" placeholder="Jean Dupont" required>
+</div>
+<main>
+  <section class="contact-section">
+    <div class="container contact-grid">
+      <div>
+        <h2 class="contact-title">Parlons de vos projets</h2>
+        <p class="contact-text">Remplissez ce formulaire pour nous présenter votre structure et vos besoins. Un de nos consultants vous recontactera dans les 48h ouvrées.</p>
+        <form class="f-grid" id="contact-form" novalidate>
+          <div class="f-grp">
+          <label class="f-label" for="prenom">Prénom<span class="req">*</span></label>
+          <input class="f-inp" id="prenom" name="prenom" type="text" placeholder="Jean" required>
+        </div>
+          <div class="f-grp">
+          <label class="f-label" for="nom">Nom<span class="req">*</span></label>
+          <input class="f-inp" id="nom" name="nom" type="text" placeholder="Dupont" required>
+        </div>
+          <div class="f-grp">
+          <label class="f-label" for="fonction">Fonction<span class="req">*</span></label>
+          <input class="f-inp" id="fonction" name="fonction" type="text" placeholder="Directeur général" required>
+        </div>
+          <div class="f-grp">
+          <label class="f-label" for="structure">Structure<span class="req">*</span></label>
+          <input class="f-inp" id="structure" name="structure" type="text" placeholder="Commune de..." required>
+        </div>
+          <div class="f-grp">
+          <label class="f-label" for="email">E-mail<span class="req">*</span></label>
+          <input class="f-inp" id="email" name="email" type="email" placeholder="jean.dupont@mairie.fr" required>
+        </div>
+          <div class="f-grp">
+          <label class="f-label" for="telephone">Téléphone</label>
+          <input class="f-inp" id="telephone" name="telephone" type="tel" placeholder="+33 6 00 00 00 00">
+        </div>
+          <div class="f-grp full">
+            <label class="f-label" for="profil">Profil de structure<span class="req">*</span></label>
+            <select class="f-sel" id="profil" name="profil" required><option value="">Sélectionnez votre profil</option><option>Collectivité &amp; EPCI</option><option>Santé (non lucratif)</option><option>Médico-Social &amp; Social</option><option>Entreprise Publique Locale (EPL)</option><option>Bailleur social</option><option>SDIS &amp; Service de secours</option><option>Entreprise privée</option><option>Autre</option></select>
+          </div>
+          <div class="f-grp full">
+            <label class="f-label" for="sujet">Sujet de votre demande<span class="req">*</span></label>
+            <select class="f-sel" id="sujet" name="sujet" required><option value="">Sélectionnez</option><option>Détection d&#39;opportunités — Veille continue</option><option>Note d&#39;opportunité — étude de faisabilité</option><option>Montage de dossiers de subvention</option><option>Pilotage et gestion des aides obtenues</option><option>Fonds de dotation &amp; mécénat</option><option>Formation</option><option>Autre demande</option></select>
+          </div>
+          <div class="f-grp full">
+            <label class="f-label" for="message">Votre message<span class="req">*</span></label>
+            <textarea class="f-ta" id="message" name="message" placeholder="Décrivez brièvement votre projet, vos besoins et votre calendrier…" required></textarea>
+          </div>
+          <div class="f-grp full"><div class="f-privacy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>En soumettant ce formulaire, vous acceptez que vos données soient utilisées pour vous recontacter dans le cadre de votre demande. Conformément au RGPD, vous disposez d&#39;un droit d&#39;accès, de rectification et de suppression de vos données en contactant <a href="mailto:info@finances-territoires.fr">info@finances-territoires.fr</a>.</span></div></div>
+          <div class="f-grp full"><button class="f-submit" type="submit">Envoyer ma demande →</button></div>
+        </form>
+        <script>
+          document.getElementById('contact-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var form = e.target;
+            if (!form.checkValidity()) { form.reportValidity(); return; }
+            var v = function (id) { return form.querySelector('#' + id).value; };
+            var name = v('prenom') + ' ' + v('nom');
+            var subject = 'Demande de contact — ' + name + (v('structure') ? ' (' + v('structure') + ')' : '');
+            var body = 'Nom : ' + name + '\n' +
+              'Fonction : ' + v('fonction') + '\n' +
+              'Structure : ' + v('structure') + '\n' +
+              'E-mail : ' + v('email') + '\n' +
+              'Téléphone : ' + v('telephone') + '\n' +
+              'Profil : ' + v('profil') + '\n' +
+              'Sujet : ' + v('sujet') + '\n\n' +
+              v('message');
+            window.location.href = 'mailto:A-REMPLACER@exemple.fr?subject=' +
+              encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+          });
+        </script>
       </div>
-      <div class="form-field">
-        <label for="org">Structure</label>
-        <input id="org" type="text" name="org" placeholder="Commune, association, entreprise…">
-      </div>
-      <div class="form-field">
-        <label for="email">E-mail</label>
-        <input id="email" type="email" name="email" placeholder="vous@exemple.fr" required>
-      </div>
-      <div class="form-field">
-        <label for="message">Votre message</label>
-        <textarea id="message" name="message" placeholder="Décrivez votre projet et vos besoins en financement…" required></textarea>
-      </div>
-      <button class="btn btn--site btn-primary" type="submit" style="align-self:flex-start;">Envoyer →</button>
-    </form>
-    <script>
-      document.getElementById('contact-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-        var name = document.getElementById('name').value;
-        var org = document.getElementById('org').value;
-        var email = document.getElementById('email').value;
-        var message = document.getElementById('message').value;
-        var subject = 'Demande de contact — ' + name;
-        var body = 'Nom et prénom : ' + name + '\n' +
-          'Structure : ' + org + '\n' +
-          'E-mail : ' + email + '\n\n' +
-          message;
-        window.location.href = 'mailto:A-REMPLACER@exemple.fr?subject=' +
-          encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-      });
-    </script>
-    <div class="contact-info">
-      <h3>Finances &amp; Territoires</h3>
-      <p>Filiale du Groupe BPCE, nous accompagnons les collectivités, associations et entreprises dans la sécurisation de leurs financements depuis 20 ans.</p>
-      <p>Retrouvez également nos solutions dans le menu « Expertises et Solutions », ou explorez le <a href="../guide/">Guide</a> pour en savoir plus sur les dispositifs de financement.</p>
+      <aside>
+        <div class="ci-box">
+          <div class="ci-title">Coordonnées</div>
+          <div class="ci-item"><div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="ci-lbl">Adresse</div><div class="ci-val">L&#39;Amiral — 2B rue Simone Veil<br>73000 Bassens (Savoie)</div></div></div>
+          <div class="ci-item"><div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.9 2z"/></svg></div><div><div class="ci-lbl">Téléphone</div><div class="ci-val"><a href="tel:0469966160">04 69 96 61 60</a></div></div></div>
+          <div class="ci-item"><div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></div><div><div class="ci-lbl">E-mail</div><div class="ci-val"><a href="mailto:info@finances-territoires.fr">info@finances-territoires.fr</a></div></div></div>
+        </div>
+        <div class="ci-faq">
+          <div class="ci-faq__title">Questions fréquentes</div>
+          <div class="ci-faq__item"><div class="ci-faq__q">Le premier échange est-il gratuit ?</div><p>Oui, tous nos échanges exploratoires sont gratuits et sans engagement. Nous vous orientons avant toute mission.</p></div>
+          <div class="ci-faq__item"><div class="ci-faq__q">Quelle est votre zone d&#39;intervention ?</div><p>Tout le territoire national, y compris les DROM-COM. Notre équipe peut intervenir sur place ou à distance.</p></div>
+          <div class="ci-faq__item"><div class="ci-faq__q">Combien de temps dure une première étude ?</div><p>Une Note d&#39;opportunité est remise en quelques jours après l&#39;échange initial. Pour une Veille continue, la mise en route est rapide.</p></div>
+        </div>
+      </aside>
     </div>
-  </div>
+  </section>
 </main>
 
 <footer class="site-footer">

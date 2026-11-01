@@ -428,31 +428,43 @@ export const DEFAULT_CONTENT = {
       ],
     },
     'les-reussites-de-nos-clients': {
-      title: 'Les réussites de nos clients',
+      title: 'Réussites',
+      headline: 'Ils nous ont fait confiance',
+      eyebrow: 'Réussites clients',
       bannerImage: 'images/handshake-reunion.webp',
-      bannerCtaLabel: 'En savoir plus →',
-      bannerCtaHref: 'les-reussites-de-nos-clients/',
-      lead: 'Collectivités, associations et entreprises que nous accompagnons dans la sécurisation de leurs financements.',
-      testimonial: {
-        meta: 'Témoignages',
-        quote: "« Votre expertise et votre engagement ont été déterminants dans l'obtention des subventions accordées par l'Agence de l'eau et le Fonds Vert pour le réaménagement du parc Charles-de-Gaulle et de la Place Michelet. »",
-        cite: 'Julien Chambon — Maire',
-        footnote: 'Commune de Ricailles · 33 617 habitants (Insee 2022)',
-      },
-      stats: [
-        { value: '18 600', label: 'aides pour nos clients' },
-        { value: '10 000', label: 'aides publiques' },
-        { value: '8 600', label: 'aides privées' },
+      lead: 'Des résultats concrets, obtenus grâce à notre expertise et notre engagement aux côtés de chaque client.',
+      sectionEyebrow: 'Réussites',
+      sectionTitle: 'Des projets financés, des territoires transformés',
+      cases: [
+        { badge: 'Collectivité — Île-de-France', title: 'Rénovation énergétique de groupes scolaires', text: 'Commune de 25 000 hab. accompagnée 3 ans. 6 dossiers montés avec succès sur son programme de rénovation.', amount: '2,5 M€', caption: 'mobilisés — 6 montages gagnants sur 3 ans', href: 'collectivites-epci/', color: 'violet' },
+        { badge: 'Collectivité — Île-de-France', title: 'Gymnase, îlots de fraîcheur & espace culturel', text: "Commune de 11 000 hab. — 4 ans d'accompagnement. 20 dossiers sur projets variés.", amount: '2,8 M€', caption: 'mobilisés — 20 montages gagnants sur 4 ans', href: 'collectivites-epci/', color: 'indigo' },
+        { badge: 'Collectivité — PACA', title: "Restauration d'une église & groupe scolaire", text: 'Commune de 2 000 hab. — 3 ans. Restauration du patrimoine local et rénovation du groupe scolaire.', amount: '2,2 M€', caption: 'mobilisés — 6 montages gagnants sur 3 ans', href: 'collectivites-epci/', color: 'turquoise' },
+        { badge: 'Association sociale — Bourgogne-Franche-Comté', title: 'Friche industrielle & récupération de chaleur fatale', text: "Accompagnée 1 an sur la reconversion d'une friche et un dispositif de chaleur fatale.", amount: '555 000 €', caption: 'mobilisés — 5 montages gagnants en 1 an', href: 'structures-medico-sociales/', color: 'prune' },
+        { badge: 'Association médico-sociale — Nouvelle-Aquitaine', title: 'Résidence intergénérationnelle', text: "Accompagnée 2 ans dans la structuration financière d'un projet de résidence intergénérationnelle innovante.", amount: '900 000 €', caption: 'mobilisés — 6 montages gagnants sur 2 ans', href: 'structures-medico-sociales/', color: 'magenta' },
+        { badge: 'Bailleur social — Île-de-France', title: 'Projet de friche', text: "Bailleur social accompagné 1 an pour le financement d'une ambitieuse opération de reconversion de friche.", amount: '2 M€', caption: 'mobilisés — 1 montage gagnant en 1 an', href: 'logement-social/', color: 'violet' },
       ],
+      cta: { title: 'Votre projet peut être notre prochaine réussite', text: 'Échanges gratuits et sans engagement. Nos experts analysent votre situation.', label: '→ Nous contacter' },
+      testimonial: { meta: 'Témoignages', quote: '', cite: '', footnote: '' },
+      stats: [],
     },
     contact: {
       title: 'Contact',
       lead: 'Un projet à financer ? Parlons-en. Décrivez-nous votre besoin, un consultant vous recontacte pour un premier échange.',
       email: 'A-REMPLACER@exemple.fr',
-      infoTitle: 'Finances & Territoires',
-      infoParagraphs: [
-        'Filiale du Groupe BPCE, nous accompagnons les collectivités, associations et entreprises dans la sécurisation de leurs financements depuis 20 ans.',
-        'Retrouvez également nos solutions dans le menu « Expertises et Solutions », ou explorez le [Guide](guide/) pour en savoir plus sur les dispositifs de financement.',
+      eyebrow: 'Contact',
+      headline: 'Contactez-nous',
+      formTitle: 'Parlons de vos projets',
+      formText: 'Remplissez ce formulaire pour nous présenter votre structure et vos besoins. Un de nos consultants vous recontactera dans les 48h ouvrées.',
+      profiles: ['Collectivité & EPCI', 'Santé (non lucratif)', 'Médico-Social & Social', 'Entreprise Publique Locale (EPL)', 'Bailleur social', 'SDIS & Service de secours', 'Entreprise privée', 'Autre'],
+      subjects: ["Détection d'opportunités — Veille continue", "Note d'opportunité — étude de faisabilité", 'Montage de dossiers de subvention', 'Pilotage et gestion des aides obtenues', 'Fonds de dotation & mécénat', 'Formation', 'Autre demande'],
+      privacy: "En soumettant ce formulaire, vous acceptez que vos données soient utilisées pour vous recontacter dans le cadre de votre demande. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données en contactant [info@finances-territoires.fr](mailto:info@finances-territoires.fr).",
+      submitLabel: 'Envoyer ma demande →',
+      coordsTitle: 'Coordonnées',
+      faqTitle: 'Questions fréquentes',
+      faq: [
+        { title: 'Le premier échange est-il gratuit ?', text: 'Oui, tous nos échanges exploratoires sont gratuits et sans engagement. Nous vous orientons avant toute mission.' },
+        { title: "Quelle est votre zone d'intervention ?", text: 'Tout le territoire national, y compris les DROM-COM. Notre équipe peut intervenir sur place ou à distance.' },
+        { title: 'Combien de temps dure une première étude ?', text: "Une Note d'opportunité est remise en quelques jours après l'échange initial. Pour une Veille continue, la mise en route est rapide." },
       ],
     },
     guide: {
@@ -626,6 +638,20 @@ export function footer(pages, base = '../', navigation) {
 </footer>`;
 }
 
+// Bandeau photo des pages internes (maquette « .ph ») : photo assombrie,
+// dégradé violet à gauche, pastille, H1 et chapô. Précédé du fil d'Ariane.
+export function photoHero(p, { eyebrow, title, lead, image } = {}) {
+  return `<div class="ph">
+  ${image ? `<div class="ph-img"><img src="../${escapeHtml(image)}" alt="" onerror="this.parentElement.remove()"></div>` : ''}
+  <div class="ph-over"></div>
+  <div class="ph-content container">
+    ${eyebrow ? `<div class="ph-pill"><em>★</em> ${escapeHtml(eyebrow)}</div>` : ''}
+    <h1>${escapeHtml(title)}</h1>
+    ${lead ? `<p>${richText(lead)}</p>` : ''}
+  </div>
+</div>`;
+}
+
 export function breadcrumb(p) {
   const section = SECTIONS[p.section];
   const parts = [`<a href="../">Accueil</a>`];
@@ -634,7 +660,7 @@ export function breadcrumb(p) {
     else parts.push(`<span>${section.label}</span>`);
   }
   parts.push(`<span class="current">${escapeHtml(p.title)}</span>`);
-  return `<nav class="breadcrumb container">${parts.join(' <span>/</span> ')}</nav>`;
+  return `<div class="bc-bar"><nav class="breadcrumb container" aria-label="Fil d'Ariane">${parts.join(' <span class="bc-sep">›</span> ')}</nav></div>`;
 }
 
 export function ctaBand(content, base = '../') {
@@ -778,7 +804,7 @@ export function renderPageSections(sections) {
   }).join('\n\n    ');
 }
 
-export function renderCustom(p, pages, events, content) {
+export function renderCustom(p, pages, events, content, navigation) {
   const c = pageContent(p.slug, content);
   switch (p.slug) {
     case 'entreprise': {
@@ -828,89 +854,119 @@ export function renderCustom(p, pages, events, content) {
 ${ctaBand(content)}`;
 
     case 'les-reussites-de-nos-clients': {
-      const t = { ...(DEFAULT_CONTENT.pages['les-reussites-de-nos-clients'].testimonial), ...(c.testimonial || {}) };
-      return `${c.bannerImage ? `<div class="hero-photo-banner">
-  <img src="../${escapeHtml(c.bannerImage)}" alt="" loading="lazy" onerror="this.parentElement.remove()">
-  <div class="hero-photo-banner__content container">
-    <h1>${escapeHtml(c.headline || c.title)}</h1>
-    <a class="btn btn--site btn-primary" href="../${c.bannerCtaHref}">${escapeHtml(c.bannerCtaLabel)}</a>
-  </div>
-</div>
-` : ''}<main class="container">
-  <div class="page-hero">
-    <p class="lead">${richText(c.lead)}</p>
-  </div>
-
-  <div class="testimonial-band" style="border-radius:16px; margin-bottom:56px;">
-    <div class="testimonial-inner" style="padding:0 32px;">
-      <span class="testimonial-quote-mark">"</span>
-      <div class="testimonial-card">
-        <span class="meta">${escapeHtml(t.meta)}</span>
-        <blockquote>${richText(t.quote)}</blockquote>
-        <cite>${escapeHtml(t.cite)}</cite>
+      const d = DEFAULT_CONTENT.pages['les-reussites-de-nos-clients'];
+      const cases = (c.cases || d.cases).filter(x => x.title || x.text);
+      const cta = { ...d.cta, ...(c.cta || {}) };
+      return `${photoHero(p, { eyebrow: c.eyebrow ?? d.eyebrow, title: c.headline || c.title, lead: c.lead, image: c.bannerImage })}
+<main>
+  <section class="rs-section">
+    <div class="container">
+      <div class="section-intro">
+        ${c.sectionEyebrow ?? d.sectionEyebrow ? `<span class="section-eyebrow">${escapeHtml(c.sectionEyebrow ?? d.sectionEyebrow)}</span>` : ''}
+        <h2 class="section-title">${escapeHtml(c.sectionTitle ?? d.sectionTitle)}</h2>
+      </div>
+      <div class="rs-grid">
+        ${cases.map(x => {
+          const bg = REUSSITE_COLORS[x.color] || REUSSITE_COLORS.violet;
+          const inner = `<span class="rs-bar" style="background:${bg}"></span>
+          ${x.badge ? `<span class="rs-badge">${escapeHtml(x.badge)}</span>` : ''}
+          <h3 class="rs-title">${escapeHtml(x.title)}</h3>
+          <p class="rs-text">${richText(x.text)}</p>
+          ${x.amount ? `<div class="rs-amount">${escapeHtml(x.amount)}</div>` : ''}
+          ${x.caption ? `<div class="rs-caption">${escapeHtml(x.caption)}</div>` : ''}`;
+          return x.href ? `<a class="rs-card" href="../${escapeHtml(x.href)}">${inner}</a>` : `<div class="rs-card">${inner}</div>`;
+        }).join('\n        ')}
       </div>
     </div>
-    <div class="testimonial-footnote" style="padding-left:114px;">${escapeHtml(t.footnote)}</div>
-  </div>
-
-  <div class="stats-row" style="margin-bottom:56px;">
-    ${(c.stats || []).map(s => `<div><div class="stat-value">${escapeHtml(s.value)}</div><div class="stat-label">${escapeHtml(s.label)}</div></div>`).join('\n    ')}
-  </div>
+  </section>
 </main>
-${ctaBand(content)}`;
+${cta.title ? `<section class="project-cta project-cta--page">
+  <div class="project-cta__inner">
+    <h2 class="project-cta__title">${escapeHtml(cta.title)}</h2>
+    ${cta.text ? `<p class="project-cta__text">${richText(cta.text)}</p>` : ''}
+    <div class="project-cta__actions"><a class="btn-cta-pill" href="../contact/">${escapeHtml(cta.label || 'Nous contacter →')}</a></div>
+  </div>
+</section>` : ''}`;
     }
 
     case 'contact': {
+      const d = DEFAULT_CONTENT.pages.contact;
       // Adresse interpolée dans un littéral JS : on la restreint aux caractères
       // valides d'un e-mail pour qu'aucune saisie admin ne casse le script.
       const email = String(c.email || '').replace(/[^\w.@+-]/g, '');
-      return `<main class="container">
-  <div class="page-hero">
-    <h1>${escapeHtml(c.headline || c.title)}</h1>
-    <p class="lead">${richText(c.lead)}</p>
-  </div>${pageBanner(c)}
-
-  <div class="contact-layout">
-    <form class="contact-form" id="contact-form">
-      <div class="form-field">
-        <label for="name">Nom et prénom</label>
-        <input id="name" type="text" name="name" placeholder="Jean Dupont" required>
+      const f = { ...DEFAULT_NAVIGATION.footer, ...(navigation?.footer || {}) };
+      const telHref = String(f.phone || '').replace(/[^\d+]/g, '');
+      const profiles = (c.profiles || d.profiles).filter(Boolean);
+      const subjects = (c.subjects || d.subjects).filter(Boolean);
+      const faq = (c.faq || d.faq).filter(x => x.title || x.text);
+      const field = (id, label, type, placeholder, required) => `<div class="f-grp">
+          <label class="f-label" for="${id}">${label}${required ? '<span class="req">*</span>' : ''}</label>
+          <input class="f-inp" id="${id}" name="${id}" type="${type}" placeholder="${escapeHtml(placeholder)}"${required ? ' required' : ''}>
+        </div>`;
+      return `${photoHero(p, { eyebrow: c.eyebrow ?? d.eyebrow, title: c.headline || c.title, lead: c.lead, image: c.image })}
+<main>
+  <section class="contact-section">
+    <div class="container contact-grid">
+      <div>
+        <h2 class="contact-title">${escapeHtml(c.formTitle ?? d.formTitle)}</h2>
+        ${(c.formText ?? d.formText) ? `<p class="contact-text">${richText(c.formText ?? d.formText)}</p>` : ''}
+        <form class="f-grid" id="contact-form" novalidate>
+          ${field('prenom', 'Prénom', 'text', 'Jean', true)}
+          ${field('nom', 'Nom', 'text', 'Dupont', true)}
+          ${field('fonction', 'Fonction', 'text', 'Directeur général', true)}
+          ${field('structure', 'Structure', 'text', 'Commune de...', true)}
+          ${field('email', 'E-mail', 'email', 'jean.dupont@mairie.fr', true)}
+          ${field('telephone', 'Téléphone', 'tel', '+33 6 00 00 00 00', false)}
+          <div class="f-grp full">
+            <label class="f-label" for="profil">Profil de structure<span class="req">*</span></label>
+            <select class="f-sel" id="profil" name="profil" required><option value="">Sélectionnez votre profil</option>${profiles.map(x => `<option>${escapeHtml(x)}</option>`).join('')}</select>
+          </div>
+          <div class="f-grp full">
+            <label class="f-label" for="sujet">Sujet de votre demande<span class="req">*</span></label>
+            <select class="f-sel" id="sujet" name="sujet" required><option value="">Sélectionnez</option>${subjects.map(x => `<option>${escapeHtml(x)}</option>`).join('')}</select>
+          </div>
+          <div class="f-grp full">
+            <label class="f-label" for="message">Votre message<span class="req">*</span></label>
+            <textarea class="f-ta" id="message" name="message" placeholder="Décrivez brièvement votre projet, vos besoins et votre calendrier…" required></textarea>
+          </div>
+          ${(c.privacy ?? d.privacy) ? `<div class="f-grp full"><div class="f-privacy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>${richText(c.privacy ?? d.privacy)}</span></div></div>` : ''}
+          <div class="f-grp full"><button class="f-submit" type="submit">${escapeHtml(c.submitLabel ?? d.submitLabel)}</button></div>
+        </form>
+        <script>
+          document.getElementById('contact-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var form = e.target;
+            if (!form.checkValidity()) { form.reportValidity(); return; }
+            var v = function (id) { return form.querySelector('#' + id).value; };
+            var name = v('prenom') + ' ' + v('nom');
+            var subject = 'Demande de contact — ' + name + (v('structure') ? ' (' + v('structure') + ')' : '');
+            var body = 'Nom : ' + name + '\\n' +
+              'Fonction : ' + v('fonction') + '\\n' +
+              'Structure : ' + v('structure') + '\\n' +
+              'E-mail : ' + v('email') + '\\n' +
+              'Téléphone : ' + v('telephone') + '\\n' +
+              'Profil : ' + v('profil') + '\\n' +
+              'Sujet : ' + v('sujet') + '\\n\\n' +
+              v('message');
+            window.location.href = 'mailto:${email}?subject=' +
+              encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+          });
+        </script>
       </div>
-      <div class="form-field">
-        <label for="org">Structure</label>
-        <input id="org" type="text" name="org" placeholder="Commune, association, entreprise…">
-      </div>
-      <div class="form-field">
-        <label for="email">E-mail</label>
-        <input id="email" type="email" name="email" placeholder="vous@exemple.fr" required>
-      </div>
-      <div class="form-field">
-        <label for="message">Votre message</label>
-        <textarea id="message" name="message" placeholder="Décrivez votre projet et vos besoins en financement…" required></textarea>
-      </div>
-      <button class="btn btn--site btn-primary" type="submit" style="align-self:flex-start;">Envoyer →</button>
-    </form>
-    <script>
-      document.getElementById('contact-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-        var name = document.getElementById('name').value;
-        var org = document.getElementById('org').value;
-        var email = document.getElementById('email').value;
-        var message = document.getElementById('message').value;
-        var subject = 'Demande de contact — ' + name;
-        var body = 'Nom et prénom : ' + name + '\\n' +
-          'Structure : ' + org + '\\n' +
-          'E-mail : ' + email + '\\n\\n' +
-          message;
-        window.location.href = 'mailto:${email}?subject=' +
-          encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-      });
-    </script>
-    <div class="contact-info">
-      <h3>${escapeHtml(c.infoTitle)}</h3>
-      ${(c.infoParagraphs || []).map(t => `<p>${richText(t)}</p>`).join('\n      ')}
+      <aside>
+        <div class="ci-box">
+          <div class="ci-title">${escapeHtml(c.coordsTitle ?? d.coordsTitle)}</div>
+          ${f.address ? `<div class="ci-item"><div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="ci-lbl">Adresse</div><div class="ci-val">${escapeHtml(f.address).replace(/\r?\n/g, '<br>')}</div></div></div>` : ''}
+          ${f.phone ? `<div class="ci-item"><div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.9 2z"/></svg></div><div><div class="ci-lbl">Téléphone</div><div class="ci-val"><a href="tel:${telHref}">${escapeHtml(f.phone)}</a></div></div></div>` : ''}
+          ${f.email ? `<div class="ci-item"><div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></div><div><div class="ci-lbl">E-mail</div><div class="ci-val"><a href="mailto:${escapeHtml(f.email)}">${escapeHtml(f.email)}</a></div></div></div>` : ''}
+        </div>
+        ${faq.length ? `<div class="ci-faq">
+          <div class="ci-faq__title">${escapeHtml(c.faqTitle ?? d.faqTitle)}</div>
+          ${faq.map(x => `<div class="ci-faq__item"><div class="ci-faq__q">${escapeHtml(x.title)}</div><p>${richText(x.text)}</p></div>`).join('\n          ')}
+        </div>` : ''}
+      </aside>
     </div>
-  </div>
+  </section>
 </main>`;
     }
 
@@ -928,7 +984,7 @@ ${ctaBand(content)}`;
 export function render(p, pages, events, site = {}) {
   if (p.type === 'expertise' || p.type === 'secteur') return renderExpertiseOrSecteur(p, pages, site.content);
   if (p.type === 'article') return renderArticle(p, site.content);
-  return renderCustom(p, pages, events, site.content);
+  return renderCustom(p, pages, events, site.content, site.navigation);
 }
 
 // Balises SEO : les champs saisis dans l'admin priment, sinon on retombe sur
