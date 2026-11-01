@@ -453,6 +453,7 @@ export const DEFAULT_CONTENT = {
       email: 'A-REMPLACER@exemple.fr',
       eyebrow: 'Contact',
       headline: 'Contactez-nous',
+      image: 'images/contact-hero.jpg',
       formTitle: 'Parlons de vos projets',
       formText: 'Remplissez ce formulaire pour nous présenter votre structure et vos besoins. Un de nos consultants vous recontactera dans les 48h ouvrées.',
       profiles: ['Collectivité & EPCI', 'Santé (non lucratif)', 'Médico-Social & Social', 'Entreprise Publique Locale (EPL)', 'Bailleur social', 'SDIS & Service de secours', 'Entreprise privée', 'Autre'],
