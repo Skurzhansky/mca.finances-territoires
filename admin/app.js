@@ -1,5 +1,6 @@
 import { config } from './config.js';
-import { buildPages, page, homepagePage, BASE_PAGES, DEFAULT_NAVIGATION, DEFAULT_CONTENT, DEFAULT_FINBOOST, DEFAULT_COVERAGE, DEFAULT_PROJECT_CTA, DEFAULT_ABOUT, DEFAULT_ACCOMPAGNEMENT } from '../scripts/templates.mjs';
+import { buildPages, page, homepagePage, BASE_PAGES, DEFAULT_NAVIGATION, DEFAULT_CONTENT, DEFAULT_FINBOOST, DEFAULT_COVERAGE, DEFAULT_PROJECT_CTA, DEFAULT_ABOUT, DEFAULT_ACCOMPAGNEMENT, DEFAULT_HERO, DEFAULT_REUSSITES, REUSSITE_COLORS } from '../scripts/templates.mjs';
+import { migrate } from '../scripts/migrations.mjs';
 
 let state = null;
 
@@ -625,6 +626,8 @@ export async function mountAdmin(root, { user, credentials, signOut }) {
     state.events = events;
     state.expertises = expertises;
     state.secteurs = secteurs;
+    migrate('homepage', homepage);
+    migrate('navigation', navigation);
     state.homepage = homepage;
     state.originalPageSlugs = new Set([...guideArticles, ...expertises, ...secteurs].map(x => x.slug));
     state.originalPartnerImages = new Set((homepage.partners || []).map(p => p.image).filter(Boolean));
@@ -739,8 +742,12 @@ function renderHomepageForm(content) {
   draft.introCards = fill3(draft.introCards, { title: '', text: '' });
   draft.stats = fill3(draft.stats, { value: '', label: '' });
   draft.values = fill3(draft.values, { title: '', text: '' });
-  draft.testimonial = draft.testimonial || { quote: '', cite: '', footnote: '' };
-  draft.heroPhotos = draft.heroPhotos || {};
+  draft.reussites = { ...JSON.parse(JSON.stringify(DEFAULT_REUSSITES)), ...(draft.reussites || {}) };
+  draft.reussites.items = draft.reussites.items || [];
+  const ru = draft.reussites;
+  draft.hero = { ...JSON.parse(JSON.stringify(DEFAULT_HERO)), ...(draft.hero || {}) };
+  draft.hero.photos = { ...DEFAULT_HERO.photos, ...(draft.hero.photos || {}) };
+  const hr = draft.hero;
   draft.clientTypes = draft.clientTypes || [];
   draft.partners = draft.partners || [];
   draft.finboost = { ...JSON.parse(JSON.stringify(DEFAULT_FINBOOST)), ...(draft.finboost || {}) };
@@ -771,30 +778,36 @@ function renderHomepageForm(content) {
         <p id="homepage-save-status" class="admin-status admin-status--ok" style="margin:0;"></p>
 
         ${section('sec-hero', 'Bandeau principal (hero)', `
-          <label>Titre
-            <input type="text" id="f-hero-title" value="${escapeHtml(draft.heroTitle)}" required>
+          <label>Badge au-dessus du titre
+            <input type="text" id="f-hero-badge" value="${escapeHtml(hr.badge)}">
+          </label>
+          <label>Titre — les mots entre **doubles astérisques** s'affichent en couleur d'accent
+            <input type="text" id="f-hero-title" value="${escapeHtml(hr.title)}" required>
           </label>
           <label>Texte sous le titre
-            <textarea id="f-hero-lead" rows="2" required>${escapeHtml(draft.heroLead)}</textarea>
-          </label>
-          <label>Texte du bouton
-            <input type="text" id="f-cta-label" value="${escapeHtml(draft.ctaLabel)}" required>
+            <textarea id="f-hero-text" rows="3">${escapeHtml(hr.text)}</textarea>
           </label>
           <div class="admin-form-row">
-            <label>Chiffre clé
-              <input type="text" id="f-hero-stat-value" value="${escapeHtml(draft.heroStatValue)}">
+            <label>Bouton principal — texte
+              <input type="text" id="f-hero-p-label" value="${escapeHtml(hr.primaryLabel)}">
             </label>
-            <label>Légende du chiffre
-              <input type="text" id="f-hero-stat-label" value="${escapeHtml(draft.heroStatLabel)}">
+            <label>Bouton principal — lien
+              <input type="text" id="f-hero-p-href" value="${escapeHtml(hr.primaryHref)}">
             </label>
           </div>
-          <h3>Photos (6 emplacements du collage)</h3>
-          ${photoFieldHtml('hero-big', 'Grande photo (gauche)', draft.heroPhotos.big)}
-          ${photoFieldHtml('hero-tr1', 'Photo en haut à droite (1)', draft.heroPhotos.tr1)}
-          ${photoFieldHtml('hero-tr2', 'Photo en haut à droite (2)', draft.heroPhotos.tr2)}
-          ${photoFieldHtml('hero-bl', 'Photo en bas à gauche', draft.heroPhotos.bl)}
-          ${photoFieldHtml('hero-br', 'Photo en bas à droite', draft.heroPhotos.br)}
-          ${photoFieldHtml('hero-avatar', 'Photo ronde (médaillon)', draft.heroPhotos.avatar)}
+          <div class="admin-form-row">
+            <label>Bouton secondaire — texte
+              <input type="text" id="f-hero-s-label" value="${escapeHtml(hr.secondaryLabel)}">
+            </label>
+            <label>Bouton secondaire — lien
+              <input type="text" id="f-hero-s-href" value="${escapeHtml(hr.secondaryHref)}">
+            </label>
+          </div>
+          <h3>Mosaïque photographique (4 emplacements)</h3>
+          ${photoFieldHtml('hero-big', 'Grande photo (gauche, derrière le texte)', hr.photos.big)}
+          ${photoFieldHtml('hero-top', 'Photo du milieu, en haut', hr.photos.top)}
+          ${photoFieldHtml('hero-bottom', 'Photo du milieu, en bas', hr.photos.bottom)}
+          ${photoFieldHtml('hero-right', 'Photo de droite (pleine hauteur)', hr.photos.right)}
         `, true)}
 
         ${section('sec-clients', 'Types de clients (rangée d’icônes)', `
@@ -905,16 +918,30 @@ function renderHomepageForm(content) {
           <div class="admin-dep-grid">${(cv.regions || []).map((r, i) => `<label>${escapeHtml(r.name)}<input type="text" class="f-cv-region" data-i="${i}" placeholder="ex. 2 753" value="${escapeHtml(r.count || '')}"></label>`).join('')}</div></details>
         `, false)}
 
-        ${section('sec-testimonial', 'Témoignage', `
-          <label>Citation
-            <textarea id="f-test-quote" rows="3">${escapeHtml(draft.testimonial.quote)}</textarea>
-          </label>
-          <label>Auteur
-            <input type="text" id="f-test-cite" value="${escapeHtml(draft.testimonial.cite)}">
-          </label>
-          <label>Précision (sous le témoignage)
-            <input type="text" id="f-test-footnote" value="${escapeHtml(draft.testimonial.footnote)}">
-          </label>
+        ${section('sec-reussites', 'Bloc « Réussites » (carrousel)', `
+          ${[['eyebrow', 'Surtitre'], ['title', 'Titre']].map(([k, l]) => `<label>${l}<input type="text" class="f-ru" data-k="${k}" value="${escapeHtml(ru[k] || '')}"></label>`).join('')}
+          <label>Texte<textarea class="f-ru" data-k="text" rows="2">${escapeHtml(ru.text || '')}</textarea></label>
+          <div class="admin-form-row">
+            ${[['linkLabel', 'Libellé du lien sur chaque carte'], ['buttonLabel', 'Bouton sous le carrousel — libellé'], ['buttonHref', 'Bouton — lien']].map(([k, l]) => `<label>${l}<input type="text" class="f-ru" data-k="${k}" value="${escapeHtml(ru[k] || '')}"></label>`).join('')}
+          </div>
+          <h4 class="admin-subhead">Réussites (cartes)</h4>
+          <div id="f-ru-list">
+            ${ru.items.map((it, i) => `<div class="admin-body-section">
+              <div class="admin-form-row">
+                <label>Étiquette (ex. Collectivité — Rhône)<input type="text" class="f-ru-item" data-i="${i}" data-k="badge" value="${escapeHtml(it.badge || '')}"></label>
+                <label>Couleur du visuel<select class="f-ru-item" data-i="${i}" data-k="color">${Object.keys(REUSSITE_COLORS).map(c => `<option value="${c}"${c === (it.color || 'violet') ? ' selected' : ''}>${c}</option>`).join('')}</select></label>
+              </div>
+              <label>Titre<input type="text" class="f-ru-item" data-i="${i}" data-k="title" value="${escapeHtml(it.title || '')}"></label>
+              <label>Texte<textarea class="f-ru-item" data-i="${i}" data-k="text" rows="3">${escapeHtml(it.text || '')}</textarea></label>
+              <label>Lien de la carte (ex. collectivites-epci/)<input type="text" class="f-ru-item" data-i="${i}" data-k="href" value="${escapeHtml(it.href || '')}"></label>
+              <div class="admin-item-toolbar">
+                ${i > 0 ? `<button type="button" class="btn" data-ru-move="${i}" data-dir="-1">↑</button>` : ''}
+                ${i < ru.items.length - 1 ? `<button type="button" class="btn" data-ru-move="${i}" data-dir="1">↓</button>` : ''}
+                <button type="button" class="btn btn--danger" data-ru-remove="${i}">Retirer</button>
+              </div>
+            </div>`).join('')}
+          </div>
+          <button type="button" id="add-ru" class="btn">+ Ajouter une réussite</button>
         `, false)}
 
         ${section('sec-values', 'Valeurs et engagements (3 items)', `
@@ -974,12 +1001,10 @@ function renderHomepageForm(content) {
       syncFormToDraft();
       state.homepage = JSON.parse(JSON.stringify(draft));
     });
-    wirePhotoField('hero-big', ext => `images/uploads/homepage-hero-big.${ext}`, key => { draft.heroPhotos.big = key; });
-    wirePhotoField('hero-tr1', ext => `images/uploads/homepage-hero-tr1.${ext}`, key => { draft.heroPhotos.tr1 = key; });
-    wirePhotoField('hero-tr2', ext => `images/uploads/homepage-hero-tr2.${ext}`, key => { draft.heroPhotos.tr2 = key; });
-    wirePhotoField('hero-bl', ext => `images/uploads/homepage-hero-bl.${ext}`, key => { draft.heroPhotos.bl = key; });
-    wirePhotoField('hero-br', ext => `images/uploads/homepage-hero-br.${ext}`, key => { draft.heroPhotos.br = key; });
-    wirePhotoField('hero-avatar', ext => `images/uploads/homepage-hero-avatar.${ext}`, key => { draft.heroPhotos.avatar = key; });
+    wirePhotoField('hero-big', ext => `images/uploads/homepage-hero-big.${ext}`, key => { hr.photos.big = key; });
+    wirePhotoField('hero-top', ext => `images/uploads/homepage-hero-top.${ext}`, key => { hr.photos.top = key; });
+    wirePhotoField('hero-bottom', ext => `images/uploads/homepage-hero-bottom.${ext}`, key => { hr.photos.bottom = key; });
+    wirePhotoField('hero-right', ext => `images/uploads/homepage-hero-right.${ext}`, key => { hr.photos.right = key; });
     draft.partners.forEach((p, i) => {
       p._uid = p._uid || `p${Math.random().toString(36).slice(2, 8)}`;
       wirePhotoField(`partner-${i}`, ext => `images/uploads/partner-${p._uid}.${ext}`, key => { p.image = key; });
@@ -994,6 +1019,26 @@ function renderHomepageForm(content) {
       btn.addEventListener('click', () => {
         syncFormToDraft();
         draft.partners.splice(Number(btn.dataset.removePartner), 1);
+        paint();
+      });
+    });
+    document.getElementById('add-ru').addEventListener('click', () => {
+      syncFormToDraft();
+      ru.items.push({ badge: '', title: '', text: '', href: '', color: 'violet', icon: 'building' });
+      paint();
+    });
+    content.querySelectorAll('[data-ru-remove]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        syncFormToDraft();
+        ru.items.splice(Number(btn.dataset.ruRemove), 1);
+        paint();
+      });
+    });
+    content.querySelectorAll('[data-ru-move]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        syncFormToDraft();
+        const i = Number(btn.dataset.ruMove), j = i + Number(btn.dataset.dir);
+        [ru.items[i], ru.items[j]] = [ru.items[j], ru.items[i]];
         paint();
       });
     });
@@ -1023,11 +1068,13 @@ function renderHomepageForm(content) {
   }
 
   function syncFormToDraft() {
-    draft.heroTitle = document.getElementById('f-hero-title').value;
-    draft.heroLead = document.getElementById('f-hero-lead').value;
-    draft.ctaLabel = document.getElementById('f-cta-label').value;
-    draft.heroStatValue = document.getElementById('f-hero-stat-value').value;
-    draft.heroStatLabel = document.getElementById('f-hero-stat-label').value;
+    hr.badge = document.getElementById('f-hero-badge').value;
+    hr.title = document.getElementById('f-hero-title').value;
+    hr.text = document.getElementById('f-hero-text').value;
+    hr.primaryLabel = document.getElementById('f-hero-p-label').value;
+    hr.primaryHref = document.getElementById('f-hero-p-href').value;
+    hr.secondaryLabel = document.getElementById('f-hero-s-label').value;
+    hr.secondaryHref = document.getElementById('f-hero-s-href').value;
     content.querySelectorAll('.f-ct-label').forEach(el => { draft.clientTypes[Number(el.dataset.i)].label = el.value; });
     content.querySelectorAll('.f-acc').forEach(el => { draft.accompagnement[el.dataset.k] = el.value; });
     content.querySelectorAll('.f-acc-card').forEach(el => { draft.accompagnement.cards[Number(el.dataset.i)][el.dataset.k] = el.value.trim(); });
@@ -1043,9 +1090,8 @@ function renderHomepageForm(content) {
     content.querySelectorAll('.f-cv').forEach(el => { draft.coverage[el.dataset.k] = el.value; });
     content.querySelectorAll('.f-cv-card').forEach(el => { draft.coverage.cards[Number(el.dataset.i)][el.dataset.k] = el.value; });
     content.querySelectorAll('.f-cv-region').forEach(el => { draft.coverage.regions[Number(el.dataset.i)].count = el.value.trim(); });
-    draft.testimonial.quote = document.getElementById('f-test-quote').value;
-    draft.testimonial.cite = document.getElementById('f-test-cite').value;
-    draft.testimonial.footnote = document.getElementById('f-test-footnote').value;
+    content.querySelectorAll('.f-ru').forEach(el => { ru[el.dataset.k] = el.value; });
+    content.querySelectorAll('.f-ru-item').forEach(el => { ru.items[Number(el.dataset.i)][el.dataset.k] = el.value; });
     draft.valuesTitle = document.getElementById('f-values-title').value;
     content.querySelectorAll('.f-value-title').forEach(el => { draft.values[Number(el.dataset.i)].title = el.value; });
     content.querySelectorAll('.f-value-text').forEach(el => { draft.values[Number(el.dataset.i)].text = el.value; });
@@ -1172,6 +1218,11 @@ function renderNavigationForm(content) {
           <button type="button" class="btn" data-add="footer.columns" data-template="column">+ Ajouter une colonne</button>
         `, false)}
 
+        ${section('Pied de page — liens légaux (dernière ligne)', `
+          ${(f.legal || []).map((item, i) => linkFieldsHtml('footer.legal', item, i, (f.legal || []).length)).join('')}
+          <button type="button" class="btn" data-add="footer.legal" data-template="link">+ Ajouter un lien</button>
+        `, false)}
+
         <div class="admin-form__actions">
           <button type="submit" class="btn btn--site btn-primary">Enregistrer</button>
           ${previewButton('', 'Aperçu de la page d’accueil')}
@@ -1212,23 +1263,36 @@ const PAGE_FIELDS = {
   'les-reussites-de-nos-clients': [
     { k: 'title', l: 'Titre (menu et fil d’Ariane)' },
     { k: 'headline', l: 'Titre affiché sur la photo — vide = titre ci-dessus' },
+    { k: 'eyebrow', l: 'Pastille au-dessus du titre' },
     { k: 'bannerImage', l: 'Photo de bandeau', type: 'photo' },
-    { k: 'bannerCtaLabel', l: 'Libellé du bouton du bandeau' },
-    { k: 'bannerCtaHref', l: 'Lien du bouton du bandeau' },
     { k: 'lead', l: 'Chapô', rows: 3 },
-    { k: 'testimonial', l: 'Témoignage', type: 'group', fields: [
-      { k: 'meta', l: 'Surtitre' }, { k: 'quote', l: 'Citation', rows: 3 }, { k: 'cite', l: 'Auteur' }, { k: 'footnote', l: 'Précision' },
+    { k: 'sectionEyebrow', l: 'Surtitre de la grille' },
+    { k: 'sectionTitle', l: 'Titre de la grille' },
+    { k: 'cases', l: 'Réussites (cartes)', type: 'items', template: { badge: '', title: '', text: '', amount: '', caption: '', href: '', color: 'violet' }, fields: [
+      { k: 'badge', l: 'Étiquette (ex. Collectivité — Rhône)' }, { k: 'title', l: 'Titre' }, { k: 'text', l: 'Texte', rows: 3 },
+      { k: 'amount', l: 'Montant (ex. 2,5 M€)' }, { k: 'caption', l: 'Légende sous le montant' }, { k: 'href', l: 'Lien de la carte (ex. collectivites-epci/)' },
+      { k: 'color', l: 'Couleur de la barre : violet, turquoise, magenta, indigo, prune, orange, vert' },
     ] },
-    { k: 'stats', l: 'Chiffres clés', type: 'items', template: { value: '', label: '' }, fields: [{ k: 'value', l: 'Chiffre' }, { k: 'label', l: 'Légende' }] },
+    { k: 'cta', l: 'Bandeau d’appel à l’action', type: 'group', fields: [
+      { k: 'title', l: 'Titre' }, { k: 'text', l: 'Texte', rows: 2 }, { k: 'label', l: 'Bouton' },
+    ] },
   ],
   contact: [
     { k: 'title', l: 'Titre (menu et fil d’Ariane)' },
     { k: 'headline', l: 'Titre affiché (H1) — vide = titre ci-dessus' },
+    { k: 'eyebrow', l: 'Pastille au-dessus du titre' },
     { k: 'lead', l: 'Chapô', rows: 3 },
     { k: 'image', l: 'Photo de bandeau', type: 'photo' },
     { k: 'email', l: 'Adresse e-mail destinataire du formulaire' },
-    { k: 'infoTitle', l: 'Titre de l’encart' },
-    { k: 'infoParagraphs', l: 'Paragraphes de l’encart', type: 'strings', rows: 3, hint: 'Un lien s’écrit [libellé](guide/).' },
+    { k: 'formTitle', l: 'Titre du formulaire' },
+    { k: 'formText', l: 'Texte sous le titre du formulaire', rows: 2 },
+    { k: 'profiles', l: 'Profils de structure (liste déroulante)', type: 'strings', rows: 1 },
+    { k: 'subjects', l: 'Sujets de demande (liste déroulante)', type: 'strings', rows: 1 },
+    { k: 'privacy', l: 'Mention RGPD', rows: 3, hint: 'Un lien s’écrit [libellé](mailto:adresse).' },
+    { k: 'submitLabel', l: 'Bouton d’envoi' },
+    { k: 'coordsTitle', l: 'Titre de l’encart coordonnées (adresse, téléphone, e-mail viennent du pied de page)' },
+    { k: 'faqTitle', l: 'Titre des questions fréquentes' },
+    { k: 'faq', l: 'Questions fréquentes', type: 'items', template: { title: '', text: '' }, fields: [{ k: 'title', l: 'Question' }, { k: 'text', l: 'Réponse', rows: 2 }] },
   ],
   guide: [
     { k: 'title', l: 'Titre' },

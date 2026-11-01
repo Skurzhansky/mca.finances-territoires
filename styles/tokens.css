@@ -5,11 +5,29 @@
 */
 
 :root {
-  /* Couleurs — marque */
-  --purple-900: #2B1640; /* titres, fonds sombres, footer */
-  --purple-700: #4A2568; /* accent principal : boutons, actif, montants clés */
-  --purple-600: #5B2D80; /* dégradé / survol */
-  --purple-500: #7A3F9E; /* accent secondaire, liseré dispositif */
+  /* Charte BPCE (maquette site-bpce-ft.html + référentiel graphique) */
+  --vp: #581D74;  /* violet principal */
+  --vm: #66327A;  /* violet secondaire */
+  --vl: #9176B4;  /* mauve */
+  --vpr: #8A5599; /* violet complémentaire */
+  --mg: #B34A8C;  /* magenta */
+  --rm: #D676AD;  /* rose */
+  --tq: #01A193;  /* turquoise BPCE — couleur d'accent (remplace le jaune de la maquette) */
+  --bl: #00749D;
+  --in: #55579E;
+  --bp: #6694CE;
+  --or: #F08050;
+  --vt: #8AB973;
+  --bg: #FAF8FC;
+  --gf: #7F7F7F;
+  --gc: #EAEAEA;
+  --accent: var(--tq);
+
+  /* Couleurs — marque (alias historiques, alignés sur la charte) */
+  --purple-900: #3F1356; /* fonds sombres, dégradés */
+  --purple-700: var(--vp); /* accent principal : boutons, actif, titres */
+  --purple-600: var(--vm); /* dégradé / survol */
+  --purple-500: var(--vpr); /* accent secondaire, liseré dispositif */
   --purple-100: #F3F0F7; /* surbrillance de ligne, fond badge échéance */
   --purple-050: #EFEBF5; /* fond statut "En cours" */
 
@@ -21,7 +39,7 @@
   --border: #9D7CA9;     /* bordures des cartes */
   --border-soft: #9D7CA9;/* séparateurs internes */
   --track: #EAE6EF;      /* fond de barre de progression */
-  --canvas: #FAF5FC;     /* fond de page */
+  --canvas: #FAF8FC;     /* fond de page */
   --white: #FFFFFF;      /* cartes */
 
   /* Couleurs — statuts (strictement sémantiques) */
@@ -34,36 +52,36 @@
   --neutral: #6B6470;
   --neutral-bg: #F0EDF3;   /* abandonné, dem. à déposer */
 
-  /* Typographie — Inter partout, y compris les chiffres. Pas de monospace. */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* Typographie — Ubuntu (référentiel BPCE), Arial / Helvetica en secours. */
+  --font-sans: 'Ubuntu', Arial, Helvetica, sans-serif;
 
-  --h1-site-size: 34px;
-  --h1-site-line: 1.12;
-  --h1-site-weight: 500;
-  --h1-site-tracking: -0.7px;
+  --h1-site-size: 40px;
+  --h1-site-line: 1.15;
+  --h1-site-weight: 700;
+  --h1-site-tracking: -0.5px;
 
-  --h2-section-size: 21px; /* 20–23 */
-  --h2-section-weight: 500;
+  --h2-section-size: 34px;
+  --h2-section-weight: 700;
   --h2-section-tracking: -0.3px;
 
-  --card-title-size: 15px;
-  --card-title-weight: 500;
+  --card-title-size: 17px;
+  --card-title-weight: 700;
 
-  --row-title-size: 13.5px;
-  --row-title-weight: 600;
+  --row-title-size: 16px;
+  --row-title-weight: 500;
 
-  --body-size: 13.5px; /* 13–14 */
+  --body-size: 16px;
   --body-weight: 400;
-  --body-line: 1.5;
+  --body-line: 1.6;
 
-  --caption-size: 11px; /* 10.5–11.5 */
+  --caption-size: 14px;
   --caption-weight: 400;
   --caption-color: var(--muted);
 
-  --meta-size: 9.5px; /* 9–10 */
-  --meta-weight: 400;
-  --meta-color: var(--muted-2);
-  --meta-tracking: 0.5px; /* 0.3–0.8 */
+  --meta-size: 11px;
+  --meta-weight: 700;
+  --meta-color: var(--mg);
+  --meta-tracking: 1.2px;
 
   --sum-weight: 600;
   --sum-key-color: var(--purple-700); /* "Perçu" */
@@ -71,7 +89,7 @@
 
   /* Rayons */
   --radius-card: 9px;   /* 8–10 */
-  --radius-button: 8px;
+  --radius-button: 50px;
   --radius-chip: 4px;
   --radius-pill: 999px;
   --radius-badge: 3px;
@@ -81,7 +99,7 @@
   --space-card-gap: 9px;     /* 8–10 */
   --row-height: 58px;
   --page-padding-app: 40px;
-  --page-padding-site: 120px;
+  --page-padding-site: 32px;
 
   /* Liseré d'accent — 3px, pleine hauteur de la carte */
   --stripe-width: 3px;
