@@ -4,7 +4,7 @@
   La hiérarchie vient de la taille et de la graisse, pas de la couleur.
 */
 
-@import url('tokens.css');
+@import url('tokens.css?v=20261101b');
 
 * { box-sizing: border-box; }
 
