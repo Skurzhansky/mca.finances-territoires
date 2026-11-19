@@ -108,47 +108,66 @@
         <div class="rs-counter__value">1,2 Md€</div>
         <div class="rs-counter__label">obtenus pour les projets de nos clients</div>
       </div>
-      <div class="rs-grid">
-        <a class="rs-card" href="../collectivites-epci/"><span class="rs-bar" style="background:linear-gradient(135deg,#581D74,#9176B4)"></span>
+      
+      <div class="rs-filters" data-rs-filters>
+        <div class="rs-filter-group">
+          <span class="rs-filter-group__label">Type de porteur</span>
+          <div class="rs-filter-group__chips">
+            <button type="button" class="rs-chip is-active" data-rs-filter="type" data-rs-value="">Tous</button>
+            <button type="button" class="rs-chip" data-rs-filter="type" data-rs-value="Collectivité">Collectivité</button><button type="button" class="rs-chip" data-rs-filter="type" data-rs-value="Association sociale">Association sociale</button><button type="button" class="rs-chip" data-rs-filter="type" data-rs-value="Association médico-sociale">Association médico-sociale</button><button type="button" class="rs-chip" data-rs-filter="type" data-rs-value="Bailleur social">Bailleur social</button>
+          </div>
+        </div>
+        <div class="rs-filter-group">
+          <span class="rs-filter-group__label">Région</span>
+          <div class="rs-filter-group__chips">
+            <button type="button" class="rs-chip is-active" data-rs-filter="region" data-rs-value="">Toutes</button>
+            <button type="button" class="rs-chip" data-rs-filter="region" data-rs-value="Île-de-France">Île-de-France</button><button type="button" class="rs-chip" data-rs-filter="region" data-rs-value="PACA">PACA</button><button type="button" class="rs-chip" data-rs-filter="region" data-rs-value="Bourgogne-Franche-Comté">Bourgogne-Franche-Comté</button><button type="button" class="rs-chip" data-rs-filter="region" data-rs-value="Nouvelle-Aquitaine">Nouvelle-Aquitaine</button>
+          </div>
+        </div>
+      </div>
+      <div class="rs-grid" data-rs-grid>
+        <a class="rs-card" href="../collectivites-epci/" data-rs-type="Collectivité" data-rs-region="Île-de-France"><span class="rs-bar" style="background:linear-gradient(135deg,#581D74,#9176B4)"></span>
           <span class="rs-badge">Collectivité — Île-de-France</span>
           <h3 class="rs-title">Rénovation énergétique de groupes scolaires</h3>
           <p class="rs-text">Commune de 25 000 hab. accompagnée 3 ans. 6 dossiers montés avec succès sur son programme de rénovation.</p>
           <div class="rs-amount">2,5 M€</div>
           <div class="rs-caption">mobilisés — 6 montages gagnants sur 3 ans</div></a>
-        <a class="rs-card" href="../collectivites-epci/"><span class="rs-bar" style="background:linear-gradient(135deg,#55579E,#6694CE)"></span>
+        <a class="rs-card" href="../collectivites-epci/" data-rs-type="Collectivité" data-rs-region="Île-de-France"><span class="rs-bar" style="background:linear-gradient(135deg,#55579E,#6694CE)"></span>
           <span class="rs-badge">Collectivité — Île-de-France</span>
           <h3 class="rs-title">Gymnase, îlots de fraîcheur &amp; espace culturel</h3>
           <p class="rs-text">Commune de 11 000 hab. — 4 ans d&#39;accompagnement. 20 dossiers sur projets variés.</p>
           <div class="rs-amount">2,8 M€</div>
           <div class="rs-caption">mobilisés — 20 montages gagnants sur 4 ans</div></a>
-        <a class="rs-card" href="../collectivites-epci/"><span class="rs-bar" style="background:linear-gradient(135deg,#01A193,#00749D)"></span>
+        <a class="rs-card" href="../collectivites-epci/" data-rs-type="Collectivité" data-rs-region="PACA"><span class="rs-bar" style="background:linear-gradient(135deg,#01A193,#00749D)"></span>
           <span class="rs-badge">Collectivité — PACA</span>
           <h3 class="rs-title">Restauration d&#39;une église &amp; groupe scolaire</h3>
           <p class="rs-text">Commune de 2 000 hab. — 3 ans. Restauration du patrimoine local et rénovation du groupe scolaire.</p>
           <div class="rs-amount">2,2 M€</div>
           <div class="rs-caption">mobilisés — 6 montages gagnants sur 3 ans</div></a>
-        <a class="rs-card" href="../structures-medico-sociales/"><span class="rs-bar" style="background:linear-gradient(135deg,#8A5599,#B34A8C)"></span>
+        <a class="rs-card" href="../structures-medico-sociales/" data-rs-type="Association sociale" data-rs-region="Bourgogne-Franche-Comté"><span class="rs-bar" style="background:linear-gradient(135deg,#8A5599,#B34A8C)"></span>
           <span class="rs-badge">Association sociale — Bourgogne-Franche-Comté</span>
           <h3 class="rs-title">Friche industrielle &amp; récupération de chaleur fatale</h3>
           <p class="rs-text">Accompagnée 1 an sur la reconversion d&#39;une friche et un dispositif de chaleur fatale.</p>
           <div class="rs-amount">555 000 €</div>
           <div class="rs-caption">mobilisés — 5 montages gagnants en 1 an</div></a>
-        <a class="rs-card" href="../structures-medico-sociales/"><span class="rs-bar" style="background:linear-gradient(135deg,#B34A8C,#8A5599)"></span>
+        <a class="rs-card" href="../structures-medico-sociales/" data-rs-type="Association médico-sociale" data-rs-region="Nouvelle-Aquitaine"><span class="rs-bar" style="background:linear-gradient(135deg,#B34A8C,#8A5599)"></span>
           <span class="rs-badge">Association médico-sociale — Nouvelle-Aquitaine</span>
           <h3 class="rs-title">Résidence intergénérationnelle</h3>
           <p class="rs-text">Accompagnée 2 ans dans la structuration financière d&#39;un projet de résidence intergénérationnelle innovante.</p>
           <div class="rs-amount">900 000 €</div>
           <div class="rs-caption">mobilisés — 6 montages gagnants sur 2 ans</div></a>
-        <a class="rs-card" href="../logement-social/"><span class="rs-bar" style="background:linear-gradient(135deg,#581D74,#9176B4)"></span>
+        <a class="rs-card" href="../logement-social/" data-rs-type="Bailleur social" data-rs-region="Île-de-France"><span class="rs-bar" style="background:linear-gradient(135deg,#581D74,#9176B4)"></span>
           <span class="rs-badge">Bailleur social — Île-de-France</span>
           <h3 class="rs-title">Projet de friche</h3>
           <p class="rs-text">Bailleur social accompagné 1 an pour le financement d&#39;une ambitieuse opération de reconversion de friche.</p>
           <div class="rs-amount">2 M€</div>
           <div class="rs-caption">mobilisés — 1 montage gagnant en 1 an</div></a>
       </div>
+      <p class="rs-empty" data-rs-empty hidden>Aucune réussite ne correspond à ces filtres pour le moment.</p>
     </div>
   </section>
 </main>
+<script src="../reussites-filtres.js" defer></script>
 <section class="project-cta project-cta--page">
   <div class="project-cta__inner">
     <h2 class="project-cta__title">Votre projet peut être notre prochaine réussite</h2>

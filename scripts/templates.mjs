@@ -861,6 +861,31 @@ ${ctaBand(content)}`;
       const cases = (c.cases || d.cases).filter(x => x.title || x.text);
       const cta = { ...d.cta, ...(c.cta || {}) };
       const counterValue = c.counterValue ?? d.counterValue;
+      // Le badge de chaque cas suit le format « Type — Région » (ex. « Collectivité — Rhône ») :
+      // on le ré-utilise pour les filtres plutôt que d'ajouter un champ dédié à saisir en double.
+      const splitBadge = (badge) => {
+        const parts = String(badge || '').split(' — ');
+        return { type: (parts[0] || '').trim(), region: (parts[1] || '').trim() };
+      };
+      const types = [...new Set(cases.map(x => splitBadge(x.badge).type).filter(Boolean))];
+      const regions = [...new Set(cases.map(x => splitBadge(x.badge).region).filter(Boolean))];
+      const filters = (types.length > 1 || regions.length > 1) ? `
+      <div class="rs-filters" data-rs-filters>
+        ${types.length > 1 ? `<div class="rs-filter-group">
+          <span class="rs-filter-group__label">Type de porteur</span>
+          <div class="rs-filter-group__chips">
+            <button type="button" class="rs-chip is-active" data-rs-filter="type" data-rs-value="">Tous</button>
+            ${types.map(t => `<button type="button" class="rs-chip" data-rs-filter="type" data-rs-value="${escapeHtml(t)}">${escapeHtml(t)}</button>`).join('')}
+          </div>
+        </div>` : ''}
+        ${regions.length > 1 ? `<div class="rs-filter-group">
+          <span class="rs-filter-group__label">Région</span>
+          <div class="rs-filter-group__chips">
+            <button type="button" class="rs-chip is-active" data-rs-filter="region" data-rs-value="">Toutes</button>
+            ${regions.map(r => `<button type="button" class="rs-chip" data-rs-filter="region" data-rs-value="${escapeHtml(r)}">${escapeHtml(r)}</button>`).join('')}
+          </div>
+        </div>` : ''}
+      </div>` : '';
       return `${photoHero(p, { eyebrow: c.eyebrow ?? d.eyebrow, title: c.headline || c.title, lead: c.lead, image: c.bannerImage })}
 <main>
   <section class="rs-section">
@@ -873,21 +898,26 @@ ${ctaBand(content)}`;
         <div class="rs-counter__value">${escapeHtml(counterValue)}</div>
         <div class="rs-counter__label">${escapeHtml(c.counterLabel ?? d.counterLabel)}</div>
       </div>` : ''}
-      <div class="rs-grid">
+      ${filters}
+      <div class="rs-grid" data-rs-grid>
         ${cases.map(x => {
           const bg = REUSSITE_COLORS[x.color] || REUSSITE_COLORS.violet;
+          const { type, region } = splitBadge(x.badge);
           const inner = `<span class="rs-bar" style="background:${bg}"></span>
           ${x.badge ? `<span class="rs-badge">${escapeHtml(x.badge)}</span>` : ''}
           <h3 class="rs-title">${escapeHtml(x.title)}</h3>
           <p class="rs-text">${richText(x.text)}</p>
           ${x.amount ? `<div class="rs-amount">${escapeHtml(x.amount)}</div>` : ''}
           ${x.caption ? `<div class="rs-caption">${escapeHtml(x.caption)}</div>` : ''}`;
-          return x.href ? `<a class="rs-card" href="../${escapeHtml(x.href)}">${inner}</a>` : `<div class="rs-card">${inner}</div>`;
+          const attrs = ` data-rs-type="${escapeHtml(type)}" data-rs-region="${escapeHtml(region)}"`;
+          return x.href ? `<a class="rs-card" href="../${escapeHtml(x.href)}"${attrs}>${inner}</a>` : `<div class="rs-card"${attrs}>${inner}</div>`;
         }).join('\n        ')}
       </div>
+      <p class="rs-empty" data-rs-empty hidden>Aucune réussite ne correspond à ces filtres pour le moment.</p>
     </div>
   </section>
 </main>
+${filters ? '<script src="../reussites-filtres.js" defer></script>' : ''}
 ${cta.title ? `<section class="project-cta project-cta--page">
   <div class="project-cta__inner">
     <h2 class="project-cta__title">${escapeHtml(cta.title)}</h2>
