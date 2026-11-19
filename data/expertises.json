@@ -186,11 +186,12 @@
   {
     "slug": "nos-formations",
     "title": "Nos formations",
+    "headline": "Formations : développez vos compétences sur les Aides & Subventions",
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
     "image": "images/agence-bancaire.jpg",
-    "lead": "Nous formons vos équipes aux méthodes et outils du financement de projets, pour gagner en autonomie.",
+    "lead": "Animées par des spécialistes du financement non bancaire, nos formations allient vision stratégique, méthodologie, retours d'expérience et outils opérationnels, afin de favoriser une mise en œuvre rapide et efficace.",
     "features": [
       {
         "title": "Modules pratiques",
@@ -201,7 +202,7 @@
         "text": "Présentiel, distanciel ou sur mesure selon vos besoins."
       },
       {
-        "title": "20 ans de pratique",
+        "title": "13 ans de pratique",
         "text": "Intervenants issus du financement territorial."
       }
     ]

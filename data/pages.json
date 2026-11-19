@@ -7,7 +7,7 @@
   "pages": {
     "finances-et-territoires": {
       "title": "Qui sommes-nous ?",
-      "lead": "Finances & Territoires est une filiale du Groupe BPCE, experte du financement public et privé des projets d'investissement des territoires depuis 20 ans.",
+      "lead": "Finances & Territoires est une filiale du Groupe BPCE, experte du financement public et privé des projets d'investissement des territoires depuis 13 ans.",
       "stats": [
         {
           "value": "1,2 Md€",
@@ -18,7 +18,7 @@
           "label": "dispositifs référencés"
         },
         {
-          "value": "20 ans",
+          "value": "13 ans",
           "label": "d'expertise territoriale"
         }
       ],
@@ -66,7 +66,7 @@
     },
     "contact": {
       "title": "Contact",
-      "lead": "Un projet à financer ? Parlons-en. Décrivez-nous votre besoin, un consultant vous recontacte pour un premier échange.",
+      "lead": "Un projet à financer ? Parlons-en. Décrivez-nous votre besoin, notre équipe vous recontacte pour un premier échange.",
       "email": "A-REMPLACER@exemple.fr",
       "infoTitle": "Finances & Territoires",
       "infoParagraphs": [

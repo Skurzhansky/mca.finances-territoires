@@ -190,7 +190,7 @@ export const DEFAULT_FINBOOST = {
   toolLabel: 'FinBoost — notre outil innovant interne',
   toolText: "Votre consultant s'appuie sur **FinBoost**, notre plateforme propriétaire, pour ne laisser passer aucune opportunité.",
   features: [
-    { title: '+19 000 dispositifs', text: 'Nationaux et européens, mis à jour en continu' },
+    { title: '+19 000 dispositifs', text: "Nationaux et européens, mis à jour en continu par une équipe d'une vingtaine de personnes appuyée par l'IA" },
     { title: 'Moteur multicritères', text: 'Territoire, statut, +80 thématiques croisées' },
     { title: 'Alertes personnalisées', text: "Notification dès qu'une aide s'ouvre sur vos projets" },
     { title: '~1 500 sources privées', text: 'Fondations et fonds de dotation mis à jour quotidiennement' },
@@ -210,7 +210,7 @@ export const DEFAULT_FINBOOST = {
 
 export const DEFAULT_PROJECT_CTA = {
   title: 'Analysons vos projets, identifions vos financements',
-  text: 'Nos experts évaluent votre situation et identifient les aides accessibles pour votre structure. Échanges gratuits et sans engagement.',
+  text: "Décrivez-nous votre projet pour un premier échange gratuit et sans engagement avec nos équipes. Nos experts identifient ensuite précisément les aides accessibles à votre structure.",
   primaryLabel: 'Nous contacter →',
   primaryHref: 'contact/',
   secondaryLabel: 'Découvrir nos solutions →',
@@ -222,9 +222,9 @@ export const DEFAULT_ACCOMPAGNEMENT = {
   title: 'De la détection au pilotage des aides',
   text: 'Un conseil stratégique expert à chaque étape du cycle de financement.',
   cards: [
-    { tag: 'Détection des opportunités', title: "Veille continue & Note d'opportunité", text: 'Identification de toutes les aides mobilisables — en continu ou sur un projet ciblé.', items: ['+19 000 mesures de soutien référencées', 'Alertes et veille personnalisées par secteur', 'Détection des AAP de fondations', 'Cartographie priorisée des financements'], linkLabel: 'En savoir plus', linkHref: 'detections-des-opportunites/' },
-    { tag: 'Mobilisation des aides', title: 'Montage des dossiers', text: "Constitution et dépôt des dossiers d'aides françaises et européennes.", items: ['Rédaction des mémoires techniques', 'Recensement des pièces administratives', "Suivi de l'instruction des demandes", 'Principalement rémunéré au succès'], linkLabel: 'En savoir plus', linkHref: 'mobilisation-des-aides/' },
-    { tag: 'Pilotage des aides', title: 'Gestion des aides obtenues', text: "Pilotage des demandes de paiement et accompagnement jusqu'au versement final.", items: ['Suivi des échéances et montants à percevoir', 'Alertes personnalisées sur les versements', 'Assistance à la liquidation', "Bilan d'exécution"], linkLabel: 'En savoir plus', linkHref: 'gestion-des-aides/' },
+    { tag: 'Détection des opportunités', title: "Veille continue & Note d'opportunité", text: 'Identification de toutes les aides mobilisables, pilotée par un consultant — en continu ou sur un projet ciblé.', items: ['+19 000 mesures de soutien référencées', 'Alertes et veille personnalisées par secteur', 'Détection des AAP de fondations', 'Cartographie priorisée des financements'], linkLabel: 'En savoir plus', linkHref: 'detections-des-opportunites/' },
+    { tag: 'Mobilisation des aides', title: 'Montage des dossiers', text: "Constitution et dépôt des dossiers d'aides françaises et européennes, par un consultant expérimenté.", items: ['Rédaction des mémoires techniques', 'Recensement des pièces administratives', "Suivi de l'instruction des demandes", 'Principalement rémunéré au succès'], linkLabel: 'En savoir plus', linkHref: 'mobilisation-des-aides/' },
+    { tag: 'Pilotage des aides', title: 'Gestion des aides obtenues', text: "Pilotage des demandes de paiement et accompagnement jusqu'au versement final.", items: ['Suivi des échéances et montants à percevoir', 'Alertes personnalisées sur les échéances administratives et financières', 'Assistance à la liquidation', "Appui aux bilans d'exécution (export et restitution projet par projet)"], linkLabel: 'En savoir plus', linkHref: 'gestion-des-aides/' },
     { tag: 'Fonds privés / Mécénat', title: 'Fonds de dotation & collecte de fonds privés', text: 'De la création de votre fonds de dotation à la mobilisation de mécènes.', items: ['Création et développement de fonds de dotation', 'Stratégie de mécénat et ciblage des mécènes', 'Recherche de mécènes et AAP de fondations', '~1 500 sources de financements privés'], linkLabel: 'En savoir plus', linkHref: 'fonds-de-dotation-mecenat-local/' },
   ],
 };
@@ -297,9 +297,9 @@ export const DEFAULT_COVERAGE = {
     { value: '100', suffix: '%', text: 'du territoire couvert\nDROM-COM inclus' },
     { value: '~1 500', suffix: '', text: 'sources de financements privés\nfondations & fonds de dotation' },
   ],
-  hqLabel: 'Notre siège — Savoie',
-  hqValue: '2 753',
-  hqText: 'dispositifs disponibles\nsur le département',
+  hqLabel: 'Moyenne nationale',
+  hqValue: '3 000',
+  hqText: 'dispositifs disponibles\npar département, en moyenne',
   hqRegion: 'd-73',
   regions: [
     { id: 'd-01', name: "Ain (01)", count: '' },
@@ -455,7 +455,7 @@ export const DEFAULT_CONTENT = {
       headline: 'Contactez-nous',
       image: 'images/contact-hero.jpg',
       formTitle: 'Parlons de vos projets',
-      formText: 'Remplissez ce formulaire pour nous présenter votre structure et vos besoins. Un de nos consultants vous recontactera dans les 48h ouvrées.',
+      formText: 'Remplissez ce formulaire pour nous présenter votre structure et vos besoins. Nous vous recontacterons sous 48h ouvrées.',
       profiles: ['Collectivité & EPCI', 'Santé (non lucratif)', 'Médico-Social & Social', 'Entreprise Publique Locale (EPL)', 'Bailleur social', 'SDIS & Service de secours', 'Entreprise privée', 'Autre'],
       subjects: ["Détection d'opportunités — Veille continue", "Note d'opportunité — étude de faisabilité", 'Montage de dossiers de subvention', 'Pilotage et gestion des aides obtenues', 'Fonds de dotation & mécénat', 'Formation', 'Autre demande'],
       privacy: "En soumettant ce formulaire, vous acceptez que vos données soient utilisées pour vous recontacter dans le cadre de votre demande. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données en contactant [info@finances-territoires.fr](mailto:info@finances-territoires.fr).",
@@ -465,7 +465,7 @@ export const DEFAULT_CONTENT = {
       faq: [
         { title: 'Le premier échange est-il gratuit ?', text: 'Oui, tous nos échanges exploratoires sont gratuits et sans engagement. Nous vous orientons avant toute mission.' },
         { title: "Quelle est votre zone d'intervention ?", text: 'Tout le territoire national, y compris les DROM-COM. Notre équipe peut intervenir sur place ou à distance.' },
-        { title: 'Combien de temps dure une première étude ?', text: "Une Note d'opportunité est remise en quelques jours après l'échange initial. Pour une Veille continue, la mise en route est rapide." },
+        { title: 'Combien de temps dure une première étude ?', text: "Une Note d'opportunité s'inscrit sur une échéance courte, généralement de quelques semaines selon la complexité du projet, après l'échange initial. Pour une Veille continue, la mise en route est rapide." },
       ],
     },
     guide: {
@@ -714,7 +714,7 @@ export function pageBanner(p) {
 export function renderExpertiseOrSecteur(p, pages, content) {
   return `<main class="container">
   <div class="page-hero">
-    <h1>${escapeHtml(p.title)}</h1>
+    <h1>${escapeHtml(p.headline || p.title)}</h1>
     <p class="lead">${richText(p.lead)}</p>
     <a class="btn btn--site btn-primary" href="../contact/">Contactez-nous →</a>
   </div>${pageBanner(p)}
@@ -957,9 +957,9 @@ ${cta.title ? `<section class="project-cta project-cta--page">
       <aside>
         <div class="ci-box">
           <div class="ci-title">${escapeHtml(c.coordsTitle ?? d.coordsTitle)}</div>
-          ${f.address ? `<div class="ci-item"><div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="ci-lbl">Adresse</div><div class="ci-val">${escapeHtml(f.address).replace(/\r?\n/g, '<br>')}</div></div></div>` : ''}
-          ${f.phone ? `<div class="ci-item"><div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.9 2z"/></svg></div><div><div class="ci-lbl">Téléphone</div><div class="ci-val"><a href="tel:${telHref}">${escapeHtml(f.phone)}</a></div></div></div>` : ''}
-          ${f.email ? `<div class="ci-item"><div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></div><div><div class="ci-lbl">E-mail</div><div class="ci-val"><a href="mailto:${escapeHtml(f.email)}">${escapeHtml(f.email)}</a></div></div></div>` : ''}
+          ${f.address ? `<div class="ci-item"><div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="ci-val">${escapeHtml(f.address).replace(/\r?\n/g, '<br>')}</div></div></div>` : ''}
+          ${f.phone ? `<div class="ci-item"><div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.9 2z"/></svg></div><div><div class="ci-val"><a href="tel:${telHref}">${escapeHtml(f.phone)}</a></div></div></div>` : ''}
+          ${f.email ? `<div class="ci-item"><div class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></div><div><div class="ci-val"><a href="mailto:${escapeHtml(f.email)}">${escapeHtml(f.email)}</a></div></div></div>` : ''}
         </div>
         ${faq.length ? `<div class="ci-faq">
           <div class="ci-faq__title">${escapeHtml(c.faqTitle ?? d.faqTitle)}</div>
