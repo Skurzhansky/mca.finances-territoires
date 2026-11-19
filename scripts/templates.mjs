@@ -435,6 +435,8 @@ export const DEFAULT_CONTENT = {
       lead: 'Des résultats concrets, obtenus grâce à notre expertise et notre engagement aux côtés de chaque client.',
       sectionEyebrow: 'Réussites',
       sectionTitle: 'Des projets financés, des territoires transformés',
+      counterValue: '1,2 Md€',
+      counterLabel: 'obtenus pour les projets de nos clients',
       cases: [
         { badge: 'Collectivité — Île-de-France', title: 'Rénovation énergétique de groupes scolaires', text: 'Commune de 25 000 hab. accompagnée 3 ans. 6 dossiers montés avec succès sur son programme de rénovation.', amount: '2,5 M€', caption: 'mobilisés — 6 montages gagnants sur 3 ans', href: 'collectivites-epci/', color: 'violet' },
         { badge: 'Collectivité — Île-de-France', title: 'Gymnase, îlots de fraîcheur & espace culturel', text: "Commune de 11 000 hab. — 4 ans d'accompagnement. 20 dossiers sur projets variés.", amount: '2,8 M€', caption: 'mobilisés — 20 montages gagnants sur 4 ans', href: 'collectivites-epci/', color: 'indigo' },
@@ -858,6 +860,7 @@ ${ctaBand(content)}`;
       const d = DEFAULT_CONTENT.pages['les-reussites-de-nos-clients'];
       const cases = (c.cases || d.cases).filter(x => x.title || x.text);
       const cta = { ...d.cta, ...(c.cta || {}) };
+      const counterValue = c.counterValue ?? d.counterValue;
       return `${photoHero(p, { eyebrow: c.eyebrow ?? d.eyebrow, title: c.headline || c.title, lead: c.lead, image: c.bannerImage })}
 <main>
   <section class="rs-section">
@@ -866,6 +869,10 @@ ${ctaBand(content)}`;
         ${c.sectionEyebrow ?? d.sectionEyebrow ? `<span class="section-eyebrow">${escapeHtml(c.sectionEyebrow ?? d.sectionEyebrow)}</span>` : ''}
         <h2 class="section-title">${escapeHtml(c.sectionTitle ?? d.sectionTitle)}</h2>
       </div>
+      ${counterValue ? `<div class="rs-counter">
+        <div class="rs-counter__value">${escapeHtml(counterValue)}</div>
+        <div class="rs-counter__label">${escapeHtml(c.counterLabel ?? d.counterLabel)}</div>
+      </div>` : ''}
       <div class="rs-grid">
         ${cases.map(x => {
           const bg = REUSSITE_COLORS[x.color] || REUSSITE_COLORS.violet;

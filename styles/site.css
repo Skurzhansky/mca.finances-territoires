@@ -1734,6 +1734,12 @@ section.section--muted { background: var(--canvas); }
 
 /* --- Page Réussites --- */
 .rs-section { padding: 72px 0; }
+.rs-counter {
+  max-width: 460px; margin: 0 auto 48px; padding: 28px 32px; border-radius: 16px;
+  background: linear-gradient(135deg, #581D74, #66327A); color: #fff; text-align: center;
+}
+.rs-counter__value { font-size: 38px; font-weight: 800; line-height: 1; }
+.rs-counter__label { margin-top: 8px; font-size: 14px; color: rgba(255, 255, 255, .82); }
 .rs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .rs-card {
   display: block; background: #fff; border-radius: 14px; padding: 32px;
