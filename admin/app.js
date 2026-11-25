@@ -1,6 +1,6 @@
 import { config } from './config.js';
-import { buildPages, page, homepagePage, BASE_PAGES, DEFAULT_NAVIGATION, DEFAULT_CONTENT, DEFAULT_FINBOOST, DEFAULT_COVERAGE, DEFAULT_PROJECT_CTA, DEFAULT_ABOUT, DEFAULT_ACCOMPAGNEMENT, DEFAULT_HERO, DEFAULT_REUSSITES, REUSSITE_COLORS } from '../scripts/templates.mjs';
-import { migrate } from '../scripts/migrations.mjs';
+import { buildPages, page, homepagePage, BASE_PAGES, LEGAL_SLUGS, DEFAULT_NAVIGATION, DEFAULT_CONTENT, DEFAULT_FINBOOST, DEFAULT_COVERAGE, DEFAULT_PROJECT_CTA, DEFAULT_ABOUT, DEFAULT_ACCOMPAGNEMENT, DEFAULT_HERO, DEFAULT_REUSSITES, REUSSITE_COLORS } from '../scripts/templates.mjs';
+import { migrate, migrateList } from '../scripts/migrations.mjs';
 
 let state = null;
 
@@ -628,6 +628,9 @@ export async function mountAdmin(root, { user, credentials, signOut }) {
     state.secteurs = secteurs;
     migrate('homepage', homepage);
     migrate('navigation', navigation);
+    migrate('pages', content);
+    migrateList('expertises', expertises);
+    migrateList('secteurs', secteurs);
     state.homepage = homepage;
     state.originalPageSlugs = new Set([...guideArticles, ...expertises, ...secteurs].map(x => x.slug));
     state.originalPartnerImages = new Set((homepage.partners || []).map(p => p.image).filter(Boolean));
@@ -873,7 +876,7 @@ function renderHomepageForm(content) {
             .map(([k, l]) => `<label>${l}<input type="text" class="f-fb" data-k="${k}" value="${escapeHtml(fb[k] || '')}"></label>`).join('')}
         `, false)}
 
-        ${section('sec-project-cta', 'Bandeau « Analysons vos projets » (après le Guide)', `
+        ${section('sec-project-cta', 'Bandeau « Analysons vos projets » (après les Réussites)', `
           <label>Titre<input type="text" class="f-pcta" data-k="title" value="${escapeHtml(draft.projectCta.title || '')}"></label>
           <label>Texte<textarea class="f-pcta" data-k="text" rows="2">${escapeHtml(draft.projectCta.text || '')}</textarea></label>
           ${[['primaryLabel', 'Bouton principal — libellé'], ['primaryHref', 'Bouton principal — lien'], ['secondaryLabel', 'Bouton secondaire — libellé'], ['secondaryHref', 'Bouton secondaire — lien']]
@@ -944,7 +947,7 @@ function renderHomepageForm(content) {
           <button type="button" id="add-ru" class="btn">+ Ajouter une réussite</button>
         `, false)}
 
-        ${section('sec-values', 'Valeurs et engagements (3 items)', `
+        ${section('sec-values', 'Valeurs et engagements — ancien bloc, non affiché sur la page d’accueil actuelle', `
           <label>Titre du bloc
             <input type="text" id="f-values-title" value="${escapeHtml(draft.valuesTitle)}">
           </label>
@@ -954,7 +957,7 @@ function renderHomepageForm(content) {
           </div>`).join('')}
         `, false)}
 
-        ${section('sec-partners', 'Partenaires (logos)', `
+        ${section('sec-partners', 'Partenaires (logos) — ancien bloc, non affiché sur la page d’accueil actuelle', `
           <label>Titre du bloc
             <input type="text" id="f-partners-title" value="${escapeHtml(draft.partnersTitle)}">
           </label>
@@ -978,7 +981,7 @@ function renderHomepageForm(content) {
           </label>
         `, false)}
 
-        ${section('sec-faq', 'FAQ (questions)', `
+        ${section('sec-faq', 'FAQ (questions) — ancien bloc, non affiché sur la page d’accueil actuelle', `
           <label>Titre du bloc
             <input type="text" id="f-faq-title" value="${escapeHtml(draft.faqTitle)}">
           </label>
@@ -1324,6 +1327,14 @@ const PAGE_FIELDS = {
     { k: 'image', l: 'Photo de bandeau', type: 'photo' },
   ],
 };
+
+for (const slug of LEGAL_SLUGS) {
+  PAGE_FIELDS[slug] = [
+    { k: 'title', l: 'Titre' },
+    { k: 'lead', l: 'Chapô (facultatif)', rows: 2 },
+    { k: 'body', l: 'Paragraphes', type: 'strings', rows: 5, hint: 'Un lien s’écrit [libellé](https://…). Le **gras** s’écrit entre doubles astérisques.' },
+  ];
+}
 
 const PAGE_TEMPLATES = {
   string: '',

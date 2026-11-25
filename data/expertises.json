@@ -20,7 +20,8 @@
         "title": "Alertes ciblées",
         "text": "Notification dès l'ouverture d'un dispositif correspondant à votre structure."
       }
-    ]
+    ],
+    "_v": 2
   },
   {
     "slug": "mobilisation-des-aides",
@@ -43,7 +44,8 @@
         "title": "Suivi jusqu’au versement",
         "text": "Suivi administratif jusqu'au versement effectif des fonds."
       }
-    ]
+    ],
+    "_v": 2
   },
   {
     "slug": "montage-des-dossiers",
@@ -92,7 +94,8 @@
         "title": "Quels types d'aides accompagnez-vous ?",
         "text": "Nous intervenons sur tous types d'aides : subventions d'État, fonds européens (FEDER, FSE+, FEADER...), aides régionales et départementales, dotations d'État (DETR, DSIL...), fonds ANAH, agences appels à projets ADEME, et bien d'autres selon votre secteur."
       }
-    ]
+    ],
+    "_v": 2
   },
   {
     "slug": "veille-personnalisee",
@@ -102,7 +105,6 @@
     "hidden": false,
     "image": "images/banque-digitale-2.webp",
     "lead": "Recevez uniquement les opportunités de financement qui correspondent réellement à vos projets et à votre secteur.",
-    "switchOffer": "Besoin d'une réponse ponctuelle plutôt que d'un suivi continu ? Découvrez notre [Note d'opportunité](optimaides-subventions/).",
     "features": [
       {
         "title": "Profil sur mesure",
@@ -117,6 +119,7 @@
         "text": "Suivi des évolutions impactant vos financements."
       }
     ],
+    "switchOffer": "Besoin d'une réponse ponctuelle plutôt que d'un suivi continu ? Découvrez notre [Note d'opportunité](optimaides-subventions/).",
     "stepsTitle": "Notre méthode",
     "steps": [
       {
@@ -131,11 +134,12 @@
         "title": "Alertes et points réguliers",
         "text": "Vous êtes notifié dès qu'un dispositif pertinent s'ouvre, avec un point régulier de votre consultant pour prioriser les opportunités."
       }
-    ]
+    ],
+    "_v": 2
   },
   {
     "slug": "gestion-des-aides",
-    "title": "Gestion des aides",
+    "title": "Gestion des aides obtenues",
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
@@ -158,11 +162,12 @@
         "title": "Notre outil",
         "text": "Un tableau de bord dédié pour suivre en temps réel l'état de vos dossiers, vos échéances et les montants à percevoir, projet par projet."
       }
-    ]
+    ],
+    "_v": 2
   },
   {
     "slug": "fundraising",
-    "title": "Fundraising",
+    "title": "Recherche de mécènes",
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
@@ -181,11 +186,36 @@
         "title": "Mise en œuvre",
         "text": "Accompagnement de vos campagnes de collecte."
       }
-    ]
+    ],
+    "_v": 2
+  },
+  {
+    "slug": "fonds-prives-mecenat",
+    "title": "Fonds privés / Mécénat",
+    "section": "expertise",
+    "type": "expertise",
+    "hidden": false,
+    "image": "images/handshake-contrat.webp",
+    "lead": "Diversifiez vos financements grâce aux ressources privées : de la création de votre fonds de dotation à la mobilisation des mécènes et des fondations.",
+    "features": [
+      {
+        "title": "Fonds de dotation & collecte de fonds privés",
+        "text": "Création ou relance de votre fonds de dotation et accompagnement de vos campagnes de collecte. [En savoir plus](fonds-de-dotation-mecenat-local/)"
+      },
+      {
+        "title": "Recherche de mécènes",
+        "text": "Identification et sollicitation des entreprises du territoire susceptibles de soutenir votre projet. [En savoir plus](fundraising/)"
+      },
+      {
+        "title": "AAP de fondations",
+        "text": "Repérage des appels à projets des fondations privées et accompagnement dans leur sollicitation. [En savoir plus](recherche-de-fondations/)"
+      }
+    ],
+    "_v": 2
   },
   {
     "slug": "fonds-de-dotation-mecenat-local",
-    "title": "Fonds de dotation & mécénat local",
+    "title": "Fonds de dotation & collecte de fonds privés",
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
@@ -208,11 +238,12 @@
         "title": "Accompagnement dans la durée",
         "text": "Présents avant, pendant et après le lancement de votre campagne de collecte, sur une période qui dure en moyenne 18 mois."
       }
-    ]
+    ],
+    "_v": 2
   },
   {
     "slug": "recherche-de-fondations",
-    "title": "Recherche de fondations",
+    "title": "AAP de fondations",
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
@@ -231,12 +262,12 @@
         "title": "Relation durable",
         "text": "Mise en relation et suivi dans la durée."
       }
-    ]
+    ],
+    "_v": 2
   },
   {
     "slug": "nos-formations",
     "title": "Nos formations",
-    "headline": "Formations : développez vos compétences sur les Aides & Subventions",
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
@@ -256,14 +287,24 @@
         "text": "Intervenants issus du financement territorial."
       }
     ],
+    "headline": "Formations : développez vos compétences sur les Aides & Subventions",
     "qualiopi": {
       "badgeText": "[À COMPLÉTER — texte et logo de certification Qualiopi de l'ancien site]",
       "certLink": "",
       "chiffresTitle": "Nos formations en chiffres",
       "chiffres": [
-        { "value": "[?]", "label": "[À COMPLÉTER — chiffre clé 1]" },
-        { "value": "[?]", "label": "[À COMPLÉTER — chiffre clé 2]" },
-        { "value": "[?]", "label": "[À COMPLÉTER — chiffre clé 3]" }
+        {
+          "value": "[?]",
+          "label": "[À COMPLÉTER — chiffre clé 1]"
+        },
+        {
+          "value": "[?]",
+          "label": "[À COMPLÉTER — chiffre clé 2]"
+        },
+        {
+          "value": "[?]",
+          "label": "[À COMPLÉTER — chiffre clé 3]"
+        }
       ],
       "appreciation": "[À COMPLÉTER — « Nos clients ont particulièrement apprécié... », texte réel de l'ancien site]",
       "moreInfoTitle": "Souhaitez-vous en savoir plus ?",
@@ -296,7 +337,8 @@
         "days": "",
         "modes": ""
       }
-    ]
+    ],
+    "_v": 2
   },
   {
     "slug": "optimaides-subventions",
@@ -306,7 +348,6 @@
     "hidden": false,
     "image": "images/banque-digitale.webp",
     "lead": "Une étude ponctuelle, sur une échéance courte, pour identifier les dispositifs de financement mobilisables sur un projet ciblé.",
-    "switchOffer": "Besoin d'un suivi continu plutôt que d'une étude ponctuelle ? Découvrez notre [Veille continue](veille-personnalisee/).",
     "features": [
       {
         "title": "Étude ciblée",
@@ -321,6 +362,7 @@
         "text": "Si vos besoins évoluent, possibilité de basculer vers une Veille continue."
       }
     ],
+    "switchOffer": "Besoin d'un suivi continu plutôt que d'une étude ponctuelle ? Découvrez notre [Veille continue](veille-personnalisee/).",
     "stepsTitle": "Notre méthode",
     "steps": [
       {
@@ -335,6 +377,7 @@
         "title": "Restitution et recommandations",
         "text": "Nous vous remettons une note détaillant les dispositifs identifiés, leurs conditions et nos recommandations pour la suite."
       }
-    ]
+    ],
+    "_v": 2
   }
 ]

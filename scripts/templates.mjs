@@ -49,7 +49,15 @@ export const BASE_PAGES = [
   { slug: 'secteurs-dactivite', title: "Secteurs d'activité", section: 'secteur', type: 'secteur', isHub: true, image: 'images/paris-eiffel.jpg',
     lead: "Une expertise territoriale et sectorielle : nous adaptons notre accompagnement aux enjeux propres à chaque type de structure.",
     features: [] },
+  // Pages légales liées depuis le pied de page (texte à fournir par BPCE F&T).
+  { slug: 'mentions-legales', title: 'Mentions réglementaires', section: 'main', type: 'custom' },
+  { slug: 'donnees-personnelles', title: 'Données personnelles', section: 'main', type: 'custom' },
+  { slug: 'cookies', title: 'Gestion des cookies', section: 'main', type: 'custom' },
+  { slug: 'vigilance-fraude', title: 'Vigilance fraude', section: 'main', type: 'custom' },
 ];
+
+export const LEGAL_SLUGS = ['mentions-legales', 'donnees-personnelles', 'cookies', 'vigilance-fraude'];
+const LEGAL_PLACEHOLDER = ['[À COMPLÉTER — texte officiel à fournir par BPCE Finances & Territoires (service juridique / conformité)]'];
 
 // --- Gabarits partagés ---
 
@@ -66,8 +74,8 @@ export const EXPERTISES_MENU = [
   { label: 'Pilotage des aides', href: 'gestion-des-aides/', children: [
     { label: 'Gestion des aides obtenues', href: 'gestion-des-aides/' },
   ] },
-  { label: 'Fonds privés / Mécénat', href: 'fonds-de-dotation-mecenat-local/', children: [
-    { label: 'Fonds de dotation & Mécénat local', href: 'fonds-de-dotation-mecenat-local/' },
+  { label: 'Fonds privés / Mécénat', href: 'fonds-prives-mecenat/', children: [
+    { label: 'Fonds de dotation & collecte de fonds privés', href: 'fonds-de-dotation-mecenat-local/' },
     { label: 'Recherche de mécènes', href: 'fundraising/' },
     { label: 'AAP de fondations', href: 'recherche-de-fondations/' },
   ] },
@@ -77,7 +85,7 @@ export const EXPERTISES_MENU = [
 export const QUI_SOMMES_NOUS_MENU = [
   { label: 'BPCE Finances & Territoires', href: 'finances-et-territoires/' },
   { label: 'Profil de nos clients', href: 'secteurs-dactivite/', children: [
-    { label: 'Collectivité & EPCI', href: 'collectivites-epci/' },
+    { label: 'Collectivités & EPCI', href: 'collectivites-epci/' },
     { label: 'Santé (non lucratif)', href: 'etablissements-de-sante-publics-non-lucratifs/' },
     { label: 'Médico-Social & Social', href: 'structures-medico-sociales/' },
     { label: 'Entreprise Publique Locale', href: 'entreprises-publiques-locales-epl/' },
@@ -149,7 +157,7 @@ export const DEFAULT_NAVIGATION = {
         { label: 'Détection des opportunités', href: 'detections-des-opportunites/' },
         { label: 'Mobilisation des aides', href: 'mobilisation-des-aides/' },
         { label: 'Pilotage des aides', href: 'gestion-des-aides/' },
-        { label: 'Fonds privés / Mécénat', href: 'fonds-de-dotation-mecenat-local/' },
+        { label: 'Fonds privés / Mécénat', href: 'fonds-prives-mecenat/' },
         { label: 'Formations', href: 'nos-formations/' },
       ] },
       { title: 'Profil de nos clients', links: [
@@ -225,7 +233,7 @@ export const DEFAULT_ACCOMPAGNEMENT = {
     { tag: 'Détection des opportunités', title: "Veille continue & Note d'opportunité", text: 'Identification de toutes les aides mobilisables, pilotée par un consultant — en continu ou sur un projet ciblé.', items: ['+19 000 mesures de soutien référencées', 'Alertes et veille personnalisées par secteur', 'Détection des AAP de fondations', 'Cartographie priorisée des financements'], linkLabel: 'En savoir plus', linkHref: 'detections-des-opportunites/' },
     { tag: 'Mobilisation des aides', title: 'Montage des dossiers', text: "Constitution et dépôt des dossiers d'aides françaises et européennes, par un consultant expérimenté.", items: ['Rédaction des mémoires techniques', 'Recensement des pièces administratives', "Suivi de l'instruction des demandes", 'Principalement rémunéré au succès'], linkLabel: 'En savoir plus', linkHref: 'mobilisation-des-aides/' },
     { tag: 'Pilotage des aides', title: 'Gestion des aides obtenues', text: "Pilotage des demandes de paiement et accompagnement jusqu'au versement final.", items: ['Suivi des échéances et montants à percevoir', 'Alertes personnalisées sur les échéances administratives et financières', 'Assistance à la liquidation', "Appui aux bilans d'exécution (export et restitution projet par projet)"], linkLabel: 'En savoir plus', linkHref: 'gestion-des-aides/' },
-    { tag: 'Fonds privés / Mécénat', title: 'Fonds de dotation & collecte de fonds privés', text: 'De la création de votre fonds de dotation à la mobilisation de mécènes.', items: ['Création et développement de fonds de dotation', 'Stratégie de mécénat et ciblage des mécènes', 'Recherche de mécènes et AAP de fondations', '~1 500 sources de financements privés'], linkLabel: 'En savoir plus', linkHref: 'fonds-de-dotation-mecenat-local/' },
+    { tag: 'Fonds privés / Mécénat', title: 'Fonds de dotation & collecte de fonds privés', text: 'De la création de votre fonds de dotation à la mobilisation de mécènes.', items: ['Création et développement de fonds de dotation', 'Stratégie de mécénat et ciblage des mécènes', 'Recherche de mécènes et AAP de fondations', '~1 500 sources de financements privés'], linkLabel: 'En savoir plus', linkHref: 'fonds-prives-mecenat/' },
   ],
 };
 
@@ -415,11 +423,11 @@ export const DEFAULT_CONTENT = {
   pages: {
     'finances-et-territoires': {
       title: 'Qui sommes-nous ?',
-      lead: "Finances & Territoires est une filiale du Groupe BPCE, experte du financement public et privé des projets d'investissement des territoires depuis 20 ans.",
+      lead: "Finances & Territoires est une filiale du Groupe BPCE, experte du financement public et privé des projets d'investissement des territoires depuis 13 ans.",
       stats: [
         { value: '1,2 Md€', label: 'mobilisés pour nos clients' },
         { value: '18 600', label: 'dispositifs référencés' },
-        { value: '20 ans', label: "d'expertise territoriale" },
+        { value: '13 ans', label: "d'expertise territoriale" },
       ],
       features: [
         { title: 'Engagement humain', text: "Un accompagnement sur mesure avec un consultant dédié, à l'écoute de vos besoins." },
@@ -451,7 +459,7 @@ export const DEFAULT_CONTENT = {
     },
     contact: {
       title: 'Contact',
-      lead: 'Un projet à financer ? Parlons-en. Décrivez-nous votre besoin, un consultant vous recontacte pour un premier échange.',
+      lead: 'Un projet à financer ? Parlons-en. Décrivez-nous votre besoin, notre équipe vous recontacte pour un premier échange.',
       email: 'A-REMPLACER@exemple.fr',
       eyebrow: 'Contact',
       headline: 'Contactez-nous',
@@ -514,6 +522,10 @@ export const DEFAULT_CONTENT = {
       title: "Secteurs d'activité",
       lead: "Une expertise territoriale et sectorielle : nous adaptons notre accompagnement aux enjeux propres à chaque type de structure.",
     },
+    'mentions-legales': { title: 'Mentions réglementaires', lead: '', body: LEGAL_PLACEHOLDER },
+    'donnees-personnelles': { title: 'Données personnelles', lead: '', body: LEGAL_PLACEHOLDER },
+    cookies: { title: 'Gestion des cookies', lead: '', body: LEGAL_PLACEHOLDER },
+    'vigilance-fraude': { title: 'Vigilance fraude', lead: '', body: LEGAL_PLACEHOLDER },
   },
 };
 
@@ -1116,6 +1128,20 @@ ${cta.title ? `<section class="project-cta project-cta--page">
     case 'evenements':
       return renderEvenements(events, c);
 
+    case 'mentions-legales':
+    case 'donnees-personnelles':
+    case 'cookies':
+    case 'vigilance-fraude':
+      return `<main class="container">
+  <div class="page-hero">
+    <h1>${escapeHtml(c.headline || c.title)}</h1>
+    ${c.lead ? `<p class="lead">${richText(c.lead)}</p>` : ''}
+  </div>
+  <div class="article-body">
+    ${(c.body || []).filter(Boolean).map(t => `<p>${richText(t)}</p>`).join('\n    ')}
+  </div>
+</main>`;
+
     default:
       return `<main class="container"><div class="page-placeholder">Contenu de la page « ${escapeHtml(p.title)} » à intégrer.</div></main>`;
   }
@@ -1156,7 +1182,7 @@ ${seoTags(p, site.content)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles/site.css?v=20261101b">
+<link rel="stylesheet" href="../styles/site.css?v=20261125a">
 </head>
 <body>
 
@@ -1478,7 +1504,7 @@ ${metaTags(homepage?.seoTitle || `BPCE Finances & Territoires — ${String(homep
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/site.css?v=20261101b">
+<link rel="stylesheet" href="styles/site.css?v=20261125a">
 </head>
 <body>
 

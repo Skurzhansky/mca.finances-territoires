@@ -38,10 +38,10 @@
       },
       {
         "label": "Fonds privés / Mécénat",
-        "href": "fonds-de-dotation-mecenat-local/",
+        "href": "fonds-prives-mecenat/",
         "children": [
           {
-            "label": "Fonds de dotation & Mécénat local",
+            "label": "Fonds de dotation & collecte de fonds privés",
             "href": "fonds-de-dotation-mecenat-local/"
           },
           {
@@ -70,7 +70,7 @@
         "href": "secteurs-dactivite/",
         "children": [
           {
-            "label": "Collectivité & EPCI",
+            "label": "Collectivités & EPCI",
             "href": "collectivites-epci/"
           },
           {
@@ -135,7 +135,7 @@
           },
           {
             "label": "Fonds privés / Mécénat",
-            "href": "fonds-de-dotation-mecenat-local/"
+            "href": "fonds-prives-mecenat/"
           },
           {
             "label": "Formations",
@@ -222,5 +222,5 @@
       }
     ]
   },
-  "_v": 3
+  "_v": 4
 }

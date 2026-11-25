@@ -7,7 +7,7 @@ import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildPages, page, homepagePage } from './templates.mjs';
-import { migrate } from './migrations.mjs';
+import { migrate, migrateList } from './migrations.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -22,8 +22,6 @@ function readJSONIfExists(relPath) {
 }
 
 const guideArticles = readJSON('data/guide-articles.json');
-const expertises = readJSON('data/expertises.json');
-const secteurs = readJSON('data/secteurs.json');
 const events = readJSON('data/evenements.json');
 
 // Les JSON récupérés depuis S3 au déploiement peuvent précéder une refonte :
@@ -40,9 +38,22 @@ function readMigrated(relPath, name) {
   return data;
 }
 
+// Même principe pour les listes de pages, migrées page par page.
+function readMigratedList(relPath, name) {
+  const data = readJSON(relPath);
+  const { changed } = migrateList(name, data);
+  if (changed) {
+    writeFileSync(join(ROOT, relPath), JSON.stringify(data, null, 2) + '\n');
+    console.log(`Migré ${relPath}`);
+  }
+  return data;
+}
+
+const expertises = readMigratedList('data/expertises.json', 'expertises');
+const secteurs = readMigratedList('data/secteurs.json', 'secteurs');
 const homepage = readMigrated('data/homepage.json', 'homepage');
 const navigation = readMigrated('data/navigation.json', 'navigation');
-const content = readJSONIfExists('data/pages.json');
+const content = readMigrated('data/pages.json', 'pages');
 
 const site = { navigation, content };
 const PAGES = buildPages({ guideArticles, expertises, secteurs, content });
