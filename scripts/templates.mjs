@@ -713,14 +713,116 @@ export function pageBanner(p) {
   <div class="page-banner"><img src="../${escapeHtml(p.image)}" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>`;
 }
 
+// « Notre méthode »/« Notre processus » : étapes numérotées, utilisées sur
+// les pages Expertises qui détaillent un déroulé (optionnel, p.steps).
+function renderSteps(steps, title) {
+  steps = (steps || []).filter(s => s.title || s.text);
+  if (!steps.length) return '';
+  return `
+  <h2 class="section-title" style="text-align:left;">${escapeHtml(title || 'Notre méthode')}</h2>
+  <div class="steps">
+    ${steps.map((s, i) => `<div class="step">
+      <div class="step-n">${i + 1}</div>
+      <div class="step-b">
+        <h3 class="step-title">${escapeHtml(s.title)}</h3>
+        <p class="step-text">${richText(s.text)}</p>
+      </div>
+    </div>`).join('\n    ')}
+  </div>`;
+}
+
+// FAQ courte, même composant visuel que le bloc coordonnées de la page
+// Contact (.ci-faq) — réutilisé tel quel (optionnel, p.faq).
+function renderExpertiseFaq(faq) {
+  faq = (faq || []).filter(x => x.title || x.text);
+  if (!faq.length) return '';
+  return `
+  <h2 class="section-title" style="text-align:left;">Questions fréquentes</h2>
+  <div class="ci-faq ci-faq--standalone">
+    ${faq.map(x => `<div class="ci-faq__item"><div class="ci-faq__q">${escapeHtml(x.title)}</div><p>${richText(x.text)}</p></div>`).join('\n    ')}
+  </div>`;
+}
+
+// Témoignage client, même composant que l'ancien bandeau d'accueil
+// (.testimonial-band, remis en service ici) — optionnel, p.testimonial.
+function renderExpertiseTestimonial(t) {
+  if (!t || !t.quote) return '';
+  return `
+  <section class="testimonial-band testimonial-band--inline">
+    <div class="testimonial-inner">
+      <div class="testimonial-quote-mark">“</div>
+      <div class="testimonial-card">
+        ${t.meta ? `<span class="meta">${escapeHtml(t.meta)}</span>` : ''}
+        <blockquote>${richText(t.quote)}</blockquote>
+        ${t.cite ? `<cite>${escapeHtml(t.cite)}</cite>` : ''}
+      </div>
+    </div>
+  </section>`;
+}
+
+// Grille des formations disponibles (optionnel, p.courses) — chaque carte
+// n'affiche une ligne (niveau/durée/format) que pour les champs renseignés,
+// pour ne pas afficher de tirets vides sur les formations encore à compléter.
+function renderCourses(courses, title) {
+  courses = (courses || []).filter(c => c.title);
+  if (!courses.length) return '';
+  return `
+  <h2 class="section-title" style="text-align:left;">${escapeHtml(title || 'Formations disponibles')}</h2>
+  <div class="courses-grid">
+    ${courses.map(c => `<div class="forma-card">
+      <div class="forma-head">
+        ${c.level || c.days ? `<div class="forma-meta">
+          ${c.level ? `<span class="forma-niv">${escapeHtml(c.level)}</span>` : ''}
+          ${c.days ? `<span class="forma-dur">${escapeHtml(c.days)}</span>` : ''}
+        </div>` : ''}
+        <h3 class="forma-title">${escapeHtml(c.title)}</h3>
+        ${c.teaser ? `<p class="forma-teaser">${richText(c.teaser)}</p>` : ''}
+      </div>
+      ${c.modes || c.programHref ? `<div class="forma-foot">
+        ${c.modes ? `<span class="forma-mode">${escapeHtml(c.modes)}</span>` : '<span></span>'}
+        ${c.programHref ? `<a class="forma-link" href="${escapeHtml(c.programHref)}">Voir le programme →</a>` : ''}
+      </div>` : ''}
+    </div>`).join('\n    ')}
+  </div>`;
+}
+
+// Bloc Qualiopi (certification/chiffres/témoignage/infos complémentaires),
+// optionnel (p.qualiopi) — chaque sous-partie ne s'affiche que si remplie,
+// pour laisser les champs encore « à compléter » invisibles tant qu'ils ne
+// sont pas de vrais placeholders texte (ceux-ci s'affichent tels quels : ils
+// servent justement à signaler à l'éditeur ce qu'il reste à saisir).
+function renderQualiopi(q) {
+  if (!q) return '';
+  const chiffres = (q.chiffres || []).filter(s => s.value || s.label);
+  if (!q.badgeText && !chiffres.length && !q.appreciation && !q.moreInfoText && !q.outremerText && !q.pshText) return '';
+  return `
+  <div class="qualiopi-block">
+    ${q.badgeText ? `<div class="quali-badge">${richText(q.badgeText)}${q.certLink ? ` <a href="${escapeHtml(q.certLink)}">Voir le certificat →</a>` : ''}</div>` : ''}
+    ${chiffres.length ? `${q.chiffresTitle ? `<h3 class="forma-sub-title">${escapeHtml(q.chiffresTitle)}</h3>` : ''}
+    <div class="stats-row">
+      ${chiffres.map(s => `<div><div class="stat-value">${escapeHtml(s.value)}</div><div class="stat-label">${escapeHtml(s.label)}</div></div>`).join('')}
+    </div>` : ''}
+    ${q.appreciation ? `<p class="qualiopi-note">${richText(q.appreciation)}</p>` : ''}
+    ${q.moreInfoText ? `<p class="qualiopi-note">${q.moreInfoTitle ? `<strong>${escapeHtml(q.moreInfoTitle)}</strong> ` : ''}${richText(q.moreInfoText)}</p>` : ''}
+    ${q.outremerText ? `<p class="qualiopi-note">${q.outremerTitle ? `<strong>${escapeHtml(q.outremerTitle)}</strong> ` : ''}${richText(q.outremerText)}</p>` : ''}
+    ${q.pshText ? `<p class="qualiopi-note">${q.pshTitle ? `<strong>${escapeHtml(q.pshTitle)}</strong> ` : ''}${richText(q.pshText)}</p>` : ''}
+  </div>`;
+}
+
 export function renderExpertiseOrSecteur(p, pages, content) {
   return `<main class="container">
   <div class="page-hero">
     <h1>${escapeHtml(p.headline || p.title)}</h1>
     <p class="lead">${richText(p.lead)}</p>
+    ${p.switchOffer ? `<p class="switch-offer">${richText(p.switchOffer)}</p>` : ''}
     <a class="btn btn--site btn-primary" href="../contact/">Contactez-nous →</a>
   </div>${pageBanner(p)}
   ${featureList(p.features)}
+  ${renderSteps(p.steps, p.stepsTitle)}
+  ${renderQualiopi(p.qualiopi)}
+  ${renderCourses(p.courses, p.coursesTitle)}
+  ${renderExpertiseTestimonial(p.testimonial)}
+  ${renderExpertiseFaq(p.faq)}
 </main>
 ${p.section === 'expertise' ? relatedGrid(p, pages, { excludeHub: true }) : ''}
 ${ctaBand(content)}`;

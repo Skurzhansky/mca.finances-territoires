@@ -1356,7 +1356,7 @@ function sectionsEditorHtml(path, sections) {
 }
 
 function pageFieldHtml(field, draft, slug) {
-  const value = draft[field.k];
+  const value = getByPath(draft, field.k);
   if (field.type === 'photo') {
     return `<div class="admin-body-section">${photoFieldHtml(`page-${slug}-${field.k}`, field.l, value)}</div>`;
   }
@@ -1517,11 +1517,51 @@ function renderResourceList(kind, content, root, signOut) {
   });
 }
 
+// Blocs optionnels des pages Expertises/Secteurs, édités avec les mêmes
+// champs génériques que les pages de base. Un bloc laissé vide n'est pas
+// affiché sur le site.
+const RESOURCE_EXTRA_FIELDS = [
+  { k: 'headline', l: 'Titre affiché (H1) — vide = titre ci-dessus' },
+  { k: 'switchOffer', l: 'Encart de renvoi sous le chapô (vide = pas d’encart)', rows: 2, hint: 'Un lien s’écrit [libellé](veille-personnalisee/).' },
+  { k: 'stepsTitle', l: 'Titre de la section étapes (ex. Notre méthode)' },
+  { k: 'steps', l: 'Étapes', type: 'items', template: { title: '', text: '' }, fields: [{ k: 'title', l: 'Titre' }, { k: 'text', l: 'Texte', rows: 2 }] },
+  { k: 'testimonial', l: 'Témoignage (vide = pas de témoignage)', type: 'group', fields: [{ k: 'meta', l: 'Surtitre' }, { k: 'quote', l: 'Citation', rows: 3 }, { k: 'cite', l: 'Auteur' }] },
+  { k: 'faq', l: 'Questions fréquentes', type: 'items', template: { title: '', text: '' }, fields: [{ k: 'title', l: 'Question' }, { k: 'text', l: 'Réponse', rows: 2 }] },
+];
+
+const RESOURCE_FORMATION_FIELDS = [
+  { k: 'qualiopi', l: 'Bloc Qualiopi', type: 'group', fields: [
+    { k: 'badgeText', l: 'Texte de certification' },
+    { k: 'certLink', l: 'Lien vers le certificat (vide = pas de lien)' },
+    { k: 'chiffresTitle', l: 'Titre des chiffres clés' },
+    { k: 'appreciation', l: '« Nos clients ont particulièrement apprécié… »', rows: 3 },
+    { k: 'moreInfoTitle', l: 'Titre « En savoir plus »' },
+    { k: 'moreInfoText', l: 'Texte « En savoir plus »', rows: 2 },
+    { k: 'outremerTitle', l: 'Titre Outre-mer' },
+    { k: 'outremerText', l: 'Texte Outre-mer', rows: 2 },
+    { k: 'pshTitle', l: 'Titre accessibilité (PSH)' },
+    { k: 'pshText', l: 'Texte accessibilité (PSH)', rows: 2 },
+  ] },
+  { k: 'qualiopi.chiffres', l: 'Chiffres clés', type: 'items', template: { value: '', label: '' }, fields: [{ k: 'value', l: 'Chiffre' }, { k: 'label', l: 'Légende' }] },
+  { k: 'coursesTitle', l: 'Titre de la grille de formations' },
+  { k: 'courses', l: 'Formations (cartes)', type: 'items', template: { title: '', teaser: '', level: '', days: '', modes: '', programHref: '' }, fields: [
+    { k: 'title', l: 'Titre' }, { k: 'teaser', l: 'Phrase d’accroche', rows: 2 }, { k: 'level', l: 'Niveau' },
+    { k: 'days', l: 'Durée (ex. 2 jours)' }, { k: 'modes', l: 'Format (ex. Intra / Inter — Distanciel)' }, { k: 'programHref', l: 'Lien vers le programme' },
+  ] },
+];
+
 function renderResourceForm(kind, content, root, signOut, item) {
   const isNew = !item;
   const draft = item
     ? JSON.parse(JSON.stringify(item))
     : { slug: '', title: '', section: kind.section, type: kind.type, hidden: false, image: '', lead: '', features: [{ title: '', text: '' }] };
+  const templates = {};
+  for (const f of [...RESOURCE_EXTRA_FIELDS, ...RESOURCE_FORMATION_FIELDS]) if (f.type === 'items') templates[f.k] = f.template;
+  // Les sections repliables gardent leur état ouvert/fermé d'un rafraîchissement à l'autre.
+  const openSections = new Set();
+  if (draft.headline || draft.switchOffer || (draft.steps || []).length || draft.testimonial?.quote || (draft.faq || []).length) openSections.add('extra');
+  const hasQualiopi = Object.values(draft.qualiopi || {}).some(v => (Array.isArray(v) ? v.length : v));
+  if (hasQualiopi || (draft.courses || []).length) openSections.add('formation');
 
   function paint() {
     content.innerHTML = `
@@ -1531,7 +1571,7 @@ function renderResourceForm(kind, content, root, signOut, item) {
           <input type="text" id="f-title" value="${escapeHtml(draft.title)}" required>
         </label>
         <label>Slug (URL)
-          <input type="text" id="f-slug" value="${escapeHtml(draft.slug)}" required pattern="[a-z0-9-]+">
+          <input type="text" id="f-slug" value="${escapeHtml(draft.slug)}" required pattern="[a-z0-9\\-]+">
         </label>
         ${photoFieldHtml('resource-photo', 'Photo de bannière', draft.image)}
         <label>Texte d'introduction
@@ -1563,6 +1603,18 @@ function renderResourceForm(kind, content, root, signOut, item) {
             </div>`).join('')}
         </div>
         <button type="button" id="add-feature" class="btn">+ Ajouter un point</button>
+        <details class="admin-section" data-sec="extra"${openSections.has('extra') ? ' open' : ''}>
+          <summary>Blocs complémentaires (titre H1, encart, étapes, témoignage, FAQ)</summary>
+          <div class="admin-section__body">
+            ${RESOURCE_EXTRA_FIELDS.map(f => pageFieldHtml(f, draft, draft.slug || 'nouvelle')).join('')}
+          </div>
+        </details>
+        <details class="admin-section" data-sec="formation"${openSections.has('formation') ? ' open' : ''}>
+          <summary>Formations et Qualiopi (page Formations)</summary>
+          <div class="admin-section__body">
+            ${RESOURCE_FORMATION_FIELDS.map(f => pageFieldHtml(f, draft, draft.slug || 'nouvelle')).join('')}
+          </div>
+        </details>
         <div class="admin-form__actions">
           <button type="submit" class="btn btn--site btn-primary">Enregistrer</button>
           ${isNew ? '' : previewButton(draft.slug)}
@@ -1570,6 +1622,13 @@ function renderResourceForm(kind, content, root, signOut, item) {
         </div>
       </form>`;
 
+    content.querySelectorAll('details[data-sec]').forEach(d => {
+      d.addEventListener('toggle', () => { if (d.open) openSections.add(d.dataset.sec); else openSections.delete(d.dataset.sec); });
+    });
+    // wireArrayButtons synchronise déjà les champs data-path avant de modifier
+    // la liste : ici on ne resynchronise que les champs classiques, sinon les
+    // anciennes valeurs du DOM réécriraient l'élément tout juste retiré.
+    wireArrayButtons(content, draft, () => { syncClassicFields(); paint(); }, templates);
     wirePreviewButtons(content, () => {
       syncFormToDraft();
       if (item) Object.assign(item, draft);
@@ -1613,7 +1672,7 @@ function renderResourceForm(kind, content, root, signOut, item) {
     });
   }
 
-  function syncFormToDraft() {
+  function syncClassicFields() {
     draft.title = document.getElementById('f-title').value;
     draft.slug = slugify(document.getElementById('f-slug').value);
     draft.lead = document.getElementById('f-lead').value;
@@ -1623,6 +1682,11 @@ function renderResourceForm(kind, content, root, signOut, item) {
     const titles = content.querySelectorAll('.f-feat-title');
     const texts = content.querySelectorAll('.f-feat-text');
     draft.features = Array.from(titles).map((t, i) => ({ title: t.value, text: texts[i].value }));
+  }
+
+  function syncFormToDraft() {
+    syncClassicFields();
+    syncPaths(content, draft);
   }
 
   paint();
@@ -1685,7 +1749,7 @@ function renderArticleForm(content, root, signOut, article) {
           <input type="text" id="f-title" value="${escapeHtml(draft.title)}" required>
         </label>
         <label>Slug (URL)
-          <input type="text" id="f-slug" value="${escapeHtml(draft.slug)}" required pattern="[a-z0-9-]+">
+          <input type="text" id="f-slug" value="${escapeHtml(draft.slug)}" required pattern="[a-z0-9\\-]+">
         </label>
         ${photoFieldHtml('article-photo', 'Photo de l’article', draft.image)}
         <label>Introduction (chapô)

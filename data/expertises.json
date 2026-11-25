@@ -66,16 +66,43 @@
         "title": "Interface avec vos équipes",
         "text": "Coordination fluide à chaque étape du montage."
       }
+    ],
+    "stepsTitle": "Notre processus",
+    "steps": [
+      {
+        "title": "Cadrage du plan de financement",
+        "text": "Nous construisons avec vous le plan de financement adapté à votre projet et identifions les financeurs à solliciter."
+      },
+      {
+        "title": "Rédaction et dépôt des dossiers",
+        "text": "Nous rédigeons les dossiers dans le respect des exigences de chaque financeur et assurons leur dépôt dans les délais."
+      },
+      {
+        "title": "Suivi de l'instruction",
+        "text": "Nous assurons l'interface avec les financeurs jusqu'à la décision, et vous tenons informé à chaque étape."
+      }
+    ],
+    "testimonial": {
+      "meta": "Témoignage client",
+      "quote": "[À COMPLÉTER — témoignage client réel à ajouter ici]",
+      "cite": "[Nom, fonction — à compléter]"
+    },
+    "faq": [
+      {
+        "title": "Quels types d'aides accompagnez-vous ?",
+        "text": "Nous intervenons sur tous types d'aides : subventions d'État, fonds européens (FEDER, FSE+, FEADER...), aides régionales et départementales, dotations d'État (DETR, DSIL...), fonds ANAH, agences appels à projets ADEME, et bien d'autres selon votre secteur."
+      }
     ]
   },
   {
     "slug": "veille-personnalisee",
-    "title": "Veille personnalisée",
+    "title": "Veille continue",
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
     "image": "images/banque-digitale-2.webp",
     "lead": "Recevez uniquement les opportunités de financement qui correspondent réellement à vos projets et à votre secteur.",
+    "switchOffer": "Besoin d'une réponse ponctuelle plutôt que d'un suivi continu ? Découvrez notre [Note d'opportunité](optimaides-subventions/).",
     "features": [
       {
         "title": "Profil sur mesure",
@@ -88,6 +115,21 @@
       {
         "title": "Veille réglementaire",
         "text": "Suivi des évolutions impactant vos financements."
+      }
+    ],
+    "stepsTitle": "Notre méthode",
+    "steps": [
+      {
+        "title": "Cadrage de votre périmètre",
+        "text": "Nous définissons avec vous le ou les projets concernés, votre territoire et votre secteur d'activité, pour calibrer précisément la veille."
+      },
+      {
+        "title": "Croisement avec l'ensemble des dispositifs",
+        "text": "Via FinBoost, nous croisons votre périmètre avec l'ensemble des dispositifs disponibles : fonds européens, aides nationales, aides régionales, aides départementales, aides locales, AAP privés et fondations."
+      },
+      {
+        "title": "Alertes et points réguliers",
+        "text": "Vous êtes notifié dès qu'un dispositif pertinent s'ouvre, avec un point régulier de votre consultant pour prioriser les opportunités."
       }
     ]
   },
@@ -111,6 +153,10 @@
       {
         "title": "Réduction du risque",
         "text": "Moins de risque de reversement ou de perte de la subvention."
+      },
+      {
+        "title": "Notre outil",
+        "text": "Un tableau de bord dédié pour suivre en temps réel l'état de vos dossiers, vos échéances et les montants à percevoir, projet par projet."
       }
     ]
   },
@@ -144,7 +190,7 @@
     "type": "expertise",
     "hidden": false,
     "image": "images/handshake-reunion.webp",
-    "lead": "Nous vous accompagnons dans la création ou la relance d'un fonds de dotation pour mobiliser durablement le mécénat local.",
+    "lead": "Nous connectons les projets porteurs d'intérêt général — collectivités, structures publiques, structures du médico-social ou associations — aux mécènes du territoire, principalement des PME et ETI, et vous accompagnons dans la création ou la relance d'un fonds de dotation pour mobiliser durablement le mécénat local.",
     "features": [
       {
         "title": "Étude d'opportunité",
@@ -157,6 +203,10 @@
       {
         "title": "Club de mécènes",
         "text": "Mobilisation des entreprises du territoire."
+      },
+      {
+        "title": "Accompagnement dans la durée",
+        "text": "Présents avant, pendant et après le lancement de votre campagne de collecte, sur une période qui dure en moyenne 18 mois."
       }
     ]
   },
@@ -205,28 +255,85 @@
         "title": "13 ans de pratique",
         "text": "Intervenants issus du financement territorial."
       }
+    ],
+    "qualiopi": {
+      "badgeText": "[À COMPLÉTER — texte et logo de certification Qualiopi de l'ancien site]",
+      "certLink": "",
+      "chiffresTitle": "Nos formations en chiffres",
+      "chiffres": [
+        { "value": "[?]", "label": "[À COMPLÉTER — chiffre clé 1]" },
+        { "value": "[?]", "label": "[À COMPLÉTER — chiffre clé 2]" },
+        { "value": "[?]", "label": "[À COMPLÉTER — chiffre clé 3]" }
+      ],
+      "appreciation": "[À COMPLÉTER — « Nos clients ont particulièrement apprécié... », texte réel de l'ancien site]",
+      "moreInfoTitle": "Souhaitez-vous en savoir plus ?",
+      "moreInfoText": "[À COMPLÉTER — texte réel de l'ancien site]",
+      "outremerTitle": "Formations Outre-mer",
+      "outremerText": "[À COMPLÉTER — texte réel de l'ancien site]",
+      "pshTitle": "Accessibilité aux personnes en situation de handicap",
+      "pshText": "[À COMPLÉTER — texte réel de l'ancien site]"
+    },
+    "coursesTitle": "Formations disponibles",
+    "courses": [
+      {
+        "title": "Financements privés et fonds de dotation",
+        "teaser": "Possibilité de formation en intra — nous consulter.",
+        "level": "",
+        "days": "",
+        "modes": "Intra"
+      },
+      {
+        "title": "[À COMPLÉTER — reprendre les formations secteur public de l'ancien site : titre, niveau, phrase d'accroche, Intra/Inter, Distanciel, nombre de jours, lien vers le programme]",
+        "teaser": "",
+        "level": "",
+        "days": "",
+        "modes": ""
+      },
+      {
+        "title": "[À COMPLÉTER — formation « Entreprise », programme 2027 à intégrer]",
+        "teaser": "",
+        "level": "",
+        "days": "",
+        "modes": ""
+      }
     ]
   },
   {
     "slug": "optimaides-subventions",
-    "title": "Optim Aides & Subventions",
+    "title": "Note d'opportunité",
     "section": "expertise",
     "type": "expertise",
     "hidden": false,
     "image": "images/banque-digitale.webp",
-    "lead": "Notre outil SaaS pour piloter en autonomie la détection et le suivi de vos aides et subventions.",
+    "lead": "Une étude ponctuelle, sur une échéance courte, pour identifier les dispositifs de financement mobilisables sur un projet ciblé.",
+    "switchOffer": "Besoin d'un suivi continu plutôt que d'une étude ponctuelle ? Découvrez notre [Veille continue](veille-personnalisee/).",
     "features": [
       {
-        "title": "Base de dispositifs",
-        "text": "Plus de 18 600 dispositifs, mise à jour en continu."
+        "title": "Étude ciblée",
+        "text": "Une analyse dédiée à votre projet, sans engagement dans la durée."
       },
       {
-        "title": "Tableau de bord",
-        "text": "Suivi des dossiers en cours, versés et des échéances à venir."
+        "title": "Restitution détaillée",
+        "text": "Une note présentant les dispositifs identifiés, leurs conditions et nos recommandations."
       },
       {
-        "title": "Alertes personnalisées",
-        "text": "Selon votre secteur et votre territoire."
+        "title": "Bascule possible",
+        "text": "Si vos besoins évoluent, possibilité de basculer vers une Veille continue."
+      }
+    ],
+    "stepsTitle": "Notre méthode",
+    "steps": [
+      {
+        "title": "Prise de connaissance de votre projet",
+        "text": "Nous échangeons avec vous sur votre projet, son calendrier et son plan de financement prévisionnel."
+      },
+      {
+        "title": "Analyse d'éligibilité",
+        "text": "Nous croisons votre projet avec l'ensemble des dispositifs disponibles via FinBoost pour identifier les financements mobilisables."
+      },
+      {
+        "title": "Restitution et recommandations",
+        "text": "Nous vous remettons une note détaillant les dispositifs identifiés, leurs conditions et nos recommandations pour la suite."
       }
     ]
   }
