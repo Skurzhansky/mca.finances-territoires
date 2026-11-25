@@ -35,6 +35,138 @@
           "title": "Excellence et fiabilité",
           "text": "Une veille rigoureuse et une méthodologie éprouvée, au service de la qualité."
         }
+      ],
+      "heroEyebrow": "Filiale du Groupe BPCE",
+      "heroColor": "violet",
+      "headline": "BPCE Finances & Territoires",
+      "blocks": [
+        {
+          "type": "story",
+          "eyebrow": "Notre histoire",
+          "title": "Depuis sa création, une mission claire",
+          "text": "L'histoire de BPCE Finances & Territoires prend racine dans l'expérience de terrain. Pendant plus de dix ans, ses fondateurs ont accompagné des entreprises puis des collectivités, associations, établissements publics, bailleurs sociaux et structures médico-sociales dans le financement de leurs projets.\n\nAu fil des missions, un constat s'est imposé : pour nombre d'acteurs, la recherche de financements constitue un frein majeur — faute de moyens humains, de temps ou de compétences, mais aussi face à un paysage d'aides particulièrement vaste et épars, difficile à appréhender sans expertise dédiée.\n\nC'est pour répondre à ce besoin que **BPCE Finances & Territoires** voit le jour, basée à Bassens (Savoie), avec une ambition forte : allier expertise technique, ancrage terrain et accompagnement sur mesure.",
+          "quote": "« L'accès au financement ne doit pas être réservé aux initiés. Un bon projet ne peut réussir sans une ingénierie et un pilotage adapté. »",
+          "figuresLabel": "BPCE Finances & Territoires en chiffres",
+          "figures": [
+            {
+              "value": "13 ans",
+              "label": "D'expertise territoriale"
+            },
+            {
+              "value": "18 600",
+              "label": "Dispositifs référencés"
+            },
+            {
+              "value": "1,2 Md€",
+              "label": "D'aides mobilisées"
+            },
+            {
+              "value": "100 %",
+              "label": "National + DROM-COM"
+            }
+          ],
+          "convictionsTitle": "Nos convictions fondatrices",
+          "convictions": "L'accès au financement ne doit pas être réservé aux initiés des rouages administratifs\nUn bon projet ne peut réussir sans une ingénierie et un pilotage adapté\nLa rigueur, la pédagogie et la relation de confiance sont les piliers d'un accompagnement durable"
+        },
+        {
+          "type": "cards",
+          "eyebrow": "Nos compétences",
+          "title": "Une équipe pluridisciplinaire au service de vos projets",
+          "subtitle": "Anciens agents de la fonction publique, anciens instructeurs régionaux, experts en financements européens, en philanthropie, en développement durable ou en santé — nos profils sont complémentaires, notre approche est intégrée.",
+          "columns": "3",
+          "items": [
+            {
+              "icon": "activite",
+              "color": "violet",
+              "title": "Chaîne de valeur complète",
+              "text": "De la détection des opportunités à la mobilisation des aides, jusqu'au suivi administratif et financier. Nous maîtrisons l'ensemble du cycle de vie du financement."
+            },
+            {
+              "icon": "recherche",
+              "color": "magenta",
+              "title": "Connaissance fine des dispositifs",
+              "text": "Aux échelles locales, nationales et européennes, couplée à une veille réglementaire permanente. Nous intervenons dans des contextes variés et évolutifs."
+            },
+            {
+              "icon": "equipe",
+              "color": "turquoise",
+              "title": "Exigence, pédagogie et adaptabilité",
+              "text": "Une approche transversale, proactive et humaine de la recherche de financements, adaptée aux réalités de terrain de chaque structure."
+            }
+          ]
+        },
+        {
+          "type": "values",
+          "eyebrow": "Nos valeurs",
+          "title": "Des valeurs qui guident chacune de nos actions",
+          "items": [
+            {
+              "emoji": "🎯",
+              "color": "violet",
+              "title": "Utilité",
+              "subtitle": "Solutions concrètes et efficaces",
+              "text": "Nous intervenons là où notre accompagnement peut réellement faire la différence, en apportant des solutions adaptées aux enjeux de nos clients."
+            },
+            {
+              "emoji": "🔬",
+              "color": "magenta",
+              "title": "Rigueur",
+              "subtitle": "Expertise pointue et méthode",
+              "text": "Face à la complexité des dispositifs et à l'exigence des financeurs, nous cultivons une expertise pointue, un travail méthodique et une éthique professionnelle."
+            },
+            {
+              "emoji": "🤝",
+              "color": "turquoise",
+              "title": "Confiance",
+              "subtitle": "Écoute, transparence, co-construction",
+              "text": "Nous construisons des relations durables fondées sur l'écoute et la transparence. Loyauté, pédagogie et sens du service — à chaque étape."
+            }
+          ]
+        },
+        {
+          "type": "team",
+          "eyebrow": "Notre équipe",
+          "title": "Des profils complémentaires, une approche intégrée",
+          "items": [
+            {
+              "icon": "recherche",
+              "color": "violet",
+              "role": "Équipe Veille",
+              "title": "Cellule Veille & Intelligence financière",
+              "text": "Chaque jour, notre cellule explore et analyse les dispositifs de financement à l'échelle locale, nationale et européenne pour identifier les opportunités pertinentes."
+            },
+            {
+              "icon": "personne",
+              "color": "magenta",
+              "role": "Équipe Conseil",
+              "title": "Consultants en ingénierie financière",
+              "text": "Nos consultants spécialisés assurent un accompagnement sur mesure à chaque étape, de la détection d'opportunités à la gestion des aides obtenues."
+            },
+            {
+              "icon": "equipe",
+              "color": "turquoise",
+              "role": "Équipe Commerciale",
+              "title": "Relation client & développement",
+              "text": "Point d'entrée privilégié, notre équipe vous accompagne dans l'analyse de vos besoins et l'orientation vers les solutions les plus pertinentes."
+            },
+            {
+              "icon": "bouclier",
+              "color": "indigo",
+              "role": "Équipe Support & Direction",
+              "title": "Direction stratégique & qualité",
+              "text": "Notre direction supervise l'ensemble des activités et garantit la cohérence, la qualité et l'éthique de nos interventions. Elle impulse les évolutions nécessaires."
+            }
+          ]
+        },
+        {
+          "type": "cta",
+          "title": "Rejoignez nos clients engagés",
+          "text": "Échanges gratuits et sans engagement. Nos experts analysent votre situation.",
+          "primaryLabel": "Nous contacter →",
+          "primaryHref": "contact/",
+          "secondaryLabel": "Nos réussites →",
+          "secondaryHref": "les-reussites-de-nos-clients/"
+        }
       ]
     },
     "les-reussites-de-nos-clients": {
@@ -136,12 +268,129 @@
         "title": "Vous développez un projet stratégique à fort impact territorial ?",
         "text": "Contactez-nous pour concevoir une solution de financement alignée sur vos ambitions économiques et sociales.",
         "label": "Contactez-nous →"
-      }
+      },
+      "heroEyebrow": "Profil de nos clients",
+      "heroColor": "bleu",
+      "blocks": [
+        {
+          "type": "secteur",
+          "color": "bleu",
+          "enjeuxTitle": "Vos enjeux",
+          "enjeux": "Identifier les aides et dispositifs mobilisables pour vos projets à visée sociale ou environnementale\nStructurer des collaborations efficaces avec le secteur public\nValoriser votre impact RSE et territorial auprès de vos parties prenantes",
+          "offerTitle": "Ce que nous proposons",
+          "offers": [
+            {
+              "title": "Identification des dispositifs publics et privés adaptés",
+              "text": "Nous analysons vos projets pour repérer les aides disponibles : subventions à l'innovation ou à la transition énergétique, dispositifs territoriaux, soutien à l'investissement, mécénat, fonds européens…"
+            },
+            {
+              "title": "Structuration de projets en co-développement avec le public",
+              "text": "Nous vous accompagnons dans la construction de projets conjoints avec les collectivités (bailleurs sociaux, EPL, établissements de santé…), en intégrant les enjeux réglementaires, financiers et opérationnels."
+            },
+            {
+              "title": "Déploiement de démarches RSE territorialisées",
+              "text": "Nous vous aidons à traduire vos engagements RSE en projets concrets et visibles, à identifier les bons leviers de financement, et à communiquer efficacement votre impact auprès de vos partenaires institutionnels, clients ou investisseurs."
+            },
+            {
+              "title": "Mobilisation du mécénat et des clubs d'entreprises",
+              "text": "Nous accompagnons les entreprises désireuses de s'impliquer localement dans des initiatives d'intérêt général : constitution de clubs de mécènes, mécénat de compétence ou en nature, partenariats avec des structures non lucratives locales."
+            },
+            {
+              "title": "Immobilier & Aménagement",
+              "text": "FEDER, FSE+, France Relance, ANRU, ADEME, Fonds Vert — nous identifions les aides compatibles avec vos opérations de construction, rénovation ou innovation urbaine."
+            }
+          ],
+          "exampleLabel": "",
+          "exampleText": "",
+          "exampleAmount": "",
+          "exampleCaption": "",
+          "gainsTitle": "Ce que vous y gagnez",
+          "gains": "Une stratégie claire pour accéder à des aides souvent méconnues\nDes projets structurés en cohérence avec vos valeurs et votre stratégie RSE\nUne reconnaissance accrue auprès des acteurs publics et de vos partenaires économiques"
+        },
+        {
+          "type": "cta",
+          "title": "Vous développez un projet stratégique à fort impact territorial ?",
+          "text": "Contactez-nous pour concevoir une solution de financement alignée sur vos ambitions économiques et sociales.",
+          "primaryLabel": "Contactez-nous →",
+          "primaryHref": "contact/",
+          "secondaryLabel": "",
+          "secondaryHref": ""
+        }
+      ]
     },
     "secteurs-dactivite": {
-      "title": "Secteurs d'activité",
-      "lead": "Une expertise territoriale et sectorielle : nous adaptons notre accompagnement aux enjeux propres à chaque type de structure."
+      "lead": "Une expertise territoriale et sectorielle : nous adaptons notre accompagnement aux enjeux propres à chaque type de structure.",
+      "title": "Profil de nos clients",
+      "heroEyebrow": "BPCE Finances & Territoires",
+      "heroColor": "violet",
+      "blocks": [
+        {
+          "type": "cards",
+          "style": "secteur",
+          "columns": "3",
+          "items": [
+            {
+              "icon": "batiment",
+              "color": "violet",
+              "title": "Collectivité & EPCI",
+              "text": "Communes, intercommunalités, départements, régions — DSIL, DETR, Fonds Vert, FNADT, programmes européens.",
+              "href": "collectivites-epci/"
+            },
+            {
+              "icon": "sante",
+              "color": "turquoise",
+              "title": "Santé (non lucratif)",
+              "text": "Hôpitaux publics, cliniques associatives — AAP ARS, dispositifs liés à la qualité des soins, innovation technologique.",
+              "href": "etablissements-de-sante-publics-non-lucratifs/"
+            },
+            {
+              "icon": "equipe",
+              "color": "prune",
+              "title": "Médico-Social & Social",
+              "text": "EHPAD, IME, ESAT, CHRS — AAP ARS, CNSA, fondations privées, financements à l'investissement médico-social.",
+              "href": "structures-medico-sociales/"
+            },
+            {
+              "icon": "tableau",
+              "color": "indigo",
+              "title": "Entreprise Publique Locale (EPL)",
+              "text": "SPL, SEM, SCIC — stratégie multi-niveaux adaptée à votre gouvernance hybride, articulant aides publiques et ressources complémentaires.",
+              "href": "entreprises-publiques-locales-epl/"
+            },
+            {
+              "icon": "logement",
+              "color": "magenta",
+              "title": "Bailleurs sociaux",
+              "text": "Bailleurs, OPH, associations d'habitat — ANRU, Fonds Vert, FEDER, dispositifs régionaux pour réhabilitation et mixité sociale.",
+              "href": "logement-social/"
+            },
+            {
+              "icon": "secours",
+              "color": "rouge",
+              "title": "SDIS & Services de secours",
+              "text": "Services d'incendie et de secours — Fonds Vert, DSIL, DETR, plans régionaux, résilience territoriale.",
+              "href": "sdis-service-de-secours/"
+            },
+            {
+              "icon": "entreprise",
+              "color": "bleu",
+              "title": "Entreprise privée",
+              "text": "PME, ETI — financement de projets à impact, démarches RSE territorialisées, mécénat de compétence et aménagement.",
+              "href": "entreprise/"
+            }
+          ]
+        },
+        {
+          "type": "cta",
+          "title": "Votre secteur, notre expertise",
+          "text": "Échanges gratuits et sans engagement pour identifier les pistes de financement les plus pertinentes.",
+          "primaryLabel": "Nous contacter →",
+          "primaryHref": "contact/",
+          "secondaryLabel": "",
+          "secondaryHref": ""
+        }
+      ]
     }
   },
-  "_v": 2
+  "_v": 3
 }

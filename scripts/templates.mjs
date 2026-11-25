@@ -29,7 +29,7 @@ export function richText(str, base = '../') {
 export const SECTIONS = {
   main:      { label: null },
   expertise: { label: 'Expertises et Solutions' },
-  secteur:   { label: "Secteurs d'activité", hub: '../secteurs-dactivite/' },
+  secteur:   { label: 'Profil de nos clients', hub: '../secteurs-dactivite/' },
   guide:     { label: 'Guide', hub: '../guide/' },
 };
 
@@ -655,8 +655,9 @@ export function footer(pages, base = '../', navigation) {
 
 // Bandeau photo des pages internes (maquette « .ph ») : photo assombrie,
 // dégradé violet à gauche, pastille, H1 et chapô. Précédé du fil d'Ariane.
-export function photoHero(p, { eyebrow, title, lead, image } = {}) {
-  return `<div class="ph">
+export function photoHero(p, { eyebrow, title, lead, image, color } = {}) {
+  const variant = HERO_COLORS.includes(color) ? ` ph--${color}` : '';
+  return `<div class="ph${variant}">
   ${image ? `<div class="ph-img"><img src="../${escapeHtml(image)}" alt="" onerror="this.parentElement.remove()"></div>` : ''}
   <div class="ph-over"></div>
   <div class="ph-content container">
@@ -723,6 +724,286 @@ export function pageBanner(p) {
   if (!p.image) return '';
   return `
   <div class="page-banner"><img src="../${escapeHtml(p.image)}" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>`;
+}
+
+// --- Blocs des pages internes (maquette validée) ---
+// Une page porte `blocks` : une liste de blocs typés, rendus dans l'ordre, fonds
+// blanc / clair en alternance. Les listes s'écrivent une ligne par élément.
+
+export const HERO_COLORS = ['violet', 'magenta', 'turquoise', 'prune', 'indigo', 'rouge', 'bleu'];
+
+export const BLOCK_COLORS = {
+  violet: '#581D74', magenta: '#B34A8C', turquoise: '#01A193', prune: '#8A5599',
+  indigo: '#55579E', bleu: '#00749D', rouge: '#DB4B4B', vert: '#8AB973', mauve: '#9176B4',
+};
+
+export const BLOCK_ICONS = {
+  recherche: '<circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/>',
+  crayon: '<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>',
+  activite: '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
+  valide: '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+  alerte: '<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
+  graphique: '<path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/>',
+  maison: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  logement: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+  equipe: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  personne: '<circle cx="12" cy="7" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>',
+  bouclier: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+  batiment: '<rect x="3" y="10" width="18" height="12"/><rect x="8" y="4" width="8" height="6"/>',
+  sante: '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/><line x1="12" y1="10" x2="12" y2="16"/><line x1="9" y1="13" x2="15" y2="13"/>',
+  tableau: '<rect x="3" y="6" width="18" height="15" rx="1"/><line x1="3" y1="11" x2="21" y2="11"/><line x1="10" y1="6" x2="10" y2="21"/>',
+  secours: '<rect x="3" y="12" width="18" height="9" rx="2"/><rect x="3" y="8" width="12" height="4"/><circle cx="7" cy="21" r="2"/><circle cx="17" cy="21" r="2"/>',
+  entreprise: '<rect x="7" y="3" width="10" height="18"/><rect x="2" y="8" width="5" height="13"/><rect x="17" y="8" width="5" height="13"/>',
+  document: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
+  formation: '<path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/>',
+  coeur: '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>',
+  etoile: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+};
+
+// Typographie française : espace insécable avant ? ! : ; » (évite un « ? » seul en fin de titre).
+const frTitle = s => escapeHtml(s).replace(/ ([?!:;»])/g, '&nbsp;$1');
+const blockColor = name => BLOCK_COLORS[name] || BLOCK_COLORS.violet;
+const colorVar = name => `--c:${blockColor(name)}`;
+const lines = v => (Array.isArray(v) ? v : String(v ?? '').split('\n')).map(s => String(s).trim()).filter(Boolean);
+const blockHref = h => (/^(https?:|mailto:|tel:|#|\/)/.test(h || '') ? h : `../${h || ''}`);
+const iconSvg = name => (BLOCK_ICONS[name] ? `<svg viewBox="0 0 24 24" aria-hidden="true">${BLOCK_ICONS[name]}</svg>` : '');
+
+function paragraphs(text) {
+  return String(text ?? '').split(/\n\s*\n/).map(s => s.trim()).filter(Boolean)
+    .map(s => `<p class="mk-p">${richText(s)}</p>`).join('\n      ');
+}
+
+function blockHeader(b) {
+  if (!b.eyebrow && !b.title && !b.subtitle) return '';
+  return `<div class="mk-sh">
+      ${b.eyebrow ? `<span class="section-eyebrow">${escapeHtml(b.eyebrow)}</span>` : ''}
+      ${b.title ? `<h2 class="mk-sh-title">${frTitle(b.title)}</h2>` : ''}
+      ${b.subtitle ? `<p class="mk-sh-sub">${richText(b.subtitle)}</p>` : ''}
+    </div>`;
+}
+
+function arrowList(items, color) {
+  const li = lines(items);
+  return li.length ? `<ul class="mk-arrows"${color ? ` style="${colorVar(color)}"` : ''}>${li.map(i => `<li>${richText(i)}</li>`).join('')}</ul>` : '';
+}
+
+function renderPanel(pn) {
+  if (pn.kind === 'liste') {
+    return `<div class="mk-box">
+        ${pn.title ? `<div class="mk-box__label">${escapeHtml(pn.title)}</div>` : ''}
+        <ul class="mk-checks">${lines(pn.items).map(i => `<li>${richText(i)}</li>`).join('')}</ul>
+      </div>`;
+  }
+  if (pn.kind === 'comparatif') {
+    const col = (t, it) => `<div class="mk-compare__col"><h4>${escapeHtml(t || '')}</h4><ul>${lines(it).map(i => `<li>${escapeHtml(i)}</li>`).join('')}</ul></div>`;
+    return `<div class="mk-compare">
+        ${pn.title ? `<div class="mk-compare__title">${escapeHtml(pn.title)}</div>` : ''}
+        <div class="mk-compare__cols">${col(pn.colA, pn.items)}${col(pn.colB, pn.items2)}</div>
+      </div>`;
+  }
+  return `<div class="mk-offer" style="${colorVar(pn.color)}">
+        <div class="mk-offer__head">
+          ${pn.tag ? `<div class="mk-offer__tag">${escapeHtml(pn.tag)}</div>` : ''}
+          ${pn.title ? `<div class="mk-offer__title">${escapeHtml(pn.title)}</div>` : ''}
+          ${pn.statValue ? `<div class="mk-offer__stat"><div class="mk-offer__value">${escapeHtml(pn.statValue)}${pn.statSuffix ? `<small>${escapeHtml(pn.statSuffix)}</small>` : ''}</div>${pn.statLabel ? `<div class="mk-offer__label">${escapeHtml(pn.statLabel)}</div>` : ''}</div>` : ''}
+        </div>
+        ${lines(pn.items).length || pn.linkLabel ? `<div class="mk-offer__body">
+          ${arrowList(pn.items, pn.color)}
+          ${pn.linkLabel ? `<a class="mk-offer__link" href="${escapeHtml(blockHref(pn.linkHref || 'contact/'))}">${escapeHtml(pn.linkLabel)}</a>` : ''}
+        </div>` : ''}
+      </div>`;
+}
+
+const BLOCK_RENDERERS = {
+  intro: b => `<div class="mk-cols">
+    <div>
+      ${lines(b.tags).length ? `<div class="mk-tags">${lines(b.tags).map(t => `<span class="mk-tag">${escapeHtml(t)}</span>`).join('')}</div>` : ''}
+      ${b.eyebrow ? `<span class="section-eyebrow">${escapeHtml(b.eyebrow)}</span>` : ''}
+      ${b.title ? `<h2 class="mk-h2">${frTitle(b.title)}</h2>` : ''}
+      ${paragraphs(b.text)}
+      ${b.buttonLabel ? `<a class="btn-ap" href="${escapeHtml(blockHref(b.buttonHref || 'contact/'))}">${escapeHtml(b.buttonLabel)}</a>` : ''}
+      ${b.noteText || b.noteLabel ? `<div class="mk-note">
+        ${b.noteLabel ? `<div class="mk-note__label">${escapeHtml(b.noteLabel)}</div>` : ''}
+        ${b.noteText ? `<p>${richText(b.noteText)}</p>` : ''}
+        ${b.noteLinkLabel ? `<a href="${escapeHtml(blockHref(b.noteLinkHref))}">${escapeHtml(b.noteLinkLabel)}</a>` : ''}
+      </div>` : ''}
+    </div>
+    <div class="mk-stack">
+      ${(b.panels || []).filter(pn => pn.title || pn.tag || lines(pn.items).length).map(renderPanel).join('\n      ')}
+    </div>
+  </div>`,
+
+  steps: b => `${blockHeader(b)}
+    <div class="mk-steps">
+      ${(b.items || []).filter(s => s.title || s.text).map((s, i) => `<div class="mk-step">
+        <div class="mk-step__n">${i + 1}</div>
+        <div class="mk-step__b">
+          ${s.tag ? `<span class="mk-step__tag">${escapeHtml(s.tag)}</span>` : ''}
+          <h3 class="mk-step__title">${escapeHtml(s.title)}</h3>
+          <p class="mk-step__text">${richText(s.text)}</p>
+        </div>
+      </div>`).join('\n      ')}
+    </div>`,
+
+  cards: b => {
+    const items = (b.items || []).filter(it => it.title || it.text);
+    const cols = ['2', '3', '4'].includes(String(b.columns)) ? String(b.columns) : (items.length % 3 === 0 && items.length > 2 ? '3' : '2');
+    return `${blockHeader(b)}
+    <div class="mk-grid mk-grid--${cols}">
+      ${items.map((it, i) => {
+        const color = it.color || b.color;
+        const tag = it.href ? 'a' : 'div';
+        const cls = b.style === 'secteur' ? 'mk-card mk-card--sector' : b.style === 'numero' ? 'mk-card mk-card--topline' : 'mk-card';
+        return `<${tag} class="${cls}" style="${colorVar(color)}"${it.href ? ` href="${escapeHtml(blockHref(it.href))}"` : ''}>
+        ${b.style === 'secteur' ? '<div class="mk-card__bar"></div>' : ''}
+        ${b.style === 'numero' ? `<div class="mk-card__num">${String(i + 1).padStart(2, '0')}</div>` : (it.icon && BLOCK_ICONS[it.icon] ? `<div class="mk-card__ico">${iconSvg(it.icon)}</div>` : '')}
+        <h3 class="mk-card__title">${escapeHtml(it.title)}</h3>
+        ${it.text ? `<p class="mk-card__text">${richText(it.text)}</p>` : ''}
+        ${arrowList(it.list, color)}
+        ${it.href ? `<span class="mk-card__link">${escapeHtml(it.linkLabel || 'En savoir plus →')}</span>` : ''}
+      </${tag}>`;
+      }).join('\n      ')}
+    </div>`;
+  },
+
+  stats: b => `${blockHeader(b)}
+    <div class="mk-stats">
+      ${(b.items || []).filter(s => s.value || s.label).map(s => `<div class="mk-stat" style="${colorVar(s.color)}">
+        <div class="mk-stat__val">${escapeHtml(s.value)}${s.suffix ? `<small>${escapeHtml(s.suffix)}</small>` : ''}</div>
+        ${s.label ? `<div class="mk-stat__lab">${escapeHtml(s.label)}</div>` : ''}
+        ${s.text ? `<div class="mk-stat__desc">${escapeHtml(s.text)}</div>` : ''}
+      </div>`).join('\n      ')}
+    </div>`,
+
+  testimonial: b => {
+    const initials = String(b.name || '').split(/\s+/).filter(w => /^[A-Za-zÀ-ÿ]/.test(w)).slice(0, 2).map(w => w[0].toUpperCase()).join('');
+    return `${blockHeader(b)}
+    <figure class="mk-testimonial">
+      <blockquote>${richText(b.quote)}</blockquote>
+      ${b.name || b.role ? `<figcaption class="mk-testimonial__who">
+        ${initials ? `<div class="mk-testimonial__avatar">${escapeHtml(initials)}</div>` : ''}
+        <div>${b.name ? `<div class="mk-testimonial__name">${escapeHtml(b.name)}</div>` : ''}${b.role ? `<div class="mk-testimonial__role">${escapeHtml(b.role)}</div>` : ''}</div>
+      </figcaption>` : ''}
+    </figure>`;
+  },
+
+  faq: b => `${blockHeader(b)}
+    <div class="mk-faq">
+      ${(b.items || []).filter(x => x.title || x.text).map(x => `<div><div class="mk-faq__q">${escapeHtml(x.title)}</div><p>${richText(x.text)}</p></div>`).join('\n      ')}
+    </div>`,
+
+  values: b => `${blockHeader(b)}
+    <div class="mk-grid mk-grid--3">
+      ${(b.items || []).filter(v => v.title || v.text).map(v => `<div class="mk-val" style="${colorVar(v.color)}">
+        ${v.emoji ? `<div class="mk-val__ico" aria-hidden="true">${escapeHtml(v.emoji)}</div>` : ''}
+        <div class="mk-val__title">${escapeHtml(v.title)}</div>
+        ${v.subtitle ? `<div class="mk-val__sub">${escapeHtml(v.subtitle)}</div>` : ''}
+        <p class="mk-val__text">${richText(v.text)}</p>
+      </div>`).join('\n      ')}
+    </div>`,
+
+  team: b => `${blockHeader(b)}
+    <div class="mk-grid mk-grid--4">
+      ${(b.items || []).filter(t => t.title || t.text).map(t => `<div class="mk-eq" style="${colorVar(t.color)}">
+        ${t.icon && BLOCK_ICONS[t.icon] ? `<div class="mk-eq__ico">${iconSvg(t.icon)}</div>` : ''}
+        ${t.role ? `<div class="mk-eq__role">${escapeHtml(t.role)}</div>` : ''}
+        <div class="mk-eq__title">${escapeHtml(t.title)}</div>
+        <p class="mk-eq__text">${richText(t.text)}</p>
+      </div>`).join('\n      ')}
+    </div>`,
+
+  secteur: b => `<div class="mk-cols" style="${colorVar(b.color)}">
+    <div>
+      <h2 class="mk-h2">${escapeHtml(b.enjeuxTitle || 'Vos enjeux')}</h2>
+      <ul class="mk-enjeux">${lines(b.enjeux).map(e => `<li>${richText(e)}</li>`).join('')}</ul>
+      ${(b.offers || []).length ? `<h3 class="mk-h3">${escapeHtml(b.offerTitle || 'Ce que nous proposons')}</h3>
+      <ul class="mk-props">${(b.offers || []).filter(o => o.title || o.text).map(o => `<li><div>${o.title ? `<strong>${escapeHtml(o.title)}</strong>${o.text ? ' — ' : ''}` : ''}${richText(o.text)}</div></li>`).join('')}</ul>` : ''}
+    </div>
+    <div class="mk-stack">
+      ${b.exampleText || b.exampleAmount ? `<div class="mk-exemple">
+        ${b.exampleLabel ? `<div class="mk-exemple__label">${escapeHtml(b.exampleLabel)}</div>` : ''}
+        ${b.exampleText ? `<p>${richText(b.exampleText)}</p>` : ''}
+        ${b.exampleAmount ? `<div class="mk-exemple__num">${escapeHtml(b.exampleAmount)}</div>` : ''}
+        ${b.exampleCaption ? `<div class="mk-exemple__desc">${escapeHtml(b.exampleCaption)}</div>` : ''}
+      </div>` : ''}
+      ${lines(b.gains).length ? `<div class="mk-card"><h3 class="mk-card__title">${escapeHtml(b.gainsTitle || 'Ce que vous y gagnez')}</h3><ul class="mk-gains">${lines(b.gains).map(g => `<li>${richText(g)}</li>`).join('')}</ul></div>` : ''}
+    </div>
+  </div>`,
+
+  story: b => `<div class="mk-cols">
+    <div>
+      ${b.eyebrow ? `<span class="section-eyebrow">${escapeHtml(b.eyebrow)}</span>` : ''}
+      ${b.title ? `<h2 class="mk-h2">${frTitle(b.title)}</h2>` : ''}
+      ${paragraphs(b.text)}
+      ${b.quote ? `<div class="mk-quote-aside"><p>${richText(b.quote)}</p></div>` : ''}
+    </div>
+    <div class="mk-stack">
+      ${(b.figures || []).length ? `<div class="mk-figures">
+        ${b.figuresLabel ? `<div class="mk-figures__label">${escapeHtml(b.figuresLabel)}</div>` : ''}
+        <div class="mk-figures__grid">${(b.figures || []).filter(f => f.value || f.label).map(f => `<div><div class="mk-figures__val">${escapeHtml(f.value)}</div><div class="mk-figures__lab">${escapeHtml(f.label)}</div></div>`).join('')}</div>
+      </div>` : ''}
+      ${lines(b.convictions).length ? `<div class="mk-card"><h3 class="mk-card__title">${escapeHtml(b.convictionsTitle || '')}</h3><ul class="mk-enjeux">${lines(b.convictions).map(c => `<li>${richText(c)}</li>`).join('')}</ul></div>` : ''}
+    </div>
+  </div>`,
+
+  courses: b => `${blockHeader(b)}
+    ${b.qualiopiBadge || b.qualiopiText ? `<div class="mk-quali-block">
+      ${b.qualiopiBadge ? `<span class="mk-quali">✅ ${escapeHtml(b.qualiopiBadge)}</span>` : ''}
+      ${b.qualiopiText ? `<p class="mk-p">${richText(b.qualiopiText)}</p>` : ''}
+      ${b.qualiopiLink ? `<a class="mk-offer__link" href="${escapeHtml(blockHref(b.qualiopiLink))}">${escapeHtml(b.qualiopiLinkLabel || 'Voir le certificat →')}</a>` : ''}
+    </div>` : ''}
+    <div class="mk-grid mk-grid--3">
+      ${(b.items || []).filter(c => c.title).map(c => `<div class="mk-course" style="${colorVar(c.color)}">
+        <div class="mk-course__head">
+          ${c.level || c.days ? `<div class="mk-course__meta">${c.level ? `<span class="mk-course__niv">${escapeHtml(c.level)}</span>` : '<span></span>'}${c.days ? `<span class="mk-course__dur">${escapeHtml(c.days)}</span>` : ''}</div>` : ''}
+          <h3 class="mk-course__title">${escapeHtml(c.title)}</h3>
+          ${c.teaser ? `<p class="mk-course__teaser">${richText(c.teaser)}</p>` : ''}
+        </div>
+        ${lines(c.list).length ? `<div class="mk-course__body">${arrowList(c.list, c.color)}</div>` : ''}
+        ${c.mode || c.programHref ? `<div class="mk-course__foot"><span>${c.mode ? `📍 ${escapeHtml(c.mode)}` : ''}</span>${c.programHref ? `<a href="${escapeHtml(blockHref(c.programHref))}">En savoir + →</a>` : ''}</div>` : ''}
+      </div>`).join('\n      ')}
+    </div>`,
+
+  text: b => `${blockHeader(b)}
+    <div style="max-width:760px;margin:0 auto;">${paragraphs(b.text)}</div>`,
+};
+
+function renderCtaBlock(b) {
+  return `<section class="project-cta project-cta--page">
+  <div class="project-cta__inner">
+    ${b.title ? `<h2 class="project-cta__title">${frTitle(b.title)}</h2>` : ''}
+    ${b.text ? `<p class="project-cta__text">${richText(b.text)}</p>` : ''}
+    <div class="project-cta__actions">
+      ${b.primaryLabel ? `<a class="btn-cta-pill" href="${escapeHtml(blockHref(b.primaryHref || 'contact/'))}">${escapeHtml(b.primaryLabel)}</a>` : ''}
+      ${b.secondaryLabel ? `<a class="btn-cta-pill btn-cta-pill--ghost" href="${escapeHtml(blockHref(b.secondaryHref))}">${escapeHtml(b.secondaryLabel)}</a>` : ''}
+    </div>
+  </div>
+</section>`;
+}
+
+export function renderBlocks(blocks) {
+  let i = 0;
+  return (blocks || []).map(b => {
+    if (!b || !b.type) return '';
+    if (b.type === 'cta') return renderCtaBlock(b);
+    const render = BLOCK_RENDERERS[b.type];
+    if (!render) return '';
+    const light = i++ % 2 === 1;
+    return `<section class="mk-section${light ? ' mk-section--light' : ''}">
+  <div class="container">
+    ${render(b)}
+  </div>
+</section>`;
+  }).join('\n');
+}
+
+export function renderBlockPage(p, c = p, content) {
+  // Sans bloc « Bandeau d'appel » saisi, on garde le bandeau de contact commun.
+  const hasCta = (c.blocks || []).some(b => b && b.type === 'cta');
+  return `${photoHero(p, { eyebrow: c.heroEyebrow, title: c.headline || c.title, lead: c.lead, image: c.image ?? c.bannerImage, color: c.heroColor })}
+<main>
+${renderBlocks(c.blocks)}
+</main>${hasCta ? '' : ctaBand(content)}`;
 }
 
 // « Notre méthode »/« Notre processus » : étapes numérotées, utilisées sur
@@ -822,6 +1103,7 @@ function renderQualiopi(q) {
 }
 
 export function renderExpertiseOrSecteur(p, pages, content) {
+  if (p.blocks?.length) return renderBlockPage(p, p, content);
   return `<main class="container">
   <div class="page-hero">
     <h1>${escapeHtml(p.headline || p.title)}</h1>
@@ -923,6 +1205,7 @@ export function renderPageSections(sections) {
 
 export function renderCustom(p, pages, events, content, navigation) {
   const c = pageContent(p.slug, content);
+  if (c.blocks?.length) return renderBlockPage(p, { ...p, ...c }, content);
   switch (p.slug) {
     case 'entreprise': {
       const cta = { ...(DEFAULT_CONTENT.pages.entreprise.cta), ...(c.cta || {}) };
@@ -1182,7 +1465,7 @@ ${seoTags(p, site.content)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles/site.css?v=20261125a">
+<link rel="stylesheet" href="../styles/site.css?v=20261125b">
 </head>
 <body>
 
@@ -1504,7 +1787,7 @@ ${metaTags(homepage?.seoTitle || `BPCE Finances & Territoires — ${String(homep
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/site.css?v=20261125a">
+<link rel="stylesheet" href="styles/site.css?v=20261125b">
 </head>
 <body>
 
@@ -1526,7 +1809,9 @@ ${footer(pages, '', site.navigation)}
 export function buildPages({ guideArticles, expertises, secteurs, content } = {}) {
   const basePages = BASE_PAGES.map(p => {
     const c = pageContent(p.slug, content);
-    return { ...p, ...(c.title ? { title: c.title } : {}), ...(c.lead ? { lead: c.lead } : {}), ...(c.image !== undefined ? { image: c.image } : {}) };
+    const extra = {};
+    for (const k of ['blocks', 'heroEyebrow', 'heroColor', 'headline']) if (c[k] !== undefined) extra[k] = c[k];
+    return { ...p, ...(c.title ? { title: c.title } : {}), ...(c.lead ? { lead: c.lead } : {}), ...(c.image !== undefined ? { image: c.image } : {}), ...extra };
   });
   return [...basePages, ...(expertises || []), ...(secteurs || []), ...(guideArticles || [])];
 }

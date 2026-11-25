@@ -21,7 +21,46 @@
         "text": "Notification dès l'ouverture d'un dispositif correspondant à votre structure."
       }
     ],
-    "_v": 2
+    "_v": 3,
+    "heroEyebrow": "Expertises et Solutions",
+    "heroColor": "violet",
+    "blocks": [
+      {
+        "type": "cards",
+        "eyebrow": "Deux formats",
+        "title": "Choisissez le format adapté à votre besoin",
+        "columns": "2",
+        "items": [
+          {
+            "icon": "activite",
+            "color": "violet",
+            "title": "Veille continue",
+            "text": "Un accompagnement continu, nourri par votre PPI et vos projets, pour anticiper les opportunités et maximiser le potentiel de financement sur le long terme.",
+            "list": "Cartographie des opportunités\nAlertes personnalisées\nPoints d'étape réguliers",
+            "href": "veille-personnalisee/",
+            "linkLabel": "Découvrir la Veille continue →"
+          },
+          {
+            "icon": "recherche",
+            "color": "magenta",
+            "title": "Note d'opportunité",
+            "text": "Vérifiez en amont si votre projet est potentiellement finançable à date — et identifiez les financeurs susceptibles de le soutenir.",
+            "list": "Analyse ciblée sur un projet\nÉchéance court terme\nSans engagement",
+            "href": "optimaides-subventions/",
+            "linkLabel": "Découvrir la Note d'opportunité →"
+          }
+        ]
+      },
+      {
+        "type": "cta",
+        "title": "Un projet à financer ? Parlons-en.",
+        "text": "Nos consultants vous orientent vers le format le plus adapté à votre situation.",
+        "primaryLabel": "Nous contacter →",
+        "primaryHref": "contact/",
+        "secondaryLabel": "",
+        "secondaryHref": ""
+      }
+    ]
   },
   {
     "slug": "mobilisation-des-aides",
@@ -45,7 +84,46 @@
         "text": "Suivi administratif jusqu'au versement effectif des fonds."
       }
     ],
-    "_v": 2
+    "_v": 3,
+    "heroEyebrow": "Expertises et Solutions",
+    "heroColor": "magenta",
+    "blocks": [
+      {
+        "type": "cards",
+        "eyebrow": "Mobilisation des aides",
+        "title": "De l'identification au versement final",
+        "columns": "2",
+        "items": [
+          {
+            "icon": "crayon",
+            "color": "magenta",
+            "title": "Montage des dossiers",
+            "text": "Constitution et dépôt des dossiers d'aides françaises et européennes, par un consultant expérimenté, pour maximiser vos chances d'obtention.",
+            "list": "Analyse de l'éligibilité\nRédaction et constitution des dossiers\nDépôt et suivi de l'instruction",
+            "href": "montage-des-dossiers/",
+            "linkLabel": "Découvrir le montage →"
+          },
+          {
+            "icon": "graphique",
+            "color": "turquoise",
+            "title": "Gestion des aides obtenues",
+            "text": "Pilotage des demandes de paiement et accompagnement jusqu'au versement final et au bilan d'exécution.",
+            "list": "Pilotage des demandes de paiement\nBilan d'exécution & conformité\nSécurisation des fonds européens",
+            "href": "gestion-des-aides/",
+            "linkLabel": "Découvrir la gestion des aides →"
+          }
+        ]
+      },
+      {
+        "type": "cta",
+        "title": "Un projet à financer ? Parlons-en.",
+        "text": "Nos experts évaluent l'éligibilité de votre projet et vous proposent un plan d'action concret.",
+        "primaryLabel": "Nous contacter →",
+        "primaryHref": "contact/",
+        "secondaryLabel": "",
+        "secondaryHref": ""
+      }
+    ]
   },
   {
     "slug": "montage-des-dossiers",
@@ -95,7 +173,101 @@
         "text": "Nous intervenons sur tous types d'aides : subventions d'État, fonds européens (FEDER, FSE+, FEADER...), aides régionales et départementales, dotations d'État (DETR, DSIL...), fonds ANAH, agences appels à projets ADEME, et bien d'autres selon votre secteur."
       }
     ],
-    "_v": 2
+    "_v": 3,
+    "heroEyebrow": "Mobilisation des aides",
+    "heroColor": "magenta",
+    "headline": "Montage des dossiers",
+    "blocks": [
+      {
+        "type": "intro",
+        "tags": "Montage de dossiers\nGestion des aides\nAides européennes\nSuivi jusqu'au versement",
+        "title": "Le montage, un métier à part entière",
+        "text": "Obtenir une subvention ne s'improvise pas. La qualité du dossier, la rigueur des justificatifs, la connaissance des critères d'instruction et le respect des délais sont déterminants pour le succès d'une demande d'aide.\n\nNos équipes, spécialisées par secteur, prennent en charge l'intégralité du processus : de l'analyse de l'éligibilité à la gestion post-attribution, en passant par la rédaction et le dépôt des dossiers, par un consultant expérimenté.",
+        "buttonLabel": "Nous confier mon dossier →",
+        "buttonHref": "contact/",
+        "panels": [
+          {
+            "kind": "offre",
+            "color": "magenta",
+            "tag": "Mobilisation",
+            "title": "Montage des dossiers",
+            "items": "Analyse de l'éligibilité de votre projet aux dispositifs ciblés\nRédaction du mémoire technique et du budget prévisionnel\nRecensement et coordination des pièces administratives\nDépôt des dossiers dans les délais impartis, suivi de l'instruction"
+          },
+          {
+            "kind": "offre",
+            "color": "turquoise",
+            "tag": "Post-attribution",
+            "title": "Gestion des aides & sécurisation européenne",
+            "items": "Suivi des obligations contractuelles liées aux aides obtenues\nPilotage des demandes de versements intermédiaires et finaux\nSécurisation spécifique des fonds européens (FEDER, FSE+, FEADER)\nGestion des audits et contrôles des organismes financeurs",
+            "linkLabel": "Gestion des aides obtenues →",
+            "linkHref": "gestion-des-aides/"
+          }
+        ]
+      },
+      {
+        "type": "cards",
+        "eyebrow": "Notre processus",
+        "title": "De l'analyse à l'obtention",
+        "columns": "4",
+        "color": "magenta",
+        "items": [
+          {
+            "icon": "recherche",
+            "title": "1. Analyse d'éligibilité",
+            "text": "Vérification de la conformité de votre projet avec les critères de chaque dispositif pour ne cibler que les aides réellement accessibles."
+          },
+          {
+            "icon": "crayon",
+            "title": "2. Rédaction & constitution",
+            "text": "Rédaction des mémoires techniques, coordination des pièces administratives et financières, préparation du budget prévisionnel."
+          },
+          {
+            "icon": "activite",
+            "title": "3. Dépôt & instruction",
+            "text": "Dépôt dans les délais, lien avec les instructeurs, traitement des demandes de pièces complémentaires, validation des conventions attributives."
+          },
+          {
+            "icon": "valide",
+            "title": "4. Obtention sécurisée",
+            "text": "Principalement rémunéré au succès. Nous suivons chaque dossier jusqu'à l'obtention officielle de l'aide et la signature de la convention."
+          }
+        ]
+      },
+      {
+        "type": "testimonial",
+        "quote": "[À COMPLÉTER — témoignage client réel à ajouter ici]",
+        "name": "[Nom, fonction — à compléter]",
+        "role": ""
+      },
+      {
+        "type": "faq",
+        "eyebrow": "Questions fréquentes",
+        "title": "Vos questions sur le montage",
+        "items": [
+          {
+            "title": "Quels types d'aides accompagnez-vous ?",
+            "text": "Nous intervenons sur tous types d'aides : subventions d'État, fonds européens (FEDER, FSE+, FEADER...), aides régionales et départementales, dotations d'État (DETR, DSIL...), fonds ANAH, agences appels à projets ADEME, et bien d'autres selon votre secteur."
+          },
+          {
+            "title": "Combien de temps prend un montage de dossier ?",
+            "text": "Cela dépend du dispositif. Un dossier DETR peut être constitué en 2 à 4 semaines. Un dossier européen FEDER peut nécessiter 2 à 4 mois. Nous vous informons dès le départ des délais à prévoir."
+          },
+          {
+            "title": "Qu'est-ce que la sécurisation des aides européennes ?",
+            "text": "Les fonds européens font l'objet de contrôles rigoureux pouvant aller jusqu'à 5 ans après le versement. Notre mission consiste à mettre en place les procédures, documenter les dépenses et préparer votre structure à d'éventuels contrôles."
+          }
+        ]
+      },
+      {
+        "type": "cta",
+        "title": "Un projet à financer ? Parlons-en.",
+        "text": "Nos experts évaluent l'éligibilité de votre projet et vous proposent un plan d'action concret.",
+        "primaryLabel": "Nous contacter →",
+        "primaryHref": "contact/",
+        "secondaryLabel": "Pilotage des aides obtenues →",
+        "secondaryHref": "gestion-des-aides/"
+      }
+    ]
   },
   {
     "slug": "veille-personnalisee",
@@ -135,7 +307,74 @@
         "text": "Vous êtes notifié dès qu'un dispositif pertinent s'ouvre, avec un point régulier de votre consultant pour prioriser les opportunités."
       }
     ],
-    "_v": 2
+    "_v": 3,
+    "heroEyebrow": "Détection des opportunités — Format 1",
+    "heroColor": "violet",
+    "headline": "Veille continue",
+    "blocks": [
+      {
+        "type": "intro",
+        "tags": "Stratégie long terme\nAlertes personnalisées\nPPI & projets multiples",
+        "title": "Construire une stratégie de financement dans la durée",
+        "text": "Le paysage des aides est vaste et en constante évolution : +19 000 mesures de soutien à date. Sans veille active et experte, la majorité de ces opportunités restent inexploitées. La Veille continue vous permet de ne jamais passer à côté d'une aide pertinente.\n\nNos consultants construisent avec vous une cartographie de vos projets et thématiques, puis veillent activement sur toutes les opportunités correspondantes — alertes, points réguliers et recommandations à la clé.",
+        "buttonLabel": "Demander un diagnostic gratuit →",
+        "buttonHref": "contact/",
+        "noteLabel": "Format 2 — Note d'opportunité",
+        "noteText": "Vous souhaitez d'abord vérifier si un projet est finançable avant de vous engager ?",
+        "noteLinkLabel": "Découvrir la Note d'opportunité →",
+        "noteLinkHref": "optimaides-subventions/",
+        "panels": [
+          {
+            "kind": "offre",
+            "color": "violet",
+            "tag": "Accompagnement continu",
+            "title": "Ce que vous obtenez",
+            "statValue": "19 000",
+            "statSuffix": "+",
+            "statLabel": "dispositifs analysés pour vous",
+            "items": "Cartographie des opportunités correspondant à votre PPI et vos projets\nAlertes dès qu'un nouveau dispositif apparaît ou est mis à jour\nPoints d'étape réguliers pour ajuster le plan de financement\nConsultant dédié, à votre écoute pour faire émerger les opportunités\nDétection des AAP de fondations (~1 500 sources privées)",
+            "linkLabel": "Nous contacter →",
+            "linkHref": "contact/"
+          }
+        ]
+      },
+      {
+        "type": "steps",
+        "eyebrow": "Notre méthode",
+        "title": "Comment fonctionne la Veille continue",
+        "items": [
+          {
+            "tag": "Cadrage",
+            "title": "Analyse de votre contexte et de vos projets",
+            "text": "Nous prenons le temps de comprendre votre structure, votre PPI, vos projets prioritaires et votre territoire, afin de définir précisément le périmètre de la veille."
+          },
+          {
+            "tag": "Veille active",
+            "title": "Identification continue des aides mobilisables",
+            "text": "Via FinBoost, nous croisons votre périmètre avec l'ensemble des dispositifs disponibles : fonds européens, aides nationales, aides régionales, aides départementales, aides locales, AAP privés et fondations."
+          },
+          {
+            "tag": "Alertes",
+            "title": "Notification dès qu'une opportunité émerge",
+            "text": "Vous êtes alerté en temps réel dès qu'un nouveau dispositif correspondant à vos projets s'ouvre, ou qu'un calendrier de dépôt approche."
+          },
+          {
+            "tag": "Pilotage",
+            "title": "Points réguliers et ajustements",
+            "text": "Des réunions de suivi régulières pour affiner la stratégie, prioriser les opportunités et décider ensemble des suites à donner (montage, note d'opportunité, etc.)."
+          }
+        ]
+      },
+      {
+        "type": "cta",
+        "title": "Prêt à lancer votre Veille continue ?",
+        "text": "Nos consultants analysent votre PPI et vos projets pour construire une stratégie de financement proactive et durable.",
+        "primaryLabel": "Nous contacter →",
+        "primaryHref": "contact/",
+        "secondaryLabel": "Tester d'abord avec une Note d'opportunité →",
+        "secondaryHref": "optimaides-subventions/"
+      }
+    ]
   },
   {
     "slug": "gestion-des-aides",
@@ -163,7 +402,63 @@
         "text": "Un tableau de bord dédié pour suivre en temps réel l'état de vos dossiers, vos échéances et les montants à percevoir, projet par projet."
       }
     ],
-    "_v": 2
+    "_v": 3,
+    "heroEyebrow": "Pilotage des aides",
+    "heroColor": "turquoise",
+    "headline": "Gestion des aides obtenues",
+    "blocks": [
+      {
+        "type": "cards",
+        "columns": "2",
+        "color": "turquoise",
+        "items": [
+          {
+            "icon": "tableau",
+            "title": "Pilotage des demandes de paiement",
+            "text": "Suivi des échéances de paiement, des montants obtenus et à percevoir. Coordination des demandes de versement auprès des organismes financeurs."
+          },
+          {
+            "icon": "document",
+            "title": "Bilan d'exécution & conformité",
+            "text": "Assistance à la liquidation des dossiers, accompagnement au bilan d'exécution, justification des dépenses et anticipation des contrôles des financeurs."
+          },
+          {
+            "icon": "alerte",
+            "title": "Alertes personnalisées",
+            "text": "Notification en temps réel sur les échéances, les risques de perte d'aide et les obligations déclaratives — via notre outil FinBoost."
+          },
+          {
+            "icon": "bouclier",
+            "title": "Sécurisation des fonds européens",
+            "text": "Accompagnement spécifique pour les fonds FEDER, FSE+ et FEADER — suivi renforcé jusqu'aux contrôles et certification finale des dépenses."
+          }
+        ]
+      },
+      {
+        "type": "intro",
+        "eyebrow": "Notre outil",
+        "title": "Un tableau de bord dédié à vos aides",
+        "text": "Un tableau de bord dédié pour suivre en temps réel l'état de vos dossiers, vos échéances et les montants à percevoir, projet par projet.",
+        "buttonLabel": "Nous contacter →",
+        "buttonHref": "contact/",
+        "panels": [
+          {
+            "kind": "liste",
+            "title": "Avec FinBoost, vous suivez",
+            "items": "L'état d'avancement de chaque dossier\nLes échéances de justification et de versement\nLes montants obtenus et restant à percevoir\nLes alertes sur les risques de perte d'aide"
+          }
+        ]
+      },
+      {
+        "type": "cta",
+        "title": "Sécurisez chaque versement jusqu'au bout",
+        "text": "Nos experts prennent en charge le pilotage de vos aides obtenues pour garantir le versement intégral.",
+        "primaryLabel": "Nous contacter →",
+        "primaryHref": "contact/",
+        "secondaryLabel": "Montage des dossiers →",
+        "secondaryHref": "montage-des-dossiers/"
+      }
+    ]
   },
   {
     "slug": "fundraising",
@@ -187,7 +482,37 @@
         "text": "Accompagnement de vos campagnes de collecte."
       }
     ],
-    "_v": 2
+    "_v": 3,
+    "heroEyebrow": "Fonds privés / Mécénat",
+    "heroColor": "turquoise",
+    "headline": "Recherche de mécènes",
+    "blocks": [
+      {
+        "type": "intro",
+        "title": "Mobiliser les entreprises de votre territoire",
+        "text": "Nous connectons les projets porteurs d'intérêt général aux mécènes du territoire, principalement des PME et ETI, et vous accompagnons de la construction du discours de collecte jusqu'à la sécurisation des dons.",
+        "buttonLabel": "Nous contacter →",
+        "buttonHref": "contact/",
+        "panels": [
+          {
+            "kind": "offre",
+            "color": "turquoise",
+            "tag": "Fonds privés",
+            "title": "Recherche de mécènes",
+            "items": "Construction d'un discours de collecte (case for support)\nCiblage et identification des potentiels de collecte\nÉquipe dédiée à la prospection et prise de RDV\nSécurisation des dons et conventions de mécénat\nReporting détaillé tout au long de la mission"
+          }
+        ]
+      },
+      {
+        "type": "cta",
+        "title": "Développons vos ressources privées ensemble",
+        "text": "Diagnostic gratuit de votre potentiel de mécénat et de collecte.",
+        "primaryLabel": "Demander un diagnostic →",
+        "primaryHref": "contact/",
+        "secondaryLabel": "AAP de fondations →",
+        "secondaryHref": "recherche-de-fondations/"
+      }
+    ]
   },
   {
     "slug": "fonds-prives-mecenat",
@@ -211,7 +536,47 @@
         "text": "Repérage des appels à projets des fondations privées et accompagnement dans leur sollicitation. [En savoir plus](recherche-de-fondations/)"
       }
     ],
-    "_v": 2
+    "_v": 3,
+    "heroEyebrow": "Expertises et Solutions",
+    "heroColor": "turquoise",
+    "headline": "Fonds privés / Mécénat",
+    "blocks": [
+      {
+        "type": "cards",
+        "eyebrow": "Nos offres",
+        "title": "Trois leviers pour développer vos ressources privées",
+        "subtitle": "Nous connectons les projets porteurs d'intérêt général — collectivités, structures publiques, structures du médico-social ou associations — aux mécènes du territoire, principalement des PME et ETI.",
+        "columns": "3",
+        "color": "turquoise",
+        "style": "numero",
+        "items": [
+          {
+            "title": "Fonds de dotation & collecte de fonds privés",
+            "text": "Création ou relance de votre fonds de dotation et activation de votre stratégie de mécénat.",
+            "href": "fonds-de-dotation-mecenat-local/"
+          },
+          {
+            "title": "Recherche de mécènes",
+            "text": "Identification et sollicitation des entreprises du territoire susceptibles de soutenir votre projet.",
+            "href": "fundraising/"
+          },
+          {
+            "title": "AAP de fondations",
+            "text": "Repérage des appels à projets des fondations privées et accompagnement dans leur sollicitation.",
+            "href": "recherche-de-fondations/"
+          }
+        ]
+      },
+      {
+        "type": "cta",
+        "title": "Développons vos ressources privées ensemble",
+        "text": "Diagnostic gratuit de votre potentiel de mécénat et de collecte.",
+        "primaryLabel": "Demander un diagnostic →",
+        "primaryHref": "contact/",
+        "secondaryLabel": "Nos formations →",
+        "secondaryHref": "nos-formations/"
+      }
+    ]
   },
   {
     "slug": "fonds-de-dotation-mecenat-local",
@@ -239,7 +604,61 @@
         "text": "Présents avant, pendant et après le lancement de votre campagne de collecte, sur une période qui dure en moyenne 18 mois."
       }
     ],
-    "_v": 2
+    "_v": 3,
+    "heroEyebrow": "Fonds privés / Mécénat",
+    "heroColor": "turquoise",
+    "headline": "Fonds de dotation & collecte de fonds privés",
+    "blocks": [
+      {
+        "type": "cards",
+        "columns": "2",
+        "color": "turquoise",
+        "style": "numero",
+        "items": [
+          {
+            "title": "Créer votre fonds de dotation",
+            "list": "Interviews préliminaires pour définir le positionnement\nRédaction des statuts et structuration de la gouvernance\nDémarches administratives : dossier préfecture, JOAFE, SIREN\nMise en conformité réglementaire et appel public à la générosité\nAccompagnement juridique des premiers CA"
+          },
+          {
+            "title": "Activer votre stratégie de mécénat",
+            "list": "Brochure mécénat et supports de présentation projets\nConvention de mécénat, charte éthique, reçus fiscaux\nCatalogue des contreparties et segmentation des mécènes\nPlan stratégique de collecte et permanence de conseil\nConsultant expert dédié pendant toute la durée"
+          }
+        ]
+      },
+      {
+        "type": "stats",
+        "items": [
+          {
+            "value": "Avant",
+            "label": "le lancement",
+            "text": "Positionnement, statuts, gouvernance",
+            "color": "turquoise"
+          },
+          {
+            "value": "Pendant",
+            "label": "la campagne",
+            "text": "Stratégie, supports et prospection",
+            "color": "violet"
+          },
+          {
+            "value": "18",
+            "suffix": " mois",
+            "label": "en moyenne",
+            "text": "D'accompagnement, jusqu'après le lancement de la collecte",
+            "color": "magenta"
+          }
+        ]
+      },
+      {
+        "type": "cta",
+        "title": "Développons vos ressources privées ensemble",
+        "text": "Diagnostic gratuit de votre potentiel de mécénat et de collecte.",
+        "primaryLabel": "Demander un diagnostic →",
+        "primaryHref": "contact/",
+        "secondaryLabel": "Recherche de mécènes →",
+        "secondaryHref": "fundraising/"
+      }
+    ]
   },
   {
     "slug": "recherche-de-fondations",
@@ -263,7 +682,39 @@
         "text": "Mise en relation et suivi dans la durée."
       }
     ],
-    "_v": 2
+    "_v": 3,
+    "heroEyebrow": "Fonds privés / Mécénat",
+    "heroColor": "turquoise",
+    "headline": "AAP de fondations",
+    "blocks": [
+      {
+        "type": "intro",
+        "title": "Répondre aux appels à projets des fondations",
+        "text": "Nous identifions les fondations privées et fonds de dotation susceptibles de soutenir votre projet, et vous accompagnons dans la structuration de vos projets pour optimiser vos démarches.",
+        "buttonLabel": "Nous contacter →",
+        "buttonHref": "contact/",
+        "panels": [
+          {
+            "kind": "offre",
+            "color": "turquoise",
+            "tag": "Fonds privés",
+            "title": "Appels à projets de fondations",
+            "statValue": "~1 500",
+            "statLabel": "sources de financements privés via FinBoost",
+            "items": "Recherche ciblée d'AAP de fondations et fonds de dotation\nAlertes par projet sur les nouvelles ouvertures\nAppui à la structuration des projets pour optimiser les démarches"
+          }
+        ]
+      },
+      {
+        "type": "cta",
+        "title": "Développons vos ressources privées ensemble",
+        "text": "Diagnostic gratuit de votre potentiel de mécénat et de collecte.",
+        "primaryLabel": "Demander un diagnostic →",
+        "primaryHref": "contact/",
+        "secondaryLabel": "Fonds de dotation →",
+        "secondaryHref": "fonds-de-dotation-mecenat-local/"
+      }
+    ]
   },
   {
     "slug": "nos-formations",
@@ -338,7 +789,102 @@
         "modes": ""
       }
     ],
-    "_v": 2
+    "_v": 3,
+    "heroEyebrow": "Expertises et Solutions",
+    "heroColor": "violet",
+    "blocks": [
+      {
+        "type": "courses",
+        "eyebrow": "Formations",
+        "title": "Formations disponibles",
+        "qualiopiBadge": "Certifié Qualiopi",
+        "qualiopiText": "[À COMPLÉTER — texte et logo de certification Qualiopi de l'ancien site]",
+        "qualiopiLink": "",
+        "qualiopiLinkLabel": "Voir le certificat →",
+        "items": [
+          {
+            "title": "Financements privés et fonds de dotation",
+            "level": "",
+            "days": "",
+            "teaser": "Possibilité de formation en intra — nous consulter.",
+            "list": "",
+            "mode": "Intra",
+            "programHref": "",
+            "color": "violet"
+          },
+          {
+            "title": "[À COMPLÉTER — reprendre les formations secteur public de l'ancien site : titre, niveau, phrase d'accroche, Intra/Inter, Distanciel, nombre de jours, lien vers le programme]",
+            "level": "",
+            "days": "",
+            "teaser": "",
+            "list": "",
+            "mode": "",
+            "programHref": "",
+            "color": "violet"
+          },
+          {
+            "title": "[À COMPLÉTER — formation « Entreprise », programme 2027 à intégrer]",
+            "level": "",
+            "days": "",
+            "teaser": "",
+            "list": "",
+            "mode": "",
+            "programHref": "",
+            "color": "violet"
+          }
+        ]
+      },
+      {
+        "type": "stats",
+        "title": "Nos formations en chiffres",
+        "items": [
+          {
+            "value": "[?]",
+            "label": "[À COMPLÉTER — chiffre clé 1]"
+          },
+          {
+            "value": "[?]",
+            "label": "[À COMPLÉTER — chiffre clé 2]"
+          },
+          {
+            "value": "[?]",
+            "label": "[À COMPLÉTER — chiffre clé 3]"
+          }
+        ]
+      },
+      {
+        "type": "faq",
+        "eyebrow": "Informations pratiques",
+        "title": "Bon à savoir",
+        "items": [
+          {
+            "title": "Nos clients ont particulièrement apprécié…",
+            "text": "[À COMPLÉTER — « Nos clients ont particulièrement apprécié... », texte réel de l'ancien site]"
+          },
+          {
+            "title": "Souhaitez-vous en savoir plus ?",
+            "text": "[À COMPLÉTER — texte réel de l'ancien site]"
+          },
+          {
+            "title": "Formations Outre-mer",
+            "text": "[À COMPLÉTER — texte réel de l'ancien site]"
+          },
+          {
+            "title": "Accessibilité aux personnes en situation de handicap",
+            "text": "[À COMPLÉTER — texte réel de l'ancien site]"
+          }
+        ]
+      },
+      {
+        "type": "cta",
+        "title": "Formez vos équipes aux financements publics",
+        "text": "Contactez-nous pour obtenir un devis personnalisé.",
+        "primaryLabel": "Contactez-nous →",
+        "primaryHref": "contact/",
+        "secondaryLabel": "",
+        "secondaryHref": ""
+      }
+    ]
   },
   {
     "slug": "optimaides-subventions",
@@ -378,6 +924,70 @@
         "text": "Nous vous remettons une note détaillant les dispositifs identifiés, leurs conditions et nos recommandations pour la suite."
       }
     ],
-    "_v": 2
+    "_v": 3,
+    "heroEyebrow": "Détection des opportunités — Format 2",
+    "heroColor": "violet",
+    "headline": "Note d'opportunité",
+    "blocks": [
+      {
+        "type": "intro",
+        "tags": "Analyse ciblée\nSans engagement\nÉchéance court terme",
+        "title": "Tester le potentiel d'un projet avant de s'engager",
+        "text": "La Note d'opportunité répond à une question décisive : **« Mon projet est-il finançable à date ? »**\n\nC'est une analyse ciblée sur un projet ou une thématique spécifique, sur une échéance courte. Elle vous permet de prendre une décision éclairée avant de vous engager dans une démarche plus longue — Veille continue ou montage de dossier.",
+        "buttonLabel": "Demander une Note d'opportunité →",
+        "buttonHref": "contact/",
+        "panels": [
+          {
+            "kind": "liste",
+            "title": "📌 Quand choisir la Note d'opportunité ?",
+            "items": "Vous avez un projet précis mais n'êtes pas sûr qu'il soit éligible à des aides\nVous souhaitez tester le potentiel avant d'investir du temps en montage de dossier\nVous avez besoin d'une réponse rapide pour argumenter un plan de financement en interne\nVous hésitez à vous engager dans une Veille continue sans connaître le potentiel"
+          },
+          {
+            "kind": "comparatif",
+            "title": "Note d'opportunité vs Veille continue",
+            "colA": "Note d'opportunité",
+            "items": "Analyse ponctuelle\nUn projet spécifique\nÉchéance court terme\nIdéal en amont\nSans engagement",
+            "colB": "Veille continue",
+            "items2": "Accompagnement continu\nPPI & projets multiples\nAlertes régulières\nStratégie long terme\nRelation continue"
+          }
+        ]
+      },
+      {
+        "type": "steps",
+        "eyebrow": "Notre méthode",
+        "title": "Comment se déroule une Note d'opportunité ?",
+        "items": [
+          {
+            "tag": "Échange initial",
+            "title": "Vous nous présentez votre projet",
+            "text": "Un échange rapide (téléphonique ou visio) pour comprendre la nature du projet, votre calendrier, votre statut et vos premières questions."
+          },
+          {
+            "tag": "Analyse",
+            "title": "Recherche ciblée via FinBoost",
+            "text": "Nos consultants interrogent l'ensemble des dispositifs disponibles à date. Ils analysent l'éligibilité et identifient les financeurs les plus pertinents."
+          },
+          {
+            "tag": "Livrable",
+            "title": "Remise de la Note d'opportunité",
+            "text": "Vous recevez une note structurée : liste des financements mobilisables, niveaux de priorité, estimation des montants et recommandations pour la suite."
+          },
+          {
+            "tag": "Suite",
+            "title": "Décision éclairée pour la suite",
+            "text": "Fort de cette analyse, vous choisissez en toute connaissance de cause : montage de dossier, Veille continue, ou les deux."
+          }
+        ]
+      },
+      {
+        "type": "cta",
+        "title": "Votre projet est-il finançable à date ?",
+        "text": "Nos experts analysent votre projet et vous remettent une Note d'opportunité exploitable immédiatement.",
+        "primaryLabel": "Demander une Note d'opportunité →",
+        "primaryHref": "contact/",
+        "secondaryLabel": "Découvrir la Veille continue →",
+        "secondaryHref": "veille-personnalisee/"
+      }
+    ]
   }
 ]

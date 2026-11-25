@@ -10,8 +10,17 @@
 // (textes édités par l'équipe) restent intacts.
 
 import { DEFAULT_NAVIGATION, DEFAULT_HOMEPAGE_CLIENT_TYPES, DEFAULT_REUSSITES } from './templates.mjs';
+import { EXPERTISE_BLOCKS, SECTEUR_BLOCKS, PAGE_BLOCKS } from './maquette-content.mjs';
 
 const clone = v => JSON.parse(JSON.stringify(v));
+
+// Pages au format de la maquette : ajoute bandeau coloré + blocs à une page qui
+// n'en a pas encore. Les champs déjà présents (ex. un titre retouché) restent.
+function applyMaquette(target, build) {
+  if (!build || !target || Array.isArray(target.blocks)) return;
+  const add = clone(build(target));
+  for (const [k, v] of Object.entries(add)) if (!(k in target)) target[k] = v;
+}
 
 const MIGRATIONS = {
   navigation: [
@@ -104,6 +113,15 @@ const MIGRATIONS = {
             f.text = "Une Note d'opportunité s'inscrit sur une échéance courte, généralement de quelques semaines selon la complexité du projet, après l'échange initial. Pour une Veille continue, la mise en route est rapide.";
           }
         }
+      }
+    },
+    // v3 : pages au format de la maquette (bandeau coloré + blocs éditables).
+    data => {
+      data.pages = data.pages || {};
+      for (const [slug, build] of Object.entries(PAGE_BLOCKS)) {
+        const c = data.pages[slug] = data.pages[slug] || {};
+        if (slug === 'secteurs-dactivite' && c.title === "Secteurs d'activité") delete c.title;
+        applyMaquette(c, build);
       }
     },
   ],
@@ -346,7 +364,7 @@ const LIST_MIGRATIONS = {
           swap('lead', "Nous vous accompagnons dans la création ou la relance d'un fonds de dotation pour mobiliser durablement le mécénat local.", A['fonds-de-dotation-mecenat-local'].lead);
           if (Array.isArray(item.features) && !item.features.some(f => f.title === A['fonds-de-dotation-mecenat-local'].duree.title)) item.features.push(clone(A['fonds-de-dotation-mecenat-local'].duree));
           if (!list.some(x => x.slug === FONDS_PRIVES_HUB.slug)) {
-            list.splice(list.indexOf(item), 0, { ...clone(FONDS_PRIVES_HUB), _v: currentListVersion('expertises') });
+            list.splice(list.indexOf(item), 0, { ...clone(FONDS_PRIVES_HUB), _v: 2 }); // a déjà le contenu de l'étape 1, reçoit les suivantes
           }
           break;
         case 'fundraising':
@@ -357,6 +375,8 @@ const LIST_MIGRATIONS = {
           break;
       }
     },
+    // v3 : pages au format de la maquette (bandeau coloré + blocs éditables).
+    item => applyMaquette(item, EXPERTISE_BLOCKS[item.slug]),
   ],
   secteurs: [
     // v1 → v2 : intitulés des profils de clients alignés sur l'arborescence validée.
@@ -370,6 +390,8 @@ const LIST_MIGRATIONS = {
       const t = titles[item.slug];
       if (t && item.title === t[0]) item.title = t[1];
     },
+    // v3 : pages au format de la maquette (bandeau coloré + blocs éditables).
+    item => applyMaquette(item, SECTEUR_BLOCKS[item.slug]),
   ],
 };
 
@@ -382,7 +404,13 @@ export function migrateList(name, list) {
   const steps = LIST_MIGRATIONS[name] || [];
   if (!Array.isArray(list)) return { data: list, changed: false };
   let changed = false;
-  for (const item of [...list]) {
+  // Une étape peut insérer une page (ex. page d'entrée) : on reboucle pour
+  // qu'elle reçoive aussi les étapes suivantes.
+  const seen = new Set();
+  let pending = list.filter(i => !seen.has(i));
+  while (pending.length) {
+  for (const item of pending) {
+    seen.add(item);
     if (!item || typeof item !== 'object') continue;
     let v = Number(item._v) || 1;
     if (v - 1 >= steps.length) continue;
@@ -392,6 +420,8 @@ export function migrateList(name, list) {
     }
     item._v = v;
     changed = true;
+  }
+  pending = list.filter(i => !seen.has(i));
   }
   return { data: list, changed };
 }

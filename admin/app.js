@@ -1,5 +1,5 @@
 import { config } from './config.js';
-import { buildPages, page, homepagePage, BASE_PAGES, LEGAL_SLUGS, DEFAULT_NAVIGATION, DEFAULT_CONTENT, DEFAULT_FINBOOST, DEFAULT_COVERAGE, DEFAULT_PROJECT_CTA, DEFAULT_ABOUT, DEFAULT_ACCOMPAGNEMENT, DEFAULT_HERO, DEFAULT_REUSSITES, REUSSITE_COLORS } from '../scripts/templates.mjs';
+import { buildPages, page, homepagePage, BASE_PAGES, LEGAL_SLUGS, HERO_COLORS, BLOCK_COLORS, BLOCK_ICONS, DEFAULT_NAVIGATION, DEFAULT_CONTENT, DEFAULT_FINBOOST, DEFAULT_COVERAGE, DEFAULT_PROJECT_CTA, DEFAULT_ABOUT, DEFAULT_ACCOMPAGNEMENT, DEFAULT_HERO, DEFAULT_REUSSITES, REUSSITE_COLORS } from '../scripts/templates.mjs';
 import { migrate, migrateList } from '../scripts/migrations.mjs';
 
 let state = null;
@@ -1254,6 +1254,192 @@ function renderNavigationForm(content) {
 // Contenu des pages du socle (Qui sommes-nous, Réussites, Contact, hubs…),
 // décrit champ par champ ci-dessous et stocké dans data/pages.json.
 
+
+// ---------- Blocs des pages au format de la maquette ----------
+// Une page « à blocs » (champ `blocks`) se compose de sections typées rendues
+// dans l'ordre par templates.mjs (renderBlocks). Chaque type déclare ici ses
+// champs ; les listes « une ligne par élément » s'éditent dans un simple texte.
+
+const COLOR_OPTIONS = ['', ...Object.keys(BLOCK_COLORS)];
+const ICON_OPTIONS = ['', ...Object.keys(BLOCK_ICONS)];
+const LINES_HINT = 'Une ligne par élément.';
+const PARAS_HINT = 'Paragraphes séparés par une ligne vide. **Gras** entre doubles astérisques, lien : [libellé](contact/).';
+const HREF_HINT = 'Page du site (ex. contact/) ou adresse complète (https://…).';
+const HEADER_FIELDS = [{ k: 'eyebrow', l: 'Surtitre' }, { k: 'title', l: 'Titre de la section' }, { k: 'subtitle', l: 'Sous-titre', rows: 2 }];
+
+const BLOCK_TYPES = {
+  intro: { l: 'Présentation (texte + encadrés à droite)', fields: [
+    { k: 'tags', l: 'Étiquettes', rows: 2, hint: LINES_HINT },
+    { k: 'eyebrow', l: 'Surtitre' }, { k: 'title', l: 'Titre' },
+    { k: 'text', l: 'Texte', rows: 6, hint: PARAS_HINT },
+    { k: 'buttonLabel', l: 'Bouton (vide = pas de bouton)' }, { k: 'buttonHref', l: 'Lien du bouton', hint: HREF_HINT },
+    { k: 'noteLabel', l: 'Encart de renvoi : surtitre' }, { k: 'noteText', l: 'Encart de renvoi : texte', rows: 2 },
+    { k: 'noteLinkLabel', l: 'Encart de renvoi : lien' }, { k: 'noteLinkHref', l: 'Encart de renvoi : adresse du lien' },
+    { k: 'panels', l: 'Encadrés à droite', type: 'items', template: { kind: 'offre', color: 'violet', tag: '', title: '', statValue: '', statSuffix: '', statLabel: '', items: '', linkLabel: '', linkHref: '' }, fields: [
+      { k: 'kind', l: 'Type d’encadré', type: 'select', options: [['offre', 'Carte offre (étiquette, chiffre, liste →)'], ['liste', 'Liste à coches ✓'], ['comparatif', 'Comparatif deux colonnes']] },
+      { k: 'color', l: 'Couleur', type: 'select', options: COLOR_OPTIONS },
+      { k: 'tag', l: 'Étiquette (carte offre)' }, { k: 'title', l: 'Titre' },
+      { k: 'statValue', l: 'Chiffre (carte offre, vide = pas de chiffre)' }, { k: 'statSuffix', l: 'Unité du chiffre (ex. +, %)' }, { k: 'statLabel', l: 'Légende du chiffre' },
+      { k: 'items', l: 'Liste (ou 1re colonne du comparatif)', rows: 4, hint: LINES_HINT },
+      { k: 'colA', l: 'Comparatif : titre colonne 1' }, { k: 'colB', l: 'Comparatif : titre colonne 2' },
+      { k: 'items2', l: 'Comparatif : liste colonne 2', rows: 4, hint: LINES_HINT },
+      { k: 'linkLabel', l: 'Lien en bas (carte offre)' }, { k: 'linkHref', l: 'Adresse du lien' },
+    ] },
+  ] },
+  steps: { l: 'Étapes numérotées (méthode, processus)', fields: [
+    ...HEADER_FIELDS,
+    { k: 'items', l: 'Étapes', type: 'items', template: { tag: '', title: '', text: '' }, fields: [{ k: 'tag', l: 'Étiquette' }, { k: 'title', l: 'Titre' }, { k: 'text', l: 'Texte', rows: 3 }] },
+  ] },
+  cards: { l: 'Cartes (grille)', fields: [
+    ...HEADER_FIELDS,
+    { k: 'columns', l: 'Colonnes', type: 'select', options: [['', 'Automatique'], ['2', '2'], ['3', '3'], ['4', '4']] },
+    { k: 'style', l: 'Style', type: 'select', options: [['', 'Icône'], ['numero', 'Numérotée (01, 02…)'], ['secteur', 'Profil client (barre de couleur)']] },
+    { k: 'color', l: 'Couleur par défaut', type: 'select', options: COLOR_OPTIONS },
+    { k: 'items', l: 'Cartes', type: 'items', template: { icon: '', color: '', title: '', text: '', list: '', href: '', linkLabel: '' }, fields: [
+      { k: 'icon', l: 'Icône', type: 'select', options: ICON_OPTIONS }, { k: 'color', l: 'Couleur', type: 'select', options: COLOR_OPTIONS },
+      { k: 'title', l: 'Titre' }, { k: 'text', l: 'Texte', rows: 3 }, { k: 'list', l: 'Liste →', rows: 3, hint: LINES_HINT },
+      { k: 'href', l: 'Lien de la carte (vide = pas de lien)', hint: HREF_HINT }, { k: 'linkLabel', l: 'Libellé du lien (défaut : En savoir plus →)' },
+    ] },
+  ] },
+  stats: { l: 'Chiffres clés', fields: [
+    ...HEADER_FIELDS,
+    { k: 'items', l: 'Chiffres', type: 'items', template: { value: '', suffix: '', label: '', text: '', color: '' }, fields: [
+      { k: 'value', l: 'Chiffre' }, { k: 'suffix', l: 'Unité (ex. %, +, M€)' }, { k: 'label', l: 'Légende' }, { k: 'text', l: 'Description' }, { k: 'color', l: 'Couleur', type: 'select', options: COLOR_OPTIONS },
+    ] },
+  ] },
+  testimonial: { l: 'Témoignage', fields: [
+    ...HEADER_FIELDS, { k: 'quote', l: 'Citation', rows: 4 }, { k: 'name', l: 'Auteur' }, { k: 'role', l: 'Fonction, structure' },
+  ] },
+  faq: { l: 'Questions fréquentes', fields: [
+    ...HEADER_FIELDS,
+    { k: 'items', l: 'Questions', type: 'items', template: { title: '', text: '' }, fields: [{ k: 'title', l: 'Question' }, { k: 'text', l: 'Réponse', rows: 3 }] },
+  ] },
+  values: { l: 'Valeurs (cartes centrées avec emoji)', fields: [
+    ...HEADER_FIELDS,
+    { k: 'items', l: 'Valeurs', type: 'items', template: { emoji: '', color: '', title: '', subtitle: '', text: '' }, fields: [
+      { k: 'emoji', l: 'Emoji (ex. 🎯)' }, { k: 'color', l: 'Couleur', type: 'select', options: COLOR_OPTIONS }, { k: 'title', l: 'Titre' }, { k: 'subtitle', l: 'Sous-titre' }, { k: 'text', l: 'Texte', rows: 3 },
+    ] },
+  ] },
+  team: { l: 'Équipe', fields: [
+    ...HEADER_FIELDS,
+    { k: 'items', l: 'Équipes', type: 'items', template: { icon: '', color: '', role: '', title: '', text: '' }, fields: [
+      { k: 'icon', l: 'Icône', type: 'select', options: ICON_OPTIONS }, { k: 'color', l: 'Couleur', type: 'select', options: COLOR_OPTIONS },
+      { k: 'role', l: 'Étiquette (ex. Équipe Veille)' }, { k: 'title', l: 'Titre' }, { k: 'text', l: 'Texte', rows: 3 },
+    ] },
+  ] },
+  secteur: { l: 'Profil client (enjeux, offre, exemple, gains)', fields: [
+    { k: 'color', l: 'Couleur', type: 'select', options: COLOR_OPTIONS },
+    { k: 'enjeuxTitle', l: 'Titre des enjeux' }, { k: 'enjeux', l: 'Enjeux', rows: 4, hint: LINES_HINT },
+    { k: 'offerTitle', l: 'Titre de l’offre' },
+    { k: 'offers', l: 'Ce que nous proposons', type: 'items', template: { title: '', text: '' }, fields: [{ k: 'title', l: 'Titre (en gras)' }, { k: 'text', l: 'Texte', rows: 2 }] },
+    { k: 'exampleLabel', l: 'Exemple concret : surtitre (vide = pas d’exemple)' }, { k: 'exampleText', l: 'Exemple concret : texte', rows: 3 },
+    { k: 'exampleAmount', l: 'Exemple concret : montant' }, { k: 'exampleCaption', l: 'Exemple concret : légende du montant' },
+    { k: 'gainsTitle', l: 'Titre des gains' }, { k: 'gains', l: 'Ce que vous y gagnez', rows: 3, hint: LINES_HINT },
+  ] },
+  story: { l: 'Histoire (texte + chiffres + convictions)', fields: [
+    { k: 'eyebrow', l: 'Surtitre' }, { k: 'title', l: 'Titre' }, { k: 'text', l: 'Texte', rows: 8, hint: PARAS_HINT }, { k: 'quote', l: 'Citation', rows: 2 },
+    { k: 'figuresLabel', l: 'Titre de l’encart chiffres' },
+    { k: 'figures', l: 'Chiffres', type: 'items', template: { value: '', label: '' }, fields: [{ k: 'value', l: 'Chiffre' }, { k: 'label', l: 'Légende' }] },
+    { k: 'convictionsTitle', l: 'Titre de la liste' }, { k: 'convictions', l: 'Liste', rows: 3, hint: LINES_HINT },
+  ] },
+  courses: { l: 'Formations (Qualiopi + cartes)', fields: [
+    ...HEADER_FIELDS,
+    { k: 'qualiopiBadge', l: 'Badge (ex. Certifié Qualiopi)' }, { k: 'qualiopiText', l: 'Texte de certification', rows: 2 },
+    { k: 'qualiopiLink', l: 'Lien vers le certificat' }, { k: 'qualiopiLinkLabel', l: 'Libellé du lien' },
+    { k: 'items', l: 'Formations', type: 'items', template: { title: '', level: '', days: '', teaser: '', list: '', mode: '', programHref: '', color: '' }, fields: [
+      { k: 'title', l: 'Titre' }, { k: 'level', l: 'Niveau' }, { k: 'days', l: 'Durée (ex. 2 jours)' }, { k: 'teaser', l: 'Phrase d’accroche', rows: 2 },
+      { k: 'list', l: 'Liste →', rows: 3, hint: LINES_HINT }, { k: 'mode', l: 'Format (ex. Intra / Inter · Distanciel)' },
+      { k: 'programHref', l: 'Lien vers le programme (bouton « En savoir + »)' }, { k: 'color', l: 'Couleur', type: 'select', options: COLOR_OPTIONS },
+    ] },
+  ] },
+  text: { l: 'Texte libre', fields: [...HEADER_FIELDS, { k: 'text', l: 'Texte', rows: 8, hint: PARAS_HINT }] },
+  cta: { l: 'Bandeau d’appel (dégradé, en bas de page)', fields: [
+    { k: 'title', l: 'Titre' }, { k: 'text', l: 'Texte', rows: 2 },
+    { k: 'primaryLabel', l: 'Bouton principal' }, { k: 'primaryHref', l: 'Lien du bouton principal', hint: HREF_HINT },
+    { k: 'secondaryLabel', l: 'Bouton secondaire (vide = pas de bouton)' }, { k: 'secondaryHref', l: 'Lien du bouton secondaire' },
+  ] },
+};
+
+function blockTemplate(type) {
+  const t = { type };
+  for (const f of BLOCK_TYPES[type].fields) {
+    if (f.type === 'items') t[f.k] = [JSON.parse(JSON.stringify(f.template))];
+    else t[f.k] = f.k === 'primaryLabel' ? 'Nous contacter →' : f.k === 'primaryHref' ? 'contact/' : '';
+  }
+  return t;
+}
+
+// Modèles pour wireArrayButtons (data-template) : un par liste de chaque type.
+const BLOCK_ITEM_TEMPLATES = {};
+for (const [type, def] of Object.entries(BLOCK_TYPES)) {
+  for (const f of def.fields) if (f.type === 'items') BLOCK_ITEM_TEMPLATES[`blk:${type}.${f.k}`] = f.template;
+}
+
+function selectField(label, path, value, options) {
+  const opts = options.map(o => (Array.isArray(o) ? o : [o, o || '—']));
+  return `<label>${escapeHtml(label)}
+    <select data-path="${escapeHtml(path)}">${opts.map(([v, l]) => `<option value="${escapeHtml(v)}"${String(value ?? '') === v ? ' selected' : ''}>${escapeHtml(l)}</option>`).join('')}</select>
+  </label>`;
+}
+
+function blockFieldHtml(f, path, value, type) {
+  if (f.type === 'select') return selectField(f.l, path, value, f.options);
+  if (f.type === 'items') {
+    const list = Array.isArray(value) ? value : [];
+    return `<h4>${escapeHtml(f.l)}</h4>
+      ${list.map((item, i) => `<div class="admin-body-section">
+        ${f.fields.map(sf => blockFieldHtml(sf, `${path}.${i}.${sf.k}`, (item || {})[sf.k], type)).join('')}
+        ${itemToolbar(path, i, list.length)}
+      </div>`).join('')}
+      <button type="button" class="btn" data-add="${escapeHtml(path)}" data-template="blk:${type}.${f.k}">+ Ajouter</button>`;
+  }
+  return pathField(f.l, path, value, { rows: f.rows, hint: f.hint });
+}
+
+function blocksEditorHtml(path, blocks, openBlocks) {
+  const list = Array.isArray(blocks) ? blocks : [];
+  return `${list.map((b, i) => {
+    const def = BLOCK_TYPES[b?.type];
+    const label = def ? def.l : `Type inconnu (${b?.type})`;
+    const summary = b?.title || b?.enjeuxTitle || b?.quote || '';
+    return `<details class="admin-section admin-block" data-block="${i}"${openBlocks.has(i) ? ' open' : ''}>
+      <summary>${i + 1}. ${escapeHtml(label)}${summary ? ` — ${escapeHtml(String(summary).slice(0, 60))}` : ''}</summary>
+      <div class="admin-section__body">
+        ${def ? def.fields.map(f => blockFieldHtml(f, `${path}.${i}.${f.k}`, b[f.k], b.type)).join('') : ''}
+        ${itemToolbar(path, i, list.length)}
+      </div>
+    </details>`;
+  }).join('')}
+  <div class="admin-form-row">
+    <select id="add-block-type">${Object.entries(BLOCK_TYPES).map(([k, d]) => `<option value="${k}">${escapeHtml(d.l)}</option>`).join('')}</select>
+    <button type="button" class="btn" id="add-block" data-blocks-path="${escapeHtml(path)}">+ Ajouter ce bloc</button>
+  </div>`;
+}
+
+// À appeler après chaque rendu d'un formulaire contenant blocksEditorHtml.
+function wireBlocksEditor(container, draft, paint, openBlocks, beforeChange = () => syncPaths(container, draft)) {
+  container.querySelectorAll('details[data-block]').forEach(d => {
+    d.addEventListener('toggle', () => { const i = Number(d.dataset.block); if (d.open) openBlocks.add(i); else openBlocks.delete(i); });
+  });
+  const btn = container.querySelector('#add-block');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    beforeChange();
+    const path = btn.dataset.blocksPath;
+    const arr = getByPath(draft, path) || [];
+    arr.push(blockTemplate(container.querySelector('#add-block-type').value));
+    setByPath(draft, path, arr);
+    openBlocks.clear();
+    openBlocks.add(arr.length - 1);
+    paint();
+  });
+}
+
+function heroFieldsHtml(draft) {
+  return `${pathField('Pastille au-dessus du titre', 'heroEyebrow', draft.heroEyebrow)}
+    ${selectField('Couleur du bandeau', 'heroColor', draft.heroColor || 'violet', HERO_COLORS)}`;
+}
+
 const PAGE_FIELDS = {
   'finances-et-territoires': [
     { k: 'title', l: 'Titre (menu et fil d’Ariane)' },
@@ -1397,6 +1583,12 @@ function pageFieldHtml(field, draft, slug) {
   if (field.type === 'sections') {
     return `<h3>${escapeHtml(field.l)}</h3>${sectionsEditorHtml(field.k, value)}`;
   }
+  if (field.type === 'select') return selectField(field.l, field.k, value, field.options);
+  if (field.type === 'blocks') {
+    return `<h3>${escapeHtml(field.l)}</h3>
+      <p class="admin-hint">Chaque bloc correspond à une section de la page, dans l’ordre (↑ ↓ pour réordonner). Cliquez sur un bloc pour le déplier.</p>
+      ${blocksEditorHtml(field.k, value, field.openBlocks || new Set())}`;
+  }
   return pathField(field.l, field.k, value, { rows: field.rows, hint: field.hint });
 }
 
@@ -1430,12 +1622,21 @@ function renderBasePagesList(content, root, signOut) {
 }
 
 function renderBasePageForm(slug, content, root, signOut) {
-  const fields = PAGE_FIELDS[slug];
   const draft = JSON.parse(JSON.stringify({
     ...(DEFAULT_CONTENT.pages[slug] || {}),
     ...((state.content?.pages || {})[slug] || {}),
   }));
-  const templates = { ...PAGE_TEMPLATES };
+  const openBlocks = new Set();
+  const fields = Array.isArray(draft.blocks) ? [
+    { k: 'title', l: 'Titre (menu et fil d’Ariane)' },
+    { k: 'headline', l: 'Titre affiché sur la photo — vide = titre ci-dessus' },
+    { k: 'heroEyebrow', l: 'Pastille au-dessus du titre' },
+    { k: 'heroColor', l: 'Couleur du bandeau', type: 'select', options: HERO_COLORS },
+    { k: 'lead', l: 'Chapô', rows: 3 },
+    { k: 'image', l: 'Photo de bandeau', type: 'photo' },
+    { k: 'blocks', l: 'Contenu de la page', type: 'blocks', openBlocks },
+  ] : PAGE_FIELDS[slug];
+  const templates = { ...PAGE_TEMPLATES, ...BLOCK_ITEM_TEMPLATES };
   for (const f of fields) if (f.type === 'items') templates[f.k] = f.template;
 
   function paint() {
@@ -1461,6 +1662,7 @@ function renderBasePageForm(slug, content, root, signOut) {
       wirePhotoField(`page-${slug}-${f.k}`, ext => `images/uploads/page-${slug}-${f.k}.${ext}`, key => { draft[f.k] = key; });
     }
     wireArrayButtons(content, draft, paint, templates);
+    wireBlocksEditor(content, draft, paint, openBlocks);
     wirePreviewButtons(content, () => {
       syncPaths(content, draft);
       applyPageDraft(slug, draft);
@@ -1566,8 +1768,10 @@ function renderResourceForm(kind, content, root, signOut, item) {
   const draft = item
     ? JSON.parse(JSON.stringify(item))
     : { slug: '', title: '', section: kind.section, type: kind.type, hidden: false, image: '', lead: '', features: [{ title: '', text: '' }] };
-  const templates = {};
+  const templates = { ...BLOCK_ITEM_TEMPLATES };
   for (const f of [...RESOURCE_EXTRA_FIELDS, ...RESOURCE_FORMATION_FIELDS]) if (f.type === 'items') templates[f.k] = f.template;
+  const openBlocks = new Set();
+  const hasBlocks = () => Array.isArray(draft.blocks) && draft.blocks.length > 0;
   // Les sections repliables gardent leur état ouvert/fermé d'un rafraîchissement à l'autre.
   const openSections = new Set();
   if (draft.headline || draft.switchOffer || (draft.steps || []).length || draft.testimonial?.quote || (draft.faq || []).length) openSections.add('extra');
@@ -1604,7 +1808,16 @@ function renderResourceForm(kind, content, root, signOut, item) {
             </label>
           </div>
         </details>
-        <h3>Points clés</h3>
+        <details class="admin-section" data-sec="blocks"${hasBlocks() || openSections.has('blocks') ? ' open' : ''}>
+          <summary>Contenu de la page (format de la maquette)</summary>
+          <div class="admin-section__body">
+            ${hasBlocks() ? '' : '<p class="admin-hint">Cette page utilise encore l’ancien format (points clés, blocs complémentaires ci-dessous). Ajoutez un premier bloc pour la passer au format de la maquette.</p>'}
+            ${heroFieldsHtml(draft)}
+            ${pageFieldHtml({ k: 'headline', l: 'Titre affiché sur la photo — vide = titre ci-dessus' }, draft, draft.slug || 'nouvelle')}
+            ${pageFieldHtml({ k: 'blocks', l: 'Blocs', type: 'blocks', openBlocks }, draft, draft.slug || 'nouvelle')}
+          </div>
+        </details>
+        ${hasBlocks() ? '' : `<h3>Points clés</h3>
         <div id="f-features">
           ${draft.features.map((f, i) => `
             <div class="admin-body-section" data-i="${i}">
@@ -1615,9 +1828,9 @@ function renderResourceForm(kind, content, root, signOut, item) {
         </div>
         <button type="button" id="add-feature" class="btn">+ Ajouter un point</button>
         <details class="admin-section" data-sec="extra"${openSections.has('extra') ? ' open' : ''}>
-          <summary>Blocs complémentaires (titre H1, encart, étapes, témoignage, FAQ)</summary>
+          <summary>Blocs complémentaires (encart, étapes, témoignage, FAQ)</summary>
           <div class="admin-section__body">
-            ${RESOURCE_EXTRA_FIELDS.map(f => pageFieldHtml(f, draft, draft.slug || 'nouvelle')).join('')}
+            ${RESOURCE_EXTRA_FIELDS.filter(f => f.k !== 'headline').map(f => pageFieldHtml(f, draft, draft.slug || 'nouvelle')).join('')}
           </div>
         </details>
         <details class="admin-section" data-sec="formation"${openSections.has('formation') ? ' open' : ''}>
@@ -1625,7 +1838,7 @@ function renderResourceForm(kind, content, root, signOut, item) {
           <div class="admin-section__body">
             ${RESOURCE_FORMATION_FIELDS.map(f => pageFieldHtml(f, draft, draft.slug || 'nouvelle')).join('')}
           </div>
-        </details>
+        </details>`}
         <div class="admin-form__actions">
           <button type="submit" class="btn btn--site btn-primary">Enregistrer</button>
           ${isNew ? '' : previewButton(draft.slug)}
@@ -1640,6 +1853,7 @@ function renderResourceForm(kind, content, root, signOut, item) {
     // la liste : ici on ne resynchronise que les champs classiques, sinon les
     // anciennes valeurs du DOM réécriraient l'élément tout juste retiré.
     wireArrayButtons(content, draft, () => { syncClassicFields(); paint(); }, templates);
+    wireBlocksEditor(content, draft, paint, openBlocks, syncFormToDraft);
     wirePreviewButtons(content, () => {
       syncFormToDraft();
       if (item) Object.assign(item, draft);
@@ -1653,7 +1867,7 @@ function renderResourceForm(kind, content, root, signOut, item) {
     });
     document.getElementById('f-slug').addEventListener('input', e => { draft.slug = slugify(e.target.value); });
     wirePhotoField('resource-photo', ext => `images/uploads/page-${draft.slug || 'nouvelle'}.${ext}`, key => { draft.image = key; });
-    document.getElementById('add-feature').addEventListener('click', () => {
+    document.getElementById('add-feature')?.addEventListener('click', () => {
       syncFormToDraft();
       draft.features.push({ title: '', text: '' });
       paint();
@@ -1673,8 +1887,9 @@ function renderResourceForm(kind, content, root, signOut, item) {
       if (!draft.slug) { alert('Le slug est obligatoire.'); return; }
       const clash = state[kind.key].find(x => x.slug === draft.slug && x !== item);
       if (clash) { alert('Ce slug est déjà utilisé par une autre page.'); return; }
-      draft.features = draft.features.filter(f => f.title.trim() || f.text.trim());
+      draft.features = (draft.features || []).filter(f => (f.title || '').trim() || (f.text || '').trim());
       if (!draft.features.length) draft.features = [{ title: '', text: '' }];
+      if (Array.isArray(draft.blocks) && !draft.blocks.length) delete draft.blocks;
       if (isNew) state[kind.key].push(draft);
       else Object.assign(item, draft);
       state.dirty = true;
@@ -1690,6 +1905,8 @@ function renderResourceForm(kind, content, root, signOut, item) {
     draft.hidden = document.getElementById('f-hidden').checked;
     draft.seoTitle = document.getElementById('f-seo-title').value;
     draft.seoDescription = document.getElementById('f-seo-description').value;
+    // Page à blocs : les points clés ne sont pas affichés, on les laisse tels quels.
+    if (!content.querySelector('#f-features')) return;
     const titles = content.querySelectorAll('.f-feat-title');
     const texts = content.querySelectorAll('.f-feat-text');
     draft.features = Array.from(titles).map((t, i) => ({ title: t.value, text: texts[i].value }));

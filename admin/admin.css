@@ -651,3 +651,10 @@ html { scrollbar-color: #c9c2d3 transparent; }
 .admin-subdetails { margin-top: 14px; }
 .admin-subdetails summary { cursor: pointer; font-weight: 600; font-size: 13px; }
 .admin-dep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px 14px; margin-top: 10px; }
+
+/* Éditeur de blocs (pages au format de la maquette) */
+.admin-block { background: #fff; }
+.admin-block > summary { font-size: 14px; }
+.admin-form h4 { margin: 6px 0 0; font-size: 13px; font-weight: 600; color: var(--a-muted); text-transform: uppercase; letter-spacing: .04em; }
+.admin-block .admin-body-section { background: #faf9fc; }
+.admin-form-row > #add-block { flex: 0 0 auto; }

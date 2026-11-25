@@ -21,7 +21,52 @@
         "text": "Europe, État, région : construction de plans de financement multi-partenaires."
       }
     ],
-    "_v": 2
+    "_v": 3,
+    "heroEyebrow": "Profil de nos clients",
+    "heroColor": "violet",
+    "headline": "Collectivités Territoriales & EPCI",
+    "blocks": [
+      {
+        "type": "secteur",
+        "color": "violet",
+        "enjeuxTitle": "Vos enjeux",
+        "enjeux": "Accéder à des financements diversifiés pour des besoins multiples\nGagner en lisibilité dans le pilotage des dossiers\nStructurer une stratégie financière durable sur le long terme\nNaviguer entre guichets multiples, règles d'éligibilité complexes et calendriers contraints",
+        "offerTitle": "Ce que nous proposons",
+        "offers": [
+          {
+            "title": "Détection proactive",
+            "text": "Veille sur DSIL, DETR, Fonds Vert, FNADT, programmes européens, AAP thématiques"
+          },
+          {
+            "title": "Montage & instruction",
+            "text": "Dossiers solides, adaptés aux attentes des financeurs"
+          },
+          {
+            "title": "Gestion des subventions",
+            "text": "Suivi jusqu'au versement final"
+          },
+          {
+            "title": "Formation des équipes",
+            "text": "Veille, mécanismes d'aides, structuration de projets"
+          }
+        ],
+        "exampleLabel": "Exemple concret — Commune du Rhône",
+        "exampleText": "Une commune accompagnée pour sécuriser le financement de la reconstruction de son pôle nautique. Mission complète : détection, montage, instruction et suivi.",
+        "exampleAmount": "800 000 €",
+        "exampleCaption": "mobilisés auprès du Secrétariat d'État chargé de la Mer",
+        "gainsTitle": "Ce que vous y gagnez",
+        "gains": "Des financements mobilisés à temps et sécurisés\nUne meilleure lisibilité dans l'offre d'aides disponibles\nUne méthodologie éprouvée et transférable en interne"
+      },
+      {
+        "type": "cta",
+        "title": "Vous souhaitez optimiser vos financements ?",
+        "text": "Contactez-nous pour bâtir une stratégie adaptée à vos projets.",
+        "primaryLabel": "Nous contacter →",
+        "primaryHref": "contact/",
+        "secondaryLabel": "Nos expertises →",
+        "secondaryHref": "detections-des-opportunites/"
+      }
+    ]
   },
   {
     "slug": "etablissements-de-sante-publics-non-lucratifs",
@@ -45,7 +90,48 @@
         "text": "Fondations et mécènes sensibles aux enjeux de santé."
       }
     ],
-    "_v": 2
+    "_v": 3,
+    "heroEyebrow": "Profil de nos clients",
+    "heroColor": "turquoise",
+    "headline": "Établissements de Santé Publics & Non Lucratifs",
+    "blocks": [
+      {
+        "type": "secteur",
+        "color": "turquoise",
+        "enjeuxTitle": "Vos enjeux",
+        "enjeux": "Accéder aux dispositifs spécifiques du secteur médico-hospitalier\nMonter des dossiers solides en lien avec les priorités régionales de santé\nValoriser l'impact territorial et social de vos projets",
+        "offerTitle": "Ce que nous proposons",
+        "offers": [
+          {
+            "title": "Repérage ciblé des dispositifs santé",
+            "text": "AAP ARS, prévention, innovation technologique, fonds européens"
+          },
+          {
+            "title": "Structuration de projets complexes",
+            "text": "budgétaire, réglementaire et opérationnel"
+          },
+          {
+            "title": "Soutien à la justification",
+            "text": "Suivi administratif jusqu'au versement final"
+          }
+        ],
+        "exampleLabel": "Exemple concret",
+        "exampleText": "Centre hospitalier régional accompagné dans la détection et le montage de dossiers pour le renouvellement de son plateau technique.",
+        "exampleAmount": "4,5 M€",
+        "exampleCaption": "d'aides obtenues pour les équipements médicaux de pointe",
+        "gainsTitle": "Ce que vous y gagnez",
+        "gains": "Un gain de temps et de clarté dans la recherche d'aides\nDes dossiers mieux positionnés et plus convaincants\nUne sécurisation du montage au suivi"
+      },
+      {
+        "type": "cta",
+        "title": "Vous portez un projet de santé à fort impact ?",
+        "text": "Contactez-nous pour en parler avec nos consultants.",
+        "primaryLabel": "Nous contacter →",
+        "primaryHref": "contact/",
+        "secondaryLabel": "",
+        "secondaryHref": ""
+      }
+    ]
   },
   {
     "slug": "structures-medico-sociales",
@@ -69,7 +155,48 @@
         "text": "Conseils départementaux et ARS."
       }
     ],
-    "_v": 2
+    "_v": 3,
+    "heroEyebrow": "Profil de nos clients",
+    "heroColor": "prune",
+    "headline": "Structures Médico-Sociales",
+    "blocks": [
+      {
+        "type": "secteur",
+        "color": "prune",
+        "enjeuxTitle": "Vos enjeux",
+        "enjeux": "Répondre aux AAP spécifiques (ARS, CNSA, fondations privées)\nValoriser la plus-value sociale de vos actions\nSécuriser l'instruction, le suivi et la justification des aides",
+        "offerTitle": "Ce que nous proposons",
+        "offers": [
+          {
+            "title": "Identification des aides",
+            "text": "AAP ARS, CNSA, fondations thématiques autonomie/inclusion, mécénat"
+          },
+          {
+            "title": "Montage rigoureux",
+            "text": "Valorisation impact social, cadre réglementaire et budgétaire"
+          },
+          {
+            "title": "Gestion et justification",
+            "text": "Suivi administratif, anticipation des contrôles, versements"
+          }
+        ],
+        "exampleLabel": "Exemple concret — Aisne",
+        "exampleText": "Association médico-sociale accompagnée dans la structuration d'un complexe inclusif : espace de restauration et gîtes hôteliers, favorisant inclusion et développement local.",
+        "exampleAmount": "250 000 €",
+        "exampleCaption": "obtenus auprès de l'État via le FNADT",
+        "gainsTitle": "Ce que vous y gagnez",
+        "gains": "Une vision claire des aides mobilisables\nUne gestion fluide et sécurisée de vos financements\nUne montée en compétence durable de vos équipes"
+      },
+      {
+        "type": "cta",
+        "title": "Besoin d'un accompagnement sur mesure ?",
+        "text": "Contactez-nous pour en parler avec nos consultants.",
+        "primaryLabel": "Nous contacter →",
+        "primaryHref": "contact/",
+        "secondaryLabel": "",
+        "secondaryHref": ""
+      }
+    ]
   },
   {
     "slug": "logement-social",
@@ -93,7 +220,48 @@
         "text": "Montage de plans de financement combinant plusieurs financeurs."
       }
     ],
-    "_v": 2
+    "_v": 3,
+    "heroEyebrow": "Profil de nos clients",
+    "heroColor": "violet",
+    "headline": "Bailleurs sociaux — Associations & Acteurs de l'habitat",
+    "blocks": [
+      {
+        "type": "secteur",
+        "color": "magenta",
+        "enjeuxTitle": "Vos enjeux",
+        "enjeux": "Combiner des aides variées dans un paysage financier morcelé\nRépondre aux priorités nationales (transition énergétique, mixité sociale)\nMettre en valeur la portée sociale, environnementale et territoriale de vos actions",
+        "offerTitle": "Ce que nous proposons",
+        "offers": [
+          {
+            "title": "Veille & détection",
+            "text": "ANRU, Plan Logement d'Abord, Fonds Vert, FEDER, FSE+, fondations"
+          },
+          {
+            "title": "Montages hybrides",
+            "text": "Aides publiques, financements bancaires, mécénat, participation citoyenne"
+          },
+          {
+            "title": "Justification & versements",
+            "text": "Suivi des dépenses, justificatifs et contrôles, y compris pluriannuels"
+          }
+        ],
+        "exampleLabel": "Exemple concret — Bouches-du-Rhône",
+        "exampleText": "Bailleur social accompagné pour financer un ambitieux projet de renaturation d'une résidence. Montage hybride alliant subventions publiques et fonds environnementaux.",
+        "exampleAmount": "70 %",
+        "exampleCaption": "du projet financé — reste à charge réduit à seulement 30 %",
+        "gainsTitle": "Ce que vous y gagnez",
+        "gains": "Une stratégie de financement complète et structurée\nUn accompagnement de la détection au versement final\nUne mise en valeur de l'impact social et territorial"
+      },
+      {
+        "type": "cta",
+        "title": "Vous portez un projet ambitieux pour l'habitat ?",
+        "text": "Contactez-nous pour en parler avec nos consultants.",
+        "primaryLabel": "Nous contacter →",
+        "primaryHref": "contact/",
+        "secondaryLabel": "",
+        "secondaryHref": ""
+      }
+    ]
   },
   {
     "slug": "sdis-service-de-secours",
@@ -117,7 +285,48 @@
         "text": "Auprès des financeurs publics compétents."
       }
     ],
-    "_v": 2
+    "_v": 3,
+    "heroEyebrow": "Profil de nos clients",
+    "heroColor": "rouge",
+    "headline": "SDIS & Services de secours",
+    "blocks": [
+      {
+        "type": "secteur",
+        "color": "rouge",
+        "enjeuxTitle": "Vos enjeux",
+        "enjeux": "Identifier les dispositifs spécifiques à la sécurité civile et à l'innovation opérationnelle\nMonter des projets complexes à fort impact en assurant conformité financière\nStructurer des financements hybrides : aides publiques, mécénat et partenariats privés",
+        "offerTitle": "Ce que nous proposons",
+        "offers": [
+          {
+            "title": "Cartographie des aides",
+            "text": "Fonds Vert, DSIL, DETR, France Relance, AAP résilience et prévention"
+          },
+          {
+            "title": "Montage stratégique",
+            "text": "Dossiers robustes avec justification de l'intérêt général et de l'impact territorial"
+          },
+          {
+            "title": "Plans hybrides",
+            "text": "Subventions, mécénat de compétence, partenariats industriels"
+          }
+        ],
+        "exampleLabel": "",
+        "exampleText": "",
+        "exampleAmount": "",
+        "exampleCaption": "",
+        "gainsTitle": "Ce que vous y gagnez",
+        "gains": "Une trajectoire de financement claire et sécurisée\nLa valorisation de projets à fort impact sociétal\nUne expertise opérationnelle adaptée à votre mission"
+      },
+      {
+        "type": "cta",
+        "title": "Vous avez un projet stratégique à sécuriser ?",
+        "text": "Contactez-nous pour en parler avec nos consultants.",
+        "primaryLabel": "Nous contacter →",
+        "primaryHref": "contact/",
+        "secondaryLabel": "",
+        "secondaryHref": ""
+      }
+    ]
   },
   {
     "slug": "immobilier",
@@ -141,7 +350,7 @@
         "text": "Collectivités et ANAH."
       }
     ],
-    "_v": 2
+    "_v": 3
   },
   {
     "slug": "entreprises-publiques-locales-epl",
@@ -165,7 +374,48 @@
         "text": "Sécurisation des plans de financement dans la durée."
       }
     ],
-    "_v": 2
+    "_v": 3,
+    "heroEyebrow": "Profil de nos clients",
+    "heroColor": "indigo",
+    "headline": "Entreprises Publiques Locales (EPL)",
+    "blocks": [
+      {
+        "type": "secteur",
+        "color": "indigo",
+        "enjeuxTitle": "Vos enjeux",
+        "enjeux": "Identifier les dispositifs adaptés à vos activités hybrides (intérêt général + logique économique)\nStructurer des montages en lien avec vos collectivités actionnaires\nDévelopper des ressources complémentaires pour sécuriser vos investissements",
+        "offerTitle": "Ce que nous proposons",
+        "offers": [
+          {
+            "title": "Stratégie multi-niveaux",
+            "text": "Articulation des financements publics locaux, nationaux et européens"
+          },
+          {
+            "title": "Montages complexes partagés",
+            "text": "Co-construction avec vos collectivités actionnaires"
+          },
+          {
+            "title": "Financements complémentaires",
+            "text": "Fonds de dotation, mécénat, AAP thématiques"
+          }
+        ],
+        "exampleLabel": "",
+        "exampleText": "",
+        "exampleAmount": "",
+        "exampleCaption": "",
+        "gainsTitle": "Ce que vous y gagnez",
+        "gains": "Une stratégie adaptée à votre gouvernance mixte\nUne meilleure sécurisation de vos ressources\nUne reconnaissance accrue auprès des financeurs"
+      },
+      {
+        "type": "cta",
+        "title": "Besoin de structurer votre financement ?",
+        "text": "Contactez-nous pour en parler avec nos consultants.",
+        "primaryLabel": "Nous contacter →",
+        "primaryHref": "contact/",
+        "secondaryLabel": "",
+        "secondaryHref": ""
+      }
+    ]
   },
   {
     "slug": "acteurs-public-institutions",
@@ -189,7 +439,7 @@
         "text": "Suivi des appels à projets et de leurs évolutions."
       }
     ],
-    "_v": 2
+    "_v": 3
   },
   {
     "slug": "secteur-public",
@@ -213,6 +463,6 @@
         "text": "Une pratique éprouvée du financement territorial."
       }
     ],
-    "_v": 2
+    "_v": 3
   }
 ]
