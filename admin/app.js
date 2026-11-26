@@ -152,6 +152,65 @@ function wirePreviewButtons(container, beforePreview) {
   });
 }
 
+
+// Chaque fichier téléversé reçoit un nom unique : remplacer une photo par une
+// autre ne réutilise jamais l'ancien nom, que navigateurs et CDN gardent en cache.
+function withStamp(key) {
+  return key.replace(/(\.[a-z0-9]+)$/i, `-${Date.now().toString(36)}$1`);
+}
+
+// Liens internes vers une page (« slug/ », y compris dans un texte [lien](slug/)).
+const slugRef = slug => new RegExp(`(^|[^a-z0-9-])${slug.replace(/[-]/g, '\\-')}/`, 'g');
+
+function countSlugReferences(slug, except) {
+  const re = slugRef(slug);
+  let n = 0;
+  const walk = v => {
+    if (v === except) return;
+    if (typeof v === 'string') n += (v.match(re) || []).length;
+    else if (Array.isArray(v)) v.forEach(walk);
+    else if (v && typeof v === 'object') Object.values(v).forEach(walk);
+  };
+  [state.navigation, state.homepage, state.content, state.expertises, state.secteurs, state.guideArticles, state.events].forEach(walk);
+  return n;
+}
+
+// Changement d'adresse d'une page : menus, pied de page, cartes, boutons et
+// liens dans les textes suivent automatiquement.
+function renameSlugReferences(oldSlug, newSlug) {
+  if (!oldSlug || !newSlug || oldSlug === newSlug) return 0;
+  const re = slugRef(oldSlug);
+  let n = 0;
+  const walk = v => {
+    if (Array.isArray(v)) { v.forEach((x, i) => { if (typeof x === 'string') { const r = x.replace(re, (m, pre) => { n++; return `${pre}${newSlug}/`; }); v[i] = r; } else walk(x); }); }
+    else if (v && typeof v === 'object') {
+      for (const [k, x] of Object.entries(v)) {
+        if (k === 'slug') continue;
+        if (typeof x === 'string') v[k] = x.replace(re, (m, pre) => { n++; return `${pre}${newSlug}/`; });
+        else walk(x);
+      }
+    }
+  };
+  [state.navigation, state.homepage, state.content, state.expertises, state.secteurs, state.guideArticles, state.events].forEach(walk);
+  return n;
+}
+
+// Liens internes vers des pages qui n'existent pas, dans le site généré.
+function findBrokenLinks(pages) {
+  const valid = new Set(pages.map(p => p.slug));
+  const statics = new Set(['styles', 'images', 'docs', 'admin', 'scripts', 'data']);
+  const broken = new Map();
+  const scan = (html, from) => {
+    for (const m of html.matchAll(/href="(?:\.\.\/)?([a-z0-9][a-z0-9-]*)\/(?:#[^"]*)?"/g)) {
+      const slug = m[1];
+      if (!valid.has(slug) && !statics.has(slug)) broken.set(slug, (broken.get(slug) || new Set()).add(from || 'accueil'));
+    }
+  };
+  for (const p of pages) scan(page(p, pages, state.events, site()), p.slug);
+  scan(homepagePage(state.homepage, pages, site()), '');
+  return broken;
+}
+
 // ---------- Champs pilotés par chemin (data-path) ----------
 // Chaque champ porte le chemin de la valeur qu'il édite dans le brouillon
 // (ex. "footer.columns.0.links.2.label"), ce qui évite d'écrire un
@@ -283,7 +342,7 @@ function wirePhotoField(id, computeKey, onSelected) {
   input.addEventListener('change', () => {
     const file = input.files[0];
     if (!file) return;
-    const key = computeKey(extOf(file));
+    const key = withStamp(computeKey(extOf(file)));
     pendingUploads.set(key, file);
     pendingDeletes.delete(key);
     show(key);
@@ -1592,7 +1651,7 @@ function wireBlocksEditor(container, draft, paint, openBlocks, beforeChange = ()
       const file = input.files[0];
       if (!file) return;
       const base = slugify(file.name.replace(/\.pdf$/i, '')) || 'document';
-      const key = `images/uploads/docs/${base}.pdf`;
+      const key = withStamp(`images/uploads/docs/${base}.pdf`);
       pendingUploads.set(key, file);
       const field = container.querySelector(`[data-path="${CSS.escape(input.dataset.blkFile)}"]`);
       if (field) field.value = key;
@@ -1904,7 +1963,10 @@ function renderResourceList(kind, content, root, signOut) {
   });
   content.querySelectorAll('[data-delete]').forEach(btn => {
     btn.addEventListener('click', () => {
-      if (!confirm(`Supprimer ${kind.itemNoun} (${btn.dataset.delete}) ? La suppression ne sera effective qu'après publication.`)) return;
+      const target = state[kind.key].find(x => x.slug === btn.dataset.delete);
+      const refs = countSlugReferences(btn.dataset.delete, target);
+      const warn = refs ? `\n\nAttention : ${refs} lien(s) du site mènent à cette page (menu, pied de page, cartes ou textes). Ils deviendront des liens cassés : retirez-les ou faites-les pointer ailleurs.` : '';
+      if (!confirm(`Supprimer ${kind.itemNoun} (${btn.dataset.delete}) ? La suppression ne sera effective qu'après publication.${warn}`)) return;
       state[kind.key] = state[kind.key].filter(x => x.slug !== btn.dataset.delete);
       state.dirty = true;
       render(root, signOut);
@@ -1956,6 +2018,8 @@ function renderResourceForm(kind, content, root, signOut, item) {
   const hasBlocks = () => Array.isArray(draft.blocks) && draft.blocks.length > 0;
   // Les sections repliables gardent leur état ouvert/fermé d'un rafraîchissement à l'autre.
   const openSections = new Set();
+  // Une nouvelle page se construit avec les blocs de la maquette : section ouverte d'emblée.
+  if (isNew) openSections.add('blocks');
   if (draft.headline || draft.switchOffer || (draft.steps || []).length || draft.testimonial?.quote || (draft.faq || []).length) openSections.add('extra');
   const hasQualiopi = Object.values(draft.qualiopi || {}).some(v => (Array.isArray(v) ? v.length : v));
   if (hasQualiopi || (draft.courses || []).length) openSections.add('formation');
@@ -2072,8 +2136,13 @@ function renderResourceForm(kind, content, root, signOut, item) {
       draft.features = (draft.features || []).filter(f => (f.title || '').trim() || (f.text || '').trim());
       if (!draft.features.length) draft.features = [{ title: '', text: '' }];
       if (Array.isArray(draft.blocks) && !draft.blocks.length) delete draft.blocks;
+      const oldSlug = item && item.slug;
       if (isNew) state[kind.key].push(draft);
       else Object.assign(item, draft);
+      if (oldSlug && oldSlug !== draft.slug) {
+        const n = renameSlugReferences(oldSlug, draft.slug);
+        if (n) alert(`Adresse modifiée : ${n} lien(s) vers « ${oldSlug}/ » (menu, pied de page, cartes, textes) mis à jour vers « ${draft.slug}/ ».`);
+      }
       state.dirty = true;
       renderResourceList(kind, content, root, signOut);
       updateDirtyBadge();
@@ -2137,7 +2206,10 @@ function renderGuideList(content, root, signOut) {
   });
   content.querySelectorAll('[data-delete]').forEach(btn => {
     btn.addEventListener('click', () => {
-      if (!confirm(`Supprimer l'article « ${btn.dataset.delete} » ? La suppression ne sera effective qu'après publication.`)) return;
+      const target = state.guideArticles.find(a => a.slug === btn.dataset.delete);
+      const refs = countSlugReferences(btn.dataset.delete, target);
+      const warn = refs ? `\n\nAttention : ${refs} lien(s) du site mènent à cet article et deviendront des liens cassés.` : '';
+      if (!confirm(`Supprimer l'article « ${btn.dataset.delete} » ? La suppression ne sera effective qu'après publication.${warn}`)) return;
       state.guideArticles = state.guideArticles.filter(a => a.slug !== btn.dataset.delete);
       state.dirty = true;
       render(root, signOut);
@@ -2229,8 +2301,10 @@ function renderArticleForm(content, root, signOut, article) {
       if (clash) { alert('Ce slug est déjà utilisé par un autre article.'); return; }
       draft.body = draft.body.filter(([h, t]) => h.trim() || t.trim());
       if (!draft.body.length) draft.body = [['', '']];
+      const oldSlug = article && article.slug;
       if (isNew) state.guideArticles.push(draft);
       else Object.assign(article, draft);
+      if (oldSlug && oldSlug !== draft.slug) renameSlugReferences(oldSlug, draft.slug);
       state.dirty = true;
       renderGuideList(content, root, signOut);
       updateDirtyBadge();
@@ -2353,6 +2427,15 @@ async function publish(root, signOut) {
     });
 
     const pages = currentPages();
+    const broken = findBrokenLinks(pages);
+    if (broken.size) {
+      const list = [...broken].slice(0, 8).map(([slug, from]) => `• « ${slug}/ » (lien présent sur ${from.size} page(s))`).join('\n');
+      if (!confirm(`Attention : des liens mènent à des pages qui n'existent pas :\n${list}\n\nCorrigez-les dans « Menu et pied de page » ou dans les pages concernées. Publier quand même ?`)) {
+        setStatus(statusEl, 'Publication annulée : liens vers des pages inexistantes à corriger.', 'error');
+        btn.disabled = false;
+        return;
+      }
+    }
     const currentSlugs = new Set([...state.guideArticles, ...state.expertises, ...state.secteurs].map(x => x.slug));
     const deletedSlugs = [...state.originalPageSlugs].filter(s => !currentSlugs.has(s));
 

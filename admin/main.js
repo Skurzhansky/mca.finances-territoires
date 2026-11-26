@@ -56,7 +56,7 @@ function renderLoggedOut() {
 
 async function renderLoggedIn(user) {
   const credentials = await getCredentials();
-  const { mountAdmin } = await import('./app.js?v=20261126f');
+  const { mountAdmin } = await import('./app.js?v=20261126g');
   await mountAdmin(document.getElementById('app'), { user, credentials, signOut: signOutRedirect, reauth: () => userManager.signinRedirect() });
 }
 
