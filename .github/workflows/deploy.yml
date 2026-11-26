@@ -55,6 +55,15 @@ jobs:
           aws s3 cp data "s3://${S3_BUCKET}/data" --recursive \
             --exclude "*" --include "*.json" \
             --cache-control "no-cache" --content-type "application/json"
+          # Scripts et feuilles de style : revalidés à chaque visite (ETag),
+          # sinon un navigateur peut garder une ancienne admin ou d'anciens
+          # gabarits plusieurs jours après une mise à jour.
+          aws s3 cp . "s3://${S3_BUCKET}" --recursive \
+            --exclude "*" --include "*.js" --include "*.mjs" --exclude ".git/*" --exclude ".github/*" --exclude "node_modules/*" \
+            --cache-control "no-cache" --content-type "text/javascript; charset=utf-8"
+          aws s3 cp . "s3://${S3_BUCKET}" --recursive \
+            --exclude "*" --include "*.css" --exclude ".git/*" --exclude ".github/*" --exclude "node_modules/*" \
+            --cache-control "no-cache" --content-type "text/css; charset=utf-8"
 
       - name: Invalider le cache CloudFront
         run: |

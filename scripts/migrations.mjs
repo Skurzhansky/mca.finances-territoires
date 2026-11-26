@@ -10,7 +10,7 @@
 // (textes édités par l'équipe) restent intacts.
 
 import { DEFAULT_NAVIGATION, DEFAULT_HOMEPAGE_CLIENT_TYPES, DEFAULT_REUSSITES } from './templates.mjs';
-import { EXPERTISE_BLOCKS, SECTEUR_BLOCKS, PAGE_BLOCKS } from './maquette-content.mjs';
+import { EXPERTISE_BLOCKS, SECTEUR_BLOCKS, PAGE_BLOCKS, compareFormats, formationsBlocks } from './maquette-content.mjs';
 
 const clone = v => JSON.parse(JSON.stringify(v));
 
@@ -91,6 +91,19 @@ const MIGRATIONS = {
       }
       swap(data.projectCta, 'text', 'Nos experts évaluent votre situation et identifient les aides accessibles pour votre structure. Échanges gratuits et sans engagement.',
         'Décrivez-nous votre projet pour un premier échange gratuit et sans engagement avec nos équipes. Nos experts identifient ensuite précisément les aides accessibles à votre structure.');
+    },
+    // v5 : retours du 26/11 — plus de département « siège » mis en avant sur
+    // la carte (moyenne nationale à la place) ni de pastille « Filiale du
+    // Groupe BPCE » sur la carte violette (déjà dite dans le texte).
+    data => {
+      const cv = data.coverage;
+      if (cv && cv.hqRegion === 'd-73') cv.hqRegion = '';
+      if (cv && /si[èe]ge|savoie/i.test(`${cv.hqLabel || ''} ${cv.hqText || ''}`)) {
+        cv.hqLabel = 'Moyenne nationale';
+        cv.hqValue = '3 000';
+        cv.hqText = 'dispositifs en moyenne\npar département';
+      }
+      if (data.about && data.about.badge === 'Filiale du Groupe BPCE') data.about.badge = '';
     },
   ],
   pages: [
@@ -377,6 +390,39 @@ const LIST_MIGRATIONS = {
     },
     // v3 : pages au format de la maquette (bandeau coloré + blocs éditables).
     item => applyMaquette(item, EXPERTISE_BLOCKS[item.slug]),
+    // v4 : retours du 26/11 sur Veille continue / Note d'opportunité — le
+    // comparatif des deux formats descend en bas de page (après le bandeau
+    // d'appel), la Veille continue perd son encadré « 19 000 » et son encart
+    // de renvoi. Seuls les éléments d'origine sont retirés.
+    item => {
+      const page = { 'veille-personnalisee': 'veille', 'optimaides-subventions': 'note' }[item.slug];
+      if (!page || !Array.isArray(item.blocks)) return;
+      for (const b of item.blocks) {
+        if (!b || b.type !== 'intro') continue;
+        if (page === 'veille') {
+          for (const pn of b.panels || []) {
+            if (/19\s?000/.test(pn.statValue || '')) { pn.statValue = ''; pn.statSuffix = ''; pn.statLabel = ''; }
+          }
+          if (b.noteLinkHref === 'optimaides-subventions/') {
+            b.noteLabel = ''; b.noteText = ''; b.noteLinkLabel = ''; b.noteLinkHref = '';
+          }
+        } else if (Array.isArray(b.panels)) {
+          b.panels = b.panels.filter(pn => pn.kind !== 'comparatif');
+        }
+      }
+      if (item.blocks.some(b => b && b.type === 'compare')) return;
+      const ctaIndex = item.blocks.map(b => b && b.type).lastIndexOf('cta');
+      item.blocks.splice(ctaIndex >= 0 ? ctaIndex + 1 : item.blocks.length, 0, compareFormats(page));
+    },
+    // v5 : page Formations reprise du site actuel (demande du 26/11) — mention
+    // Qualiopi en introduction, offre 2027, formations masquables, programmes
+    // 2026 conservés. Remplace les blocs provisoires « À COMPLÉTER ».
+    item => {
+      if (item.slug !== 'nos-formations') return;
+      if (Array.isArray(item.blocks) && item.blocks.some(b => b && b.type === 'certif')) return;
+      item.blocks = clone(formationsBlocks());
+      if (!item.heroEyebrow) item.heroEyebrow = 'Expertises et Solutions';
+    },
   ],
   secteurs: [
     // v1 → v2 : intitulés des profils de clients alignés sur l'arborescence validée.

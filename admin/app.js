@@ -102,8 +102,12 @@ function openPreview(slug) {
     : homepagePage(state.homepage, pages, site());
   const baseHref = `${config.siteUrl}/${slug ? `${slug}/` : ''}`;
   html = html.replace('<head>', `<head>\n<base href="${baseHref}">`);
+  // Les pages internes référencent les images en « ../images/… » : on remplace
+  // le chemin complet, préfixe compris, sinon l'aperçu obtient « ../blob:… »
+  // (URL invalide) et la photo nouvellement choisie disparaît.
   for (const [key, file] of pendingUploads) {
-    html = html.split(key).join(URL.createObjectURL(file));
+    const url = URL.createObjectURL(file);
+    html = html.split(`../${key}`).join(url).split(key).join(url);
   }
   const win = window.open('', '_blank');
   if (!win) { alert('Le navigateur a bloqué l’ouverture de l’aperçu. Autorisez les fenêtres pop-up pour ce site.'); return; }
@@ -1191,7 +1195,8 @@ function renderNavigationForm(content) {
           ${pathField('Nom affiché', 'footer.brand', f.brand)}
           ${pathField('Texte de présentation', 'footer.text', f.text, { rows: 2 })}
           ${pathField('Sous-titre sous le nom', 'footer.tagline', f.tagline)}
-          ${pathField('Badge', 'footer.badge', f.badge)}
+          ${pathField('Badge (texte, ou texte alternatif du logo)', 'footer.badge', f.badge)}
+          ${photoFieldHtml('footer-badge-logo', 'Logo dans le badge (ex. logo Groupe BPCE) — remplace le texte', f.badgeLogo)}
           <div class="admin-form-row">
             ${pathField('LinkedIn (adresse, vide = masqué)', 'footer.linkedin', f.linkedin)}
             ${pathField('YouTube (adresse, vide = masqué)', 'footer.youtube', f.youtube)}
@@ -1232,6 +1237,7 @@ function renderNavigationForm(content) {
         </div>
       </form>`;
 
+    wirePhotoField('footer-badge-logo', ext => `images/uploads/footer-badge-logo.${ext}`, key => { draft.footer.badgeLogo = key; });
     wireArrayButtons(content, draft, paint, NAV_TEMPLATES);
     wirePreviewButtons(content, () => {
       syncPaths(content, draft);
@@ -1303,6 +1309,7 @@ const BLOCK_TYPES = {
   ] },
   stats: { l: 'Chiffres clés', fields: [
     ...HEADER_FIELDS,
+    { k: 'footnote', l: 'Note sous les chiffres (facultatif)' },
     { k: 'items', l: 'Chiffres', type: 'items', template: { value: '', suffix: '', label: '', text: '', color: '' }, fields: [
       { k: 'value', l: 'Chiffre' }, { k: 'suffix', l: 'Unité (ex. %, +, M€)' }, { k: 'label', l: 'Légende' }, { k: 'text', l: 'Description' }, { k: 'color', l: 'Couleur', type: 'select', options: COLOR_OPTIONS },
     ] },
@@ -1342,15 +1349,45 @@ const BLOCK_TYPES = {
     { k: 'figures', l: 'Chiffres', type: 'items', template: { value: '', label: '' }, fields: [{ k: 'value', l: 'Chiffre' }, { k: 'label', l: 'Légende' }] },
     { k: 'convictionsTitle', l: 'Titre de la liste' }, { k: 'convictions', l: 'Liste', rows: 3, hint: LINES_HINT },
   ] },
-  courses: { l: 'Formations (Qualiopi + cartes)', fields: [
+  courses: { l: 'Formations (cartes, programmes par année)', fields: [
     ...HEADER_FIELDS,
-    { k: 'qualiopiBadge', l: 'Badge (ex. Certifié Qualiopi)' }, { k: 'qualiopiText', l: 'Texte de certification', rows: 2 },
-    { k: 'qualiopiLink', l: 'Lien vers le certificat' }, { k: 'qualiopiLinkLabel', l: 'Libellé du lien' },
-    { k: 'items', l: 'Formations', type: 'items', template: { title: '', level: '', days: '', teaser: '', list: '', mode: '', programHref: '', color: '' }, fields: [
-      { k: 'title', l: 'Titre' }, { k: 'level', l: 'Niveau' }, { k: 'days', l: 'Durée (ex. 2 jours)' }, { k: 'teaser', l: 'Phrase d’accroche', rows: 2 },
+    { k: 'color', l: 'Couleur par défaut', type: 'select', options: COLOR_OPTIONS },
+    { k: 'programYear', l: 'Année des programmes en cours (ex. 2027)' },
+    { k: 'prevProgramYear', l: 'Année précédente (ex. 2026)' },
+    { k: 'showPrevPrograms', l: 'Boutons « Programme de l’année précédente »', type: 'select', options: [['oui', 'Affichés'], ['non', 'Masqués (année terminée)']] },
+    { k: 'qualiopiBadge', l: 'Badge au-dessus des cartes (facultatif, ex. Certifié Qualiopi)' }, { k: 'qualiopiText', l: 'Texte sous le badge (facultatif)', rows: 2 },
+    { k: 'qualiopiLink', l: 'Lien sous le badge (facultatif)' }, { k: 'qualiopiLinkLabel', l: 'Libellé du lien' },
+    { k: 'footnote', l: 'Note sous les cartes (facultatif)' },
+    { k: 'items', l: 'Formations', type: 'items', template: { title: '', level: '', days: '', teaser: '', list: '', mode: 'Intra / Inter · Distanciel', programHref: '', programLabel: '', prevProgramHref: '', contactLabel: '', contactHref: '', hidden: 'non', color: '' }, fields: [
+      { k: 'hidden', l: 'Affichage', type: 'select', options: [['non', 'Affichée'], ['oui', 'Masquée']] },
+      { k: 'title', l: 'Titre' }, { k: 'level', l: 'Niveau (ex. Initiation)' }, { k: 'days', l: 'Durée (ex. 0,5 jour)' }, { k: 'teaser', l: 'Phrase d’accroche', rows: 2 },
       { k: 'list', l: 'Liste →', rows: 3, hint: LINES_HINT }, { k: 'mode', l: 'Format (ex. Intra / Inter · Distanciel)' },
-      { k: 'programHref', l: 'Lien vers le programme (bouton « En savoir + »)' }, { k: 'color', l: 'Couleur', type: 'select', options: COLOR_OPTIONS },
+      { k: 'programHref', l: 'Programme de l’année en cours (PDF)', type: 'file', hint: 'Bouton « En savoir + » exigé par Qualiopi. Téléversez le PDF ou collez une adresse.' },
+      { k: 'programLabel', l: 'Libellé du bouton programme (défaut : En savoir + — programme <année>)' },
+      { k: 'prevProgramHref', l: 'Programme de l’année précédente (PDF)', type: 'file' },
+      { k: 'contactLabel', l: 'Sans programme : libellé du lien (ex. Nous consulter)' }, { k: 'contactHref', l: 'Sans programme : adresse du lien' },
+      { k: 'color', l: 'Couleur', type: 'select', options: COLOR_OPTIONS },
     ] },
+  ] },
+  certif: { l: 'Introduction avec certification (logo Qualiopi)', fields: [
+    { k: 'eyebrow', l: 'Surtitre' }, { k: 'title', l: 'Titre' }, { k: 'subtitle', l: 'Sous-titre (publics)' },
+    { k: 'text', l: 'Texte d’introduction', rows: 8, hint: PARAS_HINT },
+    { k: 'certText', l: 'Mention de certification sous le texte', rows: 2, hint: 'Un lien s’écrit [cliquez-ici pour afficher la certification](docs/formations/certificat-qualiopi.pdf).' },
+    { k: 'logo', l: 'Logo de certification', type: 'photo' }, { k: 'logoAlt', l: 'Description du logo (accessibilité)' },
+    { k: 'logoText', l: 'Mention sous le logo', rows: 2 },
+  ] },
+  quotes: { l: 'Verbatims (avis courts)', fields: [
+    ...HEADER_FIELDS, { k: 'items', l: 'Avis', rows: 10, hint: LINES_HINT },
+  ] },
+  compare: { l: 'Comparatif de deux offres (colonne mise en avant)', fields: [
+    ...HEADER_FIELDS,
+    { k: 'color', l: 'Couleur de la colonne mise en avant', type: 'select', options: COLOR_OPTIONS },
+    { k: 'highlight', l: 'Colonne mise en avant', type: 'select', options: [['b', 'Colonne de droite'], ['a', 'Colonne de gauche'], ['', 'Aucune']] },
+    { k: 'highlightLabel', l: 'Pastille sur la colonne mise en avant (vide = aucune)' },
+    { k: 'titleA', l: 'Colonne de gauche : titre' }, { k: 'itemsA', l: 'Colonne de gauche : liste', rows: 5, hint: LINES_HINT },
+    { k: 'buttonALabel', l: 'Colonne de gauche : bouton' }, { k: 'buttonAHref', l: 'Colonne de gauche : lien du bouton', hint: HREF_HINT },
+    { k: 'titleB', l: 'Colonne de droite : titre' }, { k: 'itemsB', l: 'Colonne de droite : liste', rows: 5, hint: LINES_HINT },
+    { k: 'buttonBLabel', l: 'Colonne de droite : bouton' }, { k: 'buttonBHref', l: 'Colonne de droite : lien du bouton', hint: HREF_HINT },
   ] },
   text: { l: 'Texte libre', fields: [...HEADER_FIELDS, { k: 'text', l: 'Texte', rows: 8, hint: PARAS_HINT }] },
   cta: { l: 'Bandeau d’appel (dégradé, en bas de page)', fields: [
@@ -1382,8 +1419,24 @@ function selectField(label, path, value, options) {
   </label>`;
 }
 
+const domId = path => `blk-${path.replace(/[^a-zA-Z0-9]/g, '-')}`;
+
 function blockFieldHtml(f, path, value, type) {
   if (f.type === 'select') return selectField(f.l, path, value, f.options);
+  if (f.type === 'photo') {
+    return `<div class="admin-body-section" data-blk-photo="${escapeHtml(path)}">
+      ${photoFieldHtml(domId(path), f.l, value)}
+      <input type="hidden" data-path="${escapeHtml(path)}" value="${escapeHtml(value ?? '')}">
+    </div>`;
+  }
+  if (f.type === 'file') {
+    return `<label>${escapeHtml(f.l)}
+      <span class="admin-file-row">
+        <input type="text" data-path="${escapeHtml(path)}" value="${escapeHtml(value ?? '')}" placeholder="Aucun fichier">
+        <span class="btn btn--small admin-file-btn">${ICONS.upload}<span>Téléverser un PDF</span><input type="file" accept="application/pdf" data-blk-file="${escapeHtml(path)}" hidden></span>
+      </span>
+    </label>${f.hint ? `<p class="admin-hint">${escapeHtml(f.hint)}</p>` : ''}`;
+  }
   if (f.type === 'items') {
     const list = Array.isArray(value) ? value : [];
     return `<h4>${escapeHtml(f.l)}</h4>
@@ -1403,8 +1456,9 @@ function blocksEditorHtml(path, blocks, openBlocks) {
     const label = def ? def.l : `Type inconnu (${b?.type})`;
     const summary = b?.title || b?.enjeuxTitle || b?.quote || '';
     return `<details class="admin-section admin-block" data-block="${i}"${openBlocks.has(i) ? ' open' : ''}>
-      <summary>${i + 1}. ${escapeHtml(label)}${summary ? ` — ${escapeHtml(String(summary).slice(0, 60))}` : ''}</summary>
+      <summary>${i + 1}. ${escapeHtml(label)}${b?.hidden === 'oui' || b?.hidden === true ? ' (masqué)' : ''}${summary ? ` — ${escapeHtml(String(summary).slice(0, 60))}` : ''}</summary>
       <div class="admin-section__body">
+        ${selectField('Affichage du bloc', `${path}.${i}.hidden`, b.hidden === true ? 'oui' : (b.hidden || 'non'), [['non', 'Affichée'], ['oui', 'Masquée']])}
         ${def ? def.fields.map(f => blockFieldHtml(f, `${path}.${i}.${f.k}`, b[f.k], b.type)).join('') : ''}
         ${itemToolbar(path, i, list.length)}
       </div>
@@ -1420,6 +1474,26 @@ function blocksEditorHtml(path, blocks, openBlocks) {
 function wireBlocksEditor(container, draft, paint, openBlocks, beforeChange = () => syncPaths(container, draft)) {
   container.querySelectorAll('details[data-block]').forEach(d => {
     d.addEventListener('toggle', () => { const i = Number(d.dataset.block); if (d.open) openBlocks.add(i); else openBlocks.delete(i); });
+  });
+  container.querySelectorAll('[data-blk-photo]').forEach(box => {
+    const path = box.dataset.blkPhoto;
+    const hidden = box.querySelector('input[type=hidden][data-path]');
+    wirePhotoField(domId(path), ext => `images/uploads/bloc-${Date.now()}.${ext}`, key => { hidden.value = key; setByPath(draft, path, key); });
+  });
+  // PDF : déposé sous images/uploads/ (dossier conservé par le déploiement),
+  // envoyé sur S3 au moment de « Publier », comme les photos.
+  container.querySelectorAll('input[data-blk-file]').forEach(input => {
+    input.closest('.admin-file-btn').addEventListener('click', e => { if (e.target !== input) input.click(); });
+    input.addEventListener('change', () => {
+      const file = input.files[0];
+      if (!file) return;
+      const base = slugify(file.name.replace(/\.pdf$/i, '')) || 'document';
+      const key = `images/uploads/docs/${base}.pdf`;
+      pendingUploads.set(key, file);
+      const field = container.querySelector(`[data-path="${CSS.escape(input.dataset.blkFile)}"]`);
+      if (field) field.value = key;
+      setByPath(draft, input.dataset.blkFile, key);
+    });
   });
   const btn = container.querySelector('#add-block');
   if (!btn) return;

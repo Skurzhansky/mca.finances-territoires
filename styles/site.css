@@ -2067,3 +2067,52 @@ section.section--muted { background: var(--canvas); }
   .mk-card, .mk-val { padding: 26px; }
   .mk-figures { padding: 28px; }
 }
+.footer-subsidiary--logo { padding: 8px 12px; background: #fff; border: 1px solid var(--gc, #E6DDF0); line-height: 0; }
+.footer-subsidiary--logo img { display: block; height: 28px; width: auto; max-width: 160px; object-fit: contain; }
+
+/* Comparatif de deux offres (bloc « compare ») */
+.mk-vs { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: stretch; max-width: 980px; margin: 0 auto; }
+.mk-vs__col { position: relative; display: flex; flex-direction: column; padding: 30px 28px; border-radius: 16px; background: #fff; border: 1px solid var(--gc, #E6DDF0); }
+.mk-vs__col--on { background: linear-gradient(135deg, var(--c, var(--vp)) 0%, color-mix(in srgb, var(--c, var(--vp)) 70%, var(--in)) 100%); border-color: transparent; color: #fff; box-shadow: 0 18px 40px -18px color-mix(in srgb, var(--c, var(--vp)) 70%, transparent); }
+.mk-vs__flag { position: absolute; top: -12px; left: 28px; padding: 4px 12px; border-radius: 999px; background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.mk-vs__title { margin: 0 0 16px; font-size: 20px; font-weight: 800; color: var(--vp); }
+.mk-vs__col--on .mk-vs__title { color: #fff; }
+.mk-vs__list { list-style: none; margin: 0 0 24px; padding: 0; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.mk-vs__list li { position: relative; padding-left: 22px; font-size: 15px; line-height: 1.5; color: var(--gf); }
+.mk-vs__list li::before { content: '→'; position: absolute; left: 0; color: var(--c, var(--vp)); font-weight: 700; }
+.mk-vs__col--on .mk-vs__list li { color: rgba(255, 255, 255, .92); }
+.mk-vs__col--on .mk-vs__list li::before { color: #fff; }
+.mk-vs__btn { align-self: flex-start; }
+.mk-vs__sep { align-self: center; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg); color: var(--vp); font-size: 13px; font-weight: 800; border: 1px solid var(--gc, #E6DDF0); }
+@media (max-width: 760px) {
+  .mk-vs { grid-template-columns: 1fr; }
+  .mk-vs__sep { justify-self: center; }
+}
+
+/* Formations : liens programmes (année en cours / précédente), notes */
+.mk-course__foot { flex-direction: column; align-items: flex-start; }
+.mk-course__links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.mk-course__prog { font-size: 13px; font-weight: 700; color: var(--c, var(--vp)); text-decoration: none; }
+.mk-course__prog:hover { text-decoration: underline; }
+.mk-course__prev { font-size: 12px; font-weight: 600; color: var(--gf); text-decoration: none; padding: 3px 10px; border: 1px solid var(--gc); border-radius: 999px; }
+.mk-course__prev:hover { border-color: var(--c, var(--vp)); color: var(--c, var(--vp)); }
+.mk-footnote { margin: 18px 0 0; font-size: 12px; color: var(--gf); text-align: center; }
+.mk-stats--2 { grid-template-columns: repeat(2, 1fr); max-width: 720px; margin: 0 auto; }
+
+/* Introduction avec certification (Qualiopi) */
+.mk-certif { align-items: center; }
+.mk-certif__sub { margin: -6px 0 18px; font-size: 14px; font-weight: 600; color: var(--mg); }
+.mk-certif__cert { margin: 18px 0 0; padding: 14px 16px; border-left: 3px solid var(--accent); background: var(--bg); border-radius: 0 10px 10px 0; font-size: 15px; font-weight: 700; color: var(--vp); line-height: 1.6; }
+.mk-certif__cert a { color: var(--vp); text-decoration: underline; }
+.mk-certif__card { background: #fff; border: 1px solid var(--gc); border-radius: 16px; padding: 28px; box-shadow: 0 12px 30px -20px rgba(88, 29, 116, .35); }
+.mk-certif__logo { display: block; width: 100%; max-width: 300px; height: auto; }
+.mk-certif__mention { margin: 16px 0 0; font-size: 15px; line-height: 1.6; color: #2D2A6E; }
+@media (max-width: 900px) { .mk-certif__card { order: -1; } }
+
+/* Verbatims */
+.mk-quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.mk-quote { margin: 0; padding: 20px 22px; background: #fff; border: 1px solid var(--gc); border-radius: 14px; position: relative; }
+.mk-quote::before { content: '«'; position: absolute; top: 6px; left: 14px; font-size: 30px; line-height: 1; color: color-mix(in srgb, var(--accent) 55%, transparent); font-weight: 700; }
+.mk-quote blockquote { margin: 0; padding-left: 18px; font-size: 14px; line-height: 1.6; color: var(--gf); font-style: italic; }
+@media (max-width: 900px) { .mk-quotes { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .mk-quotes { grid-template-columns: 1fr; } .mk-stats--2 { grid-template-columns: 1fr; } }

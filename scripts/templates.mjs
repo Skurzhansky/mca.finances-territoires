@@ -240,7 +240,7 @@ export const DEFAULT_ACCOMPAGNEMENT = {
 export const DEFAULT_ABOUT = {
   cardTitle: 'Une expertise ancrée dans le terrain',
   cardText: "Fondé en 2019, BPCE Finances & Territoires est né d'un constat de terrain : pour nombre d'acteurs, la recherche de financements constitue un frein majeur — faute de moyens humains, de temps ou de compétences spécifiques, mais aussi face à un paysage d'aides particulièrement vaste et épars, difficile à appréhender sans expertise dédiée.",
-  badge: 'Filiale du Groupe BPCE',
+  badge: '',
   stats: [
     { value: '500', suffix: '+', label: 'Structures accompagnées' },
     { value: '1,2', suffix: 'Md€', label: "D'aides mobilisées" },
@@ -307,8 +307,9 @@ export const DEFAULT_COVERAGE = {
   ],
   hqLabel: 'Moyenne nationale',
   hqValue: '3 000',
-  hqText: 'dispositifs disponibles\npar département, en moyenne',
-  hqRegion: 'd-73',
+  hqText: 'dispositifs en moyenne\npar département',
+  // Département mis en avant sur la carte (ex. 'd-73') — vide : aucun.
+  hqRegion: '',
   regions: [
     { id: 'd-01', name: "Ain (01)", count: '' },
     { id: 'd-02', name: "Aisne (02)", count: '' },
@@ -632,7 +633,9 @@ export function footer(pages, base = '../', navigation) {
       <div class="footer-brand">${escapeHtml(f.brand)}</div>
       ${f.tagline ? `<div class="footer-tagline">${escapeHtml(f.tagline)}</div>` : ''}
       <p>${richText(f.text, base)}</p>
-      ${f.badge ? `<span class="footer-subsidiary">${escapeHtml(f.badge)}</span>` : ''}
+      ${f.badgeLogo
+        ? `<span class="footer-subsidiary footer-subsidiary--logo"><img src="${base}${escapeHtml(f.badgeLogo)}" alt="${escapeHtml(f.badge || 'Groupe BPCE')}"></span>`
+        : (f.badge ? `<span class="footer-subsidiary">${escapeHtml(f.badge)}</span>` : '')}
       ${social ? `<div class="footer-socials">${social}</div>` : ''}
     </div>
     ${columns.map((col, ci) => `<div class="footer-col">
@@ -762,6 +765,7 @@ export const BLOCK_ICONS = {
 
 // Typographie française : espace insécable avant ? ! : ; » (évite un « ? » seul en fin de titre).
 const frTitle = s => escapeHtml(s).replace(/ ([?!:;»])/g, '&nbsp;$1');
+const isHidden = x => x && (x.hidden === true || x.hidden === 'oui');
 const blockColor = name => BLOCK_COLORS[name] || BLOCK_COLORS.violet;
 const colorVar = name => `--c:${blockColor(name)}`;
 const lines = v => (Array.isArray(v) ? v : String(v ?? '').split('\n')).map(s => String(s).trim()).filter(Boolean);
@@ -867,13 +871,14 @@ const BLOCK_RENDERERS = {
   },
 
   stats: b => `${blockHeader(b)}
-    <div class="mk-stats">
+    <div class="mk-stats${(b.items || []).filter(x => x.value || x.label).length === 2 ? ' mk-stats--2' : ''}">
       ${(b.items || []).filter(s => s.value || s.label).map(s => `<div class="mk-stat" style="${colorVar(s.color)}">
         <div class="mk-stat__val">${escapeHtml(s.value)}${s.suffix ? `<small>${escapeHtml(s.suffix)}</small>` : ''}</div>
         ${s.label ? `<div class="mk-stat__lab">${escapeHtml(s.label)}</div>` : ''}
         ${s.text ? `<div class="mk-stat__desc">${escapeHtml(s.text)}</div>` : ''}
       </div>`).join('\n      ')}
-    </div>`,
+    </div>
+    ${b.footnote ? `<p class="mk-footnote">${richText(b.footnote)}</p>` : ''}`,
 
   testimonial: b => {
     const initials = String(b.name || '').split(/\s+/).filter(w => /^[A-Za-zÀ-ÿ]/.test(w)).slice(0, 2).map(w => w[0].toUpperCase()).join('');
@@ -946,23 +951,76 @@ const BLOCK_RENDERERS = {
     </div>
   </div>`,
 
-  courses: b => `${blockHeader(b)}
+  courses: b => {
+    const year = b.programYear || '', prevYear = b.prevProgramYear || '';
+    const showPrev = b.showPrevPrograms === 'oui' || b.showPrevPrograms === true;
+    const items = (b.items || []).filter(c => c.title && !isHidden(c));
+    return `${blockHeader(b)}
     ${b.qualiopiBadge || b.qualiopiText ? `<div class="mk-quali-block">
       ${b.qualiopiBadge ? `<span class="mk-quali">✅ ${escapeHtml(b.qualiopiBadge)}</span>` : ''}
       ${b.qualiopiText ? `<p class="mk-p">${richText(b.qualiopiText)}</p>` : ''}
       ${b.qualiopiLink ? `<a class="mk-offer__link" href="${escapeHtml(blockHref(b.qualiopiLink))}">${escapeHtml(b.qualiopiLinkLabel || 'Voir le certificat →')}</a>` : ''}
     </div>` : ''}
     <div class="mk-grid mk-grid--3">
-      ${(b.items || []).filter(c => c.title).map(c => `<div class="mk-course" style="${colorVar(c.color)}">
+      ${items.map(c => {
+        const prog = c.programHref ? `<a class="mk-course__prog" href="${escapeHtml(blockHref(c.programHref))}" target="_blank" rel="noopener">${escapeHtml(c.programLabel || `En savoir + — programme${year ? ` ${year}` : ''}`)} →</a>` : '';
+        const prev = showPrev && c.prevProgramHref ? `<a class="mk-course__prev" href="${escapeHtml(blockHref(c.prevProgramHref))}" target="_blank" rel="noopener">Programme${prevYear ? ` ${prevYear}` : ' précédent'}</a>` : '';
+        const contact = !prog && c.contactLabel ? `<a class="mk-course__prog" href="${escapeHtml(blockHref(c.contactHref || 'contact/'))}">${escapeHtml(c.contactLabel)} →</a>` : '';
+        return `<div class="mk-course" style="${colorVar(c.color || b.color)}">
         <div class="mk-course__head">
           ${c.level || c.days ? `<div class="mk-course__meta">${c.level ? `<span class="mk-course__niv">${escapeHtml(c.level)}</span>` : '<span></span>'}${c.days ? `<span class="mk-course__dur">${escapeHtml(c.days)}</span>` : ''}</div>` : ''}
           <h3 class="mk-course__title">${escapeHtml(c.title)}</h3>
           ${c.teaser ? `<p class="mk-course__teaser">${richText(c.teaser)}</p>` : ''}
         </div>
-        ${lines(c.list).length ? `<div class="mk-course__body">${arrowList(c.list, c.color)}</div>` : ''}
-        ${c.mode || c.programHref ? `<div class="mk-course__foot"><span>${c.mode ? `📍 ${escapeHtml(c.mode)}` : ''}</span>${c.programHref ? `<a href="${escapeHtml(blockHref(c.programHref))}">En savoir + →</a>` : ''}</div>` : ''}
-      </div>`).join('\n      ')}
+        ${lines(c.list).length ? `<div class="mk-course__body">${arrowList(c.list, c.color || b.color)}</div>` : ''}
+        <div class="mk-course__foot">
+          ${c.mode ? `<span class="mk-course__mode">📍 ${escapeHtml(c.mode)}</span>` : ''}
+          ${prog || contact || prev ? `<div class="mk-course__links">${prog}${contact}${prev}</div>` : ''}
+        </div>
+      </div>`;
+      }).join('\n      ')}
+    </div>
+    ${b.footnote ? `<p class="mk-footnote">${richText(b.footnote)}</p>` : ''}`;
+  },
+
+  // Introduction d'une page certifiée : texte à gauche, encart logo +
+  // mention de certification à droite (affiché en premier sur mobile).
+  certif: b => `<div class="mk-cols mk-certif">
+    <div class="mk-certif__text">
+      ${b.eyebrow ? `<span class="section-eyebrow">${escapeHtml(b.eyebrow)}</span>` : ''}
+      ${b.title ? `<h2 class="mk-h2">${frTitle(b.title)}</h2>` : ''}
+      ${b.subtitle ? `<p class="mk-certif__sub">${richText(b.subtitle)}</p>` : ''}
+      ${paragraphs(b.text)}
+      ${b.certText ? `<p class="mk-certif__cert">${richText(b.certText)}</p>` : ''}
+    </div>
+    <div class="mk-certif__card">
+      ${b.logo ? `<img class="mk-certif__logo" src="../${escapeHtml(b.logo)}" alt="${escapeHtml(b.logoAlt || 'Qualiopi — processus certifié — République française')}">` : ''}
+      ${b.logoText ? `<p class="mk-certif__mention">${richText(b.logoText)}</p>` : ''}
+    </div>
+  </div>`,
+
+  // Verbatims courts (ex. « Nos clients ont particulièrement apprécié »).
+  quotes: b => `${blockHeader(b)}
+    <div class="mk-quotes">
+      ${lines(b.items).map(q => `<figure class="mk-quote"><blockquote>${richText(q)}</blockquote></figure>`).join('\n      ')}
     </div>`,
+
+  // Comparatif de deux offres côte à côte ; la colonne mise en avant est en couleur.
+  compare: b => {
+    const col = (key) => {
+      const on = b.highlight === key;
+      const title = b[`title${key.toUpperCase()}`], items = b[`items${key.toUpperCase()}`];
+      const label = b[`button${key.toUpperCase()}Label`], href = b[`button${key.toUpperCase()}Href`];
+      return `<div class="mk-vs__col${on ? ' mk-vs__col--on' : ''}" style="${colorVar(b.color)}">
+        ${on && b.highlightLabel ? `<span class="mk-vs__flag">${escapeHtml(b.highlightLabel)}</span>` : ''}
+        <h3 class="mk-vs__title">${escapeHtml(title || '')}</h3>
+        <ul class="mk-vs__list">${lines(items).map(i => `<li>${richText(i)}</li>`).join('')}</ul>
+        ${label ? `<a class="${on ? 'btn-cta-pill' : 'btn-ap'} mk-vs__btn" href="${escapeHtml(blockHref(href || 'contact/'))}">${escapeHtml(label)}</a>` : ''}
+      </div>`;
+    };
+    return `${blockHeader(b)}
+    <div class="mk-vs">${col('a')}<div class="mk-vs__sep" aria-hidden="true">VS</div>${col('b')}</div>`;
+  },
 
   text: b => `${blockHeader(b)}
     <div style="max-width:760px;margin:0 auto;">${paragraphs(b.text)}</div>`,
@@ -984,7 +1042,7 @@ function renderCtaBlock(b) {
 export function renderBlocks(blocks) {
   let i = 0;
   return (blocks || []).map(b => {
-    if (!b || !b.type) return '';
+    if (!b || !b.type || isHidden(b)) return '';
     if (b.type === 'cta') return renderCtaBlock(b);
     const render = BLOCK_RENDERERS[b.type];
     if (!render) return '';
@@ -999,7 +1057,7 @@ export function renderBlocks(blocks) {
 
 export function renderBlockPage(p, c = p, content) {
   // Sans bloc « Bandeau d'appel » saisi, on garde le bandeau de contact commun.
-  const hasCta = (c.blocks || []).some(b => b && b.type === 'cta');
+  const hasCta = (c.blocks || []).some(b => b && b.type === 'cta' && !isHidden(b));
   return `${photoHero(p, { eyebrow: c.heroEyebrow, title: c.headline || c.title, lead: c.lead, image: c.image ?? c.bannerImage, color: c.heroColor })}
 <main>
 ${renderBlocks(c.blocks)}
@@ -1465,7 +1523,7 @@ ${seoTags(p, site.content)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles/site.css?v=20261126a">
+<link rel="stylesheet" href="../styles/site.css?v=20261126b">
 </head>
 <body>
 
@@ -1604,11 +1662,11 @@ function renderFinboost(data) {
           <div class="fb-bars">${bars.map((h, i) => `<span style="height:${h}%"${i === 3 || i === 6 ? ' class="is-gold"' : ''}></span>`).join('')}</div>
           <div class="fb-panel__stat"><strong>${escapeHtml(f.panelValue)}</strong> <span>${escapeHtml(f.panelValueLabel)}</span></div>
         </div>
-        <div class="fb-side">
+        ${f.sideValue ? `<div class="fb-side">
           <span>${escapeHtml(f.sideLabel)}</span>
           <strong>${escapeHtml(f.sideValue)}</strong>
           <span>${escapeHtml(f.sideText)}</span>
-        </div>
+        </div>` : ''}
       </div>
     </div>
   </section>`;
@@ -1668,17 +1726,6 @@ function renderAbout(data) {
   const paras = String(a.text || '').split(/\n\s*\n/).filter(x => x.trim());
   return `<section class="about-home" id="qui-sommes-nous">
     <div class="container about-home__grid">
-      <div class="about-card">
-        ${a.cardTitle ? `<h3 class="about-card__title">${escapeHtml(a.cardTitle)}</h3>` : ''}
-        ${a.cardText ? `<p class="about-card__text">${richText(a.cardText, '')}</p>` : ''}
-        ${a.badge ? `<span class="about-card__badge"><i></i>${escapeHtml(a.badge)}</span>` : ''}
-        <div class="about-card__stats">
-          ${(a.stats || []).filter(x => x.value || x.label).map(x => `<div class="about-stat">
-            <div class="about-stat__value">${escapeHtml(x.value)}${x.suffix ? `<small>${escapeHtml(x.suffix)}</small>` : ''}</div>
-            <div class="about-stat__label">${escapeHtml(x.label)}</div>
-          </div>`).join('\n          ')}
-        </div>
-      </div>
       <div class="about-home__content">
         ${a.eyebrow ? `<span class="about-home__eyebrow">${escapeHtml(a.eyebrow)}</span>` : ''}
         <h2 class="about-home__title">${escapeHtml(a.title)}</h2>
@@ -1687,6 +1734,17 @@ function renderAbout(data) {
           ${(a.values || []).filter(v => v.title || v.text).map(v => `<li><strong>${escapeHtml(v.title)}</strong>${v.text ? ` : ${escapeHtml(v.text)}` : ''}</li>`).join('\n          ')}
         </ul>
         ${a.buttonLabel ? `<a class="btn-nav-cta about-home__btn" href="${escapeHtml(a.buttonHref || '')}">${escapeHtml(a.buttonLabel)}</a>` : ''}
+      </div>
+      <div class="about-card">
+        ${a.cardTitle ? `<h3 class="about-card__title">${escapeHtml(a.cardTitle)}</h3>` : ''}
+        ${a.cardText ? `<p class="about-card__text">${richText(a.cardText, '')}</p>` : ''}
+        ${a.badge ? `<span class="about-card__badge"><i></i>${escapeHtml(a.badge)}</span>` : ''}
+        ${(a.stats || []).some(x => x.value) ? `<div class="about-card__stats">
+          ${(a.stats || []).filter(x => x.value).map(x => `<div class="about-stat">
+            <div class="about-stat__value">${escapeHtml(x.value)}${x.suffix ? `<small>${escapeHtml(x.suffix)}</small>` : ''}</div>
+            <div class="about-stat__label">${escapeHtml(x.label)}</div>
+          </div>`).join('\n          ')}
+        </div>` : ''}
       </div>
     </div>
   </section>`;
@@ -1707,7 +1765,7 @@ function renderCoverage(data) {
           <script type="application/json" class="coverage-map__data">${regions}</script>
           <div class="coverage-map__svg"></div>
           <div class="coverage-map__tooltip" hidden></div>
-          <div class="coverage-map__legend"><span>Moins</span><i></i><i></i><i></i><i></i><i></i><span>Plus</span><b></b><span class="coverage-map__legend-hq">Siège</span></div>
+          <div class="coverage-map__legend"><span>Moins</span><i></i><i></i><i></i><i></i><i></i><span>Plus</span>${c.hqRegion ? '<b></b><span class="coverage-map__legend-hq">Siège</span>' : ''}</div>
         </div>
         <div class="coverage-cards">
           ${(c.cards || []).map((k, i) => `<div class="coverage-card${i === 0 ? ' coverage-card--dark' : ''}">
@@ -1715,7 +1773,7 @@ function renderCoverage(data) {
             <div class="coverage-card__text">${multiline(k.text)}</div>
           </div>`).join('')}
           ${c.hqValue ? `<div class="coverage-card coverage-card--hq">
-            <div class="coverage-card__label"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.3 7 13 7 13s7-7.7 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg> ${escapeHtml(c.hqLabel)}</div>
+            ${c.hqLabel ? `<div class="coverage-card__label">${c.hqRegion ? '<svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.3 7 13 7 13s7-7.7 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg> ' : ''}${escapeHtml(c.hqLabel)}</div>` : ''}
             <div class="coverage-card__value">${escapeHtml(c.hqValue)}</div>
             <div class="coverage-card__text">${multiline(c.hqText)}</div>
           </div>` : ''}
@@ -1787,7 +1845,7 @@ ${metaTags(homepage?.seoTitle || `BPCE Finances & Territoires — ${String(homep
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/site.css?v=20261126a">
+<link rel="stylesheet" href="styles/site.css?v=20261126b">
 </head>
 <body>
 

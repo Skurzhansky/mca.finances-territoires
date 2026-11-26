@@ -21,7 +21,7 @@
         "text": "Notification dès l'ouverture d'un dispositif correspondant à votre structure."
       }
     ],
-    "_v": 3,
+    "_v": 5,
     "heroEyebrow": "Expertises et Solutions",
     "heroColor": "violet",
     "blocks": [
@@ -84,7 +84,7 @@
         "text": "Suivi administratif jusqu'au versement effectif des fonds."
       }
     ],
-    "_v": 3,
+    "_v": 5,
     "heroEyebrow": "Expertises et Solutions",
     "heroColor": "magenta",
     "blocks": [
@@ -173,7 +173,7 @@
         "text": "Nous intervenons sur tous types d'aides : subventions d'État, fonds européens (FEDER, FSE+, FEADER...), aides régionales et départementales, dotations d'État (DETR, DSIL...), fonds ANAH, agences appels à projets ADEME, et bien d'autres selon votre secteur."
       }
     ],
-    "_v": 3,
+    "_v": 5,
     "heroEyebrow": "Mobilisation des aides",
     "heroColor": "magenta",
     "headline": "Montage des dossiers",
@@ -307,7 +307,7 @@
         "text": "Vous êtes notifié dès qu'un dispositif pertinent s'ouvre, avec un point régulier de votre consultant pour prioriser les opportunités."
       }
     ],
-    "_v": 3,
+    "_v": 5,
     "heroEyebrow": "Détection des opportunités — Format 1",
     "heroColor": "violet",
     "headline": "Veille continue",
@@ -319,19 +319,19 @@
         "text": "Le paysage des aides est vaste et en constante évolution : +19 000 mesures de soutien à date. Sans veille active et experte, la majorité de ces opportunités restent inexploitées. La Veille continue vous permet de ne jamais passer à côté d'une aide pertinente.\n\nNos consultants construisent avec vous une cartographie de vos projets et thématiques, puis veillent activement sur toutes les opportunités correspondantes — alertes, points réguliers et recommandations à la clé.",
         "buttonLabel": "Demander un diagnostic gratuit →",
         "buttonHref": "contact/",
-        "noteLabel": "Format 2 — Note d'opportunité",
-        "noteText": "Vous souhaitez d'abord vérifier si un projet est finançable avant de vous engager ?",
-        "noteLinkLabel": "Découvrir la Note d'opportunité →",
-        "noteLinkHref": "optimaides-subventions/",
+        "noteLabel": "",
+        "noteText": "",
+        "noteLinkLabel": "",
+        "noteLinkHref": "",
         "panels": [
           {
             "kind": "offre",
             "color": "violet",
             "tag": "Accompagnement continu",
             "title": "Ce que vous obtenez",
-            "statValue": "19 000",
-            "statSuffix": "+",
-            "statLabel": "dispositifs analysés pour vous",
+            "statValue": "",
+            "statSuffix": "",
+            "statLabel": "",
             "items": "Cartographie des opportunités correspondant à votre PPI et vos projets\nAlertes dès qu'un nouveau dispositif apparaît ou est mis à jour\nPoints d'étape réguliers pour ajuster le plan de financement\nConsultant dédié, à votre écoute pour faire émerger les opportunités\nDétection des AAP de fondations (~1 500 sources privées)",
             "linkLabel": "Nous contacter →",
             "linkHref": "contact/"
@@ -373,6 +373,23 @@
         "primaryHref": "contact/",
         "secondaryLabel": "Tester d'abord avec une Note d'opportunité →",
         "secondaryHref": "optimaides-subventions/"
+      },
+      {
+        "type": "compare",
+        "color": "violet",
+        "eyebrow": "Format 2 — Note d'opportunité",
+        "title": "Note d'opportunité ou Veille continue ?",
+        "subtitle": "Vous souhaitez d'abord vérifier si un projet est finançable avant de vous engager ? Commencez par une Note d'opportunité.",
+        "titleA": "Note d'opportunité",
+        "itemsA": "Analyse ponctuelle\nUn projet spécifique\nÉchéance court terme\nIdéal en amont\nSans engagement",
+        "buttonALabel": "Découvrir la Note d'opportunité →",
+        "buttonAHref": "optimaides-subventions/",
+        "titleB": "Veille continue",
+        "itemsB": "Accompagnement continu\nPPI & projets multiples\nAlertes régulières\nStratégie long terme\nRelation continue",
+        "buttonBLabel": "Lancer ma Veille continue →",
+        "buttonBHref": "contact/",
+        "highlight": "b",
+        "highlightLabel": "Stratégie long terme"
       }
     ]
   },
@@ -402,7 +419,7 @@
         "text": "Un tableau de bord dédié pour suivre en temps réel l'état de vos dossiers, vos échéances et les montants à percevoir, projet par projet."
       }
     ],
-    "_v": 3,
+    "_v": 5,
     "heroEyebrow": "Pilotage des aides",
     "heroColor": "turquoise",
     "headline": "Gestion des aides obtenues",
@@ -482,7 +499,7 @@
         "text": "Accompagnement de vos campagnes de collecte."
       }
     ],
-    "_v": 3,
+    "_v": 5,
     "heroEyebrow": "Fonds privés / Mécénat",
     "heroColor": "turquoise",
     "headline": "Recherche de mécènes",
@@ -536,7 +553,7 @@
         "text": "Repérage des appels à projets des fondations privées et accompagnement dans leur sollicitation. [En savoir plus](recherche-de-fondations/)"
       }
     ],
-    "_v": 3,
+    "_v": 5,
     "heroEyebrow": "Expertises et Solutions",
     "heroColor": "turquoise",
     "headline": "Fonds privés / Mécénat",
@@ -604,7 +621,7 @@
         "text": "Présents avant, pendant et après le lancement de votre campagne de collecte, sur une période qui dure en moyenne 18 mois."
       }
     ],
-    "_v": 3,
+    "_v": 5,
     "heroEyebrow": "Fonds privés / Mécénat",
     "heroColor": "turquoise",
     "headline": "Fonds de dotation & collecte de fonds privés",
@@ -682,7 +699,7 @@
         "text": "Mise en relation et suivi dans la durée."
       }
     ],
-    "_v": 3,
+    "_v": 5,
     "heroEyebrow": "Fonds privés / Mécénat",
     "heroColor": "turquoise",
     "headline": "AAP de fondations",
@@ -789,96 +806,173 @@
         "modes": ""
       }
     ],
-    "_v": 3,
+    "_v": 5,
     "heroEyebrow": "Expertises et Solutions",
     "heroColor": "violet",
     "blocks": [
       {
+        "type": "certif",
+        "eyebrow": "Programmes de formation",
+        "title": "Un organisme de formation certifié Qualiopi",
+        "subtitle": "Collectivités locales – Établissements de santé – Habitat social – EPL – Entreprises",
+        "text": "BPCE Finances & Territoires est un acteur de référence dans le domaine des financements publics et privés (non bancaires). Forts de notre expérience terrain, nous mettons notre expertise au service des acteurs publics locaux et institutionnels pour soutenir leurs projets d'investissement et de développement.\n\nNotre organisme de formation est né de la volonté de partager notre savoir-faire et nos connaissances pratiques et théoriques. Nos formations sont élaborées et dispensées par des experts spécialisés dans l'analyse, le conseil et le montage dans tout type de financements (publics, privés, nationaux, européens) pour les projets d'investissement portés par des acteurs publics et privés non lucratifs.\n\nCes modules de formation sont dédiés aux professionnels impliqués dans le montage d'opération et la gestion financière, souhaitant renforcer et actualiser leurs connaissances. Nous proposons nos formations en format distanciel.",
+        "certText": "BPCE Finances & Territoires est certifié Qualiopi par Pronéo Certification : [cliquez-ici pour afficher la certification](docs/formations/certificat-qualiopi.pdf)",
+        "logo": "images/formations/logo-qualiopi.png",
+        "logoAlt": "Qualiopi — processus certifié — République française",
+        "logoText": "La certification qualité a été délivrée au titre de la catégorie d'action suivante : **ACTIONS DE FORMATION**"
+      },
+      {
         "type": "courses",
-        "eyebrow": "Formations",
-        "title": "Formations disponibles",
-        "qualiopiBadge": "Certifié Qualiopi",
-        "qualiopiText": "[À COMPLÉTER — texte et logo de certification Qualiopi de l'ancien site]",
-        "qualiopiLink": "",
-        "qualiopiLinkLabel": "Voir le certificat →",
+        "eyebrow": "Programmes — Aides & Subventions",
+        "title": "Secteur public et privé non lucratif",
+        "programYear": "2027",
+        "prevProgramYear": "2026",
+        "showPrevPrograms": "oui",
+        "color": "violet",
         "items": [
+          {
+            "title": "Mobiliser les aides publiques nationales pour vos projets d’investissement",
+            "level": "Initiation",
+            "days": "0,5 jour",
+            "teaser": "Comment vous familiariser avec les aides et subventions nationales.",
+            "mode": "Intra / Inter · Distanciel",
+            "programHref": "",
+            "prevProgramHref": "docs/formations/2026/programme-2026-as-initiation-secteur-public.pdf",
+            "hidden": "non",
+            "color": "violet"
+          },
+          {
+            "title": "Mobiliser les aides européennes pour vos projets d’investissement",
+            "level": "Initiation",
+            "days": "0,5 jour",
+            "teaser": "Comment vous familiariser avec les fonds européens.",
+            "mode": "Intra / Inter · Distanciel",
+            "programHref": "",
+            "prevProgramHref": "docs/formations/2026/programme-2026-as-initiation-secteur-public.pdf",
+            "hidden": "non",
+            "color": "magenta"
+          },
+          {
+            "title": "Mobiliser les Aides & Subventions pour vos projets d’investissement",
+            "level": "Perfectionnement",
+            "days": "1 jour",
+            "teaser": "Comment monter en compétences sur les Aides & Subventions (aides nationales et européennes).",
+            "mode": "Intra / Inter · Distanciel",
+            "programHref": "",
+            "prevProgramHref": "docs/formations/2026/programme-2026-as-perfectionnement-secteur-public.pdf",
+            "hidden": "non",
+            "color": "indigo"
+          },
+          {
+            "title": "Fonds européens — niveau avancé",
+            "level": "Avancé",
+            "days": "",
+            "teaser": "Formation suspendue — masquée en attendant un éventuel retour.",
+            "mode": "Intra / Inter · Distanciel",
+            "programHref": "",
+            "prevProgramHref": "",
+            "hidden": "oui",
+            "color": "prune"
+          },
           {
             "title": "Financements privés et fonds de dotation",
             "level": "",
             "days": "",
-            "teaser": "Possibilité de formation en intra — nous consulter.",
-            "list": "",
+            "teaser": "Possibilité de formation en intra.",
             "mode": "Intra",
+            "contactLabel": "Nous consulter",
+            "contactHref": "contact/",
             "programHref": "",
-            "color": "violet"
+            "prevProgramHref": "",
+            "hidden": "non",
+            "color": "turquoise"
+          }
+        ]
+      },
+      {
+        "type": "courses",
+        "eyebrow": "Nouveautés 2027",
+        "title": "Secteur des entreprises",
+        "programYear": "2027",
+        "prevProgramYear": "2026",
+        "showPrevPrograms": "oui",
+        "color": "bleu",
+        "items": [
+          {
+            "title": "Comprendre et mobiliser les aides & subventions pour vos projets de croissance",
+            "level": "Initiation",
+            "days": "0,5 jour",
+            "teaser": "Comment vous familiariser avec les Aides & Subventions.",
+            "mode": "Intra / Inter · Distanciel",
+            "programHref": "",
+            "prevProgramHref": "docs/formations/2026/programme-2026-entreprises-initiation.pdf",
+            "hidden": "non",
+            "color": "bleu"
           },
           {
-            "title": "[À COMPLÉTER — reprendre les formations secteur public de l'ancien site : titre, niveau, phrase d'accroche, Intra/Inter, Distanciel, nombre de jours, lien vers le programme]",
-            "level": "",
-            "days": "",
-            "teaser": "",
-            "list": "",
-            "mode": "",
+            "title": "Structurer et sécuriser les aides & subventions pour vos projets de croissance",
+            "level": "Perfectionnement",
+            "days": "0,5 jour",
+            "teaser": "Comment monter en compétences sur les Aides & Subventions.",
+            "mode": "Intra / Inter · Distanciel",
             "programHref": "",
-            "color": "violet"
-          },
-          {
-            "title": "[À COMPLÉTER — formation « Entreprise », programme 2027 à intégrer]",
-            "level": "",
-            "days": "",
-            "teaser": "",
-            "list": "",
-            "mode": "",
-            "programHref": "",
-            "color": "violet"
+            "prevProgramHref": "docs/formations/2026/programme-2026-entreprises-perfectionnement.pdf",
+            "hidden": "oui",
+            "color": "indigo"
           }
         ]
       },
       {
         "type": "stats",
+        "eyebrow": "Les chiffres clés",
         "title": "Nos formations en chiffres",
+        "footnote": "*Enquête de satisfaction à laquelle 82 stagiaires ont répondu.",
         "items": [
           {
-            "value": "[?]",
-            "label": "[À COMPLÉTER — chiffre clé 1]"
+            "value": "50",
+            "suffix": "",
+            "label": "Nombre d'apprenants formés",
+            "text": "depuis 2024",
+            "color": "violet"
           },
           {
-            "value": "[?]",
-            "label": "[À COMPLÉTER — chiffre clé 2]"
-          },
-          {
-            "value": "[?]",
-            "label": "[À COMPLÉTER — chiffre clé 3]"
+            "value": "4,2",
+            "suffix": "/5",
+            "label": "Niveau de satisfaction de nos apprenants*",
+            "text": "depuis 2024",
+            "color": "turquoise"
           }
         ]
       },
       {
+        "type": "quotes",
+        "eyebrow": "Avis de nos stagiaires",
+        "title": "Nos clients ont particulièrement apprécié",
+        "items": "La pédagogie des formateurs\nLa diversité des intervenants en fonction de leurs compétences\nLes informations très instructives, le partage de bonnes pratiques et le retour « terrain »\nL'accueil et la clarté de la formation\nLes intervenants expérimentés, rigoureux et clairs\nLes supports détaillés et pratiques\nLa méthode pédagogique efficace entre présentations et cas pratiques\nFormation complète de très haut niveau, comme ses intervenants, à la fois experts et praticiens expérimentés. Supports détaillés et pratiques pour leur mise en application directe. Je recommande !\nLa qualité d'écoute, les réponses claires, la maîtrise du temps de formation\nLe contenu complet et structuré, l'approche interactive, l'expertise des intervenants\nLes exercices, poser des questions libres, les clés pour bien monter son dossier\nLes échanges constructifs, les quiz en fin de période et le format à distance"
+      },
+      {
         "type": "faq",
         "eyebrow": "Informations pratiques",
-        "title": "Bon à savoir",
+        "title": "Souhaitez-vous en savoir plus ?",
         "items": [
           {
-            "title": "Nos clients ont particulièrement apprécié…",
-            "text": "[À COMPLÉTER — « Nos clients ont particulièrement apprécié... », texte réel de l'ancien site]"
-          },
-          {
-            "title": "Souhaitez-vous en savoir plus ?",
-            "text": "[À COMPLÉTER — texte réel de l'ancien site]"
+            "title": "Tarifs, modalités et délais d’accès",
+            "text": "Pour obtenir les informations sur les tarifs ainsi que sur les modalités et les délais d'accès à nos sessions de formation, nous vous invitons à renseigner le [formulaire de contact](contact/) en nous précisant l'intitulé et la date de la formation qui ont retenu votre intérêt."
           },
           {
             "title": "Formations Outre-mer",
-            "text": "[À COMPLÉTER — texte réel de l'ancien site]"
+            "text": "Pour répondre aux attentes et aux besoins spécifiques des stagiaires ultramarins, nous proposons uniquement des formations en INTRA dédiées aux territoires d'Outre-mer. Délais d'inscription : nous consulter."
           },
           {
-            "title": "Accessibilité aux personnes en situation de handicap",
-            "text": "[À COMPLÉTER — texte réel de l'ancien site]"
+            "title": "Accessibilité aux personnes en situation de handicap (PSH)",
+            "text": "Si vous souhaitez nous faire part d'une éventuelle reconnaissance de handicap ou formuler une demande d'aménagements liée à un handicap, n'hésitez pas à nous l'indiquer à l'adresse [formation@finances-territoires.fr](mailto:formation@finances-territoires.fr) ou en prenant contact au 04 69 96 61 60 afin que nous puissions étudier ensemble la faisabilité de votre projet de formation."
           }
         ]
       },
       {
         "type": "cta",
-        "title": "Formez vos équipes aux financements publics",
-        "text": "Contactez-nous pour obtenir un devis personnalisé.",
+        "title": "Formez vos équipes aux aides & subventions",
+        "text": "Précisez-nous l'intitulé et la date de la formation qui vous intéressent : nous revenons vers vous avec les tarifs et les modalités d'accès.",
         "primaryLabel": "Contactez-nous →",
         "primaryHref": "contact/",
         "secondaryLabel": "",
@@ -924,7 +1018,7 @@
         "text": "Nous vous remettons une note détaillant les dispositifs identifiés, leurs conditions et nos recommandations pour la suite."
       }
     ],
-    "_v": 3,
+    "_v": 5,
     "heroEyebrow": "Détection des opportunités — Format 2",
     "heroColor": "violet",
     "headline": "Note d'opportunité",
@@ -941,14 +1035,6 @@
             "kind": "liste",
             "title": "📌 Quand choisir la Note d'opportunité ?",
             "items": "Vous avez un projet précis mais n'êtes pas sûr qu'il soit éligible à des aides\nVous souhaitez tester le potentiel avant d'investir du temps en montage de dossier\nVous avez besoin d'une réponse rapide pour argumenter un plan de financement en interne\nVous hésitez à vous engager dans une Veille continue sans connaître le potentiel"
-          },
-          {
-            "kind": "comparatif",
-            "title": "Note d'opportunité vs Veille continue",
-            "colA": "Note d'opportunité",
-            "items": "Analyse ponctuelle\nUn projet spécifique\nÉchéance court terme\nIdéal en amont\nSans engagement",
-            "colB": "Veille continue",
-            "items2": "Accompagnement continu\nPPI & projets multiples\nAlertes régulières\nStratégie long terme\nRelation continue"
           }
         ]
       },
@@ -987,6 +1073,23 @@
         "primaryHref": "contact/",
         "secondaryLabel": "Découvrir la Veille continue →",
         "secondaryHref": "veille-personnalisee/"
+      },
+      {
+        "type": "compare",
+        "color": "violet",
+        "eyebrow": "Deux formats complémentaires",
+        "title": "Note d'opportunité ou Veille continue ?",
+        "subtitle": "Besoin d'un suivi dans la durée plutôt que d'une étude ponctuelle ? La Veille continue prend le relais.",
+        "titleA": "Note d'opportunité",
+        "itemsA": "Analyse ponctuelle\nUn projet spécifique\nÉchéance court terme\nIdéal en amont\nSans engagement",
+        "buttonALabel": "Demander une Note d'opportunité →",
+        "buttonAHref": "contact/",
+        "titleB": "Veille continue",
+        "itemsB": "Accompagnement continu\nPPI & projets multiples\nAlertes régulières\nStratégie long terme\nRelation continue",
+        "buttonBLabel": "Découvrir la Veille continue →",
+        "buttonBHref": "veille-personnalisee/",
+        "highlight": "b",
+        "highlightLabel": "Stratégie long terme"
       }
     ]
   }

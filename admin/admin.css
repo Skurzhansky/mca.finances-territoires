@@ -658,3 +658,6 @@ html { scrollbar-color: #c9c2d3 transparent; }
 .admin-form h4 { margin: 6px 0 0; font-size: 13px; font-weight: 600; color: var(--a-muted); text-transform: uppercase; letter-spacing: .04em; }
 .admin-block .admin-body-section { background: #faf9fc; }
 .admin-form-row > #add-block { flex: 0 0 auto; }
+.admin-file-row { display: flex; gap: 8px; align-items: center; }
+.admin-file-row input[type=text] { flex: 1; }
+.admin-file-btn { flex: 0 0 auto; cursor: pointer; }
