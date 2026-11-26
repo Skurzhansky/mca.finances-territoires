@@ -1395,7 +1395,7 @@ section.section--muted { background: var(--canvas); }
   letter-spacing: -.8px;
   color: var(--white);
 }
-.finboost__brand { display: block; color: #EAB818; }
+.finboost__brand { display: block; color: var(--accent); }
 .finboost__brand em, .fb-panel__brand em { font-weight: 400; }
 .fb-card {
   margin-bottom: 18px;
@@ -1405,7 +1405,7 @@ section.section--muted { background: var(--canvas); }
   background: rgba(255, 255, 255, .08);
   backdrop-filter: blur(6px);
 }
-.fb-card--tool { border-color: rgba(234, 184, 24, .35); background: rgba(80, 30, 90, .45); }
+.fb-card--tool { border-color: color-mix(in srgb, var(--accent) 35%, transparent); background: rgba(80, 30, 90, .45); }
 .fb-card__head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
 .fb-card__icon {
   display: flex; align-items: center; justify-content: center;
@@ -1413,18 +1413,18 @@ section.section--muted { background: var(--canvas); }
   background: rgba(255, 255, 255, .15); color: var(--white);
 }
 .fb-card__icon svg { width: 16px; height: 16px; }
-.fb-card__icon--gold { background: rgba(234, 184, 24, .18); color: #EAB818; }
+.fb-card__icon--gold { background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--accent); }
 .fb-card__label { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
-.fb-card__label--gold { color: #EAB818; }
+.fb-card__label--gold { color: var(--accent); }
 .fb-card p { margin: 0; font-size: 16px; line-height: 1.65; color: rgba(255, 255, 255, .88); }
 .fb-card p strong { color: var(--white); }
-.fb-card--tool p strong { color: #EAB818; }
+.fb-card--tool p strong { color: var(--accent); }
 .fb-checks {
   list-style: none; margin: 16px 0 0; padding: 0;
   display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px;
 }
 .fb-checks li { position: relative; padding-left: 20px; font-size: 14px; color: rgba(255, 255, 255, .9); }
-.fb-checks li::before { content: '✓'; position: absolute; left: 0; color: #EAB818; font-weight: 700; }
+.fb-checks li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
 .fb-features { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
 .fb-feature {
   display: flex; flex-direction: column; gap: 4px;
@@ -1436,7 +1436,7 @@ section.section--muted { background: var(--canvas); }
 .fb-feature__icon {
   display: flex; align-items: center; justify-content: center;
   width: 24px; height: 24px; margin-bottom: 6px; border-radius: 6px;
-  background: rgba(234, 184, 24, .16); color: #EAB818;
+  background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent);
 }
 .fb-feature__icon svg { width: 14px; height: 14px; }
 .fb-feature strong { font-size: 15px; color: var(--white); }
@@ -1449,8 +1449,8 @@ section.section--muted { background: var(--canvas); }
   transition: transform .15s ease, background-color .15s ease;
 }
 .fb-btn:hover { transform: translateY(-1px); }
-.fb-btn--gold { background: #EAB818; color: #2B1640; }
-.fb-btn--gold:hover { background: #F2C73A; }
+.fb-btn--gold { background: var(--accent); color: #fff; }
+.fb-btn--gold:hover { background: color-mix(in srgb, var(--accent) 85%, #fff); }
 .fb-btn--ghost { border: 1px solid rgba(255, 255, 255, .6); color: var(--white); }
 .fb-btn--ghost:hover { background: rgba(255, 255, 255, .1); }
 .finboost__aside { position: relative; padding-bottom: 70px; }
@@ -1466,11 +1466,11 @@ section.section--muted { background: var(--canvas); }
   font-size: 12px; font-weight: 600;
 }
 .fb-panel__brand { margin-top: 14px; font-size: 24px; font-weight: 700; color: var(--white); }
-.fb-panel__brand em { color: #EAB818; }
+.fb-panel__brand em { color: var(--accent); }
 .fb-panel__caption { margin-top: 4px; font-size: 14px; color: rgba(255, 255, 255, .6); }
 .fb-bars { display: flex; align-items: flex-end; gap: 6px; height: 90px; margin-top: 18px; }
 .fb-bars span { flex: 1; border-radius: 3px 3px 0 0; background: rgba(214, 118, 173, .45); }
-.fb-bars span.is-gold { background: #EAB818; }
+.fb-bars span.is-gold { background: var(--accent); }
 .fb-panel__stat { margin-top: 12px; }
 .fb-panel__stat strong { font-size: 20px; color: var(--white); }
 .fb-panel__stat span { font-size: 14px; color: #5FE0D2; }
@@ -1564,7 +1564,7 @@ section.section--muted { background: var(--canvas); }
 .coverage-card__text { margin-top: 6px; font-size: 14px; line-height: 1.45; color: var(--ink-soft); }
 .coverage-card--dark { border: 0; background: linear-gradient(135deg, #581D74, #66327A); }
 .coverage-card--dark .coverage-card__value, .coverage-card--dark .coverage-card__text { color: var(--white); }
-.coverage-card--dark .coverage-card__value sup { color: #EAB818; }
+.coverage-card--dark .coverage-card__value sup { color: var(--accent); }
 .coverage-card--hq { border-color: #F7CFE3; background: #FDF0F6; }
 .coverage-card--hq .coverage-card__value { color: #E5007E; }
 .coverage-card__label {
@@ -1626,7 +1626,7 @@ section.section--muted { background: var(--canvas); }
   background: rgba(255, 255, 255, .12);
   font-size: 14px; font-weight: 600;
 }
-.about-card__badge i { width: 6px; height: 6px; border-radius: 50%; background: #EAB818; }
+.about-card__badge i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 .about-card__stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
 .about-stat { padding: 14px 16px; border-radius: 10px; background: var(--white); }
 .about-stat__value { font-size: 22px; font-weight: 700; color: var(--purple-700); line-height: 1.1; }
@@ -2017,7 +2017,7 @@ section.section--muted { background: var(--canvas); }
 .mk-figures { background: linear-gradient(160deg, var(--vm), var(--vp)); border-radius: 18px; padding: 40px; color: #fff; }
 .mk-figures__label { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgba(255, 255, 255, .6); margin-bottom: 18px; }
 .mk-figures__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-.mk-figures__val { font-size: 40px; font-weight: 800; color: #EAB818; line-height: 1.1; }
+.mk-figures__val { font-size: 40px; font-weight: 800; color: var(--accent); line-height: 1.1; }
 .mk-figures__lab { font-size: 13px; color: rgba(255, 255, 255, .7); }
 
 /* Catalogue de formations */

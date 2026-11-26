@@ -1465,7 +1465,7 @@ ${seoTags(p, site.content)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles/site.css?v=20261125b">
+<link rel="stylesheet" href="../styles/site.css?v=20261126a">
 </head>
 <body>
 
@@ -1787,7 +1787,7 @@ ${metaTags(homepage?.seoTitle || `BPCE Finances & Territoires — ${String(homep
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/site.css?v=20261125b">
+<link rel="stylesheet" href="styles/site.css?v=20261126a">
 </head>
 <body>
 
