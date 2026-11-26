@@ -1195,7 +1195,7 @@ function renderNavigationForm(content) {
           ${pathField('Nom affiché', 'footer.brand', f.brand)}
           ${pathField('Texte de présentation', 'footer.text', f.text, { rows: 2 })}
           ${pathField('Sous-titre sous le nom', 'footer.tagline', f.tagline)}
-          ${pathField('Badge (texte, ou texte alternatif du logo)', 'footer.badge', f.badge)}
+          ${pathField('Badge (texte affiché s’il n’y a pas de logo)', 'footer.badge', f.badge)}
           ${photoFieldHtml('footer-badge-logo', 'Logo dans le badge (ex. logo Groupe BPCE) — remplace le texte', f.badgeLogo)}
           <div class="admin-form-row">
             ${pathField('LinkedIn (adresse, vide = masqué)', 'footer.linkedin', f.linkedin)}

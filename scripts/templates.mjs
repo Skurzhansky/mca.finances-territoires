@@ -147,6 +147,8 @@ export const DEFAULT_NAVIGATION = {
     subsidiary: 'Une filiale du Groupe BPCE',
     tagline: 'Filiale du Groupe BPCE',
     badge: 'Groupe BPCE',
+    // Logo affiché dans le badge (remplace le texte ci-dessus, qui sert alors de texte alternatif).
+    badgeLogo: 'images/logo-bpce-finances-territoires.png',
     linkedin: '',
     youtube: '',
     phone: '04 69 96 61 60',
@@ -634,7 +636,7 @@ export function footer(pages, base = '../', navigation) {
       ${f.tagline ? `<div class="footer-tagline">${escapeHtml(f.tagline)}</div>` : ''}
       <p>${richText(f.text, base)}</p>
       ${f.badgeLogo
-        ? `<span class="footer-subsidiary footer-subsidiary--logo"><img src="${base}${escapeHtml(f.badgeLogo)}" alt="${escapeHtml(f.badge || 'Groupe BPCE')}"></span>`
+        ? `<span class="footer-subsidiary footer-subsidiary--logo"><img src="${base}${escapeHtml(f.badgeLogo)}" alt="${escapeHtml(f.badgeLogoAlt || 'BPCE Finances & Territoires')}"></span>`
         : (f.badge ? `<span class="footer-subsidiary">${escapeHtml(f.badge)}</span>` : '')}
       ${social ? `<div class="footer-socials">${social}</div>` : ''}
     </div>
@@ -1523,7 +1525,7 @@ ${seoTags(p, site.content)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles/site.css?v=20261126b">
+<link rel="stylesheet" href="../styles/site.css?v=20261126c">
 </head>
 <body>
 
@@ -1845,7 +1847,7 @@ ${metaTags(homepage?.seoTitle || `BPCE Finances & Territoires — ${String(homep
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/site.css?v=20261126b">
+<link rel="stylesheet" href="styles/site.css?v=20261126c">
 </head>
 <body>
 

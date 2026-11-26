@@ -220,7 +220,8 @@
         "label": "Accessibilité : partiellement conforme",
         "href": "https://www.groupebpce.com/mentions-legales/accessibilite/"
       }
-    ]
+    ],
+    "badgeLogo": "images/logo-bpce-finances-territoires.png"
   },
-  "_v": 4
+  "_v": 5
 }

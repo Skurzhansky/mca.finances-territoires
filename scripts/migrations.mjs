@@ -55,6 +55,11 @@ const MIGRATIONS = {
         for (const l of col.links || []) if (l.label === 'Fonds privés / Mécénat' && l.href === 'fonds-de-dotation-mecenat-local/') l.href = 'fonds-prives-mecenat/';
       }
     },
+    // v5 : logo dans le badge du pied de page (demande de PA, 26/11).
+    data => {
+      data.footer = data.footer || {};
+      if (!data.footer.badgeLogo) data.footer.badgeLogo = 'images/logo-bpce-finances-territoires.png';
+    },
   ],
   homepage: [
     // v1 → v2 : rangée « picto cibles » (7 profils de clients) de la maquette.
