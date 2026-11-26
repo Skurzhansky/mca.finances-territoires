@@ -1024,6 +1024,13 @@ const BLOCK_RENDERERS = {
     <div class="mk-vs">${col('a')}<div class="mk-vs__sep" aria-hidden="true">VS</div>${col('b')}</div>`;
   },
 
+  // Photo seule, avec légende facultative.
+  image: b => b.image ? `${blockHeader(b)}
+    <figure class="mk-figure${b.size === 'moyenne' ? ' mk-figure--medium' : ''}">
+      <img src="../${escapeHtml(b.image)}" alt="${escapeHtml(b.alt || '')}" loading="lazy">
+      ${b.caption ? `<figcaption>${richText(b.caption)}</figcaption>` : ''}
+    </figure>` : '',
+
   text: b => `${blockHeader(b)}
     <div style="max-width:760px;margin:0 auto;">${paragraphs(b.text)}</div>`,
 };
@@ -1479,12 +1486,10 @@ ${cta.title ? `<section class="project-cta project-cta--page">
     case 'donnees-personnelles':
     case 'cookies':
     case 'vigilance-fraude':
-      return `<main class="container">
-  <div class="page-hero">
-    <h1>${escapeHtml(c.headline || c.title)}</h1>
-    ${c.lead ? `<p class="lead">${richText(c.lead)}</p>` : ''}
-  </div>
-  <div class="article-body">
+      return `${photoHero(p, { eyebrow: c.eyebrow, title: c.headline || c.title, lead: c.lead, image: c.image })}
+<main class="container">
+  <div class="article-body legal-body">
+    ${c.bodyImage ? `<figure class="mk-figure"><img src="../${escapeHtml(c.bodyImage)}" alt="${escapeHtml(c.bodyImageAlt || '')}" loading="lazy">${c.bodyImageCaption ? `<figcaption>${richText(c.bodyImageCaption)}</figcaption>` : ''}</figure>` : ''}
     ${(c.body || []).filter(Boolean).map(t => `<p>${richText(t)}</p>`).join('\n    ')}
   </div>
 </main>`;
@@ -1529,7 +1534,7 @@ ${seoTags(p, site.content)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles/site.css?v=20261126c">
+<link rel="stylesheet" href="../styles/site.css?v=20261126d">
 </head>
 <body>
 
@@ -1851,7 +1856,7 @@ ${metaTags(homepage?.seoTitle || `BPCE Finances & Territoires — ${String(homep
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/site.css?v=20261126c">
+<link rel="stylesheet" href="styles/site.css?v=20261126d">
 </head>
 <body>
 

@@ -1486,6 +1486,13 @@ const BLOCK_TYPES = {
     { k: 'titleB', l: 'Colonne de droite : titre' }, { k: 'itemsB', l: 'Colonne de droite : liste', rows: 5, hint: LINES_HINT },
     { k: 'buttonBLabel', l: 'Colonne de droite : bouton' }, { k: 'buttonBHref', l: 'Colonne de droite : lien du bouton', hint: HREF_HINT },
   ] },
+  image: { l: 'Image (photo avec légende)', fields: [
+    ...HEADER_FIELDS,
+    { k: 'image', l: 'Photo', type: 'photo' },
+    { k: 'alt', l: 'Description de la photo (accessibilité)' },
+    { k: 'caption', l: 'Légende (facultative)' },
+    { k: 'size', l: 'Taille', type: 'select', options: [['', 'Pleine largeur'], ['moyenne', 'Moyenne (centrée)']] },
+  ] },
   text: { l: 'Texte libre', fields: [...HEADER_FIELDS, { k: 'text', l: 'Texte', rows: 8, hint: PARAS_HINT }] },
   cta: { l: 'Bandeau d’appel (dégradé, en bas de page)', fields: [
     { k: 'title', l: 'Titre' }, { k: 'text', l: 'Texte', rows: 2 },
@@ -1689,6 +1696,10 @@ for (const slug of LEGAL_SLUGS) {
   PAGE_FIELDS[slug] = [
     { k: 'title', l: 'Titre' },
     { k: 'lead', l: 'Chapô (facultatif)', rows: 2 },
+    { k: 'image', l: 'Photo de bandeau (facultative)', type: 'photo' },
+    { k: 'bodyImage', l: 'Image au début du texte (facultative)', type: 'photo' },
+    { k: 'bodyImageAlt', l: 'Description de l’image (accessibilité)' },
+    { k: 'bodyImageCaption', l: 'Légende de l’image (facultative)' },
     { k: 'body', l: 'Paragraphes', type: 'strings', rows: 5, hint: 'Un lien s’écrit [libellé](https://…). Le **gras** s’écrit entre doubles astérisques.' },
   ];
 }
