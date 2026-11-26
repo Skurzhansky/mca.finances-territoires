@@ -60,6 +60,13 @@ const MIGRATIONS = {
       data.footer = data.footer || {};
       if (!data.footer.badgeLogo) data.footer.badgeLogo = 'images/logo-bpce-finances-territoires.png';
     },
+    // v6 : réseaux sociaux transmis par Natacha le 26/11 (non publiés à cause
+    // du bug de session de l'admin) — seulement si les champs sont vides.
+    data => {
+      data.footer = data.footer || {};
+      if (!data.footer.linkedin) data.footer.linkedin = 'https://www.linkedin.com/company/financesetterritoires/';
+      if (!data.footer.youtube) data.footer.youtube = 'https://www.youtube.com/@bpcefinancesterritoires3992';
+    },
   ],
   homepage: [
     // v1 → v2 : rangée « picto cibles » (7 profils de clients) de la maquette.
