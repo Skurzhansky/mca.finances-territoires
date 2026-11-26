@@ -661,3 +661,5 @@ html { scrollbar-color: #c9c2d3 transparent; }
 .admin-file-row { display: flex; gap: 8px; align-items: center; }
 .admin-file-row input[type=text] { flex: 1; }
 .admin-file-btn { flex: 0 0 auto; cursor: pointer; }
+.admin-status--warn { background: #fff8e6; border-color: #f1dca4; color: #6b4e00; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.admin-status--warn .btn { margin-left: 4px; }

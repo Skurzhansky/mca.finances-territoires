@@ -95,13 +95,15 @@ function currentPages() {
 // ouvert dans un onglet. Une balise <base> fait pointer CSS, images et liens
 // vers le site en ligne ; les photos choisies mais pas encore publiées sont
 // remplacées par leur aperçu local.
-function openPreview(slug) {
+const PREVIEW_BANNER = `<div style="position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:99999;padding:10px 18px;border-radius:999px;background:#2B1640;color:#fff;font:600 13px/1.3 system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.25);pointer-events:none;">Aperçu du brouillon — non publié. Cliquez sur « Publier » dans l’admin pour mettre le site à jour.</div>`;
+
+function previewHtml(slug) {
   const pages = currentPages();
   let html = slug
     ? page(pages.find(p => p.slug === slug) || pages[0], pages, state.events, site())
     : homepagePage(state.homepage, pages, site());
   const baseHref = `${config.siteUrl}/${slug ? `${slug}/` : ''}`;
-  html = html.replace('<head>', `<head>\n<base href="${baseHref}">`);
+  html = html.replace('<head>', `<head>\n<base href="${baseHref}">`).replace('</body>', `${PREVIEW_BANNER}</body>`);
   // Les pages internes référencent les images en « ../images/… » : on remplace
   // le chemin complet, préfixe compris, sinon l'aperçu obtient « ../blob:… »
   // (URL invalide) et la photo nouvellement choisie disparaît.
@@ -109,11 +111,32 @@ function openPreview(slug) {
     const url = URL.createObjectURL(file);
     html = html.split(`../${key}`).join(url).split(key).join(url);
   }
+  return html;
+}
+
+// Les liens internes de l'aperçu ouvrent la version brouillon de la page
+// visée (et non le site en ligne, qui n'a pas encore les modifications).
+function writePreview(win, slug) {
+  win.document.open();
+  win.document.write(previewHtml(slug));
+  win.document.close();
+  const siteOrigin = new URL(config.siteUrl).origin;
+  win.document.addEventListener('click', e => {
+    const a = e.target.closest && e.target.closest('a[href]');
+    if (!a || a.target === '_blank') return;
+    let url;
+    try { url = new URL(a.href); } catch { return; }
+    if (url.origin !== siteOrigin || url.hash && url.pathname === win.location.pathname) return;
+    const target = url.pathname.replace(/^\/+|\/+$/g, '');
+    if (target === '') { e.preventDefault(); writePreview(win, null); return; }
+    if (currentPages().some(p => p.slug === target)) { e.preventDefault(); writePreview(win, target); win.scrollTo(0, 0); }
+  });
+}
+
+function openPreview(slug) {
   const win = window.open('', '_blank');
   if (!win) { alert('Le navigateur a bloqué l’ouverture de l’aperçu. Autorisez les fenêtres pop-up pour ce site.'); return; }
-  win.document.open();
-  win.document.write(html);
-  win.document.close();
+  writePreview(win, slug);
 }
 
 function previewButton(slug, label = 'Aperçu') {
@@ -643,7 +666,35 @@ export async function mountAdmin(root, { user, credentials, signOut }) {
     return;
   }
 
+  window.addEventListener('beforeunload', e => {
+    if (state.dirty || state.formTouched) { e.preventDefault(); e.returnValue = ''; }
+  });
+
   render(root, signOut);
+  offerDraftRestore(root, signOut);
+}
+
+function offerDraftRestore(root, signOut) {
+  const draft = readLocalDraft();
+  if (!draft || !draft.data) return;
+  const el = document.getElementById('publish-status');
+  if (!el) return;
+  const when = new Date(draft.savedAt).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' });
+  el.className = 'admin-status admin-status--warn';
+  el.innerHTML = `<strong>Modifications non publiées retrouvées</strong> (enregistrées sur ce navigateur le ${escapeHtml(when)}). Les restaurer pour les relire puis les publier ?
+    <button type="button" class="btn btn-primary btn--small" id="draft-restore">Restaurer</button>
+    <button type="button" class="btn btn--small" id="draft-discard">Ignorer</button>`;
+  document.getElementById('draft-restore').addEventListener('click', () => {
+    Object.assign(state, draft.data);
+    state.dirty = true;
+    render(root, signOut);
+  });
+  document.getElementById('draft-discard').addEventListener('click', () => {
+    if (!confirm('Supprimer définitivement ces modifications non publiées ?')) return;
+    clearLocalDraft();
+    el.className = 'admin-status';
+    el.textContent = '';
+  });
 }
 
 const NAV_ITEMS = [
@@ -710,7 +761,14 @@ function render(root, signOut) {
 
   document.getElementById('signOut').addEventListener('click', () => signOut());
   document.getElementById('publish-btn').addEventListener('click', () => publish(root, signOut));
-  document.getElementById('preview-btn').addEventListener('click', () => openPreview(null));
+  // Une page est ouverte dans l'éditeur : on prévisualise celle-ci (avec ses
+  // modifications en cours), sinon la page d'accueil.
+  document.getElementById('preview-btn').addEventListener('click', () => {
+    const formPreview = document.querySelector('#tab-content form [data-preview]');
+    if (formPreview) formPreview.click();
+    else openPreview(null);
+  });
+  root.addEventListener('input', e => { if (e.target.closest('#tab-content form')) state.formTouched = true; });
   enhanceTextareas(root);
   root.querySelectorAll('.admin-nav-item').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -731,9 +789,45 @@ function render(root, signOut) {
   else renderEventsList(content, root, signOut);
 }
 
+// Brouillon local : tant que « Publier » n'a pas été cliqué, les
+// modifications n'existent que dans cet onglet. On les garde aussi dans le
+// navigateur pour pouvoir les restaurer après un rechargement ou une
+// fermeture accidentelle (les photos non publiées, elles, ne sont pas gardées).
+const DRAFT_KEY = 'ft-admin-draft-v1';
+const draftPayload = () => ({
+  savedAt: Date.now(),
+  data: {
+    guideArticles: state.guideArticles, events: state.events, expertises: state.expertises,
+    secteurs: state.secteurs, homepage: state.homepage, navigation: state.navigation, content: state.content,
+  },
+});
+
+function saveLocalDraft() {
+  try { localStorage.setItem(DRAFT_KEY, JSON.stringify(draftPayload())); } catch { /* stockage indisponible */ }
+}
+function clearLocalDraft() {
+  try { localStorage.removeItem(DRAFT_KEY); } catch { /* stockage indisponible */ }
+}
+function readLocalDraft() {
+  try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch { return null; }
+}
+
+function showUnpublishedNotice() {
+  const el = document.getElementById('publish-status');
+  if (!el) return;
+  el.className = 'admin-status admin-status--warn';
+  el.innerHTML = `<strong>Enregistré, mais pas encore en ligne.</strong> Les modifications ne sont visibles sur le site qu’après avoir cliqué sur « Publier ». <button type="button" class="btn btn-primary btn--small" id="publish-now">Publier maintenant</button>`;
+  document.getElementById('publish-now').addEventListener('click', () => document.getElementById('publish-btn').click());
+}
+
 function updateDirtyBadge() {
   const badge = document.getElementById('dirty-badge');
   if (badge) badge.hidden = !state.dirty;
+  if (state.dirty) {
+    saveLocalDraft();
+    const el = document.getElementById('publish-status');
+    if (el && !/progress|error/.test(el.className)) showUnpublishedNotice();
+  }
 }
 
 // ---------- Onglet Accueil ----------
@@ -2333,6 +2427,8 @@ async function publish(root, signOut) {
     state.originalPageSlugs = currentSlugs;
     state.originalPartnerImages = currentPartnerImages;
     state.dirty = false;
+    state.formTouched = false;
+    clearLocalDraft();
     updateDirtyBadge();
 
     setStatus(statusEl, 'Publié. Invalidation du cache CloudFront…', 'progress');
