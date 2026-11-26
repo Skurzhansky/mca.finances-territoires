@@ -55,7 +55,7 @@ function thumbHtml(image) {
   if (!image) return `<div class="admin-card__thumb-wrap"><div class="admin-card__thumb admin-card__thumb--placeholder">${ICONS.image}</div></div>`;
   return `<div class="admin-card__thumb-wrap">
     <div class="admin-card__thumb admin-card__thumb--placeholder">${ICONS.image}</div>
-    <img class="admin-card__thumb" src="${escapeHtml(`${config.siteUrl}/${image}`)}" alt="" onerror="this.remove()">
+    <img class="admin-card__thumb" src="${escapeHtml(previewUrlFor(image))}" alt="" onerror="this.remove()">
   </div>`;
 }
 
