@@ -17,13 +17,29 @@ export function signOutRedirect() {
   window.location.href = url;
 }
 
-async function getCredentials(idToken) {
+// Le jeton d'identité Cognito expire au bout d'une heure. Les accès AWS
+// temporaires sont renouvelés à partir de ce jeton : on fournit donc une
+// fonction qui renvoie à chaque fois un jeton valide, rafraîchi au besoin
+// grâce au refresh token (sans nouvelle connexion). Sans cela, toute
+// publication faite plus d'une heure après la connexion échouait
+// (« Invalid login token. Token expired »).
+async function freshIdToken() {
+  let user = await userManager.getUser();
+  const expiresSoon = !user || user.expired || (typeof user.expires_in === 'number' && user.expires_in < 120);
+  if (expiresSoon && user?.refresh_token) {
+    try { user = await userManager.signinSilent(); } catch (err) { console.warn('Renouvellement de session impossible', err); }
+  }
+  if (!user || user.expired || !user.id_token) throw new Error('SESSION_EXPIRED');
+  return user.id_token;
+}
+
+async function getCredentials() {
   const { fromCognitoIdentityPool } = await import('https://cdn.jsdelivr.net/npm/@aws-sdk/credential-providers@3/+esm');
   return fromCognitoIdentityPool({
     clientConfig: { region: config.region },
     identityPoolId: config.cognito.identityPoolId,
     logins: {
-      [`cognito-idp.${config.region}.amazonaws.com/${config.cognito.userPoolId}`]: idToken,
+      [`cognito-idp.${config.region}.amazonaws.com/${config.cognito.userPoolId}`]: freshIdToken,
     },
   });
 }
@@ -39,9 +55,9 @@ function renderLoggedOut() {
 }
 
 async function renderLoggedIn(user) {
-  const credentials = await getCredentials(user.id_token);
-  const { mountAdmin } = await import('./app.js?v=20261126b');
-  await mountAdmin(document.getElementById('app'), { user, credentials, signOut: signOutRedirect });
+  const credentials = await getCredentials();
+  const { mountAdmin } = await import('./app.js?v=20261126c');
+  await mountAdmin(document.getElementById('app'), { user, credentials, signOut: signOutRedirect, reauth: () => userManager.signinRedirect() });
 }
 
 async function main() {
@@ -56,7 +72,10 @@ async function main() {
     }
   }
 
-  const user = await userManager.getUser();
+  let user = await userManager.getUser();
+  if (user && user.expired && user.refresh_token) {
+    try { user = await userManager.signinSilent(); } catch (err) { console.warn(err); }
+  }
   if (user && !user.expired) {
     await renderLoggedIn(user);
   } else {

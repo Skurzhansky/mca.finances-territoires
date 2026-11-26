@@ -624,9 +624,9 @@ async function openMediaPicker(onChoose) {
 
 // ---------- Point d'entrée ----------
 
-export async function mountAdmin(root, { user, credentials, signOut }) {
+export async function mountAdmin(root, { user, credentials, signOut, reauth }) {
   state = {
-    user, credentials,
+    user, credentials, reauth,
     guideArticles: [], events: [], expertises: [], secteurs: [], homepage: {},
     navigation: null, content: null,
     originalPageSlugs: new Set(),
@@ -2449,7 +2449,19 @@ async function publish(root, signOut) {
     }
   } catch (err) {
     console.error(err);
-    setStatus(statusEl, `Erreur de publication : ${err.message}`, 'error');
+    if (/SESSION_EXPIRED|login token|token expired|NotAuthorized/i.test(String(err && err.message))) {
+      // Session expirée : rien n'est perdu, le brouillon est gardé dans le
+      // navigateur et proposé à la restauration après reconnexion.
+      saveLocalDraft();
+      statusEl.className = 'admin-status admin-status--error';
+      statusEl.innerHTML = `<strong>Votre session a expiré, la publication n’a pas eu lieu.</strong> Vos modifications sont gardées sur ce navigateur : reconnectez-vous, cliquez sur « Restaurer », puis sur « Publier ».${pendingUploads.size ? ' Les photos ou PDF choisis devront être téléversés à nouveau.' : ''} <button type="button" class="btn btn-primary btn--small" id="reauth-btn">Se reconnecter</button>`;
+      document.getElementById('reauth-btn').addEventListener('click', () => {
+        state.dirty = false; state.formTouched = false; // évite l'alerte de sortie : le brouillon est sauvegardé
+        if (state.reauth) state.reauth(); else window.location.reload();
+      });
+    } else {
+      setStatus(statusEl, `Erreur de publication : ${err.message}`, 'error');
+    }
   } finally {
     btn.disabled = false;
   }
