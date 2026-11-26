@@ -412,7 +412,10 @@ async function loadMedia() {
   }
   let staticText = '';
   try {
-    const texts = await Promise.all(['scripts/templates.mjs', 'styles/site.css'].map(f =>
+    // Gabarits, scripts et feuilles de style du site : une image qu'ils
+    // utilisent (ex. la carte de France chargée par france-map.js) ne doit
+    // jamais pouvoir être supprimée depuis la médiathèque.
+    const texts = await Promise.all(['scripts/templates.mjs', 'styles/site.css', 'styles/tokens.css', 'styles/components.css', 'france-map.js', 'nav.js', 'reussites-carousel.js', 'reussites-filtres.js'].map(f =>
       fetch(`${config.siteUrl}/${f}`, { cache: 'no-store' }).then(r => (r.ok ? r.text() : ''))));
     staticText = texts.join('\n');
   } catch { /* ignoré : seules les données JSON servent alors au calcul d'usage */ }
@@ -1009,11 +1012,11 @@ function renderHomepageForm(content) {
             <label>Suffixe<input type="text" class="f-cv-card" data-i="${i}" data-k="suffix" value="${escapeHtml(k.suffix)}"></label>
             <label>Texte<textarea class="f-cv-card" data-i="${i}" data-k="text" rows="2">${escapeHtml(k.text)}</textarea></label>
           </div>`).join('')}
-          <h4 class="admin-subhead">Siège</h4>
+          <h4 class="admin-subhead">Encart de droite (moyenne nationale)</h4>
           ${[['hqLabel', 'Étiquette'], ['hqValue', 'Chiffre']].map(([k, l]) => `<label>${l}<input type="text" class="f-cv" data-k="${k}" value="${escapeHtml(cv[k] || '')}"></label>`).join('')}
           <label>Texte<textarea class="f-cv" data-k="hqText" rows="2">${escapeHtml(cv.hqText || '')}</textarea></label>
-          <label>Département du siège (surligné en rose)
-            <select class="f-cv" data-k="hqRegion">${(cv.regions || []).map(r => `<option value="${escapeHtml(r.id)}"${r.id === cv.hqRegion ? ' selected' : ''}>${escapeHtml(r.name)}</option>`).join('')}</select>
+          <label>Département mis en avant sur la carte (facultatif)
+            <select class="f-cv" data-k="hqRegion"><option value=""${cv.hqRegion ? '' : ' selected'}>— Aucun département mis en avant —</option>${(cv.regions || []).map(r => `<option value="${escapeHtml(r.id)}"${r.id === cv.hqRegion ? ' selected' : ''}>${escapeHtml(r.name)}</option>`).join('')}</select>
           </label>
           <details class="admin-subdetails"><summary>Dispositifs par département (affichés au survol de la carte)</summary>
           <div class="admin-dep-grid">${(cv.regions || []).map((r, i) => `<label>${escapeHtml(r.name)}<input type="text" class="f-cv-region" data-i="${i}" placeholder="ex. 2 753" value="${escapeHtml(r.count || '')}"></label>`).join('')}</div></details>
@@ -1640,7 +1643,7 @@ const PAGE_FIELDS = {
     { k: 'eyebrow', l: 'Pastille au-dessus du titre' },
     { k: 'lead', l: 'Chapô', rows: 3 },
     { k: 'image', l: 'Photo de bandeau', type: 'photo' },
-    { k: 'email', l: 'Adresse e-mail destinataire du formulaire' },
+    { k: 'email', l: 'Adresse e-mail destinataire du formulaire (vide = adresse du pied de page)' },
     { k: 'formTitle', l: 'Titre du formulaire' },
     { k: 'formText', l: 'Texte sous le titre du formulaire', rows: 2 },
     { k: 'profiles', l: 'Profils de structure (liste déroulante)', type: 'strings', rows: 1 },

@@ -955,7 +955,7 @@ const BLOCK_RENDERERS = {
 
   courses: b => {
     const year = b.programYear || '', prevYear = b.prevProgramYear || '';
-    const showPrev = b.showPrevPrograms === 'oui' || b.showPrevPrograms === true;
+    const showPrev = b.showPrevPrograms !== 'non' && b.showPrevPrograms !== false;
     const items = (b.items || []).filter(c => c.title && !isHidden(c));
     return `${blockHeader(b)}
     ${b.qualiopiBadge || b.qualiopiText ? `<div class="mk-quali-block">
@@ -1388,8 +1388,12 @@ ${cta.title ? `<section class="project-cta project-cta--page">
       const d = DEFAULT_CONTENT.pages.contact;
       // Adresse interpolée dans un littéral JS : on la restreint aux caractères
       // valides d'un e-mail pour qu'aucune saisie admin ne casse le script.
-      const email = String(c.email || '').replace(/[^\w.@+-]/g, '');
       const f = { ...DEFAULT_NAVIGATION.footer, ...(navigation?.footer || {}) };
+      // Tant qu'aucune adresse réelle n'est saisie pour le formulaire (champ
+      // vide ou encore « A-REMPLACER@exemple.fr »), les demandes partent vers
+      // l'adresse de contact du pied de page plutôt que vers une adresse fictive.
+      const formEmail = /A-REMPLACER|@exemple\./i.test(c.email || '') ? '' : (c.email || '');
+      const email = String(formEmail || f.email || DEFAULT_NAVIGATION.footer.email || '').replace(/[^\w.@+-]/g, '');
       const telHref = String(f.phone || '').replace(/[^\d+]/g, '');
       const profiles = (c.profiles || d.profiles).filter(Boolean);
       const subjects = (c.subjects || d.subjects).filter(Boolean);
